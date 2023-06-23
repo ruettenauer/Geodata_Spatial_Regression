@@ -1,0 +1,320 @@
+```{=tex}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+```
+# Spatial Relationships W
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+## Spatial interdependence
+
+We can not only use coordinates and geo-spatial information to connect different data sources, we can also explicitly model spatial (inter)dependence in the analysis of our data. In many instance, accounting for spatial dependence might even be necessary to avoid biased point estimates and standard errors, as observations are often not independent and identically distributed.
+
+Tobler's first law of geography has been used extensively (11,584 citation in 2023-06) to describe spatial dependence: 'Everything is related to everything else, but near things are more related than distant things' [@Tobler.1970].
+
+::: callout-note
+Tobler's first law is a bit of story
+
+And it has been labeled as an excuse to not think too much about the reasons for spatial dependence or auto-correlation. For instance, measurement error, omitted variables, or inappropriate levels of aggregation are among reasons for auto-correlation [@Pebesma.2023].
+:::
+
+We will come back to the reasons of spatial dependence. However, for now, we are interested in some tools to detect and analyse spatial relations.
+
+To analyse spatial relations, we first need to define some sort of connectivity between units (e.g. similar to network analysis). There are some obvious candidates that be used to define these relations here: adjacency and proximity.
+
+### ${\boldsymbol{\mathbf{W}}}$: Connectivity between units
+
+the connectivity between units is usually represented in a matrix ${\boldsymbol{\mathbf{W}}}$. There is an ongoing debate about the importance of spatial weights for spatial econometrics and about the right way to specify weights matrices [@LeSage.2014a, @Neumayer.2016]. The following graph shows some possible options in how to define connectivity between units.
+
+![Figure: Different measures of connectivity, Source: @Bivand.2018](fig/Bivand_neighbours.png)
+
+In spatial econometrics, the spatial connectivity (as shown above) is usually represented by a spatial weights matrix ${\boldsymbol{\mathbf{W}}}$: $$
+\begin{equation} 
+        \boldsymbol{\mathbf{W}} = \begin{bmatrix} 
+            w_{11} & w_{12} & \dots & w_{1n} \\
+            w_{21} & w_{22} & \dots & w_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            w_{n1} & w_{n2} & \dots     & w_{nn} 
+            \end{bmatrix}
+        \end{equation}
+$$ The spatial weights matrix $\boldsymbol{\mathbf{W}}$ is an $N \times N$ dimensional matrix with elements $w_{ij}$ specifying the relation or connectivity between each pair of units $i$ and $j$.
+
+Note: The diagonal elements $w_{i,i}= w_{1,1}, w_{2,2}, \dots, w_{n,n}$ of $\boldsymbol{\mathbf{W}}$ are always zero. No unit is a neighbour of itself.
+
+#### Contiguity weights
+
+A very common type of spatial weights. Binary specification, taking the value 1 for neighbouring units (queens: sharing a common edge; rook: sharing a common border), and 0 otherwise.
+
+Contiguity weights $w_{i,j}$, where
+
+```{=tex}
+\begin{equation}
+  w_{i,j} =
+    \begin{cases}
+      1 & \text{if $i$ and $j$ neighbours}\\
+      0 & \text{otherwise}
+    \end{cases}       
+\end{equation}
+```
+A contiguity weights matrix with three units, where unit 1 and unit 3 are neighbours, while unit 2 has no neighbours would look like this:
+
+$$
+        \begin{equation} 
+        \boldsymbol{\mathbf{W}}  = \begin{bmatrix} 
+            0 & 0 & 1  \\
+            0 & 0 & 0  \\
+            1 & 0 & 0  
+            \end{bmatrix}   \nonumber
+        \end{equation}
+$$
+
+-   Sparse matrices
+
+-   Problem of \`island' (units without neighbours)
+
+Lets create a contiguity weights matrix (Queens neighbours) for the London MSOAs: we create a neighbours list (`nb`) using `poly2nb()`, which is an efficient way of storing ${\boldsymbol{\mathbf{W}}}$.
+
+```{r}
+# Contiguity (Queens) neighbours weights
+queens.nb <- poly2nb(msoa.spdf, 
+                     queen = TRUE, 
+                     snap = 1) # we consider points in 1m distance as 'touching'
+summary(queens.nb)
+
+# Lets plot that
+plot(st_geometry(msoa.spdf), border = "grey60")
+plot(queens.nb, st_centroid(st_geometry(msoa.spdf)), 
+     add = TRUE, pch = 19, cex = 0.6)
+
+# We can also transform this into a matrix W
+W <- nb2mat(queens.nb, style = "B")
+print(W[1:10, 1:10])
+
+```
+
+::: callout-tip
+## Question
+
+Among those first 10 units that you see above, which are the neighbours of unit number 6?
+
+Why is the diagonal of this matrix all zero?
+:::
+
+Overall, the matrix W has dimensions $N \times N$, a row and a column for each observation. The value in a cell shows how units $i$ (row number) and $j$ (column number) are related to each other.
+
+```{r}
+dim(W)
+```
+
+The row and column sums indicate the number of neighbours of each observation.
+
+```{r}
+rowSums(W)[1:10]
+
+colSums(W)[1:10]
+```
+
+Adjacency or graph-based neighbour's weights matrices are usually symmetric. If unit 1 is a neighbour of unit 55, then unit 55 is also a neighbour of unit 1.
+
+#### Distance based weights
+
+Another common type uses the distance $d_{ij}$ between each unit $i$ and $j$.
+
+-   Inverse distance weights $w_{i,j} = \frac{1}{d_{ij}^\alpha}$, where $\alpha$ define the strength of the spatial decay.
+
+$$
+        \begin{equation} 
+        \boldsymbol{\mathbf{W}} = \begin{bmatrix} 
+            0 & \frac{1}{d_{ij}^\alpha} & \frac{1}{d_{ij}^\alpha}  \\
+            \frac{1}{d_{ij}^\alpha} & 0 & \frac{1}{d_{ij}^\alpha}  \\
+            \frac{1}{d_{ij}^\alpha} & \frac{1}{d_{ij}^\alpha} & 0  
+            \end{bmatrix}   \nonumber
+        \end{equation}
+$$
+
+-   Dense matrices
+
+-   Specifying thresholds may be useful (to get rid of very small non-zero weights)
+
+For now, we will just specify a neighbours list with a distance threshold of 3km using `dnearneigh()`. An alternative would be k nearest neighbours using `knearneigh()`. We will do the inverse weighting later.
+
+```{r}
+# Crease centroids
+coords <- st_geometry(st_centroid(msoa.spdf))
+
+# Neighbours within 3km distance
+dist_3.nb <- dnearneigh(coords, d1 = 0, d2 = 3000)
+summary(dist_3.nb)
+
+# Lets plot that
+plot(st_geometry(msoa.spdf), border = "grey60")
+plot(dist_3.nb, coords, 
+     add = TRUE, pch = 19, cex = 0.6)
+
+```
+
+## Normalization of ${\boldsymbol{\mathbf{W}}}$
+
+Normalizing ensures that the parameter space of the spatial multiplier is restricted to $-1 < \rho > 1$, and the multiplier matrix is non-singular. Again, how to normalize a weights matrix is subject of debate [@LeSage.2014a; @Neumayer.2016].
+
+Normalizing your weights matrix is always a good idea. Otherwise, the spatial parameters might blow up -- if you can estimate the model at all.
+
+### Row-normalization
+
+Row-normalization divides each non-zero weight by the sum of all weights of unit $i$, which is the sum of the row.
+
+$$
+\frac{w_{ij}}{\sum_j^n w_{ij}}
+$$
+
+-   With contiguity weights, spatial lags contain average value of neighbours
+
+-   Proportions between units (distance based) get lost
+
+-   Can induce asymmetries: $w_{ij} \neq w_{ji}$
+
+For instance, we can use row-normalization for the Queens neighbours created above, and create a neighbours list with spatial weights.
+
+```{r}
+queens.lw <- nb2listw(queens.nb,
+                      style = "W") # W ist row-normalization
+summary(queens.lw)
+```
+
+To see what happened, let's look at our example in matrix format again.
+
+```{r}
+# transform into matrix with row-normalization
+W_norm <- nb2mat(queens.nb, style = "W")
+print(W_norm[1:10, 1:10])
+```
+
+::: callout-tip
+## Question
+
+Overall, how many neighbours does unit 9 have (including all columns)?
+:::
+
+```{r, eval=FALSE}
+rowSums(W)[9]
+```
+
+We can also use the nb object to see which ones the neighbours are. Here, for instance, neighbours of unit 6:
+
+```{r}
+queens.nb[6]
+```
+
+This fits to what we see in the matrix above.
+
+::: callout-warning
+Note that row-normalization has some undesirable properties when we use some non-contigutiy based neighbour relations, such as distance based neighbours.
+
+The problem: It obscures the proportion due to dividing by a row-specific value.
+:::
+
+Let's construct a hypothetical example
+
+```{r}
+# Subset of 5 units
+sub.spdf <- msoa.spdf[c(4, 5, 6, 102, 150), ]
+mapview(sub.spdf)
+
+# 2 closest neighbours
+sub.coords <- st_geometry(st_centroid(sub.spdf))
+knn.nb <- knearneigh(sub.coords, 
+                     k = 2) # number of nearest neighbours
+knn.nb <- knn2nb(knn.nb)
+summary(knn.nb)
+
+# listw
+sub.lw <- nb2listwdist(knn.nb,
+                       x = sub.coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "raw") # without normalization
+W_sub <- listw2mat(sub.lw)
+formatC(W_sub, format = "f", digits = 6)
+```
+
+As you can see, units 1, 2, 3 have relatively proximate neighbours (.e.g inverse distance 0.000962: 3 zeros). Units 4 and 5, in contrast, have on very distant neighbours (e.g. inverse distance 0.000049: 4 zeros).
+
+Now, see what happens when we use row-normalization.
+
+```{r}
+sub.lw <- nb2listwdist(knn.nb,
+                       x = sub.coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "W") # for row normalization
+W_sub <- listw2mat(sub.lw)
+formatC(W_sub, format = "f", digits = 6)
+```
+
+All rows sum up to 1, but the strength of the relation is now similar for the distant units 4 and 5, and the proximate units 1, 2, 3.
+
+### Maximum eigenvalues normalization
+
+Maximum eigenvalues normalization divides each non-zero weight by the overall maximum eigenvalue $\lambda_{max}$. Each element of $\boldsymbol{\mathbf{W}}$ is divided by the same scalar parameter.
+
+$$
+\frac{\boldsymbol{\mathbf{W}}}{\lambda_{max}}
+$$
+
+-   Interpretation may become more complicated
+
+-   Keeps proportions of connectivity strengths across units (relevant esp. for distance based $\boldsymbol{\mathbf{W}}$)
+
+We use eigenvalue normalization for the inverse distance neighbours. We use `nb2listwdist()` to create weight inverse distance based weights and normalize in one step.
+
+```{r}
+coords <- st_geometry(st_centroid(msoa.spdf))
+idw.lw <- nb2listwdist(dist_3.nb,
+                       x = coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "minmax") # for eigenvalue normalization
+summary(idw.lw)
+
+```
+
+Examples from above: See how this keeps the proportions in our example. Instead of transforming values to sum up to 1 in each row, we now have much smaller values for 4 and 5 then we have for the proximate units 1, 2, 3.
+
+```{r}
+sub.lw <- nb2listwdist(knn.nb,
+                       x = sub.coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "minmax") # for eigenvalue normalization
+W_sub <- listw2mat(sub.lw)
+formatC(W_sub, format = "f", digits = 6)
+```
+
+### Islands / missings
+
+In practice, we often have a problem with islands. If we use contiguity based or distance based neighbour definitions, some units may end up with empty neighbours sets: they just do not touch any other unit and do not have a neighbour within a specific distance. This however creates a problem: what is the value in the neighbouring units?
+
+The `zero.policy` option in `spdep` allows to proceed with empty neighbours sets. However, many further functions may run into problems and return errors. It often makes sense to either drop islands, to choose weights which always have neighbours (e.g. k nearest), or impute empty neighbours sets by using the nearest neighbours.

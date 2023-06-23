@@ -1,0 +1,81 @@
+# Introduction {.unnumbered}
+
+This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis.
+
+In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as survey data with contextual information, and to analyze spatial patterns and processes (e.g., spillover effects or diffusion).
+
+Many social science research questions are spatially dependent such as voting outcomes, housing prices, protest behavior, or migration decisions. Observing an event in one region or neighborhood increases the likelihood that we observe similar processes in proximate areas. As Tobler's first law of geography puts it: "Everything is related to everything else, but near things are more related than distant things". This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated while analyzing spatial data. Spatial regression models can be used to detect this spatial dependence and explicitly model spatial relations, identifying spatial spillovers or diffusion.
+
+The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyze spatial processes, and furthermore, the course addresses several methods for defining spatial relationships. Hereby, the detection and diagnostic of spatial dependence as well as autocorrelation are demonstrated. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.
+
+The field has develops very fast over since few years, and *R* now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in *R*, have a look into the materials references below.
+
+The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) have provided a comprehensive [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023). The focus of this workshop will be on tequchniques for spatial data analysis, such as spatial regression models.
+
+## Schedule
+
+| Day 1         | Working with Spatial Data                 |
+|---------------|-------------------------------------------|
+| 10:00 - 11:30 | Refresher on R as GIS                     |
+|               | Coffee break                              |
+| 11:45 - 13:00 | Spatial Data Manipulation & Visualization |
+|               | Lunch break                               |
+| 14:00 - 15:30 | Defining Spatial Relationships (W)        |
+|               | Coffee break                              |
+| 15:45 - 17:15 | Detecting Spatial Dependence              |
+
+| Day 2         | Spatial Regression Models I           |
+|---------------|---------------------------------------|
+| 10:00 - 11:30 | Spatial Regression Models: Theory     |
+|               | Coffee break                          |
+| 11:45 - 13:00 | Estimating Spatial Regression Models  |
+|               | Lunch break                           |
+| 14:00 - 15:30 | Interpreting Results: Spatial Impacts |
+|               | Coffee break                          |
+| 15:45 - 17:15 | Lab Exercises in R                    |
+
+| Day 3         | Spatial Regression Models II        |
+|---------------|-------------------------------------|
+| 10:00 - 11:30 | Comparing and Selecting Models      |
+|               | Coffee break                        |
+| 11:45 - 13:00 | Spatiotemporal models               |
+|               | Lunch break                         |
+| 14:00 - 15:30 | Other Models: GWR & Binary Outcomes |
+|               | Coffee break                        |
+| 15:45 - 17:15 | Lab Exercises in R                  |
+
+## Some useful packages
+
+By now, *R* provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods [see e.g. @Bivand.2021]. Important packages for fundamental spatial operations are:
+
+-   Spatial data workhorses: [sf](https://cran.r-project.org/web/packages/sf/index.html) [@Pebesma.2018] and [terra](https://cran.r-project.org/web/packages/terra/index.html)
+
+-   Visualization: [mapview](https://cran.r-project.org/web/packages/mapview/index.html) [@Appelhans.2021] and [tmap](https://cran.r-project.org/web/packages/tmap/index.html) [@Tennekes.2018]
+
+-   Spatial weights and other relations: [spdep](https://cran.r-project.org/web/packages/stars/index.html) [@Bivand.2018]
+
+-   Spatial interpolation and kriging: [gstat](https://cran.r-project.org/web/packages/gstat/index.html) [@Graler.2016]
+
+-   Spatial regression models: [spatialreg](https://cran.r-project.org/web/packages/spatialreg/index.html) and [sphet](https://cran.r-project.org/web/packages/sphet/index.html) [@Bivand.2015]
+
+-   The packages have constantly developed over the past years, and older packages such as rgdal, rgeos, and sp are currently retiring ([Blog post](https://geocompx.org/post/2023/rgdal-retirement/))
+
+## Further Readings
+
+-   Great up-to-date introduction to spatial R: @Lovelace.2019, [updated version available online](https://geocompr.robinlovelace.net/)
+
+-   Great open-science book on [Spatial Data Science](https://www.r-spatial.org/book) @Pebesma.2023
+
+-   Comprehensive introduction to spatial econometrics: @LeSage.2009
+
+-   Relative intuitive introduction to spatial econometrics: @Ward.2008
+
+-   Article-length introductions to spatial econometrics: @HalleckVega.2015, @LeSage.2014, and @Ruttenauer.2022a
+
+## Course materials
+
+-   I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)'s [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023). Nice materials on GIS, spatial operations and spatial data visualisation!
+
+-   For those looking for a more in-depth introduction, I highly recommend Roger Bivand's course on Spatial Data Analysis: [Youtube recordings](https://www.youtube.com/watch?v=KkIbg50Pa0I&list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0), [Course Materials](https://rsbivand.github.io/ECS530_h19/)
+
+-   I've learned most of what I know about spatial econometrics from [Scott J. Cook](http://www.scottjcook.net/) and his workshop on Spatial Econometrics at the [Essex Summer school](https://essexsummerschool.com/summer-school-facts/courses/ess-2023-course-list/).

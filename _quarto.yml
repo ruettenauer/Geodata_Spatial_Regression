@@ -1,0 +1,47 @@
+project:
+  type: book
+
+book:
+  title: "Geodata & Spatial Regression"
+  author: "Tobias Rüttenauer"
+  date: "26/06/2023"
+  repo-url: https://github.com/ruettenauer/Geodata_Spatial_Regression/
+  chapters:
+    - index.qmd
+    - 01_refresher.qmd
+    - 02_spatial-data.qmd
+    - 03_weights.qmd
+    - 04_dependence.qmd
+    - 05_regression-theory.qmd
+    - 06_regression-estimation.qmd
+    - 07_impacts.qmd
+    - 08_exercise1.qmd
+    - 09_comparison.qmd
+    - 10_spatiotemporal.qmd
+    - 11_other.qmd
+    - 12_exercise2.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    number-depth: 3
+    theme: cosmo
+    highlight-style: atom-one
+    code-block-bg: "#f0f0f0"
+    code-block-border-left: "#045a8d"
+    code-fold: false
+    code-summary: "Code"
+    code-tools: true
+    code-link: true
+    code-copy: true
+    knitr:
+      opts_chunk:
+        out.width: 100%
+        R.options:
+          width: 68
+  pdf:
+    documentclass: scrreprt
+    

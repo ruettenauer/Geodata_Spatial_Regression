@@ -1,0 +1,375 @@
+# Refresher
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr",
+          "nomisr", "osmdata", "tidyr", "texreg") 
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+## Coordinates
+
+In general, spatial data is structured like conventional data (e.g. data.frames, matrices), but has one additional dimension: every observation is linked to some sort of geo-spatial information. Most common types of spatial information are:
+
+-   Points (one coordinate pair)
+
+-   Lines (two coordinate pairs)
+
+-   Polygons (at least three coordinate pairs)
+
+-   Regular grids (one coordinate pair for centroid + raster / grid size)
+
+### Coordinate reference system (CRS)
+
+In its raw form, a pair of coordinates consists of two numerical values. For instance, the pair `c(51.752595, -1.262801)` describes the location of Nuffield College in Oxford (one point). The fist number represents the latitude (north-south direction), the second number is the longitude (west-east direction), both are in decimal degrees.
+
+![Figure: Latitude and longitude, Source: [Wikipedia](https://en.wikipedia.org/wiki/Geographic_coordinate_system)](fig/lat-long.png)
+
+However, we need to specify a reference point for latitudes and longitudes (in the Figure above: equator and Greenwich). For instance, the pair of coordinates above comes from Google Maps which returns GPS coordinates in 'WGS 84' ([EPSG:4326](https://epsg.io/4326)).
+
+```{r}
+# Coordinate pairs of two locations
+coords1 <- c(51.752595, -1.262801)
+coords2 <- c(51.753237, -1.253904)
+coords <- rbind(coords1, coords2)
+
+# Conventional data frame
+nuffield.df <- data.frame(name = c("Nuffield College", "Radcliffe Camera"),
+                          address = c("New Road", "Radcliffe Sq"),
+                          lat = coords[,1], lon = coords[,2])
+
+head(nuffield.df)
+
+# Combine to spatial data frame
+nuffield.spdf <- st_as_sf(nuffield.df, 
+                          coords = c("lon", "lat"), # Order is important
+                          crs = 4326) # EPSG number of CRS
+
+# Map
+mapview(nuffield.spdf, zcol = "name")
+
+```
+
+### Projected CRS
+
+However, different data providers use different CRS. For instance, spatial data in the UK usually uses 'OSGB 1936 / British National Grid' ([EPSG:27700](https://epsg.io/27700)). Here, coordinates are in meters, and projected onto a planar 2D space.
+
+There are a lot of different CRS projections, and different national statistics offices provide data in different projections. Data providers usually specify which reference system they use. This is important as using the correct reference system and projection is crucial for plotting and manipulating spatial data.
+
+If you do not know the correct CRS, try starting with a standards CRS like [EPSG:4326](https://epsg.io/4326) if you have decimal degree like coordinates. If it looks like projected coordinates, try searching for the country or region in CRS libraries like https://epsg.io/. However, you must check if the projected coordinates match their real location, e.g. using `mpaview()`.
+
+### Why different projections?
+
+By now, (most) people agree that [the earth is not flat](https://r-spatial.org/r/2020/06/17/s2.html). So, to plot data on a 2D planar surface and to perform certain operations on a planar world, we need to make some re-projections. Depending on where we are, different re-projections of our data might work better than others.
+
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+st_crs(world)
+
+# Extract a country and plot in current CRS (WGS84)
+ger.spdf <- world[world$name == "Germany", ]
+plot(st_geometry(ger.spdf))
+
+# Now, lets transform Germany into a CRS optimized for Iceland
+ger_rep.spdf <- st_transform(ger.spdf, crs = 5325)
+plot(st_geometry(ger_rep.spdf))
+
+```
+
+Depending on the angle, a 2D projection of the earth looks different. It is important to choose a suitable projection for the available spatial data. For more information on CRS and re-projection, see e.g. @Lovelace.2019.
+
+## Importing some real word data
+
+`sf` imports many of the most common spatial data files, like geojson, gpkg, or shp.
+
+### London shapefile (polygon)
+
+Lets get some administrative boundaries for London from the [London Datastore](https://data.london.gov.uk/dataset/statistical-gis-boundary-files-london).
+
+```{r, cache=TRUE}
+# Create subdir
+dn <- "_data"
+ifelse(dir.exists(dn), "Exists", dir.create(dn))
+
+# Download zip file and unzip
+tmpf <- tempfile()
+boundary.link <- "https://data.london.gov.uk/download/statistical-gis-boundary-files-london/9ba8c833-6370-4b11-abdc-314aa020d5e0/statistical-gis-boundaries-london.zip"
+download.file(boundary.link, tmpf)
+unzip(zipfile = tmpf, exdir = paste0(dn))
+unlink(tmpf)
+
+# This is a shapefile
+# We only need the MSOA layer for now
+msoa.spdf <- st_read(dsn = paste0(dn, "/statistical-gis-boundaries-london/ESRI"),
+                     layer = "MSOA_2011_London_gen_MHW" # Note: no file ending
+                     )
+
+```
+
+The object `msoa.spdf` is our spatial data.frame. It looks essentially like a conventional data.frame, but has some additional attributes and geo-graphical information stored with it. Most importantaly, notice the column `geometry`, which contains a list of polygons. In most cases, we have one polygon for each line / observation.
+
+```{r, cache=FALSE}
+head(msoa.spdf)
+
+```
+
+Shapefiles are still among the most common formats to store and transmit spatial data, despite them being inefficient (file size and file number). Similarly you can read `geo.json`, which usually is more efficient, but less common (but we're getting there).
+
+```{r, cache=TRUE}
+# Download file
+ulez.link <- "https://data.london.gov.uk/download/ultra_low_emissions_zone/3d980a29-c340-4892-8230-ed40d8c7f32d/Ultra_Low_Emissions_Zone.json"
+download.file(ulez.link, paste0(dn, "/ulez.json"))
+
+# Read geo.json
+st_layers(paste0(dn, "/ulez.json"))
+ulez.spdf <- st_read(dsn = paste0(dn, "/ulez.json")) # here dsn is simply the file
+head(ulez.spdf)
+```
+
+Again, this looks like a conventional `data.frame` but has the additional column `geometry` containing the coordinates of each observation. `st_geometry()` returns only the geographic object and `st_drop_geometry()` only the `data.frame` without the coordinates. We can plot the object using `mapview()`.
+
+```{r}
+mapview(msoa.spdf[, "POPDEN"])
+```
+
+### Census API (admin units)
+
+Now that we have some boundaries and shapes of spatial units in London, we can start looking for different data sources to populate the geometries.
+
+A good source for demographic data is for instance the 2011 census. Below we use the nomis API to retrieve population data for London, See the [Vignette](https://cran.r-project.org/web/packages/nomisr/vignettes/introduction.html) for more information (Guest users are limited to 25,000 rows per query). Below is a wrapper to avoid some errors with sex and urban-rural cross-tabulation in some of the data.
+
+```{r, cache=TRUE}
+### For larger request, register and set key
+# Sys.setenv(NOMIS_API_KEY = "XXX")
+# nomis_api_key(check_env = TRUE)
+
+x <- nomis_data_info()
+
+# Get London ids
+london_ids <- msoa.spdf$MSOA11CD
+
+### Get key statistics ids
+# select requires tables (https://www.nomisweb.co.uk/sources/census_2011_ks)
+# Let's get KS201EW (ethnic group), KS205EW (passport held), and KS402EW (housing tenure)
+
+# Get internal ids
+stats <- c("KS201EW", "KS402EW", "KS205EW")
+oo <- which(grepl(paste(stats, collapse = "|"), x$name.value))
+ksids <- x$id[oo]
+ksids # This are the internal ids
+
+
+### look at meta information
+q <- nomis_overview(ksids[1])
+head(q)
+a <- nomis_get_metadata(id = ksids[1], concept = "GEOGRAPHY", type = "type")
+a # TYPE297 is MSOA level
+
+b <- nomis_get_metadata(id = ksids[1], concept = "MEASURES", type = "TYPE297")
+b # 20100 is the measure of absolute numbers
+
+
+### Query data in loop over the required statistics
+for(i in ksids){
+
+  # Determin if data is divided by sex or urban-rural
+  nd <- nomis_get_metadata(id = i)
+  if("RURAL_URBAN" %in% nd$conceptref){
+    UR <- TRUE
+  }else{
+    UR <- FALSE
+  }
+  if("C_SEX" %in% nd$conceptref){
+    SEX <- TRUE
+  }else{
+    SEX <- FALSE
+  }
+
+  # make data request
+  if(UR == TRUE){
+    if(SEX == TRUE){
+      tmp_en <- nomis_get_data(id = i, time = "2011",
+                               geography = london_ids, # replace with "TYPE297" for all MSOAs
+                               measures = 20100, RURAL_URBAN = 0, C_SEX = 0)
+    }else{
+      tmp_en <- nomis_get_data(id = i, time = "2011",
+                               geography = london_ids, # replace with "TYPE297" for all MSOAs
+                               measures = 20100, RURAL_URBAN = 0)
+    }
+  }else{
+    if(SEX == TRUE){
+      tmp_en <- nomis_get_data(id = i, time = "2011",
+                               geography = london_ids, # replace with "TYPE297" for all MSOAs
+                               measures = 20100, C_SEX = 0)
+    }else{
+      tmp_en <- nomis_get_data(id = i, time = "2011",
+                               geography = london_ids, # replace with "TYPE297" for all MSOAs
+                               measures = 20100)
+    }
+
+  }
+
+  # Append (in case of different regions)
+  ks_tmp <- tmp_en
+
+  # Make lower case names
+  names(ks_tmp) <- tolower(names(ks_tmp))
+  names(ks_tmp)[names(ks_tmp) == "geography_code"] <- "msoa11"
+  names(ks_tmp)[names(ks_tmp) == "geography_name"] <- "name"
+
+  # replace weird cell codes
+  onlynum <- which(grepl("^[[:digit:]]+$", ks_tmp$cell_code))
+  if(length(onlynum) != 0){
+    code <- substr(ks_tmp$cell_code[-onlynum][1], 1, 7)
+    if(is.na(code)){
+      code <- i
+    }
+    ks_tmp$cell_code[onlynum] <- paste0(code, "_", ks_tmp$cell_code[onlynum])
+  }
+
+  # save codebook
+  ks_cb <- unique(ks_tmp[, c("date", "cell_type", "cell", "cell_code", "cell_name")])
+
+  ### Reshape
+  ks_res <- tidyr::pivot_wider(ks_tmp, id_cols = c("msoa11", "name"),
+                               names_from = "cell_code",
+                               values_from = "obs_value")
+
+  ### Merge
+  if(i == ksids[1]){
+    census_keystat.df <- ks_res
+    census_keystat_cb.df <- ks_cb
+  }else{
+    census_keystat.df <- merge(census_keystat.df, ks_res, by = c("msoa11", "name"), all = TRUE)
+    census_keystat_cb.df <- rbind(census_keystat_cb.df, ks_cb)
+  }
+
+}
+
+
+# Descriptions are saved in the codebook
+head(census_keystat_cb.df)
+save(census_keystat_cb.df, file = "_data/Census_codebook.RData")
+```
+
+Now, we have one file containing the geometries of MSOAs and one file with the census information on ethnic groups. Obviously, we can easily merge them together using the MSOA identifiers.
+
+```{r}
+msoa.spdf <- merge(msoa.spdf, census_keystat.df,
+                   by.x = "MSOA11CD", by.y = "msoa11", all.x = TRUE)
+```
+
+Now we can, for instance, plot the spatial distribution of ethnic groups.
+
+```{r}
+
+msoa.spdf$per_white <- msoa.spdf$KS201EW_100 / msoa.spdf$KS201EW0001 * 100
+
+mapview(msoa.spdf[, "per_white"])
+
+```
+
+If you're interested in more data sources, see for instance [APIs for social scientists: A collaborative review](https://bookdown.org/paul/apis_for_social_scientists/) by Paul C. Bauer, Camille Landesvatter, Lion Behrens. It's a collection of several APIs for social sciences.
+
+### Gridded data
+
+So far, we have queried data on administrative units. However, often data comes on other spatial scales. For instance, we might be interested in the amount of air pollution, which is provided on a regular grid across the UK from [Defra](https://uk-air.defra.gov.uk/data/pcm-data).
+
+```{r, cache=TRUE}
+# Download
+pol.link <- "https://uk-air.defra.gov.uk/datastore/pcm/mapno22011.csv"
+download.file(pol.link, paste0(dn, "/mapno22011.csv"))
+pol.df <- read.csv(paste0(dn, "/mapno22011.csv"), skip = 5, header = T, sep = ",",
+                      stringsAsFactors = F, na.strings = "MISSING")
+
+head(pol.df)
+```
+
+The data comes as point data with x and y as coordinates. We have to transform this into spatial data first. We first setup a spatial points object with `st_as_sf`. Subsequently, we transform the point coordinates into a regular grid. We use a buffer method `st_buffer` with "diameter", and only one segment per quadrant (`nQuadSegs`). This gives us a 1x1km regular grid.
+
+```{r}
+# Build spatial object
+pol.spdf <- st_as_sf(pol.df, coords = c("x", "y"),
+                    crs = 27700)
+
+# we transform the point coordinates into a regular grid with "diameter" 500m
+pol.spdf <- st_buffer(pol.spdf, dist = 500, nQuadSegs  = 1,
+                      endCapStyle = 'SQUARE')
+
+# Plot NO2
+plot(pol.spdf[, "no22011"], border = NA)
+```
+
+### OpenStreetMap (points)
+
+Another interesting data source is the OpenStreetMap API, which provides information about the geographical location of a serious of different indicators. Robin Lovelace provides a nice introduction to the [osmdata API](https://cran.r-project.org/web/packages/osmdata/vignettes/osmdata.html). Available features can be found on [OSM wiki](https://wiki.openstreetmap.org/wiki/Map_features).
+
+First we create a bounding box of where we want to query data. `st_bbox()` can be used to get bounding boxes of an existing spatial object (needs `CRS = 4326`). An alternative would be to use `opq(bbox = 'greater london uk')`.
+
+```{r}
+# bounding box of where we want to query data
+q <- opq(bbox = st_bbox(st_transform(msoa.spdf, 4326)))
+```
+
+And we want to get data for all pubs and bars which are within this bounding box.
+
+```{r, eval=FALSE}
+# First build the query of location of pubs in London
+osmq <- add_osm_feature(q, key = "amenity", value = "pub")
+
+# And then query the data
+pubs.osm <- osmdata_sf(osmq)
+```
+
+Right now there are some results in polygons, some in points, and they overlap. Often, data from OSM needs some manual cleaning. Sometimes the same features are represented by different spatial objects (e.g. points + polygons).
+
+```{r, eval=FALSE}
+# Make unique points / polygons
+pubs.osm <- unique_osmdata(pubs.osm)
+
+# Get points and polygons (there are barley any pubs as polygons, so we ignore them)
+pubs.points <- pubs.osm$osm_points
+pubs.polys <- pubs.osm$osm_multipolygons
+
+# # Drop OSM file
+# rm(pubs.osm); gc()
+
+# Reduce to point object only
+pubs.spdf <- pubs.points
+
+# Reduce to a few variables
+pubs.spdf <- pubs.spdf[, c("osm_id", "name", "addr:postcode", "diet:vegan")]
+```
+
+Again, we can inspect the results with `mapview`.
+
+```{r, echo=FALSE}
+load("_data/osm_d.RData")
+```
+
+```{r}
+mapview(st_geometry(pubs.spdf))
+```
+
+Note that OSM is solely based on contribution by users, and the **quality of OSM data varies**. Usually data quality is better in larger cities, adn better for more stable features (such as hospitals, train stations, highways). However, data from [London Datastore](https://data.london.gov.uk/dataset/cultural-infrastructure-map) would indicate more pubs than what we find with OSM.
+
+### Save
+
+We will store the created data to use them again in the next session.
+
+```{r}
+save(msoa.spdf, file = "_data/msoa_spatial.RData")
+save(ulez.spdf, file = "_data/ulez_spatial.RData")
+save(pol.spdf, file = "_data/pollution_spatial.RData")
+save(pubs.spdf, file = "_data/pubs_spatial.RData")
+```

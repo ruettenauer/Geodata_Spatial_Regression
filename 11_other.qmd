@@ -1,0 +1,203 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Prob}{\mathrm{Prob}}
+
+# Other Models
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", "GWmodel") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+
+## Geographically weighted regression
+
+Does the relation between $y$ and $x$ vary depending on the region we are looking at? With geographically weighted regressions (GWR), we can exploit the spatial heterogeneity in relations / coefficients.
+
+GWR [@Brunsdon.1996; @Gollini.2015] is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For $L$ given locations across London, we receive $L$ different coefficients.
+
+$$
+\begin{align} 
+\hat{\bm \beta}_l=& ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},
+\end{align}
+$$
+
+The $N \times N$ matrix ${\bm M}_l$ defines the weights at each local point $l$, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth $b$ around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via `gwr.basic()` or `gwr.robust()` of the `GWmodel` package.
+
+```{r}
+# Search for the optimal bandwidth 
+set.seed(123)
+hv_1.bw <- bw.gwr(log(med_house_price) ~ log(no2) + log(POPDEN) + pubs_count ,
+                  data = as_Spatial(msoa.spdf),
+                  kernel = "boxcar",
+                  adaptive = TRUE) 
+hv_1.bw
+
+
+### GWR 
+hv_1.gwr <- gwr.robust(log(med_house_price) ~ log(no2) + log(POPDEN) + pubs_count,
+                      data = as_Spatial(msoa.spdf), 
+                      kernel = "boxcar", 
+                      adaptive = TRUE, 
+                      bw = hv_1.bw, 
+                      longlat = FALSE)
+print(hv_1.gwr)
+```
+
+The results give a range of coefficients for different locations. Let's map those individual coefficients.
+
+```{r}
+# Spatial object
+gwr.spdf <- st_as_sf(hv_1.gwr$SDF)
+gwr.spdf <- st_make_valid(gwr.spdf)
+
+# Map
+tmap_mode("view")
+
+mp2 <- tm_shape(gwr.spdf) +
+  tm_fill(col = "log(POPDEN)", 
+          style = "cont", 
+          # n = 8,
+          title = "Coefficient", 
+          palette = viridis(100),
+          midpoint = TRUE, stretch.palette = TRUE) +
+  tm_borders(col = "grey85") +
+  tm_layout(legend.frame = TRUE, legend.bg.color = TRUE,
+            #legend.position = c("right", "bottom"),
+            legend.outside = TRUE,
+            main.title = "Coefficient of log population density", 
+            main.title.position = "center",
+            title.snap.to.legend = TRUE) 
+
+mp2 
+
+```
+
+Just from looking at the map, there may be a connection with the undergrpund network - the effect of population density on house values seems to be stronger / more positive where underground connection is weaker?!
+
+
+## Non-Linear Models
+
+Models with endogenous regressors (SAR)
+
+
+- In the literature: mostly spatial probit considered
+
+- Spatial logit rather uncommon (non normally distributed errors)
+
+
+	
+Issues with non-linear spatial models
+
+- Estimation: with dependent observations, we need to maximize one $n$-dimensional (log-)likelihood instead of a product of $n$ independent distributions
+
+- Estimation challenging and computationally intense
+
+- Hard to interpret due to non-linear effects in non-linear models
+
+	
+@Elhorst.2017b, @Franzese.2016
+
+### Problem with non-linear models
+
+Spatial-SAR-Probit
+$$
+		{\bm y^\star}=\rho{\bm W}{\bm y^\star}+{\bm X}{\bm \beta}+ {\bm \varepsilon} \\		
+		y_i = \{1 \text{ if } y_i^\star > 0; 0 \text{ if } y_i^\star \leq 0 \} \nonumber
+$$
+
+or in reduced form:
+	
+$$
+		{\bm y^\star}=(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + \bm u \text{, } \bm u = (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon},\\
+		\text{with } \bm u \sim MVN(0, (\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1}) \nonumber
+$$
+
+- Probability $\bm y^\star$ is a latent variable, not observed
+
+- We only observe binary outcome $y_i$
+
+- $\Cov(y_i, y_j)$ is not the same as $\Cov(y_i^\star, y_j^\star)$
+
+- Error term is heteroskedastic and spatially correlated
+
+
+Probability
+
+$$
+		\Prob[{\bm y^\star}>0]  = 
+		\Prob[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + 
+		(\bm I - \rho{\bm W})^{-1}{\bm \varepsilon}] \\
+		  =  \Prob[(\bm I - \rho{\bm W})^{-1}{\bm \varepsilon} <
+		 (\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}] \nonumber
+$$
+
+	or in using the observed outcome:
+	
+$$
+		\Prob[\bm y_i=1 | \bm X]  = 
+		\Prob\big[u_i <
+		 [(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}]_i\big] \\
+		  = \bm \phi\{[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}]_i 
+		 / \sigma_{ui}\} 
+$$
+	
+- $\bm \phi\{\}$ is an n-dimensional cumulative-normal distribution 
+
+- $\sigma_{ui}$ equals $(\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1})_{ii}$, not constant
+
+- no analytical solution
+
+### Estimation
+
+Estimation methods for Spatial-SAR Probit / Logit
+
+- Expectation Maximization [@McMillen.1992].
+
+- (Linearized) Generalized Methods of Moments [@Klier.2008].
+
+- Recursive Importance Sampling [@Beron.2004].
+
+- Maximum Simulated Likelihood RIS [@Franzese.2016]
+
+- Bayesian approach with Markov Chain Monte Carlo simulations [@LeSage.2009]: R package `spatialprobit`
+	
+Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal' effects may vary with values of the independent variables and the location [@Lacombe.2018].
+
+### Suggestion
+
+	In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. 
+	
+	If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (set high ndraw and burn-in, e.g. 7500 and 2500).
+
+
+- So far, no `best practice' guide
+
+- No systematic comparison of estimation methods
+
+- In R: Only `spatialprobit` provides impact measures?
+
+- Hard to interpret results
+
+Work-around: If the specification is theoretical plausible, using SLX probit / logit might be a practical solution! 

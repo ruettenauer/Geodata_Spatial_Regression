@@ -1,0 +1,85 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\tr}{\mathrm{tr}}
+
+# Comparing and Selecting Models 
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+## General-to-specific approach
+
+![@HalleckVega.2015: Nesting of different Spatial Econometric Model Specifications](fig/Vega.png)
+
+## Specific-to-general
+
+###Lagrange Multiplier Test
+
+We have earlier talked about methods to detect auto-correlation -- visualisation and Moran's I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:
+
+-  Interdependence ($\rho$)
+-  Clustering on unobservables ($\lambda$)
+-  Spillovers in covariates ($\bm \theta$)
+		
+Lagrange Multiplier test:
+
+- (Robust) test for spatial lag dependence $LM_\rho^*$
+
+- (Robust) test for spatial error dependence $LM_\lambda^*$
+
+@Anselin.1996
+		
+Robust test for lag dependence: $H_0$: $\rho=0$ 
+$$
+		LM_\rho^* = G^{-1} \hat{\sigma}_\epsilon^2
+		\big(\frac{ \hat{\bm\epsilon}^\intercal \bm{Wy}}{\hat{\sigma}_\epsilon^2}
+		- \frac{\hat{\bm \epsilon}^\intercal \bm{W\hat{\epsilon}}}{\hat{\sigma}_\epsilon^2} \big)^2 \sim \chi^2 
+$$
+			<!-- %\\ \text{where } G = (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}}) -->
+
+Robust test for error dependence: $H_0$: $\lambda=0$ 
+
+$$
+		LM_\lambda^* = \frac{
+		\big( \hat{\bm\epsilon}^\intercal \bm{W\hat{\epsilon}} / \hat{\sigma}_\epsilon^2		
+		- [T\hat{\sigma}_\epsilon^2(G + T\hat{\sigma}_\epsilon^2)^{-1}]
+		 \hat{\bm\epsilon}^\intercal \bm{Wy} / \hat{\sigma}_\epsilon^2 \big)^2
+		}{
+		T[1 - \frac{\hat{\sigma}_\epsilon^2}{G + \hat{\sigma}_\epsilon^2}]
+		} \sim \chi^2
+$$
+
+$$
+		\text{where } G = (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}})   $$
+		
+$$		
+		\text{and } T = \tr[(\bm W^\intercal + \bm W)\bm W] 
+$$
+
+@Anselin.1996
+
+
+## Monte Carlo simulation

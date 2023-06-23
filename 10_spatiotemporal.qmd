@@ -1,0 +1,47 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Prob}{\mathrm{Prob}}
+
+# Spatio-temporal models
+
+
+## Spatial-Autoregressive (SAR) Model
+
+
+$$
+		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}
+$$	
+
+Small example
+
+$$
+\begin{bmatrix}
+y_{1} \\
+y_{2} \\
+y_{3}  
+\end{bmatrix} =  \rho
+\begin{bmatrix}
+w_{11} & w_{12} & w_{13}\\
+w_{21} & w_{22} & w_{23}\\
+w_{31} & w_{32} & w_{33} 
+\end{bmatrix} 
+\begin{bmatrix}
+y_{1} \\
+y_{2} \\
+y_{3}  
+\end{bmatrix} + \bm \beta
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots \\
+x_{21} & x_{23} & \cdots \\
+x_{31} & x_{32} & \cdots
+\end{bmatrix} +
+\begin{bmatrix}
+\varepsilon_{1} \\
+\varepsilon_{2} \\
+\varepsilon_{3}  
+\end{bmatrix}
+$$

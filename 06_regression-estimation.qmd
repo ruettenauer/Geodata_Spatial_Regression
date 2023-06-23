@@ -1,0 +1,358 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+
+# Spatial Regression Models: Estimation
+
+This section is strongly based on @Sarrias.2023, despite being much less detailed then the original.
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results [@Anselin.1998; @Franzese.2007]. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood [@Anselin.1988; @Lee.2004; @Ord.1975] or instrumental variable approaches using generalized methods of moments [@Drukker.2013; @Kelejian.1998; @Kelejian.2010], in which the endogenous lagged variables can be instrumented by $q$ higher order lags of the exogenous regressors $({\bm X}, {\bm W \bm X}, {\bm W^2 \bm X},..., {\bm W^q  \bm X})$ [@Kelejian.1998].
+
+## Simulataneity bias
+
+Remember what is happening when we estimate a spatial auto-regressive model.
+
+![](fig/Graph.png)
+
+Note the circular process here: My $X$ influences my $Y$, which then influences your $Y$, which then influences my $Y$ again. We write this as
+
+$$
+    \begin{equation} 
+		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}.
+		\end{equation}  
+$$	
+
+If we ignore ${\bm X}{\bm \beta}$ and write the pure auto-regressive term in its reduce form, we get: 
+
+$$
+\bm y =\left(\bm I_n - \rho\bm W\right)^{-1}\varepsilon,
+$$
+
+and the spatial lag term is
+
+$$
+\bm W \bm y =\bm W\left(\bm I_n - \rho\bm W\right)^{-1}\varepsilon.
+$$
+
+The OLS estimator for the spatial lag term then is
+
+$$
+\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.
+$$
+
+It can then be shown that the OLS estimators equals
+
+$$
+          \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\top\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\top\varepsilon \\
+                                = \rho + \left(\sum_{i = 1}^n \bm y_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\bm y_{Li}\epsilon_i\right),
+$$
+
+with $\bm y_{Li}$ defined as the $i$th element of the spatial lag operator $\bm W\bm y = \bm y_L$. It can further be shown that the second part of the equation $\neq 0$, which demonstrates that OLS gives a biased estimate of $\rho$ [@Franzese.2007; @Sarrias.2023].
+
+::: callout-warning
+Do not estimate spatial lags of the dependent variable in OLS. It will suffer from simultaneity bias.
+:::
+
+## Instrumental variable
+
+A potential way of estimating spatial lag /SAR models is 2SLS [@Kelejian.1998].
+
+We start with our standard model
+
+$$
+		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}. 
+$$	
+
+As we have seen above, there is a problem of simultaneity: the "covariate" ${\bm W}{\bm y}$ is endogenous. One way of dealing with this endogeneity problem is the Instrumental Variable approach.
+
+So, the question is what are good instruments $\bm  H$ for ${\bm W}{\bm y}$? As we have specified the mode, we are sure that ${\bm X}$ determines ${\bm y}$. Thus, it must be true that ${\bm W}{\bm X}$ and ${\bm W}^2{\bm X},\ldots, {\bm W}^l{\bm X}$ determines ${\bm W}{\bm y}$.
+
+Note that ${\bm W}^l$ denotes higher orders of ${\bm W}$. So ${\bm W}^2$ are the second order neighbours (neighbours of neighbours), and ${\bm W}^3$ are the third order neighbours (the neighbours of my neighbour's neighbours), and so on...
+
+We will discuss this in more detail later, but note for now that the reduced form of the SAR always contains a series of higher order neighbours.
+
+$$
+({\bm I_N}-\rho {\bm W})^{-1}\beta_k 
+=({\bm I_N} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k 
+= ({\bm I_N} + \sum_{h=1}^\infty \rho^h{\bm W}^h)\beta_k .
+$$
+
+Thus, @Kelejian.1998 suggested to use a set of lagged covariates as instruments for $\bm W \bm Y$:
+
+$$
+\bm H = \bm X, \bm W\bm X, \bm W^2\bm X, ... , \bm W^l\bm X,
+$$
+
+where $l$ is a pre-defined number for the higher order neighbours included. In practice, $l$ is usually restricted to  $l=2$.
+
+This has further been developed by, for instance, using a (truncated) power series as instruments [@Kelejian.2004]:
+
+$$
+\bm H =\left[\bm X, \bm W\left(\sum_{l = 1}^{\infty}\rho^{l}\bm W^l\right)\bm X \bm\beta\right].
+$$
+
+We can estimate this using the pacakge `spatialreg` with the function `stsls()`, 
+
+```{r, echo=FALSE}
+# Contiguity (Queens) neighbours weights
+queens.nb <- poly2nb(msoa.spdf, 
+                     queen = TRUE, 
+                     snap = 1) # we consider points in 1m distance as 'touching'
+queens.lw <- nb2listw(queens.nb,
+                      style = "W")
+```
+
+```{r}
+mod_1.sls <- stsls(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                     per_mixed + per_asian + per_black + per_other,  
+                   data = msoa.spdf, 
+                   listw = queens.lw,
+                   robust = TRUE, #  heteroskedasticity robust SEs
+                   W2X = TRUE) # Second order neighbours are included as instruments (else only first)
+summary(mod_1.sls)
+```
+
+
+
+
+## Generalized Method of Moments
+
+Generalized Method of Moments (GMM) provides a way of estimating spatial error / SEM models. A motivation for GMM was that Maximum Likelihood was unfeasible for large samples and its consistent could not be shown. @Kelejian.1999 thus proposed a Moments estimator for SEM.
+
+We start with the model 
+
+$$
+		\begin{equation} 
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
+		\end{split} 
+		\end{equation}
+$$
+
+The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance paramter.
+
+In essence, the GMM works as follows [@Sarrias.2023]:
+
+1) First of all obtain a consistent estimate of $\bm \beta$, say $\widetilde{\bm \beta}$ using either OLS or non-linear least squares (NLS).
+
+2) Use this estimate to obtain an estimate of $\bm u$, say $\widehat{\bm u}$,
+
+3) Use $\widehat{\bm u}$, to estimate $\lambda$, say $\widehat{\lambda}$, using 
+
+$$
+  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\top\bm \upsilon_n(\lambda, \sigma^2): \rho \in [-a, a], \sigma^2\in [0, b]\right\rbrace, 
+$$
+
+
+4) Estimate $\bm \beta$ using Equation 
+
+$$
+\begin{split}
+\bm \beta_{FGLS}(\lambda) &=\left[\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm X\right]^{-1}\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm y.\\
+\bm \Omega(\lambda) &= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\top)^{-1}
+\end{split}
+$$
+
+For more, see for instance @Kelejian.2017, chapter 2.2.4 or @Sarrias.2023.
+
+We can calculate the estimator using `GMerrorsar()` from `spatialreg`.
+
+```{r}
+mod_1.gmm <- GMerrorsar(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                     per_mixed + per_asian + per_black + per_other,  
+                   data = msoa.spdf, 
+                   listw = queens.lw,
+                   se.lambda = TRUE) # Provide standard error for lambda
+summary(mod_1.gmm)
+```
+
+
+## Maximum likelihood estimation 
+
+### ML SAR
+
+Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on @Ord.1975 and @Anselin.1988.
+
+Starting with 
+
+$$
+\begin{split}
+    \bm y  = \rho \bm W\bm y + \bm X\bm \beta + \varepsilon, \\
+     \varepsilon  \sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n),
+\end{split}     
+$$
+
+and its reduced form
+
+$$
+\begin{split}
+{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}), \\
+{\bm y} =\bm A^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),
+\end{split}
+$$
+
+where $\bm A = ({\bm I_N}-\rho {\bm W})$.
+
+The ML estimator then choses the parameters $\hat\rho$, $\hat{\bm \beta}$, and $\hat\sigma$ to maximize the probability of fitting the observed sample based on the Likelihood function 
+
+$$
+\begin{split}
+\mathcal{L} (\bm \theta) &= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\top (\bm A\bm y-\bm X\bm \beta) \\
+&= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\top \bm A^\top\bm A\bm y - 2\left(\bm A\bm y\right)^\top\bm X\bm \beta + \bm \beta^\top\bm X^\top\bm X\bm \beta\right],
+\end{split}
+$$
+
+ML estimation of the SAR works as follows @Sarrias.2023:
+
+1)  Perform the two auxiliary regression of $\bm y$ and $\bm W\bm y$ on $\bm X$ to obtain the estimators $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ as in Equation 
+$$
+\begin{split}
+\widehat{\bm \beta}_{ML}(\rho) &= \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm y - \rho\left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm W\bm y, \\
+&= \widehat{\bm \beta}_O -\rho \widehat{\bm \beta}_L.
+\end{split}
+$$
+
+	
+2)  Use $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ to compute the residuals in Equation 
+$$
+\varepsilon_O = \bm y - \bm X\widehat{\bm \beta}_0\,\,\mbox{and} \;\; \varepsilon_L = \bm W\bm y - \bm X\widehat{\bm \beta_L}.
+$$
+
+	
+3) By numerical optimization to obtain an estimate of $\rho$, maximize the concentrated likelihood given in  
+
+$$
+\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\top\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\bm I_n - \rho\bm W\right|,
+$$
+	
+4) Use the estimate of $\widehat{\rho}$ to plug it back in to the expression for $\bm \beta$ and $\sigma^2$ 
+
+$$
+\begin{split}
+\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm A\bm y
+\widehat{\sigma}^2_{ML}(\rho) =\\ 
+\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\top\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
+\end{split}
+$$
+
+### ML SEM
+
+We can also use ML to estimate the spatial error / SEM model of the form
+
+$$
+		\begin{equation} 
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}\\
+		\varepsilon  &\sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n)
+		\end{split} 
+		\end{equation}
+$$
+Its reduce for is given by
+
+$$
+		\begin{equation} 
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+({\bm I_N}-\lambda {\bm W})^{-1}{\bm \varepsilon}.\\
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+\bm B^{-1}{\bm \varepsilon}.
+		\end{split} 
+		\end{equation}
+$$
+
+where $\bm B = ({\bm I_N}-\lambda {\bm W})$.
+
+Note that the OLS estimate of the SEM model are unbiased -- if there is no omitted variable bias! However, even in that case, they are inefficient if $\lambda \neq 0$.
+
+The log-likelihood function is given by
+
+$$
+\begin{split}
+\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\top \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, \\
+\bm \Omega(\lambda) = \bm B^\top \bm B = \left(\bm I_n-\lambda\bm W\right)^\top \left(\bm I_n-\lambda\bm W\right)
+\end{split}
+$$
+
+Based on @Anselin.1998, the ML estimation of SEM follow the procedure [@Sarrias.2023]:
+
+1) Carry out an OLS of $\bm B\bm X$ on $\bm B\bm y$; get $\widehat{\bm \beta}_{OLS}$
+
+2) Compute initial set of residuals $\widehat{\epsilon}_{OLS} = \bm B\bm y - \bm B\bm X\widehat{\bm \beta}_{OLS}$
+
+3) Given $\widehat{\epsilon}_{OLS} $, find $\widehat{\lambda}$ that maximizes the concentrated likelihood
+
+$$
+\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\top\bm B^\top\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.
+$$
+
+4) If the convergence criterion is met, proceed, otherwise repeat steps 1, 2 and 3.
+
+5) Given $\widehat{\lambda}$, estimate $\widehat{\bm \beta}(\lambda)$ by GLS and obtain a new vector of residuals, $\widehat{\bm \varepsilon}(\lambda)$
+
+6) Given  $\widehat{\bm \varepsilon}(\lambda)$ and $\widehat{\lambda}$, estimate $\widehat{\sigma}(\lambda)$.
+
+
+The package `spatialreg` [@Bivand.2021, @Pebesma.2023] provides a series of functions to calculate the ML estimator for all spatial models we have considered.
+
+Table from @Pebesma.2023:
+
+| model | model name                      | maximum likelihood estimation function |
+|-------|---------------------------------|----------------------------------------|
+| SEM   | spatial error                   | `errorsarlm(..., Durbin=FALSE)`   |
+| SEM   | spatial error                   | `spautolm(..., family="SAR")`     |
+| SDEM  | spatial Durbin error            | `errorsarlm(..., Durbin=TRUE)`    |
+| SLM   | spatial lag                     | `lagsarlm(..., Durbin=FALSE)`     |
+| SDM   | spatial Durbin                  | `lagsarlm(..., Durbin=TRUE)`      |
+| SAC   | spatial autoregressive combined | `sacsarlm(..., Durbin=FALSE)`     |
+| GNM   | general nested                  | `sacsarlm(..., Durbin=TRUE)`      |
+
+
+**ML SAR**
+
+```{r}
+mod_1.sar <- lagsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other,  
+                      data = msoa.spdf, 
+                      listw = queens.lw,
+                      Durbin = FALSE) # we could here extend to SDM
+summary(mod_1.sar)
+```
+
+**ML SEM**
+
+```{r}
+mod_1.sem <- errorsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) +
+                          per_mixed + per_asian + per_black + per_other,  
+                        data = msoa.spdf, 
+                        listw = queens.lw,
+                        Durbin = FALSE) # we could here extend to SDEM
+summary(mod_1.sem)
+```

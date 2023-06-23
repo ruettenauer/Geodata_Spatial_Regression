@@ -1,0 +1,383 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+
+
+# Detecting Spatial Dependence
+
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", "gstat") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+## Global Autocorrelation
+
+If spatially close observations are more likely to exhibit similar values, we cannot handle observations as if they were independent.
+
+$$ 
+\Exp(\varepsilon_i\varepsilon_j)\neq \Exp(\varepsilon_i)\Exp(\varepsilon_j) = 0
+$$
+		
+This violates a basic assumption of the conventional OLS model. In consequence, ignoring spatial dependence can lead to
+		
+* biased inferential statistics
+
+* biased point estimates (depending on the DGP)
+
+### Visualization
+
+There is one very easy and intuitive way of detecting spatial autocorrelation: Just look at the map. We do so by using `tmap` for plotting the share of home owners.
+
+```{r}
+mp1 <- tm_shape(msoa.spdf) +
+  tm_fill(col = "per_owner", 
+          #style = "cont",
+          style = "fisher", n = 8,
+          title = "Median", 
+          palette = viridis(n = 8, direction = -1, option = "C"),
+          legend.hist = TRUE) +
+  tm_borders(col = "black", lwd = 1) +
+  tm_layout(legend.frame = TRUE, legend.bg.color = TRUE,
+            #legend.position = c("right", "bottom"),
+            legend.outside = TRUE,
+            main.title = "Percentage home owners", 
+            main.title.position = "center",
+            title.snap.to.legend = TRUE) 
+
+mp1 
+
+```
+
+We definitely see some clusters with spatial units having a low share of home owner (e.g. in the city center), and other clusters where home ownership is high (e.g. suburbs in the south and east). However, this is (to some degree) dependent on how we define cutoffs and coloring of the map.
+
+::: {.callout-tip}
+## Question
+
+Which of the following three chessboards has no (or the lowest) autocorrelation?
+:::
+
+![](fig/segregation.png)
+
+Would your answer be the same if we would aggregate the data to four larger areas / districts using the average within each of the four districts?
+
+### Moran's I
+
+The most common and well known statistic for spatial dependence or autocorrelation is Moran's I, which goes back to @Moran.1950 and @Cliff.1972. For more extensive materials on Moran's I see for instance @Kelejian.2017, Chapter 11.
+
+To calculate Moran's I, we first define a neighbours weights matrix W.
+
+Global Moran's I test statistic:
+$$		
+		\begin{equation} 
+		\bm I  = \frac{N}{S_0}	
+		\frac{\sum_i\sum_j w_{ij}(y_i-\bar{y})(y_j-\bar{y})}
+			{\sum_i (y_i-\bar{y})^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
+		\end{equation}
+$$
+It is often written with deviations $z$
+
+$$		
+		\begin{equation} 
+		\bm I  = \frac{N}{S_0}	
+		\frac{\sum_i\sum_j w_{ij}(z_i)(z_j)}
+			{\sum_i (z_i)^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
+		\end{equation}
+$$
+
+Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as:
+
+* Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$. Basically, this measures correlation between neighbouring values.
+
+* Negative values: negative autocorrelation
+
+* Around zero: no autocorrelation
+
+* Positive values: positive autocorrelation
+
+To calculate Moran's I, we first need to define the relationship between units. As in the previous example, we define contiguity weights and distance-based weights.
+
+```{r}
+# Contiguity (Queens) neighbours weights
+queens.nb <- poly2nb(msoa.spdf, 
+                     queen = TRUE, 
+                     snap = 1) # we consider points in 1m distance as 'touching'
+queens.lw <- nb2listw(queens.nb,
+                      style = "W")
+
+# Neighbours within 3km distance
+coords <- st_geometry(st_centroid(msoa.spdf))
+dist_3.nb <- dnearneigh(coords, 
+                        d1 = 0, d2 = 3000)
+idw.lw <- nb2listwdist(dist_3.nb,
+                       x = coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "minmax") # for eigenvalue normalization
+```
+
+Subsequently, we can calculate the average correlation between neighbouring units.
+
+For contiguity weights, we get:
+```{r}
+# Global Morans I test of housing values based on contiguity weights
+moran.test(msoa.spdf$per_owner, listw = queens.lw, alternative = "two.sided")
+```
+
+And for inverse distance weighting, we get:
+```{r}
+# Global Morans I test of housing values based on idw
+moran.test(msoa.spdf$per_owner, listw = idw.lw, alternative = "two.sided")
+```
+
+Interpretation: In both cases, we have very strong autocorrelation between neighbouring/closer units (~.7). It barely matters which of the weights matrices we use. This autocorrelation is highly significant. we can thus reject the Null that units are independent of each other (at least at this spatial level and for the share of home owners).
+
+### Residual-based Moran's I
+
+We can also use the same Moran's I test to inspect spatial autocorrelation in residuals from an estimated linear model.
+
+Let's start with an intercept only model.
+
+```{r}
+lm0 <- lm(per_owner ~ 1, msoa.spdf)
+lm.morantest(lm0, listw = queens.lw, alternative = "two.sided")
+```
+
+This is exactly what we have received in the general case of Moran's I.
+
+Now, lets add some predictors. For instance, the distance to the city centre, and the population density may be strongly related to the home ownership rates and explain parts of the spatial dependence. 
+
+```{r}
+### Distance to city center
+# Define centre
+centre <- st_as_sf(data.frame(lon = -0.128120855701165, 
+                              lat = 51.50725909644806),
+                   coords = c("lon", "lat"), 
+                   crs = 4326)
+# Reproject
+centre <- st_transform(centre, crs = st_crs(msoa.spdf))
+# Calculate distance
+msoa.spdf$dist_centre <- as.numeric(st_distance(msoa.spdf, centre)) / 1000
+# hist(msoa.spdf$dist_centre)
+
+### Run model with predictors
+lm1 <- lm(per_owner ~ dist_centre + POPDEN, msoa.spdf)
+lm.morantest(lm1, listw = queens.lw, alternative = "two.sided")
+```
+
+There is still considerable auto-correlation in the residuals. However, we have reduce it by a substantial amount with two very simple control variables.
+
+### Semivariogram
+
+The sample variogram $\gamma(h)$ for distance intervals $h_i$ describes the average square difference between the points in this distance interval:
+
+$$
+\hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' < h_{i,1}
+$$ {#eq-samplevariogram}
+
+with the number of available pairs $N(h_i)$ in each distance interval $h_i$.
+
+For more information, see for instance the [Geospatial Data Science in R](https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html) by Zia Ahmed or @Pebesma.2023.
+
+To calculate the empirical semi-vriogram, we can use the package `gstat` with the fucntion `variogram()`.
+
+```{r}
+# Variogram No2
+v.no2 <- variogram(no2 ~ 1, msoa.spdf)
+plot(v.no2, xlim = c(0, 1.075 * max(v.no2$dist)),
+     ylim = c(-10, 1.05 * max(v.no2$gamma)))
+```
+
+Above graphs shows that the variance within each distance interval gradually increases, up to a distance of ~ 18km, and then level off at a relative constant level. Lower variances within lower values of distances means that observations are more similar to each other the closer they are.
+
+We can also try to fit a model that resembles the spatial structure. This becomes important when we want to perform interpolation.
+
+![Theoretical exponential semi-variogram model. Source: https://www.aspexit.com/variogram-and-spatial-autocorrelation](fig/Semi_variogram.png)
+
+
+```{r}
+# Intial parameter set by eye esitmation
+m.no2 <- vgm(60, "Cir", 20000, 0)  # Sill, model, range, nugget
+# least square fit
+m.f.v.no2 <- fit.variogram(v.no2, m.no2)
+```
+
+
+```{r}
+#### Plot varigram and fitted model:
+plot(v.no2, pl = FALSE, 
+     model = m.f.v.no2,
+     col="blue", 
+     cex = 0.9, 
+     lwd = 0.5,
+     lty = 1,
+     pch = 19,
+     main = "Variogram and Fitted Model",
+     xlab = "Distance (m)",
+     ylab = "Semivariance")
+```
+
+
+
+## Local Autocorrelation
+
+The Global Moran's I statistics above summarize the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often helpful to inspect the spatial pattern in more detail.
+
+The most prominent measure is the Local Indicators of Spatial Association (LISA) [@Anselin.1995]. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the [GeoData Materials](https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html) by Luc Anselin.
+
+For instance, we can use the Moran Plot to identify how single (pairs of) units contribute to the overall dependence.
+
+
+```{r}
+mp <- moran.plot(msoa.spdf$per_owner, queens.lw)
+```
+
+In the lower left corner, we see units with a low-low share of home ownership: focal and neighbouring units have a low share of home owners. In the top right corner, by contrast, we see high-high units.
+
+And we can plot influence values on the Overall Moran statistic.
+
+```{r}
+msoa.spdf$hat_value <- mp$hat 
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "hat_value", 
+          palette = viridis(n = 10, direction = -1, option = "C"),
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Influence", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+mp1
+```
+
+
+## Local Moran's I
+
+Local Moran's I is a local version of the overall Moran's I to identify local clusters and local spatial outliers [@Anselin.1995]. The Local Moran's I is just a local version which is calculated for each location:
+
+$$		
+		\begin{equation} 
+		\bm I_i  = 	
+		\frac{z_i \sum_j w_{ij}z_j}
+			{\sum_i (z_i)^2 / (n-1)}, \text{where }
+		\end{equation}
+$$
+We use the unfction `localmoran()` to calculate the local test statistic .
+
+```{r}
+loci <- localmoran(msoa.spdf$per_owner, listw = queens.lw)
+head(loci)
+```
+
+It also has an attribute with the Moran plot quadrant of each observation.
+
+```{r}
+head(attr(loci, "quadr"))
+```
+
+
+This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g. by Bonferroni adjustment [@Bivand.2018a].
+
+```{r}
+loci.df <- data.frame(loci)
+names(loci.df) <- gsub("\\.", "", names(loci.df))
+msoa.spdf$loci <- loci.df$Ii
+msoa.spdf$p_value <- loci.df$PrzEIi
+msoa.spdf$p_value_adj1 <- p.adjust(loci.df$PrzEIi, "BY")
+msoa.spdf$p_value_adj2 <- p.adjust(loci.df$PrzEIi, "bonferroni")
+```
+
+
+```{r}
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = c("loci", "p_value", "p_value_adj1", "p_value_adj2"),
+          palette = viridis(n = 10, direction = -1, option = "C"),
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("left", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Local Morans I", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8,
+            panel.labels = c("Morans I",
+                               "P value",
+                               "p value BY",
+                             "p value Bonferroni"))
+
+mp1
+```
+
+Something you can often see are so called LISA hotspot maps. They are based on the same idea as the moran plot, and show cluster of high-high and low-low values. We can use the hotspot function to identify the clusters, with a cutoff for singificance and the adjustment for multiple testing.
+
+```{r}
+# Calculate clusters
+msoa.spdf$lisa_cluster <- hotspot(loci, 
+                                  "Pr(z != E(Ii))", 
+                                  cutoff = 0.05, 
+                                  quadrant.type = "mean",
+                                  p.adjust = "BY")
+
+# Map
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = c("lisa_cluster"),
+          palette = viridis(n = 3, direction = -1, option = "D"),
+          colorNA = "white") +
+  tm_borders(col = "grey70", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("left", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Home Ownership \n LISA Clusters p(BY) < 0.05", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8,)
+
+mp1
+```
+
+Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. @Pebesma.2023 suggest to speak of *interesting clusters*. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.
+
+There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see [Chapter 15](https://r-spatial.org/book/15-Measures.html) of @Pebesma.2023.
+
+
+
+## Exercise
+
+1. Please calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization.
+
+2. Can you create a map containing the City of London (MSOA11CD = "E02000001") and its then neares neighbours?
+
+3. Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.
+
+4. Produce a LISA cluster map for the characteristic you have chosen.

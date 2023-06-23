@@ -1,0 +1,467 @@
+# Data Manipulation & Visualization
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr",
+          "nomisr", "osmdata", "tidyr", "texreg", "downlit", "xml2") 
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+For mapping
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("tmap", "tmaptools", "viridisLite", 
+          "ggplot2", "ggthemes", "rmapshaper") 
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa_spatial.RData")
+load("_data/ulez_spatial.RData")
+load("_data/pollution_spatial.RData")
+load("_data/pubs_spatial.RData")
+```
+
+## Manipulation and linkage
+
+Having data with geo-spatial information allows to perform a variety of methods to manipulate and link different data sources. Commonly used methods include 1) subsetting, 2) point-in-polygon operations, 3) distance measures, 4) intersections or buffer methods.
+
+The [online Vignettes of the sf package](https://r-spatial.github.io/sf/articles/) provide a comprehensive overview of the multiple ways of spatial manipulations.
+
+#### Check if data is on common projection
+
+```{r}
+st_crs(msoa.spdf) == st_crs(pol.spdf)
+st_crs(msoa.spdf) == st_crs(pubs.spdf)
+st_crs(msoa.spdf) == st_crs(ulez.spdf)
+
+
+# MSOA in different crs --> transform
+pol.spdf <- st_transform(pol.spdf, crs = st_crs(msoa.spdf))
+pubs.spdf <- st_transform(pubs.spdf, crs = st_crs(msoa.spdf))
+ulez.spdf <- st_transform(ulez.spdf, crs = st_crs(msoa.spdf))
+
+
+# Check if all geometries are valid, and make valid if needed
+msoa.spdf <- st_make_valid(msoa.spdf)
+
+```
+
+### Subsetting
+
+We can subset spatial data in a similar way as we subset conventional data.frames or matrices. For instance, below we simply reduce the pollution grid across the UK to observations in London only.
+
+```{r}
+
+# Subset to pollution estimates in London
+pol_sub.spdf <- pol.spdf[msoa.spdf, ] # or:
+pol_sub.spdf <- st_filter(pol.spdf, msoa.spdf)
+mapview(pol_sub.spdf)
+
+```
+
+Or we can reverse the above and exclude all intersecting units by specifying `st_disjoint` as alternative spatial operation using the `op =` option (note the empty space for column selection). `st_filter()` with the `.predicate` option does the same job. See the [sf Vignette](https://cran.r-project.org/web/packages/sf/vignettes/sf3.html) for more operations.
+
+```{r}
+# Subset pubs to pubs not in the ulez area
+sub2.spdf <- pubs.spdf[ulez.spdf, , op = st_disjoint] # or:
+sub2.spdf <- st_filter(pubs.spdf, ulez.spdf, .predicate = st_disjoint)
+mapview(sub2.spdf)
+
+# We can easily create indicators of whether an MSOA is within ulez or not
+msoa.spdf$ulez <- 0
+within <- msoa.spdf[ulez.spdf,]
+msoa.spdf$ulez[which(msoa.spdf$MSOA11CD %in% within$MSOA11CD)] <- 1
+table(msoa.spdf$ulez)
+
+```
+
+### Point in polygon
+
+We are interested in the number of pubs in each MSOA. So, we count the number of points in each polygon.
+
+```{r}
+# Assign MSOA to each point
+pubs_msoa.join <- st_join(pubs.spdf, msoa.spdf, join = st_within)
+
+# Count N by MSOA code (drop geometry to speed up)
+pubs_msoa.join <- dplyr::count(st_drop_geometry(pubs_msoa.join),
+                               MSOA11CD = pubs_msoa.join$MSOA11CD,
+                               name = "pubs_count")
+sum(pubs_msoa.join$pubs_count)
+
+# Merge and replace NAs with zero (no matches, no pubs)
+msoa.spdf <- merge(msoa.spdf, pubs_msoa.join,
+                   by = "MSOA11CD", all.x = TRUE)
+msoa.spdf$pubs_count[is.na(msoa.spdf$pubs_count)] <- 0
+
+```
+
+### Distance measures
+
+We might be interested in the distance to the nearest pub. Here, we use the package `nngeo` to find k nearest neighbours with the respective distance.
+
+```{r}
+# Use geometric centroid of each MSOA
+cent.sp <- st_centroid(msoa.spdf[, "MSOA11CD"])
+
+# Get K nearest neighbour with distance
+knb.dist <- st_nn(cent.sp, pubs.spdf,
+                  k = 1, returnDist = TRUE,
+                  progress = FALSE)
+msoa.spdf$dist_pubs <- unlist(knb.dist$dist)
+summary(msoa.spdf$dist_pubs)
+
+```
+
+### Intersections + Buffers
+
+We might also be interested in the average tree cover density within 1 km radius around each MSOA centroid. Therefore, we first create a buffer with `st_buffer()` around each midpoint and subsequently use `st_intersetion()` to calculate the overlap.
+
+```{r}
+# Create buffer (1km radius)
+cent.buf <- st_buffer(cent.sp, dist = 1000)
+mapview(cent.buf)
+
+# Add area of each buffer (in this constant) 
+cent.buf$area <- as.numeric(st_area(cent.buf))
+
+# Calculate intersection of pollution grid and buffer
+int.df <- st_intersection(cent.buf, pol.spdf)
+int.df$int_area <- as.numeric(st_area(int.df)) # area of intersection
+
+# Area of intersection as share of buffer
+int.df$area_per <- int.df$int_area / int.df$area
+
+# Aggregate as weighted mean
+int.df <- st_drop_geometry(int.df)
+int.df$no2_weighted <- int.df$no22011 * int.df$area_per
+int.df <- aggregate(list(no2 = int.df[, "no2_weighted"]), 
+                    by = list(MSOA11CD = int.df$MSOA11CD),
+                    sum)
+
+# Merge back to spatial data.frame
+msoa.spdf <- merge(msoa.spdf, int.df, by = "MSOA11CD", all.x = TRUE)
+
+mapview(msoa.spdf[, "no2"])
+
+```
+
+Note: for buffer related methods, it often makes sense to use population weighted centroids instead of geographic centroids (see [here](https://geoportal.statistics.gov.uk/datasets/ons::middle-layer-super-output-areas-december-2011-population-weighted-centroids/about) for MSOA population weighted centroids). However, often this information is not available.
+
+### Air pollution and ethnic minorities
+
+With a few lines of code, we have compiled an original dataset containing demographic information, air pollution, and some infrastructural information.
+
+Let's see what we can do with it.
+
+```{r}
+# Define ethnic group shares
+msoa.spdf$per_mixed <- msoa.spdf$KS201EW_200 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_asian <- msoa.spdf$KS201EW_300 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_black <- msoa.spdf$KS201EW_400 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_other <- msoa.spdf$KS201EW_500 / msoa.spdf$KS201EW0001 * 100
+
+# Define tenure
+msoa.spdf$per_owner <- msoa.spdf$KS402EW_100 / msoa.spdf$KS402EW0001 * 100
+msoa.spdf$per_social <- msoa.spdf$KS402EW_200 / msoa.spdf$KS402EW0001 * 100
+
+# Non British passport
+msoa.spdf$per_nonUK <- (msoa.spdf$KS205EW0001 - msoa.spdf$KS205EW0003)/ msoa.spdf$KS205EW0001 * 100
+msoa.spdf$per_nonEU <- (msoa.spdf$KS205EW0001 - msoa.spdf$KS205EW0003 -
+                          msoa.spdf$KS205EW0004 - msoa.spdf$KS205EW0005  - 
+                          msoa.spdf$KS205EW0006)/ msoa.spdf$KS205EW0001 * 100
+msoa.spdf$per_nonUK_EU <- (msoa.spdf$KS205EW0005  + msoa.spdf$KS205EW0006)/ msoa.spdf$KS205EW0001 * 100
+
+
+# Run regression
+mod1.lm <- lm(no2 ~ per_mixed + per_asian + per_black + per_other +
+                per_owner + per_social + pubs_count + POPDEN + ulez,
+              data = msoa.spdf)
+
+# summary
+screenreg(list(mod1.lm), digits = 3)
+
+```
+
+For some examples later, we also add data on house prices. We use the median house prices in 2017 from the [London Datastore](https://data.london.gov.uk/dataset/average-house-prices).
+
+```{r house-prices, cache=TRUE}
+# Download
+hp.link <- "https://data.london.gov.uk/download/average-house-prices/bdf8eee7-41e1-4d24-90ce-93fe5cf040ae/land-registry-house-prices-MSOA.csv"
+hp.df <- read.csv(hp.link)
+hp.df <- hp.df[which(hp.df$Measure == "Median" &
+                       grepl("2011", hp.df$Year)), ]
+table(hp.df$Year)
+
+# Aggregate across 2011 values
+hp.df$med_house_price <- as.numeric(hp.df$Value)
+hp.df <- aggregate(hp.df[, "med_house_price", drop = FALSE],
+                   by = list(MSOA11CD = hp.df$Code),
+                   FUN = function(x) mean(x, na.rm = TRUE))
+
+# Merge spdf and housing prices
+msoa.spdf <- merge(msoa.spdf, hp.df,
+                   by = "MSOA11CD",
+                   all.x = TRUE, all.y = FALSE)
+hist(log(msoa.spdf$med_house_price))
+```
+
+### Save spatial data
+
+```{r}
+# Save
+save(msoa.spdf, file = "_data/msoa2_spatial.RData")
+```
+
+## Visualization
+
+A large advantage of spatial data is that different data sources can be connected and combined. Another nice advantage is: you can create very nice maps. And it's quite easy to do! [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) provide more comprehensive materials on mapping in their [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023).
+
+Many packages and functions can be used to plot maps of spatial data. For instance, ggplot as a function to plot spatial data using `geom_sf()`. I am personally a fan of tmap, which makes many steps easier (but sometimes is less flexible).
+
+A great tool for choosing coulour is for instance [Colorbrewer](https://colorbrewer2.org/). `viridisLite` provides another great resource to chose colours.
+
+### Tmaps
+
+For instance, lets plot the NO2 estimates using tmap + `tm_fill()` (there are lots of alternatives like `tm_shape`, `tm_points()`, `tm_dots()`).
+
+```{r}
+
+# Define colours
+cols <- viridis(n = 7, direction = 1, option = "C")
+
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "no2", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "NO2", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) 
+
+mp1
+
+```
+
+Tmap allows to easily combine different objects by defining a new object via `tm_shape()`.
+
+```{r}
+
+# Define colours
+cols <- viridis(n = 7, direction = 1, option = "C")
+
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "no2", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "NO2", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_shape(ulez.spdf) +
+  tm_borders(col = "red", lwd = 1, alpha = 1) 
+
+mp1
+
+```
+
+And it is easy to change the layout.
+
+```{r}
+
+# Define colours
+cols <- viridis(n = 7, direction = 1, option = "C")
+
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "no2", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = expression('in'~mu*'g'/m^{3}), 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_shape(ulez.spdf) +
+  tm_borders(col = "red", lwd = 1, alpha = 1) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "NO2", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+mp1
+
+```
+
+We can also add some map information from OSM. However, it's sometimes a bit tricky with the projection. That's why we switch into the OSM projection here. Note that this osm query is build on retiring packages.
+
+```{r, warning=FALSE}
+# Save old projection
+crs_orig <- st_crs(msoa.spdf)
+
+# Change projection
+ulez.spdf <- st_transform(ulez.spdf, 4326)
+msoa.spdf <- st_transform(msoa.spdf, 4326)
+
+# Get OSM data for background
+osm_tmp <- read_osm(st_bbox(msoa.spdf), ext = 1, 
+                    type = "stamen-toner", zoom = NULL) 
+
+# Define colours
+cols <- viridis(n = 7, direction = 1, option = "C")
+
+mp1 <-  tm_shape(osm_tmp) + tm_rgb() +
+  tm_shape(msoa.spdf) + 
+  tm_fill(col = "no2", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 0.8, # transparency 
+          title = expression('in'~mu*'g'/m^{3}), 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_shape(ulez.spdf) +
+  tm_borders(col = "red", lwd = 1, alpha = 1) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "NO2", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+mp1
+
+```
+
+Tmap also makes it easy to combine single maps
+
+```{r}
+# Define colours
+cols1 <- viridis(n = 7, direction = 1, option = "C")
+
+# Define colours
+cols2 <- viridis(n = 7, direction = 1, option = "D")
+
+mp1 <-  tm_shape(osm_tmp) + tm_rgb() +
+  tm_shape(msoa.spdf) + 
+  tm_fill(col = "no2", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols1, # colours
+          alpha = 0.8, # transparency 
+          title = expression('in'~mu*'g'/m^{3}), 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_shape(ulez.spdf) +
+  tm_borders(col = "red", lwd = 1, alpha = 1) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "NO2", 
+            main.title.position = "center",
+            main.title.size = 1.4,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+mp2 <-  tm_shape(osm_tmp) + tm_rgb() +
+  tm_shape(msoa.spdf) + 
+  tm_fill(col = "per_black", 
+          style = "fisher", # algorithm to def cut points
+          n = 7, # Number of requested cut points
+          palette = cols2, # colours
+          alpha = 0.8, # transparency 
+          title = "% white", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_shape(ulez.spdf) +
+  tm_borders(col = "red", lwd = 1, alpha = 1) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Ethnic Black inhabitants", 
+            main.title.position = "center",
+            main.title.size = 1.4,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+tmap_arrange(mp1, mp2, ncol = 2, nrow = 1)
+```
+
+And you can easily export those to png or pdf
+
+```{r}
+png(file = paste("London.png", sep = ""), width = 14, height = 7, units = "in", 
+    res = 100, bg = "white")
+par(mar=c(0,0,3,0))
+par(mfrow=c(1,1),oma=c(0,0,0,0))
+tmap_arrange(mp1, mp2, ncol = 2, nrow = 1)
+dev.off()
+```
+
+### ggplot
+
+```{r}
+gp <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = no2))+
+    scale_fill_viridis_c(option = "B")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .6))
+gp
+```
+
+```{r}
+# Get some larger scale boundaries
+borough.spdf <- st_read(dsn = paste0("_data", "/statistical-gis-boundaries-london/ESRI"),
+                     layer = "London_Borough_Excluding_MHW" # Note: no file ending
+                     )
+
+# transform to only inner lines
+borough_inner <- ms_innerlines(borough.spdf)
+
+# Plot with inner lines
+gp <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = no2), color = NA)+
+    scale_fill_viridis_c(option = "A")+
+    geom_sf(data = borough_inner, color = "gray92")+
+    geom_sf(data = ulez.spdf, color = "red", fill = NA)+
+    coord_sf(datum = NA)+
+    theme_map()+
+    labs(fill = "NO2")+
+    theme(legend.position = c(.9, .6))
+gp
+```
+
+## Exercise
+
+tbd

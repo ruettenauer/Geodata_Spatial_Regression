@@ -1,0 +1,347 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+
+# Spatial Impacts
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+```{r regression-results, echo=FALSE}
+# Contiguity (Queens) neighbours weights
+queens.nb <- poly2nb(msoa.spdf, 
+                     queen = TRUE, 
+                     snap = 1) # we consider points in 1m distance as 'touching'
+queens.lw <- nb2listw(queens.nb,
+                      style = "W")
+
+mod_1.sar <- lagsarlm(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
+                per_owner + per_social + pubs_count,  
+                     data = msoa.spdf, 
+                     listw = queens.lw,
+                     Durbin = FALSE)
+
+mod_1.sem <- errorsarlm(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
+                per_owner + per_social + pubs_count,  
+                     data = msoa.spdf, 
+                     listw = queens.lw,
+                     Durbin = FALSE)
+
+
+mod_1.slx <- lmSLX(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
+                per_owner + per_social + pubs_count,  
+                  data = msoa.spdf, 
+                  listw = queens.lw, 
+                  Durbin = TRUE)
+```
+
+
+## Coefficient estimates $\neq$ `marginal' effects
+
+::: callout-warning
+Do not interpret coefficients as marginal effects in SAR, SAC, and SDM!! 
+:::
+
+
+
+At first glance, the specifications presented above seem relatively similar in the way of modelling spatial effects. **Yet, they differ in very important aspects**. 
+
+First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume **global** spatial dependence, the second two assume **local** spatial dependence [@Anselin.2003; @HalleckVega.2015; @LeSage.2009]. 
+
+Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model, the reduced form is given by:
+
+$$
+{\bm y}-\rho{\bm W}{\bm y} ={\bm X}{\bm \beta}+ {\bm \varepsilon}, \nonumber \\
+({\bm I_N}-\rho {\bm W}){\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}\nonumber, \\
+{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),
+$$
+where ${\bm I_N}$ is an $N \times N$ diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.
+
+If we want to interpret coefficient, we are usually in marginal or partial effects (the association between a unit change in $X$ and $Y$). We obtain these effects by looking at the first derivative.
+
+When taking the first derivative of the explanatory variable ${\bm x}_k$ from the reduced form in (\ref{eq:sarred}) to interpret the partial effect of a unit change in variable ${\bm x}_k$ on ${\bm y}$, we receive
+
+$$
+\frac{\partial {\bm y}}{\partial {\bm x}_k}=\underbrace{({\bm I_N}-\rho {\bm W})^{-1}}_{N \times N}\beta_k,
+$$
+
+for each covariate $k=\{1,2,...,K\}$. As can be seen, the partial derivative with respect to ${\bm x}_k$ produces an $N \times N$ matrix, thereby representing the partial effect of each unit $i$ onto the focal unit $i$ itself and all other units \textcolor{red}{$j=\{1,2,...,i-1,i+1,...,N\}$}. 
+
+Note that the diagonal elements of $({\bm I_N}-\rho {\bm W})^{-1}$ are not zero anymore (as they are in $\bm W$). Look at the following minimal example:
+
+$$
+\begin{split}
+\tilde{\bm W} = \begin{pmatrix}
+      0 & 1 & 0 & 1 & 0 \\
+      1 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 0 \\
+      1 & 0 & 1 & 0 & 1 \\
+      0 & 1 & 0 & 1 & 0
+      \end{pmatrix}, \mathrm{and~normalized} ~
+\bm W = \begin{pmatrix}
+      0 & 0.5 & 0 & 0.5 & 0 \\
+      0.33 & 0 & 0.33 & 0 & 0.33 \\
+      0 & 0.5 & 0 & 0.5 & 0 \\
+      0.33 & 0 & 0.33 & 0 & 0.33 \\
+      0 & 0.5 & 0 & 0.5 & 0
+      \end{pmatrix}      
+\end{split}
+$$
+
+and 
+
+$$
+\rho = 0.6,
+$$
+
+then 
+
+$$
+\begin{split}
+\rho \bm W = \begin{pmatrix}
+      0 & 0.3 & 0 & 0.3 & 0 \\
+      0.2 & 0 & 0.2 & 0 & 0.2 \\
+      0 & 0.3 & 0 & 0.3 & 0 \\
+      0.2 & 0 & 0.2 & 0 & 0.2 \\
+      0 & 0.3 & 0 & 0.3 & 0
+      \end{pmatrix}.
+\end{split}
+$$
+
+If we want to get the total effect of $X$ on $Y$ we need to add the direct association wihtin $i$ and $j$ and so on... 
+
+$$
+\begin{split}
+\bm I_N - \rho \bm W &=
+\begin{pmatrix}
+      1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 0 \\
+      0 & 1 & 0 & 0 & 1
+      \end{pmatrix} - 
+\begin{pmatrix}
+      0 & 0.3 & 0 & 0.3 & 0 \\
+      0.2 & 0 & 0.2 & 0 & 0.2 \\
+      0 & 0.3 & 0 & 0.3 & 0 \\
+      0.2 & 0 & 0.2 & 0 & 0.2 \\
+      0 & 0.3 & 0 & 0.3 & 0
+      \end{pmatrix}\\
+& = \begin{pmatrix}
+      1 & -0.3 & 0 & -0.3 & 0 \\
+      -0.2 & 1 & -0.2 & 0 & -0.2 \\
+      0 & 0.3 & 1 & 0.3 & 0 \\
+      -0.2 & 0 & -0.2 & 1 & -0.2 \\
+      0 & -0.3 & 0 & -0.3 & 1
+      \end{pmatrix}.
+\end{split}
+$$
+
+And finally we take the inverse of that
+
+$$
+\begin{split}
+(\bm I_N - \rho \bm W)^{-1} &=
+\begin{pmatrix}
+      1 & -0.3 & 0 & -0.3 & 0 \\
+      -0.2 & 1 & -0.2 & 0 & -0.2 \\
+      0 & 0.3 & 1 & 0.3 & 0 \\
+      -0.2 & 0 & -0.2 & 1 & -0.2 \\
+      0 & -0.3 & 0 & -0.3 & 1
+      \end{pmatrix}^{-1}\\
+&=
+\begin{pmatrix}
+      \color{red}{1.1875} & 0.46875 & 0.1875 & 0.46875 & 0.1875 \\
+      0.3125 & \color{red}{1.28125} & 0.3125 & 0.28125 & 0.3125 \\
+      0.1875 & 0.46875 & \color{red}{1.1875} & 0.46875 & 0.1875 \\
+      0.3125 & 0.28125 & 0.3125 & \color{red}{1.28125} & 0.3125 \\
+      0.1875 & 0.46875 & 0.1875 & 0.46875 & \color{red}{1.1875}
+      \end{pmatrix}.
+\end{split}
+$$
+
+As you can see, $(\bm I_N - \rho \bm W)^{-1}$ has \color{red}{diagonal elements} $>1$: these are feedback loops. My $X$ influences my $Y$ directly, but my $Y$ then influences my neigbour's $Y$, which then influences my $Y$ again (also also other neighbour's $Y$s). Thus the influence of my $X$ on my $Y$ includes a spatial multiplier.
+
+Check yourself:
+
+```{r}
+I = diag(5)
+rho = 0.6
+W = matrix(c(0 , 0.5 , 0 , 0.5 , 0,
+            1/3 , 0 , 1/3 , 0 , 1/3,
+            0 , 0.5 , 0 , 0.5 , 0,
+            1/3 , 0 , 1/3 , 0 , 1/3,
+            0 , 0.5 , 0 , 0.5 , 0), ncol = 5, byrow = TRUE)
+
+(IrW = I - rho*W)
+
+# (I - rho*W)^-1
+(M = solve(IrW))
+```
+
+
+The diagonal elements of indicate how each unit $i$ influences itself (change of $x_i$ on change of $y_i$), and each off-diagonal elements in column $j$ represents the effect of $j$ on each other unit $i$ (change of $x_j$ on change of $y_i$). 
+
+$$
+\begin{split}
+\begin{pmatrix}
+      1.1875 & \color{red}{0.46875} & 0.1875 & 0.46875 & 0.1875 \\
+      0.3125 & 1.28125 & 0.3125 & 0.28125 & 0.3125 \\
+      0.1875 & 0.46875 & 1.1875 & 0.46875 & 0.1875 \\
+      0.3125 & 0.28125 & 0.3125 & 1.28125 & 0.3125 \\
+      0.1875 & 0.46875 & \color{blue}{0.1875} & 0.46875 & 1.1875
+      \end{pmatrix}.
+\end{split}
+$$
+
+For instance, $\color{red}{W_{12}}$ indicates that unit 2 has an influence of 0.46875 on unit 1. On the other hand, $\color{blue}{W_{53}}$ indicates that unit 3 has an influence of magnitude 0.1875 on unit 5.
+
+::: callout-tip
+## Question
+
+Why does unit 3 have any effect o unit 5? According to $\bm W$ those two units are no neighbours $w_{53} = 0$!
+:::
+
+
+<!-- $$	 -->
+<!-- 	\begin{equation} -->
+<!-- 	\begin{split} -->
+<!-- 		{\bm y} & =\alpha{\bm \iota}+\rho {\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm \varepsilon} \\ -->
+<!-- 		{\bm y} & =({\bm I}-\rho{\bm W})^{-1}(\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm \varepsilon}), -->
+<!-- 	\end{split} -->
+<!-- 	\end{equation} -->
+<!-- $$	 -->
+
+<!-- we can calculate the first derivative: -->
+
+<!-- $$	 -->
+<!-- 	\begin{equation} -->
+<!-- 	\begin{split} -->
+<!-- 		\frac{\partial \bm y}{\partial \bm x_k} & = ({\bm I}-\rho{\bm W})^{-1}\beta_k \\ -->
+<!-- 		& =({\bm I} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k,  -->
+<!-- 	\end{split} -->
+<!-- 	\end{equation}	 -->
+<!-- $$	 -->
+<!-- 	where $\rho{\bm W}\beta_k$ equals the effect stemming from direct neighbours, $\rho^2{\bm W}^2\beta_k$ the effect stemming from second order neighbours (neighbours of neighbours),...  -->
+
+<!-- for SAR, SAC, and SDM even the direct impacts differ from the point estimates. This results from the fact that an endogenous term of the dependent variable ${\bm W}{\bm y}$ contains feedback loops through the system of neighbours \citep{Betz.2019,Franzese.2007.0,HalleckVega.2015.0}. A change of $x_{i}$ in the focal unit $i$ influences the focal unit $i$ itself, but also the neighbouring unit $j$, which in turn influences the focal unit $i$ in a feedback loop. This feedback loop is part of the direct impact. -->
+	
+## Global and local spillovers
+
+The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent **global spillover effects**, the latter three represent **local spillover effects** [@Anselin.2003; @LeSage.2009; @LeSage.2014]. 
+
+**Local*
+In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of ${\bm x}_k$ in the spatially weighted neighbouring observations on the dependent variable of the focal unit; when using a row-normalised contiguity weights matrix, ${\bm W} {\bm x}_k$ is the average value of ${\bm x}_k$ in the neighbouring units. Thus, only direct neighbours -- as defined in ${\bm W}$ -- contribute to those local spillover effects. 
+
+**Global**
+In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse $({\bm I_N}-\rho {\bm W})^{-1}$ as power series:A power series of $\sum\nolimits_{k=0}^\infty {\bm W}^k$ converges to $({\bm I}-{\bm W})^{-1}$ if the maximum absolute eigenvalue of ${\bm W} < 1$, which is ensured by standardising ${\bm W}$.}
+
+$$
+\begin{split}
+({\bm I_N}-\rho {\bm W})^{-1}\beta_k 
+=({\bm I_N} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k 
+= ({\bm I_N} + \sum_{h=1}^\infty \rho^h{\bm W}^h)\beta_k ,
+\end{split}
+$$
+
+where the identity matrix represents the direct effects and the sum represents the first and higher order indirect effects and the above mentioned feedback loops. This implies that a change in one unit $i$ does not only affect the direct neighbours but passes through the whole system towards higher-order neighbours, where the impact declines with distance within the neighbouring system. Global indirect impacts thus are `multiplied' by influencing direct neighbours as specified in $\bm W$ and indirect neighbours not connected according to $\bm W$, with additional feedback loops between those neighbours.
+
+All diagonal elements $\mathrm{diag}({\bm W})=w_{ii}=0$, whereas the diagonal elements  $\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0$. Intuitively, $\rho{\bm W}$ only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas $\rho^2{\bm W}^2$ contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, equation (\ref{eq:high}) includes feedback effects from $\rho^2{\bm W}^2$ on, which are part of the direct impacts according to the measures in Table \ref{table:imp}.
+
+In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects [@LeSage.2014]. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by ${\bm W}$ (the average over all neighbours in case of a row-normalised weights matrix). For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. @Anselin.2003 proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in ${\bm x}_k$ [@LeSage.2014].
+
+
+
+## Impact measures
+
+Note that the derivative in SAR, SAC, and SDM is a $N \times N$ matrix, returning individual effects of each unit on each other unit, differentiated in _direct, indirect, and total impacts_. 
+
+$$
+\begin{split}
+(\bm I_N - \rho \bm W)^{-1} \beta &=
+\begin{pmatrix}
+      \color{red}{1.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} \\
+      \color{blue}{0.3125} & \color{red}{1.28125} & \color{blue}{0.3125} & \color{blue}{0.28125} & \color{blue}{0.3125} \\
+      \color{blue}{0.1875} & \color{blue}{0.46875} & \color{red}{1.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} \\
+      \color{blue}{0.3125} & \color{blue}{0.28125} & \color{blue}{0.3125} & \color{red}{1.28125} & \color{blue}{0.3125} \\
+      \color{blue}{0.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} & \color{blue}{0.46875} & \color{red}{1.1875}
+      \end{pmatrix} \beta
+\end{split}
+$$
+
+**However, the individual effects (how $i$ influences $j$) mainly vary because of variation in ${\bm W}$. **
+
+::: callout-warning
+## Do not interpret these as "estmated" individual impacts
+
+We estimate two scalar parameters in a SAR model: $\beta$ for the direct coefficient and $rho$ for the auto-regressive parameter.
+
+All variation in the effects matrix (\bm I_N - \rho \bm W)^{-1} \beta comes from the relationship in $\bm W$ which we have given a-priori!
+:::
+
+Since reporting the individual partial effects is usually not of interest, @LeSage.2009 proposed to average over these effect matrices. While the average diagonal elements of the effects matrix $(\bm I_N - \rho \bm W)^{-1}$ represent the so called direct impacts of variable ${\bm x}_k$, the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects). 
+
+The \color{red}{direct impacts} refer to an average effect of a unit change in $x_i$ on $y_i$, and \color{blue}{the indirect (spillover) impacts} indicate how a change in $x_i$, on average, influences all neighbouring units $y_j$.
+
+Though previous literature [@HalleckVega.2015; @LeSage.2009] has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial `multiplier' component if we specify an endogenous lagged depended variable, as a change in $\bm x_i$ influences $\bm y_i$, which influences $\bm y_j$, which in turn influences $\bm y_i$ (see also equation \ref{eq:high}).
+
+
+Usually, one should use summary measures to report effects in spatial models [@LeSage.2009]. @HalleckVega.2015 provide a nice summary of the impacts for each model:
+
+
+Model | Direct Impacts | Indirect Impacts | type
+:-: | :-: | :-: | :-:
+OLS/SEM | $\beta_k$ | -- | --
+SAR/SAC | Diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | Off-diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global
+SLX/SDEM | $\beta_k$ | $\theta_k$ | local
+SDM | Diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | Off-diagonal elements of $({\bm I}-\rho{\bm W})^{-1}$ |global
+
+The different indirect effects / spatial effects mean conceptionally different things:
+
+* Global spillover effects: SAR, SAC, SDM
+
+* Local spillover effects: SLX, SDEM
+
+We can calculate these impacts using `impacts()` with simulated distributions, e.g. for the SAR model:
+
+```{r}
+mod_1.sar.imp <- impacts(mod_1.sar, listw = queens.lw, R = 300)
+summary(mod_1.sar.imp, zstats = TRUE, short = TRUE)
+
+# Alternative with traces (better for large W)
+W <- as(queens.lw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+mod_1.sar.imp2 <- impacts(mod_1.sar, tr = trMatc, R = 300, Q = 10)
+summary(mod_1.sar.imp2, zstats = TRUE, short = TRUE)
+
+```
+
+The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.
+
+For SLX models, nothing is gained from computing the impacts.
+
+```{r}
+print(impacts(mod_1.slx, listw = queens.lw))
+
+```

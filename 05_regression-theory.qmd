@@ -1,0 +1,534 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+
+# Spatial Regression Models
+
+### Required packages
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+
+There are various techniques to model spatial dependence and spatial processes [@LeSage.2009]. Here, we will just cover a few of the most common techniques / econometric models. One advantage of the most basic spatial model (SLX) is that this method can easily be incorporated in a variety of other methodologies, such as machine learning approaches.
+
+For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions.
+
+
+## Why do we need spatial regression models
+
+### Non-spatial OLS
+
+Let us start with a linear model, where $\bm y$ is the outcome or dependent variable ($N \times 1$), $\bm X$ are various exogenous covariates ($N \times k$), and $\bm \varepsilon$ ($N \times 1$) is the error term. We are usually interested in the coefficient vector $\bm \beta$ ($k \times 1$) and its insecurity estimates.
+
+$$
+{\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}
+$$
+The work-horse for estimating $\bm \beta$ in the social science is the OLS estimator [@Wooldridge.2010].
+
+$$
+\hat{\beta}=({\bm X}^\intercal{\bm X})^{-1}{\bm X}^\intercal{\bm y}.
+$$
+
+
+
+::: {.callout-important}
+### OLS assumptions I
+
+1. $\Exp(\epsilon_i|\bm X_i) = 0$: for every value of $X$, the average / expectation of the error term $\bm \varepsilon$ equals zero -- put differently: the error term is independent of $X$,
+
+2. the observations of the sample are independent and identically distributed (i.i.d),
+ 
+3. the fourth moments of the variables $\bm X_i$ and $Y_i$ are positive and definite -- put differently: extreme values / outliers are very very rare,
+
+4. $\text{rank}(\bm X) = K$: the matrix $\bm X$ has full rank -- put differently: no perfect multicollinearity between the covariates,
+:::
+
+::: {.callout-important}
+### OLS assumptions II
+
+5. $\Var(\varepsilon|x) = \sigma^2$: the error terms $\varepsilon$ are homoskedastic / have the same variance given any value of the explanatory variable, 
+
+6. $\varepsilon \sim \mathcal{N}(0, \sigma^2)$: the error terms $\varepsilon$ are normally distributed (conditional on the explanatory variables $X_i$).
+
+:::
+
+::: {.callout-tip}
+### Question
+
+Which of the six assumptions above may be violated by spatial dependence?
+
+:::
+
+![](fig/assumptions.jpg)
+
+### Problem of ignoring spatial dependence
+
+Does spatial dependence influence the results / coefficient estimates of non-spatial regression models, or in other words: is ignoring spatial dependence harmful?
+
+I've heard different answers, ranging from "It only affects the standard errors" to "it always introduces bias". As so often, the true (or best?) answer is somewhere in the middle: *it depends* [@Betz.2020; @Cook.2020; @Pace.2010; @Ruttenauer.2022a].
+
+The easiest way to think of it is analogous to the omit variable bias [@Betz.2020; @Cook.2020]:
+
+$$
+plim~\hat{\beta}_{OLS}= \beta  + \gamma \frac{\Cov(\bm x, \bm z)}{\Var(\bm x)},
+$$
+
+where $z$ is some omit variable, and $\gamma$ is the conditional effect of $\bm z$ on $\bm y$. Now imagine that the neighbouring values of the dependent variable $\bm W \bm y$ are autocorrelated to focal unit which we denote with $\rho > 0$, and that the covariance between the focal unit's exogenous covariates and $\bm W \bm y$ is not zero. Then we will have an omitted variable bias due to spatial dependence:
+
+$$
+plim~\hat{\beta}_{OLS}= \beta  + \rho \frac{\Cov(\bm x, \bm W \bm y)}{\Var(\bm x)} \neq \beta,
+$$
+
+For completeness, the entire bias is a bit more complicated [@Pace.2010; @Ruttenauer.2022a] and looks like:
+
+$$
+plim~\hat{\beta}=\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho))_{ij}}
+{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\beta \\
++\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho){\bm W})_{ij}}
+{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\theta,
+$$
+where $\circ$ denotes the Hadamard product, ${\bm M}(\delta)=({\bm I}_N-\delta{\bm W})^{-1}$, and ${\bm M}(\rho)=({\bm I}_N-\rho{\bm W})^{-1}$.
+
+<p><center>*(Don't worry, no need to learn by hard!!)*</center></p>
+
+
+Essentially, the non-spatial OLS estimator $\beta_{OLS}$ is biased in the presence of either [@Pace.2010; @Ruttenauer.2022a]:
+
+- Spatial autocorrelation in the dependent variable ($\rho\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This bias increases with $\rho$, $\delta$, and $\beta$.
+
+- Local spatial spillover effects ($\theta\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This is analogous to the omitted variable bias resulting from the omission of ${\bm W} {\bm x}$. It increases with $\theta$ and $\delta$, but additionally with $\rho$ if $\theta\neq0$ and $\delta\neq0$.
+
+- An omitted variable and $\mathrm{E}({\bm \varepsilon}|{\bm x})\neq0$. This non-spatial omitted variable bias $\gamma$ is amplified by spatial dependence in the disturbances ($\lambda$) and spatial autocorrelation in the dependent variable ($\rho$), but also increases with positive values of $\delta$ if either $\rho\neq 0$ or $\lambda\neq 0$. Obviously, it also increases with $\gamma$.
+
+## Spatial Regression Models
+
+Broadly, spatial dependence or clustering in some characteristic can be the result of three different processes:
+
+```{mermaid}
+flowchart TD
+  id1{Spatial dependence} --> A[Spatial interdepence]
+  id1 --> B[Spillovers from covariates]
+  id1 --> C[Clustering unobservables]
+```
+
+Strictly speaking, there are some other possibilities too, such as measurement error or the wrong choice on the spatial level. For instance, imagine we have a city-specific characteristic (e.g. public spending) allocated to neighbourhood units. Obviously, this will introduce heavy autocorrelation on the neigbourhood level by construction.
+
+There are three basic ways of incorporating spatial dependence, which then can be further combined. As before, the $N \times N$ spatial weights matrix $\bm W$ defines the spatial relationship between units.
+
+### Spatial Error Model (SEM)
+
+* Clustering on Unobservables
+
+$$
+		\begin{equation} 
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
+		\end{split} 
+		\end{equation}
+$$		
+
+$\lambda$ denotes the strength of the spatial correlation in the errors of the model: *your errors influence my errors*. 
+
+- $> 0$: positive error dependence,
+- $< 0$: negative error dependence,
+- $= 0$: traditional OLS model.
+
+$\lambda$ is defined in the range $[-1, +1]$.
+
+### Spatial Autoregressive Model (SAR)
+
+* Interdependence
+
+$$
+    \begin{equation} 
+		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}
+		\end{equation}  
+$$	
+
+$\rho$ denotes the strength of the spatial correlation in the dependent variable (spatial autocorrelation): *your outcome influences my outcome*. 
+
+- $> 0$: positive spatial dependence,
+- $< 0$: negative spatial dependence,
+- $= 0$: traditional OLS model.
+
+$\rho$ is defined in the range $[-1, +1]$.
+
+### Spatially lagged X Model (SLX)
+
+* Spillovers in Covariates
+
+$$
+		\begin{equation}
+		{\bm y}=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm \varepsilon}
+		\end{equation}
+$$	
+
+$\theta$ denotes the strength of the spatial spillover effects from covariate(s) on the dependent variable: *your covariates influence my outcome*. 
+
+$\theta$ is basically like any other coefficient from a covariate. It is thus not bound to any range.
+
+Moreover, there are models combining two sets of the above specifications.
+
+### Spatial Durbin Model (SDM)
+
+* Interdependence
+* Spillovers in Covariates
+
+$$
+		\begin{equation}
+		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm \varepsilon}
+		\end{equation}
+$$	
+
+### Spatial Durbin Error Model (SDEM)
+
+* Clustering on Unobservables
+* Spillovers in Covariates
+
+$$
+    \begin{equation}
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
+		\end{split}
+		\end{equation}
+$$
+
+### Combined Spatial Autocorrelation Model (SAC)
+
+* Clustering on Unobservables
+* Interdependence
+
+$$
+		\begin{equation}
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
+		\end{split}
+		\end{equation}
+$$
+
+
+### General Nesting Spatial Model (GNS)
+
+* Clustering on Unobservables
+* Interdependence
+* Spillovers in Covariates
+
+$$
+		\begin{equation}
+		\begin{split}
+		{\bm y}&=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm u},\\
+		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
+		\end{split}
+		\end{equation}
+$$
+
+
+::: callout-tip
+## Manski's reflection problem
+
+The General Nesting Spatial Model (GNS) is only weakly (or not?) identifiable [@Gibbons.2012]. 
+
+It's analogous to Manski's reflection problem on neighbourhood effects \citep{Manski.1993.0}: If people in the same group behave similar, this can be because a) imitating behaviour of the group, b) exogenous characteristics of the group influence the behaviour, and c) members of the same group are exposed to the same external circumstances. *We just cannot separate those in observational data.*
+:::
+
+Note that all of these models assume different data generating processes (DGP) leading to the spatial pattern. Although there are specifications tests, it is generally not possible to let the data decide which one is the true underlying DGP [@Cook.2020; @Ruttenauer.2022a]. However, there might be theoretical reasons to guide the model specification [@Cook.2020]. 
+
+Just because SAR is probably the most commonly used model does not make it the best choice. In contrast, various studies [@HalleckVega.2015; @Ruttenauer.2022a; @Wimpy.2021] highlight the advantages of the relative simple SLX model. Moreover, this specification can basically be incorporated in any other statistical method.
+
+### A note on missings
+
+Missing values create a problem in spatial data analysis. For instance, in a local spillover model with an average of 10 neighbours, two initial missing values will lead to 20 missing values in the spatially lagged variable. For global spillover models, one initial missing will 'flow' through the neighbourhood system until the cutoff point (and create an excess amount of missings). 
+
+Depending on the data, units with missings can either be dropped and omitted from the initial weights creation, or we need to impute the data first, e.g. using interpolation or Kriging.
+
+## Mini Example
+
+Let's try to make sense of this. We rely on a mini example using a few units in Camden
+
+```{r}
+sub.spdf <- msoa.spdf[c(172, 175, 178, 179, 181, 182), ]
+mapview(sub.spdf)
+```
+
+We then construct queens neighbours, and have a look at the resulting non-normalized matrix $\bm W$.
+
+```{r}
+queens.nb <- poly2nb(sub.spdf, queen = TRUE, snap = 1)
+W <- nb2mat(queens.nb, style = "B")
+W
+```
+We have selected 6 units. So, $\bm W$ is a $6 \times 6$ matrix. we see that observation 1 has one neighbour: observation 3. Observation 2 has two nieghbours: observation 4 and observation 6. The diagonal is zero: no unit is a neighbour of themselves.
+
+No we row-normalize this matrix.
+
+```{r}
+queens.lw <- nb2listw(queens.nb,
+                      style = "W")
+W_rn <- listw2mat(queens.lw)
+W_rn
+```
+
+No every single weight $w_{ij}$ is divided by the total number of neighbours $n_i$ of the focal unit. For observation 1, observation 3 is the only neighbour, thus a weight = 1. FOr observation two, both neighbours have a weight of 1/2. For obervation 3 (with three neighbours) each neighbour got a weight of 1/3.
+
+
+::: callout-tip
+## Question
+
+What happens if we multiply this matrix $\bm W$ with a $N \times 1$ vector $\bm y$ or $\bm x$?
+:::
+
+A short reminder on matrix multiplication. 
+
+$$
+\bm W * \bm y =
+\begin{bmatrix}
+w_{11} & w_{12} & w_{13}\\
+w_{21} & w_{22} & w_{23}\\
+w_{31} & w_{32} & w_{33} 
+\end{bmatrix} *
+\begin{bmatrix}
+y_{11} \\
+y_{21} \\
+y_{31}  
+\end{bmatrix}\\
+= \begin{bmatrix}
+w_{11}y_{11} + w_{12}y_{21} + w_{13}y_{31}\\
+w_{21}y_{11} + w_{22}y_{21} + w_{23}y_{31}\\
+w_{31}y_{11} + w_{32}y_{21} + w_{33}y_{31}  
+\end{bmatrix}
+$$
+
+Each line of $\bm W * \bm y$ just gives a weighted average of the other $y$-values $y_j$ in the sample. In case of the row-normalization, each neighbour gets the same weight $\frac{1}{n_i}$. This is simply the mean of $y_j$ of the neighbours in case of a row-normalized contiguity weights matrix.
+
+Note that the *mean* interpretation is only valid with row-normalization. What would we get with inverse-distance based weights?
+
+Let's look at this in our example
+```{r}
+y <- sub.spdf$med_house_price
+x <- sub.spdf$pubs_count
+
+W_rn
+y
+x
+
+W_rn_y <- W_rn %*% y
+W_rn_x <- W_rn %*% x
+W_rn_y
+W_rn_x
+```
+
+Let's check if our interpretation is true
+
+```{r}
+W_rn_y[1] == y[3]
+W_rn_y[2] == mean(y[c(4, 6)])
+W_rn_y[4] == mean(y[c(2, 3, 5, 6)])
+```
+
+
+
+
+## Real Example
+
+First, we need the a spatial weights matrix.
+
+```{r}
+# Contiguity (Queens) neighbours weights
+queens.nb <- poly2nb(msoa.spdf, 
+                     queen = TRUE, 
+                     snap = 1) # we consider points in 1m distance as 'touching'
+queens.lw <- nb2listw(queens.nb,
+                      style = "W")
+```
+
+We can estimate spatial models using `spatialreg`. 
+
+### SAR
+
+Lets estimate a spatial SAR model using the `lagsarlm()` with contiguity weights. We use median house value as depended variable, and include population density (`POPDEN`), the air pollution (`no2`), and the share of ethnic minorities (`per_mixed`, `per_asian`, `per_black`,  `per_other`).
+
+```{r}
+mod_1.sar <- lagsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other,  
+                      data = msoa.spdf, 
+                      listw = queens.lw,
+                      Durbin = FALSE) # we could here extend to SDM
+summary(mod_1.sar)
+
+```
+
+This looks pretty much like a conventional model output, with some additional information: a highly significant `mod_1.sar$rho` of `r round(mod_1.sar$rho, 2)` indicates strong positive spatial autocorrelation. 
+
+Remember that is the coefficient for the term $\bm y = \rho \bm W \bm y \ldots$. It is bound to be below 1 for positive autocorrelation.
+
+In substantive terms, house prices in the focal unit positively influence house prices in neighbouring units, which again influences house prices among the neighbours of these neighbours, and so on (we'll get back to this).
+
+::: callout-warning
+The coefficients of covariates in a SAR model are not marginal or partical effects, because of the spillovers and feedback loops in $\bm y$ (see below)!
+
+From the coefficient, we can only interpret the direction: there's a positive effect of air pollution and a negative effect of population sensity, and so on...
+:::
+
+
+
+### SEM
+
+SEM models can be estimated using `errorsarlm()`.
+
+```{r}
+mod_1.sem <- errorsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) +
+                          per_mixed + per_asian + per_black + per_other,  
+                        data = msoa.spdf, 
+                        listw = queens.lw,
+                        Durbin = FALSE) # we could here extend to SDEM
+summary(mod_1.sem)
+
+```
+
+In this case `mod_1.sem$lambda` gives us the spatial parameter. A highly significant lambda of `r round(mod_1.sem$lambda, 2)` indicates that the errors are highly spatially correlated (e.g. due to correlated unobservables). Again, $\lambda = 1 $ would be the maximum.
+
+In spatial error models, we can interpret the coefficients directly, as in a conventional linear model. 
+
+### SLX
+
+SLX models can either be estimated with `lmSLX()` directly, or by creating $\bm W \bm X$ manually and plugging it into any available model-fitting function.
+
+```{r}
+mod_1.slx <- lmSLX(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                     per_mixed + per_asian + per_black + per_other,  
+                   data = msoa.spdf, 
+                   listw = queens.lw, 
+                   Durbin = TRUE) # use a formula to lag only specific covariates
+summary(mod_1.slx)
+
+```
+
+In SLX models, we can simply interpret the coefficients of direct and indirect (spatially lagged) covariates. 
+
+For instance, lets look at population density: 
+
+::: callout-tip
+## Interpretaion SLX
+
+1. A high population density in the focal unit is related to lower house prices (a 1% increase in population density decreses house prices by `r round(unname(mod_1.slx$coefficients["log.POPDEN."]), 2)`%), but 
+
+2. A high population density in the neighbouring areas is related to higher house prices (while keeping population density in the focal unit constant). A 1% increase in the *average* population density *across the adjacent neighbourhoods* increases house prices in *the focal unit* by `r round(unname(mod_1.slx$coefficients["lag.log.POPDEN."]), 2)`%) 
+
+Potential interpretation: areas with a low population density in central regions of the city (high pop density in surrounding neighbourhoods) have higher house prices. We could try testing this interpretation by including the distance to the city center as a control.
+:::
+
+Also note how the air pollution coefficient has changed here, with a negative effect in the focal unit and positive one amonf the neighbouring units.
+
+An alternative way of estimating the same model is lagging the covariates first.
+
+```{r}
+# Loop through vars and create lagged variables
+msoa.spdf$log_POPDEN <- log(msoa.spdf$POPDEN)
+msoa.spdf$log_no2 <- log(msoa.spdf$no2)
+msoa.spdf$log_med_house_price <- log(msoa.spdf$med_house_price)
+
+vars <- c("log_med_house_price", "log_no2", "log_POPDEN", 
+          "per_mixed", "per_asian", "per_black", "per_other",
+          "per_owner", "per_social", "pubs_count")
+for(v in vars){
+  msoa.spdf[, paste0("w.", v)] <- lag.listw(queens.lw,
+                                            var = st_drop_geometry(msoa.spdf)[, v])
+}
+
+# Alternatively:
+w_vars <- create_WX(st_drop_geometry(msoa.spdf[, vars]),
+                    listw = queens.lw,
+                    prefix = "w")
+
+head(w_vars)
+
+```
+
+And subsequently we use those new variables in a linear model.
+
+```{r}
+mod_1.lm <- lm (log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                  per_mixed + per_asian + per_black + per_other +
+                  w.log_no2 + w.log_POPDEN +
+                  w.per_mixed + w.per_asian + w.per_black + w.per_other,
+                data = msoa.spdf)
+summary(mod_1.lm)
+
+```
+
+Looks pretty similar to `lmSLX()` results, and it should! A big advantage of the SLX specification is that we can use the lagged variables in basically all methods which take variables as inputs, such as non-linear models, matching algorithms, and machine learning tools.
+
+Moreover, using the lagged variables gives a high degree of freedom. For instance, we could (not saying that it necessarily makes sense):
+
+* Use different weights matrices for different variables
+
+* Include higher order neighbours using `nblag()` (with an increasing number of orders we go towards a more global model, but we estimate a coefficient for each spillover, instead of estimating just one)
+
+* Use machine learning techniques to determine the best fitting weights specification.
+
+
+### SDEM
+
+SDEM models can be estimated using `errorsarlm()` with the additional option `Durbin = TRUE`.
+
+```{r}
+mod_1.sdem <- errorsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) +
+                          per_mixed + per_asian + per_black + per_other,  
+                        data = msoa.spdf, 
+                        listw = queens.lw,
+                        Durbin = TRUE) # we could here extend to SDEM
+summary(mod_1.sdem)
+```
+
+And this SDEM can be interpreted like a combination of SEM and SLX. 
+
+First, we still see highly significant auto-correlation in the error term. However, it's lower in magnitude now that we also include the $\bm W X$ terms.
+
+Second, the coefficients tell a smimilar story as in the SLX (use the same interpretation), but some coefficient magnitudes have become smaller.
+
+### SDM
+
+SDM models can be estimated using `lagsarlm()` with the additional option `Durbin = TRUE`.
+
+```{r}
+mod_1.sdm <- lagsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other,  
+                      data = msoa.spdf, 
+                      listw = queens.lw,
+                      Durbin = TRUE) # we could here extend to SDM
+summary(mod_1.sdm)
+
+```
+
+And this SDM can be interpreted like a combination of SAR and SLX. 
+
+First, there's still substantial auto-correlation in $\bm y$, and this has become even stronger as compared to SAR.
+
+Second, we can interpret the direction of the effect, but we *cannot interpret the coefficient as marginal effects*.

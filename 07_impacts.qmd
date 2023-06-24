@@ -36,21 +36,21 @@ queens.nb <- poly2nb(msoa.spdf,
 queens.lw <- nb2listw(queens.nb,
                       style = "W")
 
-mod_1.sar <- lagsarlm(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
-                per_owner + per_social + pubs_count,  
+mod_1.sar <- lagsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other,  
                      data = msoa.spdf, 
                      listw = queens.lw,
                      Durbin = FALSE)
 
-mod_1.sem <- errorsarlm(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
-                per_owner + per_social + pubs_count,  
+mod_1.sem <- errorsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other,  
                      data = msoa.spdf, 
                      listw = queens.lw,
                      Durbin = FALSE)
 
 
-mod_1.slx <- lmSLX(log(no2) ~ log(POPDEN) + per_mixed + per_asian + per_black + per_other +
-                per_owner + per_social + pubs_count,  
+mod_1.slx <- lmSLX(log(med_house_price) ~ log(no2) + log(POPDEN) + 
+                        per_mixed + per_asian + per_black + per_other, 
                   data = msoa.spdf, 
                   listw = queens.lw, 
                   Durbin = TRUE)
@@ -251,11 +251,61 @@ Why does unit 3 have any effect o unit 5? According to $\bm W$ those two units a
 
 The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent **global spillover effects**, the latter three represent **local spillover effects** [@Anselin.2003; @LeSage.2009; @LeSage.2014]. 
 
-**Local*
-In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of ${\bm x}_k$ in the spatially weighted neighbouring observations on the dependent variable of the focal unit; when using a row-normalised contiguity weights matrix, ${\bm W} {\bm x}_k$ is the average value of ${\bm x}_k$ in the neighbouring units. Thus, only direct neighbours -- as defined in ${\bm W}$ -- contribute to those local spillover effects. 
+### Local spillovers
 
-**Global**
-In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse $({\bm I_N}-\rho {\bm W})^{-1}$ as power series:A power series of $\sum\nolimits_{k=0}^\infty {\bm W}^k$ converges to $({\bm I}-{\bm W})^{-1}$ if the maximum absolute eigenvalue of ${\bm W} < 1$, which is ensured by standardising ${\bm W}$.}
+In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of ${\bm x}_k$ in the spatially weighted neighbouring observations on the dependent variable of the focal unit: the weighted average among neighbours; when using a row-normalised contiguity weights matrix, ${\bm W} {\bm x}_k$ is the mean value of ${\bm x}_k$ in the neighbouring units. 
+
+Assume we have $k =2$ covariates, then
+
+$$
+\begin{split}
+\underbrace{\bm W}_{N \times N}  \underbrace{\bm X}_{N \times 2} \underbrace{\bm \theta}_{2 \times 1} & = 
+\begin{pmatrix}
+      0 & 0.5 & 0 & 0.5 & 0 \\
+      0.33 & 0 & 0.33 & 0 & 0.33 \\
+      0 & 0.5 & 0 & 0.5 & 0 \\
+      0.33 & 0 & 0.33 & 0 & 0.33 \\
+      0 & 0.5 & 0 & 0.5 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+      3 & 100 \\
+      4 & 140 \\
+      1 & 200 \\
+      7 & 70  \\
+      5 & 250 
+  \end{pmatrix}
+    \begin{pmatrix}
+      \theta_1 \\
+      \theta_2 
+  \end{pmatrix}\\
+ & =   
+ \begin{pmatrix}
+      6 & 105 \\
+      3 & 190 \\
+      6 & 105 \\
+      3 & 190  \\
+      6 & 105 
+  \end{pmatrix}
+ \begin{pmatrix}
+      \theta_1 \\
+      \theta_2
+  \end{pmatrix}\\
+\end{split} 
+$$
+
+```{r}
+X <- cbind(x1 = c(3,4,1,8,5),
+           x2 = c(100,140,200,70,270))
+(WX <-  W %*% X)
+```
+
+Thus, only direct neighbours -- as defined in ${\bm W}$ -- contribute to those local spillover effects. The $\hat{\bm\theta}$ coefficients only estimate how my direct neighbour's $\bm X$ values influence my own outcome $\bm y$.
+
+There are no higher order neighbours involved (as long as we do not model them), nor are there any feedback loops due to interdependence.
+
+### Global spillovers
+
+In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse $({\bm I_N}-\rho {\bm W})^{-1}$ as power series:A power series of $\sum\nolimits_{k=0}^\infty {\bm W}^k$ converges to $({\bm I}-{\bm W})^{-1}$ if the maximum absolute eigenvalue of ${\bm W} < 1$, which is ensured by standardizing ${\bm W}$.}
 
 $$
 \begin{split}
@@ -267,13 +317,39 @@ $$
 
 where the identity matrix represents the direct effects and the sum represents the first and higher order indirect effects and the above mentioned feedback loops. This implies that a change in one unit $i$ does not only affect the direct neighbours but passes through the whole system towards higher-order neighbours, where the impact declines with distance within the neighbouring system. Global indirect impacts thus are `multiplied' by influencing direct neighbours as specified in $\bm W$ and indirect neighbours not connected according to $\bm W$, with additional feedback loops between those neighbours.
 
-All diagonal elements $\mathrm{diag}({\bm W})=w_{ii}=0$, whereas the diagonal elements  $\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0$. Intuitively, $\rho{\bm W}$ only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas $\rho^2{\bm W}^2$ contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, equation (\ref{eq:high}) includes feedback effects from $\rho^2{\bm W}^2$ on, which are part of the direct impacts according to the measures in Table \ref{table:imp}.
+$$
+\begin{split}
+(\underbrace{\bm I_N}_{N \times N} - \underbrace{\rho}_{\hat{=} 0.6} \underbrace{\bm W}_{N \times N})^{-1} \underbrace{\bm \beta}_{2 \times 1}
+&=
+\begin{pmatrix}
+      1.\color{red}{1875} & 0.46875 & 0.1875 & 0.46875 & 0.1875 \\
+      0.3125 & 1.\color{red}{28125} & 0.3125 & 0.28125 & 0.3125 \\
+      0.1875 & 0.46875 & 1.\color{red}{1875} & 0.46875 & 0.1875 \\
+      0.3125 & 0.28125 & 0.3125 & 1.\color{red}{28125} & 0.3125 \\
+      0.1875 & 0.46875 & 0.1875 & 0.46875 & 1.\color{red}{1875}
+      \end{pmatrix}
+  \begin{pmatrix}
+      \beta_1 \\
+      \beta_2
+  \end{pmatrix}\\.
+\end{split}
+$$
 
-In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects [@LeSage.2014]. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by ${\bm W}$ (the average over all neighbours in case of a row-normalised weights matrix). For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. @Anselin.2003 proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in ${\bm x}_k$ [@LeSage.2014].
+All diagonal elements of $\mathrm{diag}({\bm W})=w_{ii}=0$. However, diagonal elements of higher order neighbours are not zero $\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0$. 
+
+Intuitively, $\rho{\bm W}$ only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas $\rho^2{\bm W}^2$ contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, $({\bm I_N}-\rho {\bm W})^{-1}\beta_k$ includes \color{red}{feedback effects} from $\rho^2{\bm W}^2$ on (they are part of the direct impacts according to the summary measures below). This is way the \color{red}{diagonal above} $\geq 1$.
+
+In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects [@LeSage.2014]. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by ${\bm W}$ (the average over all neighbours in case of a row-normalised weights matrix). 
+
+For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. 
+
+In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. 
+
+Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. @Anselin.2003 proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in ${\bm x}_k$ [@LeSage.2014].
 
 
 
-## Impact measures
+## Summary impact measures
 
 Note that the derivative in SAR, SAC, and SDM is a $N \times N$ matrix, returning individual effects of each unit on each other unit, differentiated in _direct, indirect, and total impacts_. 
 
@@ -293,7 +369,7 @@ $$
 **However, the individual effects (how $i$ influences $j$) mainly vary because of variation in ${\bm W}$. **
 
 ::: callout-warning
-## Do not interpret these as "estmated" individual impacts
+### Do not interpret these as "estimated" individual impacts
 
 We estimate two scalar parameters in a SAR model: $\beta$ for the direct coefficient and $rho$ for the auto-regressive parameter.
 
@@ -313,11 +389,24 @@ Usually, one should use summary measures to report effects in spatial models [@L
 Model | Direct Impacts | Indirect Impacts | type
 :-: | :-: | :-: | :-:
 OLS/SEM | $\beta_k$ | -- | --
-SAR/SAC | Diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | Off-diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global
+SAR/SAC | \color{red}{Diagonal elements} of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | \color{blue}{Off-diagonal elements} of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global
 SLX/SDEM | $\beta_k$ | $\theta_k$ | local
-SDM | Diagonal elements of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | Off-diagonal elements of $({\bm I}-\rho{\bm W})^{-1}$ |global
+SDM | \color{red}{Diagonal elements} of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | \color{blue}{Off-diagonal elements} of $({\bm I}-\rho{\bm W})^{-1}$ |global
 
-The different indirect effects / spatial effects mean conceptionally different things:
+$$
+\begin{split}
+(\bm I_N - \rho \bm W)^{-1} \beta &=
+\begin{pmatrix}
+      \color{red}{1.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} \\
+      \color{blue}{0.3125} & \color{red}{1.28125} & \color{blue}{0.3125} & \color{blue}{0.28125} & \color{blue}{0.3125} \\
+      \color{blue}{0.1875} & \color{blue}{0.46875} & \color{red}{1.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} \\
+      \color{blue}{0.3125} & \color{blue}{0.28125} & \color{blue}{0.3125} & \color{red}{1.28125} & \color{blue}{0.3125} \\
+      \color{blue}{0.1875} & \color{blue}{0.46875} & \color{blue}{0.1875} & \color{blue}{0.46875} & \color{red}{1.1875}
+      \end{pmatrix} \beta
+\end{split}
+$$
+
+The different indirect effects / spatial effects mean conceptually different things:
 
 * Global spillover effects: SAR, SAC, SDM
 
@@ -331,15 +420,19 @@ summary(mod_1.sar.imp, zstats = TRUE, short = TRUE)
 
 # Alternative with traces (better for large W)
 W <- as(queens.lw, "CsparseMatrix")
-trMatc <- trW(W, type="mult")
-mod_1.sar.imp2 <- impacts(mod_1.sar, tr = trMatc, R = 300, Q = 10)
+trMatc <- trW(W, type = "mult",
+              m = 30) # number of powers
+mod_1.sar.imp2 <- impacts(mod_1.sar, 
+                          tr = trMatc, # trace instead of listw
+                          R = 300, 
+                          Q = 30) # number of power series used for approximation
 summary(mod_1.sar.imp2, zstats = TRUE, short = TRUE)
 
 ```
 
 The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.
 
-For SLX models, nothing is gained from computing the impacts.
+For SLX models, nothing is gained from computing the impacts, as theyequal the coefficients.
 
 ```{r}
 print(impacts(mod_1.slx, listw = queens.lw))

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tobias Rüttenauer">
+<meta name="dcterms.date" content="2025-02-06">
+
+<title>Geodata &amp; Spatial Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./01_refresher.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Geodata &amp; Spatial Regression</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Refresher</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_spatial-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Manipulation &amp; Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Spatial Relationships W</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_regression-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_regression-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_impacts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_spatiotemporal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#some-useful-packages" id="toc-some-useful-packages" class="nav-link" data-scroll-target="#some-useful-packages">Some useful packages</a></li>
+  <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings">Further Readings</a></li>
+  <li><a href="#course-materials" id="toc-course-materials" class="nav-link" data-scroll-target="#course-materials">Course materials</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Geodata &amp; Spatial Regression</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tobias Rüttenauer </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 6, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1 unnumbered">
+<h1 class="unnumbered">Introduction</h1>
+<p>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis.</p>
+<p>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as survey data with contextual information, and to analyze spatial patterns and processes (e.g., spillover effects or diffusion).</p>
+<p>Many social science research questions are spatially dependent such as voting outcomes, housing prices, protest behavior, or migration decisions. Observing an event in one region or neighborhood increases the likelihood that we observe similar processes in proximate areas. As Tobler’s first law of geography puts it: “Everything is related to everything else, but near things are more related than distant things”. This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated while analyzing spatial data. Spatial regression models can be used to detect this spatial dependence and explicitly model spatial relations, identifying spatial spillovers or diffusion.</p>
+<p>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyze spatial processes, and furthermore, the course addresses several methods for defining spatial relationships. Hereby, the detection and diagnostic of spatial dependence as well as autocorrelation are demonstrated. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</p>
+<p>The field has develops very fast over since few years, and <em>R</em> now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in <em>R</em>, have a look into the materials references below.</p>
+<p>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in <em>R</em>. <a href="https://stefanjuenger.github.io/">Stefan Jünger</a> &amp; <a href="https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe">Anne-Kathrin Stroppe</a> have provided a comprehensive <a href="https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023">GESIS workshop on geospatial techniques in R</a>. The focus of this workshop will be on tequchniques for spatial data analysis, such as spatial regression models.</p>
+<section id="schedule" class="level2">
+<h2 class="anchored" data-anchor-id="schedule">Schedule</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Day 1</th>
+<th>Working with Spatial Data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10:00 - 11:30</td>
+<td>Refresher on R as GIS</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>11:45 - 13:00</td>
+<td>Spatial Data Manipulation &amp; Visualization</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lunch break</td>
+</tr>
+<tr class="odd">
+<td>14:00 - 15:30</td>
+<td>Defining Spatial Relationships (W)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>15:45 - 17:15</td>
+<td>Detecting Spatial Dependence</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Day 2</th>
+<th>Spatial Regression Models I</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10:00 - 11:30</td>
+<td>Spatial Regression Models: Theory</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>11:45 - 13:00</td>
+<td>Estimating Spatial Regression Models</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lunch break</td>
+</tr>
+<tr class="odd">
+<td>14:00 - 15:30</td>
+<td>Interpreting Results: Spatial Impacts</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>15:45 - 17:15</td>
+<td>Lab Exercises in R</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Day 3</th>
+<th>Spatial Regression Models II</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10:00 - 11:30</td>
+<td>Comparing and Selecting Models</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>11:45 - 13:00</td>
+<td>Spatiotemporal models</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lunch break</td>
+</tr>
+<tr class="odd">
+<td>14:00 - 15:30</td>
+<td>Other Models: GWR &amp; Binary Outcomes</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>15:45 - 17:15</td>
+<td>Lab Exercises in R</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="some-useful-packages" class="level2">
+<h2 class="anchored" data-anchor-id="some-useful-packages">Some useful packages</h2>
+<p>By now, <em>R</em> provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods <span class="citation" data-cites="Bivand.2021">(see e.g. <a href="references.html#ref-Bivand.2021" role="doc-biblioref">R. Bivand, Millo, and Piras 2021</a>)</span>. Important packages for fundamental spatial operations are:</p>
+<ul>
+<li><p>Spatial data workhorses: <a href="https://cran.r-project.org/web/packages/sf/index.html">sf</a> <span class="citation" data-cites="Pebesma.2018">(<a href="references.html#ref-Pebesma.2018" role="doc-biblioref">Pebesma 2018</a>)</span> and <a href="https://cran.r-project.org/web/packages/terra/index.html">terra</a></p></li>
+<li><p>Visualization: <a href="https://cran.r-project.org/web/packages/mapview/index.html">mapview</a> <span class="citation" data-cites="Appelhans.2021">(<a href="references.html#ref-Appelhans.2021" role="doc-biblioref">Appelhans et al. 2021</a>)</span> and <a href="https://cran.r-project.org/web/packages/tmap/index.html">tmap</a> <span class="citation" data-cites="Tennekes.2018">(<a href="references.html#ref-Tennekes.2018" role="doc-biblioref">Tennekes 2018</a>)</span></p></li>
+<li><p>Spatial weights and other relations: <a href="https://cran.r-project.org/web/packages/stars/index.html">spdep</a> <span class="citation" data-cites="Bivand.2018">(<a href="references.html#ref-Bivand.2018" role="doc-biblioref">R. S. Bivand and Rudel 2018</a>)</span></p></li>
+<li><p>Spatial interpolation and kriging: <a href="https://cran.r-project.org/web/packages/gstat/index.html">gstat</a> <span class="citation" data-cites="Graler.2016">(<a href="references.html#ref-Graler.2016" role="doc-biblioref">Gräler, Pebesma, and Heuvelink 2016</a>)</span></p></li>
+<li><p>Spatial regression models: <a href="https://cran.r-project.org/web/packages/spatialreg/index.html">spatialreg</a> and <a href="https://cran.r-project.org/web/packages/sphet/index.html">sphet</a> <span class="citation" data-cites="Bivand.2015">(<a href="references.html#ref-Bivand.2015" role="doc-biblioref">R. Bivand and Piras 2015</a>)</span></p></li>
+<li><p>The packages have constantly developed over the past years, and older packages such as rgdal, rgeos, and sp are currently retiring (<a href="https://geocompx.org/post/2023/rgdal-retirement/">Blog post</a>)</p></li>
+</ul>
+</section>
+<section id="further-readings" class="level2">
+<h2 class="anchored" data-anchor-id="further-readings">Further Readings</h2>
+<ul>
+<li><p>Great up-to-date introduction to spatial R: <span class="citation" data-cites="Lovelace.2019">Lovelace, Nowosad, and Muenchow (<a href="references.html#ref-Lovelace.2019" role="doc-biblioref">2019</a>)</span>, <a href="https://geocompr.robinlovelace.net/">updated version available online</a></p></li>
+<li><p>Great open-science book on <a href="https://www.r-spatial.org/book">Spatial Data Science</a> <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span></p></li>
+<li><p>Comprehensive introduction to spatial econometrics: <span class="citation" data-cites="LeSage.2009">LeSage and Pace (<a href="references.html#ref-LeSage.2009" role="doc-biblioref">2009</a>)</span></p></li>
+<li><p>Relative intuitive introduction to spatial econometrics: <span class="citation" data-cites="Ward.2008">Ward and Gleditsch (<a href="references.html#ref-Ward.2008" role="doc-biblioref">2008</a>)</span></p></li>
+<li><p>Article-length introductions to spatial econometrics: <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>, <span class="citation" data-cites="LeSage.2014">LeSage (<a href="references.html#ref-LeSage.2014" role="doc-biblioref">2014</a>)</span>, and <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span></p></li>
+</ul>
+</section>
+<section id="course-materials" class="level2">
+<h2 class="anchored" data-anchor-id="course-materials">Course materials</h2>
+<ul>
+<li><p>I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see <a href="https://stefanjuenger.github.io/">Stefan Jünger</a> &amp; <a href="https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe">Anne-Kathrin Stroppe</a>’s <a href="https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023">GESIS workshop materials</a>. Nice materials on GIS, spatial operations and spatial data visualisation!</p></li>
+<li><p>For those looking for a more in-depth introduction, I highly recommend Roger Bivand’s course on Spatial Data Analysis: <a href="https://www.youtube.com/watch?v=KkIbg50Pa0I&amp;list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0">Youtube recordings</a>, <a href="https://rsbivand.github.io/ECS530_h19/">Course Materials</a></p></li>
+<li><p>I’ve learned most of what I know about spatial econometrics from <a href="http://www.scottjcook.net/">Scott J. Cook</a> and his workshop on Spatial Econometrics at the <a href="https://essexsummerschool.com/summer-school-facts/courses/ess-2023-course-list/">Essex Summer school</a>.</p></li>
+</ul>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Appelhans.2021" class="csl-entry" role="listitem">
+Appelhans, Tim, Florian Detsch, Chritoph Reudenbach, and Stefan Woellauer. 2021. <span>“Mapview: <span>Interactive Viewing</span> of <span>Spatial Data</span> in <span>R</span>.”</span>
+</div>
+<div id="ref-Bivand.2018" class="csl-entry" role="listitem">
+Bivand, Roger S., and Colin Rudel. 2018. <span>“Rgeos: <span>Interface</span> to <span>Geometry Engine</span> - <span>Open Source</span> (’<span>GEOS</span>’).”</span>
+</div>
+<div id="ref-Bivand.2021" class="csl-entry" role="listitem">
+Bivand, Roger, Giovanni Millo, and Gianfranco Piras. 2021. <span>“A <span>Review</span> of <span>Software</span> for <span>Spatial Econometrics</span> in <span>R</span>.”</span> <em>Mathematics</em> 9 (11): 1276. <a href="https://doi.org/10.3390/math9111276">https://doi.org/10.3390/math9111276</a>.
+</div>
+<div id="ref-Bivand.2015" class="csl-entry" role="listitem">
+Bivand, Roger, and Gianfranco Piras. 2015. <span>“Comparing <span>Implementations</span> of <span>Estimation Methods</span> for <span>Spatial Econometrics</span>.”</span> <em>Journal of Statistical Software</em> 63 (18): 1–36. <a href="https://doi.org/10.18637/jss.v063.i18">https://doi.org/10.18637/jss.v063.i18</a>.
+</div>
+<div id="ref-Graler.2016" class="csl-entry" role="listitem">
+Gräler, Benedikt, Edzer Pebesma, and Gerard Heuvelink. 2016. <span>“Spatio-<span>Temporal Interpolation</span> Using Gstat.”</span> <em>The R Journal</em> 8 (1): 204–18.
+</div>
+<div id="ref-HalleckVega.2015" class="csl-entry" role="listitem">
+Halleck Vega, Solmaria, and J. Paul Elhorst. 2015. <span>“The <span>SLX Model</span>.”</span> <em>Journal of Regional Science</em> 55 (3): 339–63. <a href="https://doi.org/10.1111/jors.12188">https://doi.org/10.1111/jors.12188</a>.
+</div>
+<div id="ref-LeSage.2014" class="csl-entry" role="listitem">
+LeSage, James P. 2014. <span>“What <span>Regional Scientists Need</span> to <span>Know</span> about <span>Spatial Econometrics</span>.”</span> <em>The Review of Regional Studies</em> 44 (1): 13–32. https://doi.org/<a href="https://dx.doi.org/10.2139/ssrn.2420725">https://dx.doi.org/10.2139/ssrn.2420725</a>.
+</div>
+<div id="ref-LeSage.2009" class="csl-entry" role="listitem">
+LeSage, James P., and R. Kelley Pace. 2009. <em>Introduction to <span>Spatial Econometrics</span></em>. Statistics, <span>Textbooks</span> and <span>Monographs</span>. <span>Boca Raton</span>: <span>CRC Press</span>.
+</div>
+<div id="ref-Lovelace.2019" class="csl-entry" role="listitem">
+Lovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2019. <em>Geocomputation with <span>R</span></em>. 1st ed. Chapman &amp; <span>Hall</span>/<span>CRC</span> the <span>R</span> Series. <span>Boca Raton</span>: <span>Chapman &amp; Hall/CRC</span>.
+</div>
+<div id="ref-Pebesma.2018" class="csl-entry" role="listitem">
+Pebesma, Edzer. 2018. <span>“Simple Features for <span>R</span>: <span>Standardized</span> Support for Spatial Vector Data.”</span> <em>The R Journal</em> 10 (1): 439. <a href="https://doi.org/10.32614/RJ-2018-009">https://doi.org/10.32614/RJ-2018-009</a>.
+</div>
+<div id="ref-Pebesma.2023" class="csl-entry" role="listitem">
+Pebesma, Edzer, and Roger Bivand. 2023. <em>Spatial <span>Data Science</span>: <span>With Applications</span> in <span>R</span></em>. First. <span>Boca Raton</span>: <span>Chapman and Hall/CRC</span>. <a href="https://doi.org/10.1201/9780429459016">https://doi.org/10.1201/9780429459016</a>.
+</div>
+<div id="ref-Ruttenauer.2022a" class="csl-entry" role="listitem">
+Rüttenauer, Tobias. 2022. <span>“Spatial <span>Regression Models</span>: <span>A Systematic Comparison</span> of <span>Different Model Specifications Using Monte Carlo Experiments</span>.”</span> <em>Sociological Methods &amp; Research</em> 51 (2): 728–59. <a href="https://doi.org/10.1177/0049124119882467">https://doi.org/10.1177/0049124119882467</a>.
+</div>
+<div id="ref-Tennekes.2018" class="csl-entry" role="listitem">
+Tennekes, Martijn. 2018. <span>“Tmap : <span>Thematic Maps</span> in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 84 (6). <a href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>.
+</div>
+<div id="ref-Ward.2008" class="csl-entry" role="listitem">
+Ward, Michael Don, and Kristian Skrede Gleditsch. 2008. <em>Spatial <span>Regression Models</span></em>. Vol. 155. Quantitative <span>Applications</span> in the <span>Social Sciences</span>. <span>Thousand Oaks</span>: <span>Sage</span>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./01_refresher.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Refresher</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction {.unnumbered}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as survey data with contextual information, and to analyze spatial patterns and processes (e.g., spillover effects or diffusion).</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Many social science research questions are spatially dependent such as voting outcomes, housing prices, protest behavior, or migration decisions. Observing an event in one region or neighborhood increases the likelihood that we observe similar processes in proximate areas. As Tobler's first law of geography puts it: "Everything is related to everything else, but near things are more related than distant things". This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated while analyzing spatial data. Spatial regression models can be used to detect this spatial dependence and explicitly model spatial relations, identifying spatial spillovers or diffusion.</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyze spatial processes, and furthermore, the course addresses several methods for defining spatial relationships. Hereby, the detection and diagnostic of spatial dependence as well as autocorrelation are demonstrated. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>The field has develops very fast over since few years, and *R* now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in *R*, have a look into the materials references below.</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. <span class="co">[</span><span class="ot">Stefan Jünger</span><span class="co">](https://stefanjuenger.github.io/)</span> &amp; <span class="co">[</span><span class="ot">Anne-Kathrin Stroppe</span><span class="co">](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)</span> have provided a comprehensive <span class="co">[</span><span class="ot">GESIS workshop on geospatial techniques in R</span><span class="co">](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023)</span>. The focus of this workshop will be on tequchniques for spatial data analysis, such as spatial regression models.</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schedule</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>| Day 1         | Working with Spatial Data                 |</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>|---------------|-------------------------------------------|</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Refresher on R as GIS                     |</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                              |</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Spatial Data Manipulation &amp; Visualization |</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                               |</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Defining Spatial Relationships (W)        |</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                              |</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Detecting Spatial Dependence              |</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>| Day 2         | Spatial Regression Models I           |</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>|---------------|---------------------------------------|</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Spatial Regression Models: Theory     |</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                          |</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Estimating Spatial Regression Models  |</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                           |</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Interpreting Results: Spatial Impacts |</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                          |</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Lab Exercises in R                    |</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>| Day 3         | Spatial Regression Models II        |</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>|---------------|-------------------------------------|</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Comparing and Selecting Models      |</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                        |</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Spatiotemporal models               |</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                         |</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Other Models: GWR &amp; Binary Outcomes |</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                        |</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Lab Exercises in R                  |</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some useful packages</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>By now, *R* provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods <span class="co">[</span><span class="ot">see e.g. @Bivand.2021</span><span class="co">]</span>. Important packages for fundamental spatial operations are:</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial data workhorses: <span class="co">[</span><span class="ot">sf</span><span class="co">](https://cran.r-project.org/web/packages/sf/index.html)</span> <span class="co">[</span><span class="ot">@Pebesma.2018</span><span class="co">]</span> and <span class="co">[</span><span class="ot">terra</span><span class="co">](https://cran.r-project.org/web/packages/terra/index.html)</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Visualization: <span class="co">[</span><span class="ot">mapview</span><span class="co">](https://cran.r-project.org/web/packages/mapview/index.html)</span> <span class="co">[</span><span class="ot">@Appelhans.2021</span><span class="co">]</span> and <span class="co">[</span><span class="ot">tmap</span><span class="co">](https://cran.r-project.org/web/packages/tmap/index.html)</span> <span class="co">[</span><span class="ot">@Tennekes.2018</span><span class="co">]</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial weights and other relations: <span class="co">[</span><span class="ot">spdep</span><span class="co">](https://cran.r-project.org/web/packages/stars/index.html)</span> <span class="co">[</span><span class="ot">@Bivand.2018</span><span class="co">]</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial interpolation and kriging: <span class="co">[</span><span class="ot">gstat</span><span class="co">](https://cran.r-project.org/web/packages/gstat/index.html)</span> <span class="co">[</span><span class="ot">@Graler.2016</span><span class="co">]</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Spatial regression models: <span class="co">[</span><span class="ot">spatialreg</span><span class="co">](https://cran.r-project.org/web/packages/spatialreg/index.html)</span> and <span class="co">[</span><span class="ot">sphet</span><span class="co">](https://cran.r-project.org/web/packages/sphet/index.html)</span> <span class="co">[</span><span class="ot">@Bivand.2015</span><span class="co">]</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The packages have constantly developed over the past years, and older packages such as rgdal, rgeos, and sp are currently retiring (<span class="co">[</span><span class="ot">Blog post</span><span class="co">](https://geocompx.org/post/2023/rgdal-retirement/)</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Further Readings</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Great up-to-date introduction to spatial R: @Lovelace.2019, <span class="co">[</span><span class="ot">updated version available online</span><span class="co">](https://geocompr.robinlovelace.net/)</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Great open-science book on <span class="co">[</span><span class="ot">Spatial Data Science</span><span class="co">](https://www.r-spatial.org/book)</span> @Pebesma.2023</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Comprehensive introduction to spatial econometrics: @LeSage.2009</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Relative intuitive introduction to spatial econometrics: @Ward.2008</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Article-length introductions to spatial econometrics: @HalleckVega.2015, @LeSage.2014, and @Ruttenauer.2022a</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Course materials</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see <span class="co">[</span><span class="ot">Stefan Jünger</span><span class="co">](https://stefanjuenger.github.io/)</span> &amp; <span class="co">[</span><span class="ot">Anne-Kathrin Stroppe</span><span class="co">](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)</span>'s <span class="co">[</span><span class="ot">GESIS workshop materials</span><span class="co">](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023)</span>. Nice materials on GIS, spatial operations and spatial data visualisation!</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For those looking for a more in-depth introduction, I highly recommend Roger Bivand's course on Spatial Data Analysis: <span class="co">[</span><span class="ot">Youtube recordings</span><span class="co">](https://www.youtube.com/watch?v=KkIbg50Pa0I&amp;list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0)</span>, <span class="co">[</span><span class="ot">Course Materials</span><span class="co">](https://rsbivand.github.io/ECS530_h19/)</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>I've learned most of what I know about spatial econometrics from <span class="co">[</span><span class="ot">Scott J. Cook</span><span class="co">](http://www.scottjcook.net/)</span> and his workshop on Spatial Econometrics at the <span class="co">[</span><span class="ot">Essex Summer school</span><span class="co">](https://essexsummerschool.com/summer-school-facts/courses/ess-2023-course-list/)</span>.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Geodata &amp; Spatial Regression - References</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Geodata &amp; Spatial Regression</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Refresher</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_spatial-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Manipulation &amp; Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Spatial Relationships W</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_regression-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_regression-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_impacts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_spatiotemporal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">References</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Anselin.1988" class="csl-entry" role="listitem">
+Anselin, Luc. 1988. <em>Spatial <span>Econometrics</span>:
+<span>Methods</span> and <span>Models</span></em>. Studies in
+<span>Operational Regional Science</span>. <span>Dordrecht</span>:
+<span>Kluwer</span>.
+</div>
+<div id="ref-Anselin.1995" class="csl-entry" role="listitem">
+———. 1995. <span>“Local <span>Indicators</span> of <span>Spatial
+Association-LISA</span>.”</span> <em>Geographical Analysis</em> 27 (2):
+93–115. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x">https://doi.org/10.1111/j.1538-4632.1995.tb00338.x</a>.
+</div>
+<div id="ref-Anselin.2003" class="csl-entry" role="listitem">
+———. 2003. <span>“Spatial <span>Externalities</span>, <span>Spatial
+Multipliers</span>, and <span>Spatial Econometrics</span>.”</span>
+<em>International Regional Science Review</em> 26 (2): 153–66. <a href="https://doi.org/10.1177/0160017602250972">https://doi.org/10.1177/0160017602250972</a>.
+</div>
+<div id="ref-Anselin.1998" class="csl-entry" role="listitem">
+Anselin, Luc, and Anil K. Bera. 1998. <span>“Spatial
+<span>Dependence</span> in <span>Linear Regression Models</span> with an
+<span>Introduction</span> to <span>Spatial Econometrics</span>.”</span>
+In <em>Handbook of <span>Applied Economic Statistics</span></em>, edited
+by Aman Ullah and David E. A. Giles, 237–89. <span>New York</span>:
+<span>Dekker</span>.
+</div>
+<div id="ref-Anselin.1996" class="csl-entry" role="listitem">
+Anselin, Luc, Anil K. Bera, Raymond Florax, and Mann J. Yoon. 1996.
+<span>“Simple <span>Diagnostic Tests</span> for <span>Spatial
+Dependence</span>.”</span> <em>Regional Science and Urban Economics</em>
+26 (1): 77–104. <a href="https://doi.org/10.1016/0166-0462(95)02111-6">https://doi.org/10.1016/0166-0462(95)02111-6</a>.
+</div>
+<div id="ref-Beron.2004" class="csl-entry" role="listitem">
+Beron, Kurt J., and Wim P. M. Vijverberg. 2004. <span>“Probit in a
+<span>Spatial Context</span>: <span>A Monte Carlo
+Analysis</span>.”</span> In <em>Advances in <span>Spatial
+Econometrics</span>: <span>Methodology</span>, <span>Tools</span> and
+<span>Applications</span></em>, edited by Luc Anselin, Florax, Raymond
+J. G. M, and Sergio J. Rey, 169–95. <span>Berlin, Heidelberg</span>:
+<span>Springer Berlin Heidelberg</span>. <a href="https://doi.org/10.1007/978-3-662-05617-2‗ 8">https://doi.org/10.1007/978-3-662-05617-2‗
+8</a>.
+</div>
+<div id="ref-Betz.2020" class="csl-entry" role="listitem">
+Betz, Timm, Scott J. Cook, and Florian M. Hollenbach. 2020.
+<span>“Spatial Interdependence and Instrumental Variable Models.”</span>
+<em>Political Science Research and Methods</em> 8 (4): 646–61. <a href="https://doi.org/10.1017/psrm.2018.61">https://doi.org/10.1017/psrm.2018.61</a>.
+</div>
+<div id="ref-Bivand.2018" class="csl-entry" role="listitem">
+Bivand, Roger S., and Colin Rudel. 2018. <span>“Rgeos:
+<span>Interface</span> to <span>Geometry Engine</span> - <span>Open
+Source</span> (’<span>GEOS</span>’).”</span>
+</div>
+<div id="ref-Bivand.2021" class="csl-entry" role="listitem">
+Bivand, Roger, Giovanni Millo, and Gianfranco Piras. 2021. <span>“A
+<span>Review</span> of <span>Software</span> for <span>Spatial
+Econometrics</span> in <span>R</span>.”</span> <em>Mathematics</em> 9
+(11): 1276. <a href="https://doi.org/10.3390/math9111276">https://doi.org/10.3390/math9111276</a>.
+</div>
+<div id="ref-Bivand.2018a" class="csl-entry" role="listitem">
+Bivand, Roger, and David W. S. Wong. 2018. <span>“Comparing
+Implementations of Global and Local Indicators of Spatial
+Association.”</span> <em>TEST</em> 27 (3): 716–48. <a href="https://doi.org/10.1007/s11749-018-0599-x">https://doi.org/10.1007/s11749-018-0599-x</a>.
+</div>
+<div id="ref-Brunsdon.1996" class="csl-entry" role="listitem">
+Brunsdon, Chris, A. Stewart Fotheringham, and Martin E. Charlton. 1996.
+<span>“Geographically <span>Weighted Regression</span>: <span>A
+Method</span> for <span>Exploring Spatial
+Nonstationarity</span>.”</span> <em>Geographical Analysis</em> 28 (4):
+281–98. <a href="https://doi.org/10.1111/j.1538-4632.1996.tb00936.x">https://doi.org/10.1111/j.1538-4632.1996.tb00936.x</a>.
+</div>
+<div id="ref-Cliff.1972" class="csl-entry" role="listitem">
+Cliff, Andrew, and Keith Ord. 1972. <span>“Testing for <span>Spatial
+Autocorrelation Among Regression Residuals</span>.”</span>
+<em>Geographical Analysis</em> 4 (3): 267–84. <a href="https://doi.org/10.1111/j.1538-4632.1972.tb00475.x">https://doi.org/10.1111/j.1538-4632.1972.tb00475.x</a>.
+</div>
+<div id="ref-Cook.2020" class="csl-entry" role="listitem">
+Cook, Scott J., Jude C. Hays, and Robert J. Franzese. 2020. <span>“Model
+<span>Specification</span> and <span>Spatial
+Interdependence</span>.”</span> In <em>The <span>Sage</span> Handbook of
+Research Methods in Political Science and International Relations</em>,
+edited by Luigi Curini and Robert Franzese, 1st ed, 730–47.
+<span>Thousand Oaks</span>: <span>SAGE Inc</span>.
+</div>
+<div id="ref-Drukker.2013" class="csl-entry" role="listitem">
+Drukker, David M., Peter Egger, and Ingmar R. Prucha. 2013. <span>“On
+<span>Two-Step Estimation</span> of a <span>Spatial Autoregressive
+Model</span> with <span>Autoregressive Disturbances</span> and
+<span>Endogenous Regressors</span>.”</span> <em>Econometric Reviews</em>
+32 (5-6): 686–733. <a href="https://doi.org/10.1080/07474938.2013.741020">https://doi.org/10.1080/07474938.2013.741020</a>.
+</div>
+<div id="ref-Franzese.2007" class="csl-entry" role="listitem">
+Franzese, Robert J., and Jude C. Hays. 2007. <span>“Spatial
+<span>Econometric Models</span> of <span>Cross-Sectional
+Interdependence</span> in <span>Political Science Panel</span> and
+<span>Time-Series-Cross-Section Data</span>.”</span> <em>Political
+Analysis</em> 15 (2): 140–64. <a href="https://doi.org/10.1093/pan/mpm005">https://doi.org/10.1093/pan/mpm005</a>.
+</div>
+<div id="ref-Franzese.2016" class="csl-entry" role="listitem">
+Franzese, Robert J., Jude C. Hays, and Scott J. Cook. 2016.
+<span>“Spatial- and <span>Spatiotemporal-Autoregressive Probit
+Models</span> of <span>Interdependent Binary Outcomes</span>.”</span>
+<em>Political Science Research and Methods</em> 4 (01): 151–73. <a href="https://doi.org/10.1017/psrm.2015.14">https://doi.org/10.1017/psrm.2015.14</a>.
+</div>
+<div id="ref-Gibbons.2012" class="csl-entry" role="listitem">
+Gibbons, Steve, and Henry G. Overman. 2012. <span>“Mostly
+<span>Pointless Spatial Econometrics</span>?”</span> <em>Journal of
+Regional Science</em> 52 (2): 172–91. <a href="https://doi.org/10.1111/j.1467-9787.2012.00760.x">https://doi.org/10.1111/j.1467-9787.2012.00760.x</a>.
+</div>
+<div id="ref-Gollini.2015" class="csl-entry" role="listitem">
+Gollini, Isabella, Binbin Lu, Martin Charlton, Christopher Brunsdon, and
+Paul Harris. 2015. <span>“<span>GWmodel</span> : <span>An R
+Package</span> for <span>Exploring Spatial Heterogeneity Using
+Geographically Weighted Models</span>.”</span> <em>Journal of
+Statistical Software</em> 63 (17). <a href="https://doi.org/10.18637/jss.v063.i17">https://doi.org/10.18637/jss.v063.i17</a>.
+</div>
+<div id="ref-HalleckVega.2015" class="csl-entry" role="listitem">
+Halleck Vega, Solmaria, and J. Paul Elhorst. 2015. <span>“The <span>SLX
+Model</span>.”</span> <em>Journal of Regional Science</em> 55 (3):
+339–63. <a href="https://doi.org/10.1111/jors.12188">https://doi.org/10.1111/jors.12188</a>.
+</div>
+<div id="ref-Kelejian.2017" class="csl-entry" role="listitem">
+Kelejian, Harry H., and Gianfranco Piras. 2017. <em>Spatial
+<span>Econometrics</span></em>. <span>Elsevier</span>. <a href="https://doi.org/10.1016/C2016-0-04332-2">https://doi.org/10.1016/C2016-0-04332-2</a>.
+</div>
+<div id="ref-Kelejian.1998" class="csl-entry" role="listitem">
+Kelejian, Harry H., and Ingmar R. Prucha. 1998. <span>“A
+<span>Generalized Spatial Two-Stage Least Squares Procedure</span> for
+<span>Estimating</span> a <span>Spatial Autoregressive Model</span> with
+<span>Autoregressive Disturbances</span>.”</span> <em>The Journal of
+Real Estate Finance and Economics</em> 17 (1): 99–121. <a href="https://doi.org/10.1023/A:1007707430416">https://doi.org/10.1023/A:1007707430416</a>.
+</div>
+<div id="ref-Kelejian.1999" class="csl-entry" role="listitem">
+———. 1999. <span>“A <span>Generalized Moments Estimator</span> for the
+<span>Autoregressive Parameter</span> in a <span>Spatial
+Model</span>.”</span> <em>International Economic Review</em> 40 (2):
+509–33. <a href="https://doi.org/10.1111/1468-2354.00027">https://doi.org/10.1111/1468-2354.00027</a>.
+</div>
+<div id="ref-Kelejian.2010" class="csl-entry" role="listitem">
+———. 2010. <span>“Specification and <span>Estimation</span> of
+<span>Spatial Autoregressive Models</span> with
+<span>Autoregressive</span> and <span>Heteroskedastic
+Disturbances</span>.”</span> <em>Journal of Econometrics</em> 157 (1):
+53–67. <a href="https://doi.org/10.1016/j.jeconom.2009.10.025">https://doi.org/10.1016/j.jeconom.2009.10.025</a>.
+</div>
+<div id="ref-Kelejian.2004" class="csl-entry" role="listitem">
+Kelejian, Harry H., Ingmar R. Prucha, and Yevgeny Yuzefovich. 2004.
+<span>“Instrumental <span>Variable Estimation</span> of a <span>Spatial
+Autoregressive Model</span> with <span>Autoregressive
+Disturbances</span>: <span>Large</span> and <span>Small Sample
+Results</span>.”</span> In <em>Spatial and <span>Spatiotemporal
+Econometrics</span></em>, edited by James P. LeSage and R. Kelley Pace,
+163–98. Advances in <span>Econometrics</span>. <span>Amsterdam and
+Boston</span>: <span>Elsevier</span>.
+</div>
+<div id="ref-Klier.2008" class="csl-entry" role="listitem">
+Klier, Thomas, and Daniel P. McMillen. 2008. <span>“Clustering of
+<span>Auto Supplier Plants</span> in the <span>United States</span>:
+<span>Generalized Method</span> of <span>Moments Spatial Logit</span>
+for <span>Large Samples</span>.”</span> <em>Journal of Business &amp;
+Economic Statistics</em> 26 (4): 460–71.
+</div>
+<div id="ref-Lacombe.2018" class="csl-entry" role="listitem">
+Lacombe, Donald J., and James P. LeSage. 2018. <span>“Use and
+Interpretation of Spatial Autoregressive Probit Models.”</span> <em>The
+Annals of Regional Science</em> 60 (1): 1–24. <a href="https://doi.org/10.1007/s00168-015-0705-x">https://doi.org/10.1007/s00168-015-0705-x</a>.
+</div>
+<div id="ref-Lee.2004" class="csl-entry" role="listitem">
+Lee, Lung-fei. 2004. <span>“Asymptotic <span>Distributions</span> of
+<span>Quasi-Maximum Likelihood Estimators</span> for <span>Spatial
+Autoregressive Models</span>.”</span> <em>Econometrica</em> 72 (6):
+1899–1925.
+</div>
+<div id="ref-LeSage.2014" class="csl-entry" role="listitem">
+LeSage, James P. 2014. <span>“What <span>Regional Scientists Need</span>
+to <span>Know</span> about <span>Spatial Econometrics</span>.”</span>
+<em>The Review of Regional Studies</em> 44 (1): 13–32.
+https://doi.org/<a href="https://dx.doi.org/10.2139/ssrn.2420725">https://dx.doi.org/10.2139/ssrn.2420725</a>.
+</div>
+<div id="ref-LeSage.2009" class="csl-entry" role="listitem">
+LeSage, James P., and R. Kelley Pace. 2009. <em>Introduction to
+<span>Spatial Econometrics</span></em>. Statistics,
+<span>Textbooks</span> and <span>Monographs</span>. <span>Boca
+Raton</span>: <span>CRC Press</span>.
+</div>
+<div id="ref-LeSage.2014a" class="csl-entry" role="listitem">
+———. 2014. <span>“The <span>Biggest Myth</span> in <span>Spatial
+Econometrics</span>.”</span> <em>Econometrics</em> 2 (4): 217–49. <a href="https://doi.org/10.3390/econometrics2040217">https://doi.org/10.3390/econometrics2040217</a>.
+</div>
+<div id="ref-Lovelace.2019" class="csl-entry" role="listitem">
+Lovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2019.
+<em>Geocomputation with <span>R</span></em>. 1st ed. Chapman &amp;
+<span>Hall</span>/<span>CRC</span> the <span>R</span> Series. <span>Boca
+Raton</span>: <span>Chapman &amp; Hall/CRC</span>.
+</div>
+<div id="ref-McMillen.1992" class="csl-entry" role="listitem">
+McMillen, Daniel P. 1992. <span>“Probit with <span>Spatial
+Autocorrelation</span>.”</span> <em>Journal of Regional Science</em> 32
+(3): 335–48. <a href="https://doi.org/10.1111/j.1467-9787.1992.tb00190.x">https://doi.org/10.1111/j.1467-9787.1992.tb00190.x</a>.
+</div>
+<div id="ref-Moran.1950" class="csl-entry" role="listitem">
+Moran, P. A. P. 1950. <span>“Notes on <span>Continuous Stochastic
+Phenomena</span>.”</span> <em>Biometrika</em> 37 (1/2): 17. <a href="https://doi.org/10.2307/2332142">https://doi.org/10.2307/2332142</a>.
+</div>
+<div id="ref-Neumayer.2016" class="csl-entry" role="listitem">
+Neumayer, Eric, and Thomas Plümper. 2016. <span>“W.”</span>
+<em>Political Science Research and Methods</em> 4 (01): 175–93. <a href="https://doi.org/10.1017/psrm.2014.40">https://doi.org/10.1017/psrm.2014.40</a>.
+</div>
+<div id="ref-Ord.1975" class="csl-entry" role="listitem">
+Ord, John Keith. 1975. <span>“Estimation <span>Methods</span> for
+<span>Models</span> of <span>Spatial Interaction</span>.”</span>
+<em>Journal of the American Statistical Association</em> 70 (349):
+120–26. <a href="https://doi.org/10.2307/2285387">https://doi.org/10.2307/2285387</a>.
+</div>
+<div id="ref-Pace.2010" class="csl-entry" role="listitem">
+Pace, R. Kelley, and James P. LeSage. 2010. <span>“Omitted
+<span>Variable Biases</span> of <span>OLS</span> and <span>Spatial Lag
+Models</span>.”</span> In <em>Progress in <span>Spatial
+Analysis</span></em>, edited by Antonio Páez, Julie Gallo, Ron N.
+Buliung, and Sandy Dall’erba, 17–28. <span>Berlin and Heidelberg</span>:
+<span>Springer</span>.
+</div>
+<div id="ref-Pebesma.2023" class="csl-entry" role="listitem">
+Pebesma, Edzer, and Roger Bivand. 2023. <em>Spatial <span>Data
+Science</span>: <span>With Applications</span> in <span>R</span></em>.
+First. <span>Boca Raton</span>: <span>Chapman and Hall/CRC</span>. <a href="https://doi.org/10.1201/9780429459016">https://doi.org/10.1201/9780429459016</a>.
+</div>
+<div id="ref-Ruttenauer.2022a" class="csl-entry" role="listitem">
+Rüttenauer, Tobias. 2022. <span>“Spatial <span>Regression Models</span>:
+<span>A Systematic Comparison</span> of <span>Different Model
+Specifications Using Monte Carlo Experiments</span>.”</span>
+<em>Sociological Methods &amp; Research</em> 51 (2): 728–59. <a href="https://doi.org/10.1177/0049124119882467">https://doi.org/10.1177/0049124119882467</a>.
+</div>
+<div id="ref-Sarrias.2023" class="csl-entry" role="listitem">
+Sarrias, Mauricio. 2023. <em>Intermediate <span>Spatial
+Econometrics</span> with <span>Applications</span> in
+<span>R</span></em>.
+</div>
+<div id="ref-Tobler.1970" class="csl-entry" role="listitem">
+Tobler, Waldo R. 1970. <span>“A <span>Computer Movie Simulating Urban
+Growth</span> in the <span>Detroit Region</span>.”</span> <em>Economic
+Geography</em> 46: 234–40. <a href="https://doi.org/10.2307/143141">https://doi.org/10.2307/143141</a>.
+</div>
+<div id="ref-Wimpy.2021" class="csl-entry" role="listitem">
+Wimpy, Cameron, Guy D. Whitten, and Laron K. Williams. 2021. <span>“X
+<span>Marks</span> the <span>Spot</span>: <span>Unlocking</span> the
+<span>Treasure</span> of <span>Spatial-X Models</span>.”</span> <em>The
+Journal of Politics</em> 83 (2): 722–39. <a href="https://doi.org/10.1086/710089">https://doi.org/10.1086/710089</a>.
+</div>
+<div id="ref-Wooldridge.2010" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2010. <em>Econometric <span>Analysis</span> of
+<span>Cross Section</span> and <span>Panel Data</span></em>.
+<span>Cambridge, Mass.</span>: <span>MIT Press</span>.
+</div>
+</div>
+
+
+<!-- -->
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./summary.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># References {.unnumbered}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

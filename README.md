@@ -5,7 +5,7 @@ This is a workshop on spatial data preparation and spatial data analysis.
 
 ---
 
-[Slides](https://ruettenauer.github.io/SICSS-Spatial2022/index.html)
+[Slides](https://ruettenauer.github.io/Geodata_Spatial_Regression/)
 
 ---
 

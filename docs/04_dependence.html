@@ -207,7 +207,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -256,9 +256,9 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages"><span class="header-section-number">4.0.1</span> Required packages</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">4.0.2</span> Session info</a></li>
-  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session"><span class="header-section-number">4.0.3</span> Reload data from pervious session</a></li>
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session">Reload data from pervious session</a></li>
   <li><a href="#global-autocorrelation" id="toc-global-autocorrelation" class="nav-link" data-scroll-target="#global-autocorrelation"><span class="header-section-number">4.1</span> Global Autocorrelation</a>
   <ul class="collapse">
   <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">4.1.1</span> Visualization</a></li>
@@ -292,15 +292,15 @@ div.csl-indent {
 
 </header>
 
-<section id="required-packages" class="level3" data-number="4.0.1">
-<h3 data-number="4.0.1" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">4.0.1</span> Required packages</h3>
+<section id="required-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"gstat"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="session-info" class="level3" data-number="4.0.2">
-<h3 data-number="4.0.2" class="anchored" data-anchor-id="session-info"><span class="header-section-number">4.0.2</span> Session info</h3>
+<section id="session-info" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -361,8 +361,8 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </section>
-<section id="reload-data-from-pervious-session" class="level3" data-number="4.0.3">
-<h3 data-number="4.0.3" class="anchored" data-anchor-id="reload-data-from-pervious-session"><span class="header-section-number">4.0.3</span> Reload data from pervious session</h3>
+<section id="reload-data-from-pervious-session" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1117,7 +1117,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Detecting Spatial Dependence</span></span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
 <span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
 <span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"gstat"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
@@ -1125,21 +1125,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
 <span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session</span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
 <span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
 <span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global Autocorrelation</span></span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global Autocorrelation </span></span>
 <span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a>If spatially close observations are more likely to exhibit similar values, we cannot handle observations as if they were independent.</span>
 <span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a></span>

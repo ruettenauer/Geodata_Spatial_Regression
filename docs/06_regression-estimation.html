@@ -207,7 +207,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -256,9 +256,9 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages"><span class="header-section-number">6.0.1</span> Required packages</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">6.0.2</span> Session info</a></li>
-  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session"><span class="header-section-number">6.0.3</span> Reload data from pervious session</a></li>
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session">Reload data from pervious session</a></li>
   <li><a href="#simulataneity-bias" id="toc-simulataneity-bias" class="nav-link" data-scroll-target="#simulataneity-bias"><span class="header-section-number">6.1</span> Simulataneity bias</a></li>
   <li><a href="#instrumental-variable" id="toc-instrumental-variable" class="nav-link" data-scroll-target="#instrumental-variable"><span class="header-section-number">6.2</span> Instrumental variable</a></li>
   <li><a href="#generalized-method-of-moments" id="toc-generalized-method-of-moments" class="nav-link" data-scroll-target="#generalized-method-of-moments"><span class="header-section-number">6.3</span> Generalized Method of Moments</a></li>
@@ -291,15 +291,15 @@ div.csl-indent {
 </header>
 
 <p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
-<section id="required-packages" class="level3" data-number="6.0.1">
-<h3 data-number="6.0.1" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">6.0.1</span> Required packages</h3>
+<section id="required-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="session-info" class="level3" data-number="6.0.2">
-<h3 data-number="6.0.2" class="anchored" data-anchor-id="session-info"><span class="header-section-number">6.0.2</span> Session info</h3>
+<section id="session-info" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -359,8 +359,8 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </section>
-<section id="reload-data-from-pervious-session" class="level3" data-number="6.0.3">
-<h3 data-number="6.0.3" class="anchored" data-anchor-id="reload-data-from-pervious-session"><span class="header-section-number">6.0.3</span> Reload data from pervious session</h3>
+<section id="reload-data-from-pervious-session" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1136,7 +1136,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>This section is strongly based on @Sarrias.2023, despite being much less detailed then the original.</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
@@ -1144,14 +1144,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
 <span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>

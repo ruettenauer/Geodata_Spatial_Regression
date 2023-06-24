@@ -207,7 +207,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -256,12 +256,22 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages"><span class="header-section-number">9.0.1</span> Required packages</a></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">9.0.2</span> Session info</a></li>
-  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session"><span class="header-section-number">9.0.3</span> Reload data from pervious session</a></li>
-  <li><a href="#general-to-specific-approach" id="toc-general-to-specific-approach" class="nav-link" data-scroll-target="#general-to-specific-approach"><span class="header-section-number">9.1</span> General-to-specific approach</a></li>
-  <li><a href="#specific-to-general" id="toc-specific-to-general" class="nav-link" data-scroll-target="#specific-to-general"><span class="header-section-number">9.2</span> Specific-to-general</a></li>
-  <li><a href="#monte-carlo-simulation" id="toc-monte-carlo-simulation" class="nav-link" data-scroll-target="#monte-carlo-simulation"><span class="header-section-number">9.3</span> Monte Carlo simulation</a></li>
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session">Reload data from pervious session</a></li>
+  <li><a href="#specific-to-general" id="toc-specific-to-general" class="nav-link" data-scroll-target="#specific-to-general"><span class="header-section-number">9.1</span> Specific-to-general</a>
+  <ul class="collapse">
+  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem"><span class="header-section-number">9.1.1</span> Problem</a></li>
+  </ul></li>
+  <li><a href="#general-to-specific-approach" id="toc-general-to-specific-approach" class="nav-link" data-scroll-target="#general-to-specific-approach"><span class="header-section-number">9.2</span> General-to-specific approach</a></li>
+  <li><a href="#general-advice" id="toc-general-advice" class="nav-link" data-scroll-target="#general-advice"><span class="header-section-number">9.3</span> General advice?</a></li>
+  <li><a href="#design-and-theory" id="toc-design-and-theory" class="nav-link" data-scroll-target="#design-and-theory"><span class="header-section-number">9.4</span> Design and Theory</a></li>
+  <li><a href="#monte-carlo-simulation" id="toc-monte-carlo-simulation" class="nav-link" data-scroll-target="#monte-carlo-simulation"><span class="header-section-number">9.5</span> Monte Carlo simulation</a>
+  <ul class="collapse">
+  <li><a href="#without-omitted-variable-bias" id="toc-without-omitted-variable-bias" class="nav-link" data-scroll-target="#without-omitted-variable-bias"><span class="header-section-number">9.5.1</span> Without omitted variable bias</a></li>
+  <li><a href="#with-omitted-variable-bias" id="toc-with-omitted-variable-bias" class="nav-link" data-scroll-target="#with-omitted-variable-bias"><span class="header-section-number">9.5.2</span> With omitted variable bias</a></li>
+  <li><a href="#indirect-impacts-if-dgp-gns" id="toc-indirect-impacts-if-dgp-gns" class="nav-link" data-scroll-target="#indirect-impacts-if-dgp-gns"><span class="header-section-number">9.5.3</span> Indirect impacts if DGP = GNS</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -285,15 +295,15 @@ div.csl-indent {
 
 </header>
 
-<section id="required-packages" class="level3" data-number="9.0.1">
-<h3 data-number="9.0.1" class="anchored" data-anchor-id="required-packages"><span class="header-section-number">9.0.1</span> Required packages</h3>
+<section id="required-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="session-info" class="level3" data-number="9.0.2">
-<h3 data-number="9.0.2" class="anchored" data-anchor-id="session-info"><span class="header-section-number">9.0.2</span> Session info</h3>
+<section id="session-info" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -353,23 +363,18 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </section>
-<section id="reload-data-from-pervious-session" class="level3" data-number="9.0.3">
-<h3 data-number="9.0.3" class="anchored" data-anchor-id="reload-data-from-pervious-session"><span class="header-section-number">9.0.3</span> Reload data from pervious session</h3>
+<section id="reload-data-from-pervious-session" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>As we have seen, a variety of spatial model specifications exist that can be used to account for the spatial structure of the data. Thus, selecting the correct model specification remains a crucial task in applied research.</p>
+<p>One way of selecting the model specification is the application of empirical specification tests. In general, there are two different strategies: a specific-to-general or a general-to-specific approach <span class="citation" data-cites="Florax.2003 Mur.2009">(<a href="references.html#ref-Florax.2003" role="doc-biblioref">Florax, Folmer, and Rey 2003</a>; <a href="references.html#ref-Mur.2009" role="doc-biblioref">Mur and Angulo 2009</a>)</span>.</p>
 </section>
-<section id="general-to-specific-approach" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="general-to-specific-approach"><span class="header-section-number">9.1</span> General-to-specific approach</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="fig/Vega.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption"><span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>: Nesting of different Spatial Econometric Model Specifications</figcaption>
-</figure>
-</div>
-</section>
-<section id="specific-to-general" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="specific-to-general"><span class="header-section-number">9.2</span> Specific-to-general</h2>
+<section id="specific-to-general" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="specific-to-general"><span class="header-section-number">9.1</span> Specific-to-general</h2>
+<p>The specific-to-general approach is more common in spatial econometrics. This approach starts with the most basic non-spatial model and tests for possible misspecifications due to omitted autocorrelation in the error term or the dependent variable.</p>
+<p><span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span> proposed to use Lagrange multiplier (LM) tests for the hypotheses <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\lambda=0\)</span> and <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\rho=0\)</span>, which are robust against the alternative source of spatial dependence.</p>
 <p>###Lagrange Multiplier Test</p>
 <p>We have earlier talked about methods to detect auto-correlation – visualisation and Moran’s I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:</p>
 <ul>
@@ -377,12 +382,11 @@ loaded via a namespace (and not attached):
 <li>Clustering on unobservables (<span class="math inline">\(\lambda\)</span>)</li>
 <li>Spillovers in covariates (<span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span>)</li>
 </ul>
-<p>Lagrange Multiplier test:</p>
+<p>Lagrange Multiplier test <span class="citation" data-cites="Anselin.1996">(<a href="references.html#ref-Anselin.1996" role="doc-biblioref">Anselin et al. 1996</a>)</span>:</p>
 <ul>
 <li><p>(Robust) test for spatial lag dependence <span class="math inline">\(LM_\rho^*\)</span></p></li>
 <li><p>(Robust) test for spatial error dependence <span class="math inline">\(LM_\lambda^*\)</span></p></li>
 </ul>
-<p><span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span></p>
 <p>Robust test for lag dependence: <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\rho=0\)</span> <span class="math display">\[
         LM_\rho^* = G^{-1} \hat{\sigma}_\epsilon^2
         \big(\frac{ \hat{\boldsymbol{\mathbf{\epsilon}}}^\intercal \boldsymbol{\mathbf{Wy}}}{\hat{\sigma}_\epsilon^2}
@@ -397,28 +401,201 @@ loaded via a namespace (and not attached):
         }{
         T[1 - \frac{\hat{\sigma}_\epsilon^2}{G + \hat{\sigma}_\epsilon^2}]
         } \sim \chi^2
-\]</span></p>
-<p><span class="math display">\[
-        \text{where } G = (\boldsymbol{\mathbf{WX\hat{\beta}}})^\intercal (\boldsymbol{\mathbf{I}} - \boldsymbol{\mathbf{X}} (\boldsymbol{\mathbf{X}}^\intercal\boldsymbol{\mathbf{X}})^{-1} \boldsymbol{\mathbf{X}}^\intercal) (\boldsymbol{\mathbf{WX\hat{\beta}}})   \]</span></p>
-<p><span class="math display">\[      
-        \text{and } T = \mathrm{tr}[(\boldsymbol{\mathbf{W}}^\intercal + \boldsymbol{\mathbf{W}})\boldsymbol{\mathbf{W}}]
-\]</span></p>
-<p><span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span></p>
+\]</span> with <span class="math display">\[
+\begin{split}
+     G &amp;= (\boldsymbol{\mathbf{WX\hat{\beta}}})^\intercal (\boldsymbol{\mathbf{I}} - \boldsymbol{\mathbf{X}} (\boldsymbol{\mathbf{X}}^\intercal\boldsymbol{\mathbf{X}})^{-1} \boldsymbol{\mathbf{X}}^\intercal) (\boldsymbol{\mathbf{WX\hat{\beta}}})   \\
+     T &amp;= \mathrm{tr}[(\boldsymbol{\mathbf{W}}^\intercal + \boldsymbol{\mathbf{W}})\boldsymbol{\mathbf{W}}],
+\end{split}     
+\]</span> where <span class="math inline">\(\mathrm{tr}(\boldsymbol{\mathbf{A}})\)</span> is the sum of the main diagonal of any square matrix <span class="math inline">\(\boldsymbol{\mathbf{A}}\)</span>.</p>
+<section id="problem" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="problem"><span class="header-section-number">9.1.1</span> Problem</h3>
+<p>The specific-to-general approach based on the robust LM test offers a good performance in distinguishing between SAR, SEM, and non-spatial OLS <span class="citation" data-cites="Florax.2003">(<a href="references.html#ref-Florax.2003" role="doc-biblioref">Florax, Folmer, and Rey 2003</a>)</span>.</p>
+<p>Still, in their original paper, <span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span> already note the declining power of the robust LM<span class="math inline">\(_\lambda\)</span> test for spatial error dependence with increasing autocorrelation in the dependent variable (indicating some uncertainty under a SAC-like DGP).</p>
+<p><span class="citation" data-cites="Mur.2009">Mur and Angulo (<a href="references.html#ref-Mur.2009" role="doc-biblioref">2009</a>)</span> demonstrate strong drawbacks of the specific-to-general approach under non-optimal conditions like heteroscedasticity or endogeneity.</p>
+<p>Moreover, the test disregard the presence of spatial dependence from local spillover effects (<span class="math inline">\(\theta\)</span> is assumed to be zero), as resulting from an SLX-like process. <span class="citation" data-cites="Cook.2020">Cook, Hays, and Franzese (<a href="references.html#ref-Cook.2020" role="doc-biblioref">2020</a>)</span>, for instance, show theoretically that an SLX-like dependence structure leads to the rejection of both hypotheses <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\lambda=0\)</span> and <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\rho=0\)</span>, though no autocorrelation is present <span class="citation" data-cites="Elhorst.2017 Ruttenauer.2022a">(<a href="references.html#ref-Elhorst.2017" role="doc-biblioref">Elhorst and Halleck Vega 2017</a>; <a href="references.html#ref-Ruttenauer.2022a" role="doc-biblioref">Rüttenauer 2022</a>)</span>.</p>
 </section>
-<section id="monte-carlo-simulation" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="monte-carlo-simulation"><span class="header-section-number">9.3</span> Monte Carlo simulation</h2>
+</section>
+<section id="general-to-specific-approach" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="general-to-specific-approach"><span class="header-section-number">9.2</span> General-to-specific approach</h2>
+<p>The general-to-specific approach depicts the opposite method of specification search. This approach starts with the most general model and stepwise imposes restrictions on the parameters of this general model.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/Vega.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>: Nesting of different Spatial Econometric Model Specifications</figcaption>
+</figure>
+</div>
+<p>In theory, we would</p>
+<ol type="1">
+<li><p>start with a GNS specification and</p></li>
+<li><p>subsequently restrict the model to simplified specifications based on the significance of parameters in the GNS.</p></li>
+</ol>
+<p>The problem with this strategy is that the GNS is only weakly identified and, thus, is of little help in selecting the correct restrictions .</p>
+<p>The most intuitive alternative would be to start with one of the two-source models SDM, SDEM, or SAC. This, however, bears the risk of imposing the wrong restriction in the first place <span class="citation" data-cites="Cook.2020">(<a href="references.html#ref-Cook.2020" role="doc-biblioref">Cook, Hays, and Franzese 2020</a>)</span>. Furthermore, <span class="citation" data-cites="Cook.2020">Cook, Hays, and Franzese (<a href="references.html#ref-Cook.2020" role="doc-biblioref">2020</a>)</span> show that more complicated restrictions are necessary to derive all single-source models from SDEM or SAC specifications.</p>
+</section>
+<section id="general-advice" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="general-advice"><span class="header-section-number">9.3</span> General advice?</h2>
+<p><span class="citation" data-cites="LeSage.2009">LeSage and Pace (<a href="references.html#ref-LeSage.2009" role="doc-biblioref">2009</a>)</span>, <span class="citation" data-cites="LeSage.2014">LeSage (<a href="references.html#ref-LeSage.2014" role="doc-biblioref">2014</a>)</span>, <span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> argue that there are strong analytical reasons to restrict the model specifications to a subset, as the SDM subsumes the SLX and SAR model, and the SDEM subsumes SLX and SEM.</p>
+<p>It is easily observed that SDM reduces to SLX if <span class="math inline">\(\rho=0\)</span> and to SAR if <span class="math inline">\({\boldsymbol{\mathbf{\theta}}}=0\)</span>, while the SDEM reduces to SLX if <span class="math inline">\(\lambda=0\)</span> and to SEM if <span class="math inline">\({\boldsymbol{\mathbf{\theta}}}=0\)</span>. Less intuitively, <span class="citation" data-cites="Anselin.1988">(<a href="references.html#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>)</span> has also shown that the SDM subsumes the SEM. Therefore, we can express the reduced form and rearrange terms:</p>
+<p><span class="math display">\[
+\begin{split}
+{\boldsymbol{\mathbf{y}}}&amp;= {\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} + ({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\varepsilon}}} \\
+({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}}){\boldsymbol{\mathbf{y}}}&amp;= ({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}}){\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} + {\boldsymbol{\mathbf{\varepsilon}}} \\
+({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}}){\boldsymbol{\mathbf{y}}}&amp;={\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} -\lambda{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} + {\boldsymbol{\mathbf{\varepsilon}}} \\
+{\boldsymbol{\mathbf{y}}}&amp;=({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}})^{-1}({\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} + {\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\theta}}} + {\boldsymbol{\mathbf{\varepsilon}}}).
+\end{split}
+\]</span></p>
+<p>Thus, the SEM constitutes a special case of an SDM with the relative simple restriction <span class="math inline">\({\boldsymbol{\mathbf{\theta}}}=-\lambda{\boldsymbol{\mathbf{\beta}}}\)</span>, meaning direct and indirect effects are constrained to a common factor <span class="citation" data-cites="Anselin.1988 Anselin.2003">(<a href="references.html#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>, <a href="references.html#ref-Anselin.2003" role="doc-biblioref">2003</a>)</span>.</p>
+<p>The fact that SDM subsumes SAR, SLX, and SEM leads to the conclusion that applied research should only consider SDM and SDEM as model specifications <span class="citation" data-cites="LeSage.2014">(<a href="references.html#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>. Especially in the case of a likely omitted variable bias, <span class="citation" data-cites="LeSage.2009">(<a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009, ~68</a>)</span> argue in favour of using the SDM.</p>
+<p>Nonetheless, others propose to use the SLX specification as point of departure <span class="citation" data-cites="Gibbons.2012 HalleckVega.2015">(<a href="references.html#ref-Gibbons.2012" role="doc-biblioref">Gibbons and Overman 2012</a>; <a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>)</span>. First, scholars have argued that SAC and SDM models are only weakly identified in practice <span class="citation" data-cites="Gibbons.2012 Pinkse.2010">(<a href="references.html#ref-Gibbons.2012" role="doc-biblioref">Gibbons and Overman 2012</a>; <a href="references.html#ref-Pinkse.2010" role="doc-biblioref">Pinkse and Slade 2010</a>)</span>. Second, the global spillover specification in SAR, SAC, and SDM often seems to be theoretically implausible.</p>
+<p>And finally:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/wooldridge_tweet.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">“I will use spatial lags of X, not spatial lags of Y”, J. <a href="https://twitter.com/jmwooldridge/status/1369460526770753537">Wooldridge on twitter</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="design-and-theory" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="design-and-theory"><span class="header-section-number">9.4</span> Design and Theory</h2>
+<p>Some argue that the best way of choosing the appropriate model specification is to exclude one or more sources of spatial dependence – autocorrelation in the dependent variable, autocorrelation in the disturbances, or spatial spillover effects of the covariates – by design <span class="citation" data-cites="Gibbons.2012">Gibbons, Overman, and Patacchini (<a href="references.html#ref-Gibbons.2015" role="doc-biblioref">2015</a>)</span>.</p>
+<p><strong>Natural experiments</strong> are probably the best way of making one or more sources of spatial dependence unlikely, thereby restricting the model alternatives to a subset of all available models. However, the opportunities to use natural experiments are restricted in social sciences, making it a favourable but often impractical way of model selection.</p>
+<p><span class="citation" data-cites="Cook.2020">Cook, Hays, and Franzese (<a href="references.html#ref-Cook.2020" role="doc-biblioref">2020</a>)</span> and <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span> argue that theoretical considerations should guide the model selection.</p>
+<ol type="1">
+<li><p>Rule out some sources of spatial dependence by theory, and thus restrict the specifications to a subset ( <em>Where does the spatial dependence come from?</em> ),</p></li>
+<li><p>Theoretical mechanisms may guide the choice of either global or local spillover effects.</p></li>
+</ol>
+</section>
+<section id="monte-carlo-simulation" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="monte-carlo-simulation"><span class="header-section-number">9.5</span> Monte Carlo simulation</h2>
+<p>This section discusses results from <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span>. The aim: how do different spatial models perform under different scenarios?</p>
+<p>The DGP of the Monte Carlo simulation follows a GNS, where <span class="math inline">\({\boldsymbol{\mathbf{\upsilon}}}_k\)</span> and <span class="math inline">\({\boldsymbol{\mathbf{\varepsilon}}}\)</span> are independent and randomly distributed <span class="math inline">\(\mathcal{N}(0,\sigma^{2}_\upsilon)\)</span> and <span class="math inline">\(\mathcal{N}(0,\sigma^{2}_\varepsilon)\)</span> with a mean of zero, and <span class="math inline">\({\boldsymbol{\mathbf{x}}}_k\)</span> is the <span class="math inline">\(k\)</span>th column-vector of <span class="math inline">\({\boldsymbol{\mathbf{X}}}\)</span> for <span class="math inline">\(k=1,...,K\)</span> covariates (<span class="math inline">\(K\)</span> is fixed at <span class="math inline">\(2\)</span> in the simulations). The parameter <span class="math inline">\(\rho\)</span> represents the autocorrelation in the dependent variable, <span class="math inline">\(\lambda\)</span> the autocorrelation in the disturbances, and <span class="math inline">\(\delta_k\)</span> the autocorrelation in covariate <span class="math inline">\(k\)</span>.</p>
+<p><span class="math display">\[
+\begin{split}
+{\boldsymbol{\mathbf{y}}}&amp;=\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\theta}}}+ {\boldsymbol{\mathbf{u}}},\\
+{\boldsymbol{\mathbf{u}}}&amp;=\lambda{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{u}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\gamma}}}+{\boldsymbol{\mathbf{\varepsilon}}},\\
+{\boldsymbol{\mathbf{x}}}_k&amp;=\delta_k{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{x}}}_k+{\boldsymbol{\mathbf{\upsilon}}}_k.
+\end{split}
+\]</span> The parameter-vector <span class="math inline">\({\boldsymbol{\mathbf{\gamma}}}\)</span> specifies the correlation between <span class="math inline">\({\boldsymbol{\mathbf{x}}}\)</span> and the disturbance vector <span class="math inline">\({\boldsymbol{\mathbf{u}}}\)</span>, thereby defining the strength of an omitted variable bias. In reduced form, this DGP can be written as <span class="math display">\[
+\begin{split}
+{\boldsymbol{\mathbf{y}}}=&amp;({\boldsymbol{\mathbf{I}}_N}-\rho {\boldsymbol{\mathbf{W}}})^{-1}\big[({\boldsymbol{\mathbf{I}}_N}-\delta_k {\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\upsilon}}_k}\beta_k \\
+&amp;+{\boldsymbol{\mathbf{W}}}({\boldsymbol{\mathbf{I}}_N}-\delta_k {\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\upsilon}}_k}\theta_k \\
+&amp;+({\boldsymbol{\mathbf{I}}_N}-\lambda {\boldsymbol{\mathbf{W}}})^{-1}(({\boldsymbol{\mathbf{I}}_N}-\delta_k {\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\upsilon}}_k}\gamma_k+{\boldsymbol{\mathbf{\varepsilon}}})\big].
+\end{split}
+\]</span></p>
+<p>The parameter vector <span class="math inline">\({\boldsymbol{\mathbf{\beta}}}\)</span> was fixed at <span class="math inline">\({\boldsymbol{\mathbf{\beta}}}=%
+\begin{pmatrix}0.2&amp;0.5\end{pmatrix}
+^\intercal\)</span>, and the noise parameters were fixed at <span class="math inline">\(\sigma^{2}_\upsilon\)</span>, <span class="math inline">\(\sigma^{2}_\varepsilon=1\)</span> for all trials. All other parameters vary between the following two options for each parameter (vector):</p>
+<ul>
+<li><span class="math inline">\(\rho \in \left\{ 0, 0.5\right\}\)</span>,</li>
+<li><span class="math inline">\(\lambda \in \{0, 0.5\}\)</span>,</li>
+<li><span class="math inline">\({\boldsymbol{\mathbf{\delta}}} \in \left\{ %
+\begin{pmatrix}0&amp;0\end{pmatrix}
+^\intercal, %
+\begin{pmatrix}0.4&amp;0.7\end{pmatrix}
+^\intercal\right\}\)</span>,</li>
+<li><span class="math inline">\({\boldsymbol{\mathbf{\theta}}} \in \left\{%
+\begin{pmatrix}0&amp;0\end{pmatrix}
+^\intercal, %
+\begin{pmatrix}0.1&amp;0.8\end{pmatrix}
+^\intercal\right\}\)</span>,</li>
+<li><span class="math inline">\({\boldsymbol{\mathbf{\gamma}}} \in \left\{%
+\begin{pmatrix}0&amp;0\end{pmatrix}
+^\intercal, %
+\begin{pmatrix}0.3&amp;0\end{pmatrix}
+^\intercal\right\}\)</span>,</li>
+</ul>
+<p>leading to a total of 32 distinct combinations. Note that this selection of parameters intentionally violates the common ratio assumption between direct and indirect effects, as this should be a more common case in practical research. All combinations were simulated in 1000 trials, with the same starting seed for each combination. If youre, interested in the simulations, see <a href="https://github.com/ruettenauer/Reproduction-Material-Spatial-Monte-Carlo-Experiments">replication code on Github</a>.</p>
+<section id="without-omitted-variable-bias" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="without-omitted-variable-bias"><span class="header-section-number">9.5.1</span> Without omitted variable bias</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/sim4_combined_1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Bias of impacts and 95% confidence interval of empirical standard deviation without omv: <span class="math inline">\({\boldsymbol{\mathbf{\beta}}}=(0.2, 0.5)^\intercal\)</span>, <span class="math inline">\({\boldsymbol{\mathbf{\gamma}}}=(0, 0)^\intercal\)</span>. <span class="math inline">\(\rho=\)</span> autocorrelation in the dependent variable (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{y}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\delta}}=\)</span> autocorrelation in the covariates (<span class="math inline">\(\boldsymbol{\mathbf{x}}_k = f(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{x}}_k)\)</span>); <span class="math inline">\(\lambda=\)</span> autocorrelation in the disturbances (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{u}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\theta}}=\)</span> spatial spillover effects of covariates (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{X}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\gamma}}=\)</span> strength of omv.</figcaption>
+</figure>
+</div>
+<p>SLX, SDM, and SDEM all provide quite accurate estimates of the direct impacts (most visible in column 2). SAR, SEM, and SAC, in contrast, yield some drawbacks: especially in the presence of local spillover effects, these three specifications are biased (see lower part). Furthermore, SAR and SEM suffer from bias if autocorrelation in the disturbance and autocorrelation in the dependent variable are present simultaneously (see line 6 and 8). Though SLX is downwardly biased in case of autocorrelation in the dependent variable and the covariates (e.g.&nbsp;line 12 and 16), and SDM as well as SDEM yield some bias in case of a GNS-like process (line 14 and 16), those biases are rather moderate. This indicates that SLX, SDM, and SDEM are most robust against misspecification regarding the direct impacts.</p>
+<p>Several differences exist regarding the indirect impacts. Most obviously, the often used SAR specification suffers from considerable bias: it overestimates indirect impacts in case of autocorrelation in the disturbances, and offers biased estimates if local spillover effects exist (which are not restricted to a common ratio). The latter also applies to SAC: though SAC offers relatively accurate estimates for <span class="math inline">\({\boldsymbol{\mathbf{x}}}_2\)</span>, it overestimates indirect impacts for <span class="math inline">\({\boldsymbol{\mathbf{x}}}_1\)</span>.</p>
+<p>Regarding the remaining three specifications – SLX, SDM, and SDEM – conclusions are less obvious. SDM and SDEM suffer from large bias for high values of <span class="math inline">\({\boldsymbol{\mathbf{\theta}}}\)</span> (see <span class="math inline">\(\boldsymbol{\mathbf{x}}_2\)</span>) if the DGP follows a GNS-like process (line 14 and 16): SDM overestimates the indirect impacts, while SDEM underestimates the indirect impacts. In addition, SDM performs badly if the true DGP is SDEM (line 13), and SDEM performs badly if the true DGP is SDM (line 10), whereas the bias increases with higher values of <span class="math inline">\(\theta_k\)</span> in both cases. Similar to SDEM, SLX underestimates the indirect impacts in presence of global spillovers / autocorrelation in the dependent variable.</p>
+</section>
+<section id="with-omitted-variable-bias" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="with-omitted-variable-bias"><span class="header-section-number">9.5.2</span> With omitted variable bias</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/sim4_combined_2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Bias of impacts and 95% confidence interval of empirical standard deviation with omv: <span class="math inline">\({\boldsymbol{\mathbf{\beta}}}=(0.2, 0.5)^\intercal\)</span>, <span class="math inline">\({\boldsymbol{\mathbf{\gamma}}}=(0.3, 0)^\intercal\)</span>. <span class="math inline">\(\rho=\)</span> autocorrelation in the dependent variable (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{y}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\delta}}=\)</span> autocorrelation in the covariates (<span class="math inline">\(\boldsymbol{\mathbf{x}}_k = f(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{x}}_k)\)</span>); <span class="math inline">\(\lambda=\)</span> autocorrelation in the disturbances (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{u}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\theta}}=\)</span> spatial spillover effects of covariates (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{X}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\gamma}}=\)</span> strength of omv.</figcaption>
+</figure>
+</div>
+</section>
+<section id="indirect-impacts-if-dgp-gns" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="indirect-impacts-if-dgp-gns"><span class="header-section-number">9.5.3</span> Indirect impacts if DGP = GNS</h3>
+<p>Below an illustration about the indirect impacts, if the spatial process is a combination of</p>
+<ol type="1">
+<li><p>Clustering on Unobservables</p></li>
+<li><p>Interdependence (in the outcome)</p></li>
+<li><p>Spillovers in Covariates</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/sim11_combined_1_ind.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Bias of indirect impacts and 95% confidence interval of empirical standard deviation for different strengths of autocorrelation: <span class="math inline">\({\boldsymbol{\mathbf{\beta}}}=(0.2, 0.5)^\intercal\)</span>, <span class="math inline">\({\boldsymbol{\mathbf{\gamma}}}=(0, 0)^\intercal\)</span>, <span class="math inline">\({\boldsymbol{\mathbf{\delta}}}=(0, 0)^\intercal\)</span>, <span class="math inline">\({\boldsymbol{\mathbf{\theta}}}=(0.1, 0.8)^\intercal\)</span>. <span class="math inline">\(\rho=\)</span> autocorrelation in the dependent variable (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{y}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\delta}}=\)</span> autocorrelation in the covariates (<span class="math inline">\(\boldsymbol{\mathbf{x}}_k = f(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{x}}_k)\)</span>); <span class="math inline">\(\lambda=\)</span> autocorrelation in the disturbances (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{u}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\theta}}=\)</span> spatial spillover effects of covariates (<span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{X}}\)</span>); <span class="math inline">\(\boldsymbol{\mathbf{\gamma}}=\)</span> strength of omv.</figcaption>
+</figure>
+</div>
+<p>First, in a GNS-like situation, the bias in SDM grows with increasing autocorrelation in <span class="math inline">\({\boldsymbol{\mathbf{y}}}\)</span> (<span class="math inline">\(\rho\)</span>) and increasing autocorrelation in the disturbances (<span class="math inline">\(\lambda\)</span>).</p>
+<p>Second, the bias in SLX and SDEM increases with higher values of <span class="math inline">\(\rho\)</span>, but is unaffected from the strength of <span class="math inline">\(\lambda\)</span>.</p>
+<p>Third, though SLX and SDEM suffer from the same problem, the bias from omitting global autocorrelation is less severe in SLX than in SDEM.</p>
+<p>Thus, the SLX outperforms SDEM. Furthermore, SLX outperforms SDM in most situations; only if the autocorrelation in the dependent variable is much stronger than the autocorrelation in the disturbances (<span class="math inline">\(\rho=0.9\)</span>, <span class="math inline">\(\lambda=0.3\)</span>), SDM yields lower bias than SLX. Note that the SAC yields relatively low biases for the indirect impacts in GNS-like processes, but at the same time produces relative large biases in the direct impacts.</p>
 
 
 <!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Anselin.1988" class="csl-entry" role="listitem">
+Anselin, Luc. 1988. <em>Spatial <span>Econometrics</span>: <span>Methods</span> and <span>Models</span></em>. Studies in <span>Operational Regional Science</span>. <span>Dordrecht</span>: <span>Kluwer</span>.
+</div>
+<div id="ref-Anselin.2003" class="csl-entry" role="listitem">
+———. 2003. <span>“Spatial <span>Externalities</span>, <span>Spatial Multipliers</span>, and <span>Spatial Econometrics</span>.”</span> <em>International Regional Science Review</em> 26 (2): 153–66. <a href="https://doi.org/10.1177/0160017602250972">https://doi.org/10.1177/0160017602250972</a>.
+</div>
 <div id="ref-Anselin.1996" class="csl-entry" role="listitem">
 Anselin, Luc, Anil K. Bera, Raymond Florax, and Mann J. Yoon. 1996. <span>“Simple <span>Diagnostic Tests</span> for <span>Spatial Dependence</span>.”</span> <em>Regional Science and Urban Economics</em> 26 (1): 77–104. <a href="https://doi.org/10.1016/0166-0462(95)02111-6">https://doi.org/10.1016/0166-0462(95)02111-6</a>.
+</div>
+<div id="ref-Cook.2020" class="csl-entry" role="listitem">
+Cook, Scott J., Jude C. Hays, and Robert J. Franzese. 2020. <span>“Model <span>Specification</span> and <span>Spatial Interdependence</span>.”</span> In <em>The <span>Sage</span> Handbook of Research Methods in Political Science and International Relations</em>, edited by Luigi Curini and Robert Franzese, 1st ed, 730–47. <span>Thousand Oaks</span>: <span>SAGE Inc</span>.
+</div>
+<div id="ref-Elhorst.2014" class="csl-entry" role="listitem">
+Elhorst, J. Paul. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+</div>
+<div id="ref-Elhorst.2017" class="csl-entry" role="listitem">
+Elhorst, J. Paul, and S. Halleck Vega. 2017. <span>“The <span>SLX Model</span>: <span>Extensions</span> and the <span>Sensitivity</span> of <span>Spatial Spillovers</span> to <span>W</span>.”</span> <em>Papeles de Economía Española</em> 152: 34–50.
+</div>
+<div id="ref-Florax.2003" class="csl-entry" role="listitem">
+Florax, Raymond, Hendrik Folmer, and Sergio J. Rey. 2003. <span>“Specification <span>Searches</span> in <span>Spatial Econometrics</span>: <span>The Relevance</span> of <span>Hendry</span>’s <span>Methodology</span>.”</span> <em>Regional Science and Urban Economics</em> 33 (5): 557–79. <a href="https://doi.org/10.1016/S0166-0462(03)00002-4">https://doi.org/10.1016/S0166-0462(03)00002-4</a>.
+</div>
+<div id="ref-Gibbons.2012" class="csl-entry" role="listitem">
+Gibbons, Steve, and Henry G. Overman. 2012. <span>“Mostly <span>Pointless Spatial Econometrics</span>?”</span> <em>Journal of Regional Science</em> 52 (2): 172–91. <a href="https://doi.org/10.1111/j.1467-9787.2012.00760.x">https://doi.org/10.1111/j.1467-9787.2012.00760.x</a>.
+</div>
+<div id="ref-Gibbons.2015" class="csl-entry" role="listitem">
+Gibbons, Steve, Henry G. Overman, and Eleonora Patacchini. 2015. <span>“Spatial <span>Methods</span>.”</span> In <em>Handbook of <span>Regional</span> and <span>Urban Economics</span></em>, edited by Gilles Duranton, J. Vernon Henderson, and William C. Strange, 5:115–68. <span>Amsterdam</span>: <span>Elsevier</span>. <a href="https://doi.org/10.1016/B978-0-444-59517-1.00003-9">https://doi.org/10.1016/B978-0-444-59517-1.00003-9</a>.
 </div>
 <div id="ref-HalleckVega.2015" class="csl-entry" role="listitem">
 Halleck Vega, Solmaria, and J. Paul Elhorst. 2015. <span>“The <span>SLX Model</span>.”</span> <em>Journal of Regional Science</em> 55 (3): 339–63. <a href="https://doi.org/10.1111/jors.12188">https://doi.org/10.1111/jors.12188</a>.
 </div>
+<div id="ref-LeSage.2014" class="csl-entry" role="listitem">
+LeSage, James P. 2014. <span>“What <span>Regional Scientists Need</span> to <span>Know</span> about <span>Spatial Econometrics</span>.”</span> <em>The Review of Regional Studies</em> 44 (1): 13–32. https://doi.org/<a href="https://dx.doi.org/10.2139/ssrn.2420725">https://dx.doi.org/10.2139/ssrn.2420725</a>.
 </div>
+<div id="ref-LeSage.2009" class="csl-entry" role="listitem">
+LeSage, James P., and R. Kelley Pace. 2009. <em>Introduction to <span>Spatial Econometrics</span></em>. Statistics, <span>Textbooks</span> and <span>Monographs</span>. <span>Boca Raton</span>: <span>CRC Press</span>.
+</div>
+<div id="ref-Mur.2009" class="csl-entry" role="listitem">
+Mur, Jesús, and Ana Angulo. 2009. <span>“Model <span>Selection Strategies</span> in a <span>Spatial Setting</span>: <span>Some Additional Results</span>.”</span> <em>Regional Science and Urban Economics</em> 39 (2): 200–213. <a href="https://doi.org/10.1016/j.regsciurbeco.2008.05.018">https://doi.org/10.1016/j.regsciurbeco.2008.05.018</a>.
+</div>
+<div id="ref-Pinkse.2010" class="csl-entry" role="listitem">
+Pinkse, Joris, and Margaret E. Slade. 2010. <span>“The <span>Future</span> of <span>Spatial Econometrics</span>.”</span> <em>Journal of Regional Science</em> 50 (1): 103–17. <a href="https://doi.org/10.1111/j.1467-9787.2009.00645.x">https://doi.org/10.1111/j.1467-9787.2009.00645.x</a>.
+</div>
+<div id="ref-Ruttenauer.2022a" class="csl-entry" role="listitem">
+Rüttenauer, Tobias. 2022. <span>“Spatial <span>Regression Models</span>: <span>A Systematic Comparison</span> of <span>Different Model Specifications Using Monte Carlo Experiments</span>.”</span> <em>Sociological Methods &amp; Research</em> 51 (2): 728–59. <a href="https://doi.org/10.1177/0049124119882467">https://doi.org/10.1177/0049124119882467</a>.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -709,7 +886,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./08_exercise1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -725,84 +902,218 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## General-to-specific approach</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="al">![@HalleckVega.2015: Nesting of different Spatial Econometric Model Specifications](fig/Vega.png)</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>As we have seen, a variety of spatial model specifications exist that can be used to account for the spatial structure of the data. Thus, selecting the correct model specification remains a crucial task in applied research.</span>
 <span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Specific-to-general</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>One way of selecting the model specification is the application of empirical specification tests. In general, there are two different strategies: a specific-to-general or a general-to-specific approach <span class="co">[</span><span class="ot">@Florax.2003; @Mur.2009</span><span class="co">]</span>.</span>
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>###Lagrange Multiplier Test</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Specific-to-general</span></span>
 <span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>We have earlier talked about methods to detect auto-correlation -- visualisation and Moran's I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>The specific-to-general approach is more common in spatial econometrics. This approach starts with the most basic non-spatial model and tests for possible misspecifications due to omitted autocorrelation in the error term or the dependent variable.</span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Interdependence ($\rho$)</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Clustering on unobservables ($\lambda$)</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Spillovers in covariates ($\bm \theta$)</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>Lagrange Multiplier test:</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>@Anselin.1996 proposed to use Lagrange multiplier (LM) tests for the hypotheses $H_0$: $\lambda=0$ and $H_0$: $\rho=0$, which are robust against the alternative source of spatial dependence.</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>###Lagrange Multiplier Test</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>We have earlier talked about methods to detect auto-correlation -- visualisation and Moran's I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:</span>
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Robust) test for spatial lag dependence $LM_\rho^*$</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Robust) test for spatial error dependence $LM_\lambda^*$</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>@Anselin.1996</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>Robust test for lag dependence: $H_0$: $\rho=0$ </span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        LM_\rho^* = G^{-1} \hat{\sigma}_\epsilon^2</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        \big(\frac{ \hat{\bm\epsilon}^\intercal \bm{Wy}}{\hat{\sigma}_\epsilon^2}</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span>\frac{\hat{\bm \epsilon}^\intercal \bm{W\hat{\epsilon}}}{\hat{\sigma}_\epsilon^2} \big)^2 \sim \chi^2 </span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Interdependence ($\rho$)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Clustering on unobservables ($\lambda$)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-  </span>Spillovers in covariates ($\bm \theta$)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>Lagrange Multiplier test <span class="co">[</span><span class="ot">@Anselin.1996</span><span class="co">]</span>:</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Robust) test for spatial lag dependence $LM_\rho^*$</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Robust) test for spatial error dependence $LM_\lambda^*$</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>Robust test for lag dependence: $H_0$: $\rho=0$ </span>
 <span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            <span class="co">&lt;!-- %\\ \text{where } G = (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}}) --&gt;</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>Robust test for error dependence: $H_0$: $\lambda=0$ </span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        LM_\lambda^* = \frac{</span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        \big( \hat{\bm\epsilon}^\intercal \bm{W\hat{\epsilon}} / \hat{\sigma}_\epsilon^2        </span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span><span class="co">[</span><span class="ot">T\hat{\sigma}_\epsilon^2(G + T\hat{\sigma}_\epsilon^2)^{-1}</span><span class="co">]</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>         \hat{\bm\epsilon}^\intercal \bm{Wy} / \hat{\sigma}_\epsilon^2 \big)^2</span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        }{</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        T<span class="co">[</span><span class="ot">1 - \frac{\hat{\sigma}_\epsilon^2}{G + \hat{\sigma}_\epsilon^2}</span><span class="co">]</span></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        } \sim \chi^2</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        \text{where } G = (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}})   $$</span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>$$      </span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>        \text{and } T = \tr<span class="co">[</span><span class="ot">(\bm W^\intercal + \bm W)\bm W</span><span class="co">]</span> </span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>@Anselin.1996</span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo simulation</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        LM_\rho^* = G^{-1} \hat{\sigma}_\epsilon^2</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        \big(\frac{ \hat{\bm\epsilon}^\intercal \bm{Wy}}{\hat{\sigma}_\epsilon^2}</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span>\frac{\hat{\bm \epsilon}^\intercal \bm{W\hat{\epsilon}}}{\hat{\sigma}_\epsilon^2} \big)^2 \sim \chi^2 </span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>            <span class="co">&lt;!-- %\\ \text{where } G = (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}}) --&gt;</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>Robust test for error dependence: $H_0$: $\lambda=0$ </span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        LM_\lambda^* = \frac{</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        \big( \hat{\bm\epsilon}^\intercal \bm{W\hat{\epsilon}} / \hat{\sigma}_\epsilon^2        </span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="ss">        - </span><span class="co">[</span><span class="ot">T\hat{\sigma}_\epsilon^2(G + T\hat{\sigma}_\epsilon^2)^{-1}</span><span class="co">]</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>         \hat{\bm\epsilon}^\intercal \bm{Wy} / \hat{\sigma}_\epsilon^2 \big)^2</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        }{</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>        T<span class="co">[</span><span class="ot">1 - \frac{\hat{\sigma}_\epsilon^2}{G + \hat{\sigma}_\epsilon^2}</span><span class="co">]</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        } \sim \chi^2</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>with</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>     G &amp;= (\bm{WX\hat{\beta}})^\intercal (\bm I - \bm X (\bm X^\intercal\bm X)^{-1} \bm X^\intercal) (\bm{WX\hat{\beta}})   <span class="sc">\\</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>     T &amp;= \tr<span class="co">[</span><span class="ot">(\bm W^\intercal + \bm W)\bm W</span><span class="co">]</span>, </span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>where $\tr(\bm A)$ is the sum of the main diagonal of any square matrix $\bm A$.</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>The specific-to-general approach based on the robust LM test offers a good performance in distinguishing between SAR, SEM, and non-spatial OLS <span class="co">[</span><span class="ot">@Florax.2003</span><span class="co">]</span>. </span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>Still, in their original paper, @Anselin.1996 already note the declining power of the robust LM$_\lambda$ test for spatial error dependence with increasing autocorrelation in the dependent variable (indicating some uncertainty under a SAC-like DGP).</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>@Mur.2009 demonstrate strong drawbacks of the specific-to-general approach under non-optimal conditions like heteroscedasticity or endogeneity.</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>Moreover, the test disregard the presence of spatial dependence from local spillover effects ($\theta$ is assumed to be zero), as resulting from an SLX-like process. @Cook.2020, for instance, show theoretically that an SLX-like dependence structure leads to the rejection of both hypotheses $H_0$: $\lambda=0$ and $H_0$: $\rho=0$, though no autocorrelation is present <span class="co">[</span><span class="ot">@Elhorst.2017; @Ruttenauer.2022a</span><span class="co">]</span>.</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## General-to-specific approach</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>The general-to-specific approach depicts the opposite method of specification search. This approach starts with the most general model and stepwise imposes restrictions on the parameters of this general model. </span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="al">![@HalleckVega.2015: Nesting of different Spatial Econometric Model Specifications](fig/Vega.png)</span></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>In theory, we would </span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>1) start with a GNS specification and </span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>2) subsequently restrict the model to simplified specifications based on the significance of parameters in the GNS. </span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>The problem with this strategy is that the GNS is only weakly identified and, thus, is of little help in selecting the correct restrictions \citep{Burridge.2016}. </span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>The most intuitive alternative would be to start with one of the two-source models SDM, SDEM, or SAC. This, however, bears the risk of imposing the wrong restriction in the first place <span class="co">[</span><span class="ot">@Cook.2020</span><span class="co">]</span>. Furthermore, @Cook.2020 show that more complicated restrictions are necessary to derive all single-source models from SDEM or SAC specifications.</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a><span class="fu">## General advice?</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>@LeSage.2009, @LeSage.2014, @Elhorst.2014 argue that there are strong analytical reasons to restrict the model specifications to a subset, as the SDM subsumes the SLX and SAR model, and the SDEM subsumes SLX and SEM. </span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>It is easily observed that SDM reduces to SLX if $\rho=0$ and to SAR if ${\bm \theta}=0$, while the SDEM reduces to SLX if $\lambda=0$ and to SEM if ${\bm \theta}=0$. Less intuitively, <span class="co">[</span><span class="ot">@Anselin.1988</span><span class="co">]</span> has also shown that the SDM subsumes the SEM. Therefore, we can express the reduced form and rearrange terms:</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>{\bm y}&amp;= {\bm X}{\bm \beta} + ({\bm I_N}-\lambda {\bm W})^{-1}{\bm \varepsilon} <span class="sc">\\</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\lambda {\bm W}){\bm y}&amp;= ({\bm I_N}-\lambda {\bm W}){\bm X}{\bm \beta} + {\bm \varepsilon} <span class="sc">\\</span></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\lambda {\bm W}){\bm y}&amp;={\bm X}{\bm \beta} -\lambda{\bm W}{\bm X}{\bm \beta} + {\bm \varepsilon} <span class="sc">\\</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>{\bm y}&amp;=({\bm I_N}-\lambda {\bm W})^{-1}({\bm X}{\bm \beta} + {\bm W}{\bm X}{\bm \theta} + {\bm \varepsilon}). </span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>Thus, the SEM constitutes a special case of an SDM with the relative simple restriction ${\bm \theta}=-\lambda{\bm \beta}$, meaning direct and indirect effects are constrained to a common factor <span class="co">[</span><span class="ot">@Anselin.1988; @Anselin.2003</span><span class="co">]</span>. </span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>The fact that SDM subsumes SAR, SLX, and SEM leads to the conclusion that applied research should only consider SDM and SDEM as model specifications <span class="co">[</span><span class="ot">@LeSage.2014</span><span class="co">]</span>. Especially in the case of a likely omitted variable bias, <span class="co">[</span><span class="ot">@LeSage.2009, p.~68</span><span class="co">]</span> argue in favour of using the SDM.</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>Nonetheless, others propose to use the SLX specification as point of departure <span class="co">[</span><span class="ot">@Gibbons.2012; @HalleckVega.2015</span><span class="co">]</span>. First, scholars have argued that SAC and SDM models are only weakly identified in practice <span class="co">[</span><span class="ot">@Gibbons.2012; @Pinkse.2010</span><span class="co">]</span>. Second, the global spillover specification in SAR, SAC, and SDM often seems to be theoretically implausible.</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>And finally:  </span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">"I will use spatial lags of X, not spatial lags of Y", J. [Wooldridge on twitter]( https://twitter.com/jmwooldridge/status/1369460526770753537)</span><span class="co">](fig/wooldridge_tweet.png)</span></span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design and Theory</span></span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>Some argue that the best way of choosing the appropriate model specification is to exclude one or more sources of spatial dependence -- autocorrelation in the dependent variable, autocorrelation in the disturbances, or spatial spillover effects of the covariates -- by design <span class="co">[</span><span class="ot">@Gibbons.2012, @Gibbons.2015</span><span class="co">]</span>. </span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>**Natural experiments** are probably the best way of making one or more sources of spatial dependence unlikely, thereby restricting the model alternatives to a subset of all available models. However, the opportunities to use natural experiments are restricted in social sciences, making it a favourable but often impractical way of model selection.</span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>@Cook.2020 and @Ruttenauer.2022a argue that theoretical considerations should guide the model selection.</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>1) Rule out some sources of spatial dependence by theory, and thus restrict the specifications to a subset ( _Where does the spatial dependence come from?_ ),</span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>2) Theoretical mechanisms may guide the choice of either global or local spillover effects.</span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## Monte Carlo simulation</span></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>This section discusses results from @Ruttenauer.2022a. The aim: how do different spatial models perform under different scenarios?</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>The DGP of the Monte Carlo simulation follows a GNS, where ${\bm \upsilon}_k$ and ${\bm \varepsilon}$ are independent and randomly distributed $\mathcal{N}(0,\sigma^{2}_\upsilon)$ and $\mathcal{N}(0,\sigma^{2}_\varepsilon)$ with a mean of zero, and ${\bm x}_k$ is the $k$th column-vector of ${\bm X}$ for $k=1,...,K$ covariates ($K$ is fixed at $2$ in the simulations). The parameter $\rho$ represents the autocorrelation in the dependent variable, $\lambda$ the autocorrelation in the disturbances, and $\delta_k$ the autocorrelation in covariate $k$.</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>{\bm y}&amp;=\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm u},<span class="sc">\\</span> </span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>{\bm u}&amp;=\lambda{\bm W}{\bm u}+{\bm X}{\bm\gamma}+{\bm \varepsilon},<span class="sc">\\</span></span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>{\bm x}_k&amp;=\delta_k{\bm W}{\bm x}_k+{\bm \upsilon}_k.</span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>The parameter-vector ${\bm \gamma}$ specifies the correlation between ${\bm x}$ and the disturbance vector ${\bm u}$, thereby defining the strength of an omitted variable bias. In reduced form, this DGP can be written as</span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>{\bm y}=&amp;({\bm I_N}-\rho {\bm W})^{-1}\big[({\bm I_N}-\delta_k {\bm W})^{-1}{\bm \upsilon_k}\beta_k <span class="sc">\\</span></span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>&amp;+{\bm W}({\bm I_N}-\delta_k {\bm W})^{-1}{\bm \upsilon_k}\theta_k <span class="sc">\\</span></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>&amp;+({\bm I_N}-\lambda {\bm W})^{-1}(({\bm I_N}-\delta_k {\bm W})^{-1}{\bm \upsilon_k}\gamma_k+{\bm \varepsilon})\big].</span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>The parameter vector ${\bm \beta}$ was fixed at ${\bm \beta}=\irow{0.2&amp;0.5}^\intercal$, and the noise parameters were fixed at $\sigma^{2}_\upsilon$, $\sigma^{2}_\varepsilon=1$ for all trials. All other parameters vary between the following two options for each parameter (vector):</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\rho \in \left<span class="sc">\{</span> 0, 0.5\right<span class="sc">\}</span>$,</span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\lambda \in <span class="sc">\{</span>0, 0.5<span class="sc">\}</span>$,</span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>${\bm \delta} \in \left<span class="sc">\{</span> \irow{0&amp;0}^\intercal, \irow{0.4&amp;0.7}^\intercal\right<span class="sc">\}</span>$,</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>${\bm \theta} \in \left<span class="sc">\{</span>\irow{0&amp;0}^\intercal, \irow{0.1&amp;0.8}^\intercal\right<span class="sc">\}</span>$,</span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>${\bm \gamma} \in \left<span class="sc">\{</span>\irow{0&amp;0}^\intercal, \irow{0.3&amp;0}^\intercal\right<span class="sc">\}</span>$,</span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>leading to a total of 32 distinct combinations. Note that this selection of parameters intentionally violates the common ratio assumption between direct and indirect effects, as this should be a more common case in practical research. All combinations were simulated in 1000 trials, with the same starting seed for each combination. If youre, interested in the simulations, see <span class="co">[</span><span class="ot">replication code on Github</span><span class="co">](https://github.com/ruettenauer/Reproduction-Material-Spatial-Monte-Carlo-Experiments)</span>.</span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Without omitted variable bias</span></span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="al">![Bias of impacts and 95\% confidence interval of empirical standard deviation without omv: ${\bm \beta}=(0.2, 0.5)^\intercal$, ${\bm \gamma}=(0, 0)^\intercal$. $\rho=$ autocorrelation in the dependent variable ($\bm W \bm y$); $\bm \delta=$ autocorrelation in the covariates ($\bm x_k = f(\bm W \bm  x_k)$); $\lambda=$ autocorrelation in the disturbances ($\bm W \bm u$); $\bm \theta=$ spatial spillover effects of covariates ($\bm W \bm X$); $\bm\gamma=$ strength of omv.](fig/sim4_combined_1.png)</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>SLX, SDM, and SDEM all provide quite accurate estimates of the direct impacts (most visible in column 2). SAR, SEM, and SAC, in contrast, yield some drawbacks: especially in the presence of local spillover effects, these three specifications are biased (see lower part). Furthermore, SAR and SEM suffer from bias if autocorrelation in the disturbance and autocorrelation in the dependent variable are present simultaneously (see line 6 and 8). Though SLX is downwardly biased in case of autocorrelation in the dependent variable and the covariates (e.g. line 12 and 16), and SDM as well as SDEM yield some bias in case of a GNS-like process (line 14 and 16), those biases are rather moderate. This indicates that SLX, SDM, and SDEM are most robust against misspecification regarding the direct impacts.</span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>Several differences exist regarding the indirect impacts. Most obviously, the often used SAR specification suffers from considerable bias: it overestimates indirect impacts in case of autocorrelation in the disturbances, and offers biased estimates if local spillover effects exist (which are not restricted to a common ratio). The latter also applies to SAC: though SAC offers relatively accurate estimates for ${\bm x}_2$, it overestimates indirect impacts for ${\bm x}_1$. </span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>Regarding the remaining three specifications -- SLX, SDM, and SDEM -- conclusions are less obvious. SDM and SDEM suffer from large bias for high values of ${\bm \theta}$ (see $\bm{x}_2$) if the DGP follows a GNS-like process (line 14 and 16): SDM overestimates the indirect impacts, while SDEM underestimates the indirect impacts. In addition, SDM performs badly if the true DGP is SDEM (line 13), and SDEM performs badly if the true DGP is SDM (line 10), whereas the bias increases with higher values of $\theta_k$ in both cases. Similar to SDEM, SLX underestimates the indirect impacts in presence of global spillovers / autocorrelation in the dependent variable.</span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### With omitted variable bias</span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="al">![Bias of impacts and 95\% confidence interval of empirical standard deviation with omv: ${\bm \beta}=(0.2, 0.5)^\intercal$, ${\bm \gamma}=(0.3, 0)^\intercal$. $\rho=$ autocorrelation in the dependent variable ($\bm W \bm y$); $\bm \delta=$ autocorrelation in the covariates ($\bm x_k = f(\bm W \bm  x_k)$); $\lambda=$ autocorrelation in the disturbances ($\bm W \bm u$); $\bm \theta=$ spatial spillover effects of covariates ($\bm W \bm X$); $\bm\gamma=$ strength of omv.](fig/sim4_combined_2.png)</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Indirect impacts if DGP = GNS</span></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>Below an illustration about the indirect impacts, if the spatial process is a combination of</span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>1) Clustering on Unobservables</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a>2) Interdependence (in the outcome)</span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>3) Spillovers in Covariates</span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="al">![Bias of indirect impacts and 95\% confidence interval of empirical standard deviation for different strengths of autocorrelation: ${\bm \beta}=(0.2, 0.5)^\intercal$, ${\bm \gamma}=(0, 0)^\intercal$, ${\bm\delta}=(0, 0)^\intercal$, ${\bm\theta}=(0.1, 0.8)^\intercal$. $\rho=$ autocorrelation in the dependent variable ($\bm W \bm y$); $\bm \delta=$ autocorrelation in the covariates ($\bm x_k = f(\bm W \bm  x_k)$); $\lambda=$ autocorrelation in the disturbances ($\bm W \bm u$); $\bm \theta=$ spatial spillover effects of covariates ($\bm W \bm X$); $\bm\gamma=$ strength of omv.](fig/sim11_combined_1_ind.jpg)</span></span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a>First, in a GNS-like situation, the bias in SDM grows with increasing autocorrelation in ${\bm y}$ ($\rho$) and increasing autocorrelation in the disturbances ($\lambda$). </span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a>Second, the bias in SLX and SDEM increases with higher values of $\rho$, but is unaffected from the strength of $\lambda$. </span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a>Third, though SLX and SDEM suffer from the same problem, the bias from omitting global autocorrelation is less severe in SLX than in SDEM. </span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>Thus, the SLX outperforms SDEM. Furthermore, SLX outperforms SDM in most situations; only if the autocorrelation in the dependent variable is much stronger than the autocorrelation in the disturbances ($\rho=0.9$, $\lambda=0.3$), SDM yields lower bias than SLX. Note that the SAC yields relatively low biases for the indirect impacts in GNS-like processes, but at the same time produces relative large biases in the direct impacts.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -10,7 +10,7 @@
 
 # Spatial Regression Models
 
-### Required packages
+### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
@@ -18,14 +18,14 @@ lapply(pkgs, require, character.only = TRUE)
 
 ```
 
-### Session info
+### Session info {.unnumbered}
 
 ```{r}
 sessionInfo()
 
 ```
 
-### Reload data from pervious session
+### Reload data from pervious session {.unnumbered}
 
 ```{r}
 load("_data/msoa2_spatial.RData")

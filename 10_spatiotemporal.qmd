@@ -8,8 +8,29 @@
 
 # Spatio-temporal models
 
+# Comparing and Selecting Models 
+
+### Required packages {.unnumbered}
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+
+```
+
+
+@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Millo.2012 and @Croissant.2018.
 
 ## Spatial-Autoregressive (SAR) Model
+
+
 
 
 $$

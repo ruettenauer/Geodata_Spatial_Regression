@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -188,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -237,7 +256,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spatial-autoregressive-sar-model" id="toc-spatial-autoregressive-sar-model" class="nav-link active" data-scroll-target="#spatial-autoregressive-sar-model"><span class="header-section-number">10.1</span> Spatial-Autoregressive (SAR) Model</a></li>
+  <li><a href="#comparing-and-selecting-models" id="toc-comparing-and-selecting-models" class="nav-link active" data-scroll-target="#comparing-and-selecting-models"><span class="header-section-number">11</span> Comparing and Selecting Models</a>
+  <ul class="collapse">
+  <li><a href="#required-packages" id="toc-required-packages" class="nav-link" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#spatial-autoregressive-sar-model" id="toc-spatial-autoregressive-sar-model" class="nav-link" data-scroll-target="#spatial-autoregressive-sar-model"><span class="header-section-number">11.1</span> Spatial-Autoregressive (SAR) Model</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -261,8 +285,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="spatial-autoregressive-sar-model" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="spatial-autoregressive-sar-model"><span class="header-section-number">10.1</span> Spatial-Autoregressive (SAR) Model</h2>
+<section id="comparing-and-selecting-models" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Comparing and Selecting Models</h1>
+<section id="required-packages" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="session-info" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.3.1 (2023-06-16 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19044)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United Kingdom.utf8 
+[2] LC_CTYPE=English_United Kingdom.utf8   
+[3] LC_MONETARY=English_United Kingdom.utf8
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.utf8    
+
+time zone: Europe/London
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods  
+[7] base     
+
+other attached packages:
+[1] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
+[4] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
+[7] mapview_2.11.0    sf_1.0-13        
+
+loaded via a namespace (and not attached):
+ [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
+ [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
+ [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
+[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
+[13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
+[16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
+[19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
+[22] lifecycle_1.0.3    compiler_4.3.1     deldir_1.0-9      
+[25] munsell_0.5.0      terra_1.7-29       leafsync_0.1.0    
+[28] codetools_0.2-19   stars_0.6-1        htmltools_0.5.5   
+[31] class_7.3-22       pillar_1.9.0       MASS_7.3-60       
+[34] classInt_0.4-9     lwgeom_0.2-13      wk_0.7.3          
+[37] abind_1.4-5        boot_1.3-28.1      multcomp_1.4-24   
+[40] nlme_3.1-162       tidyselect_1.2.0   digest_0.6.31     
+[43] mvtnorm_1.2-2      dplyr_1.1.2        splines_4.3.1     
+[46] fastmap_1.1.1      grid_4.3.1         colorspace_2.1-0  
+[49] expm_0.999-7       cli_3.6.1          magrittr_2.0.3    
+[52] base64enc_0.1-3    dichromat_2.0-0.1  XML_3.99-0.14     
+[55] survival_3.5-5     utf8_1.2.3         TH.data_1.1-2     
+[58] leafem_0.2.0       e1071_1.7-13       scales_1.2.1      
+[61] sp_1.6-1           rmarkdown_2.22     zoo_1.8-12        
+[64] png_0.1-8          coda_0.19-4        evaluate_0.21     
+[67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
+[70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
+[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
+[76] units_0.8-2       </code></pre>
+</div>
+</div>
+<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">(<a href="references.html#ref-Croissant.2018" role="doc-biblioref"><strong>Croissant.2018?</strong></a>)</span>.</p>
+</section>
+<section id="spatial-autoregressive-sar-model" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="spatial-autoregressive-sar-model"><span class="header-section-number">11.1</span> Spatial-Autoregressive (SAR) Model</h2>
 <p><span class="math display">\[
         {\boldsymbol{\mathbf{y}}}=\alpha{\boldsymbol{\mathbf{\iota}}}+\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}
 \]</span></p>
@@ -298,6 +393,15 @@ x_{31} &amp; x_{32} &amp; \cdots
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Elhorst.2014" class="csl-entry" role="listitem">
+Elhorst, J. Paul. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+</div>
+<div id="ref-Millo.2012" class="csl-entry" role="listitem">
+Millo, Giovanni, and Gianfranco Piras. 2012. <span>“Splm: <span>Spatial Panel Data Models</span> in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 47 (1). <a href="https://doi.org/10.18637/jss.v047.i01">https://doi.org/10.18637/jss.v047.i01</a>.
+</div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -597,53 +701,75 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spatial-Autoregressive (SAR) Model</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        {\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Small example</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} =  \rho</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>w_{11} &amp; w_{12} &amp; w_{13}<span class="sc">\\</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>w_{21} &amp; w_{22} &amp; w_{23}<span class="sc">\\</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>w_{31} &amp; w_{32} &amp; w_{33} </span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} </span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} + \bm \beta</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>x_{11} &amp; x_{12} &amp; \cdots <span class="sc">\\</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>x_{21} &amp; x_{23} &amp; \cdots <span class="sc">\\</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>x_{31} &amp; x_{32} &amp; \cdots</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} +</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>\varepsilon_{1} <span class="sc">\\</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>\varepsilon_{2} <span class="sc">\\</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>\varepsilon_{3}  </span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>$$</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Millo.2012 and @Croissant.2018.</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spatial-Autoregressive (SAR) Model</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        {\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Small example</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} =  \rho</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>w_{11} &amp; w_{12} &amp; w_{13}<span class="sc">\\</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>w_{21} &amp; w_{22} &amp; w_{23}<span class="sc">\\</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>w_{31} &amp; w_{32} &amp; w_{33} </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} </span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} + \bm \beta</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>x_{11} &amp; x_{12} &amp; \cdots <span class="sc">\\</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>x_{21} &amp; x_{23} &amp; \cdots <span class="sc">\\</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>x_{31} &amp; x_{32} &amp; \cdots</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} +</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>\varepsilon_{1} <span class="sc">\\</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>\varepsilon_{2} <span class="sc">\\</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>\varepsilon_{3}  </span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

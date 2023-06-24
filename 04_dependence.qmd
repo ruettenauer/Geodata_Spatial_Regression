@@ -9,7 +9,7 @@
 # Detecting Spatial Dependence
 
 
-### Required packages
+### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", "gstat") # note: load spdep first, then spatialreg
@@ -17,21 +17,21 @@ lapply(pkgs, require, character.only = TRUE)
 
 ```
 
-### Session info
+### Session info {.unnumbered}
 
 ```{r}
 sessionInfo()
 
 ```
 
-### Reload data from pervious session
+### Reload data from pervious session {.unnumbered}
 
 ```{r}
 load("_data/msoa2_spatial.RData")
 ```
 
 
-## Global Autocorrelation
+## Global Autocorrelation 
 
 If spatially close observations are more likely to exhibit similar values, we cannot handle observations as if they were independent.
 

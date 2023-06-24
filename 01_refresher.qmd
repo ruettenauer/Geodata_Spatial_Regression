@@ -1,6 +1,6 @@
 # Refresher
 
-### Required packages
+### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr",
@@ -9,7 +9,7 @@ lapply(pkgs, require, character.only = TRUE)
 
 ```
 
-### Session info
+### Session info {.unnumbered}
 
 ```{r}
 sessionInfo()

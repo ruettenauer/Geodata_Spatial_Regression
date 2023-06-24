@@ -132,10 +132,51 @@ effects are uncorrelated with the covariates $\bm X$ in the model.
 
 ## Dynamic panel data models
 
+Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.
+
+A general dynamic model would account for all sources of potential dependence, including combinations [@Elhorst.2012]. The most general model can be written as:
+
+$$
+\begin{split}
+		{\bm y_t}=& \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t
+		+ \gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}\\
+		&~+ {\bm X}{\bm \beta}+ (\bm I_T\otimes {\bm W_N}){\bm X}{\bm \theta}+ {\bm u}_t,\\
+		{\bm u_t}=&  + (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu_t},\\
+		{\bm \nu_t}=& \psi{\bm \nu}_{t-1} + \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon},
+\end{split}		
+$$	
+
+Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome \gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}, and in the error term $\psi{\bm \nu}_{t-1}$.
 
 ### Impacts in spatial panel models
 
+Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in $\bm X_t$ no influences focal $Y$ and neighbour's $Y$ but also contemporaneous $Y$ and future $Y$.
+
+While the short-term effects are the known impacts
+
+$$
+\frac{\partial {\bm y}}{\partial {\bm x}_k} = ({\bm I}-\rho{\bm W_{NT}})^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].
+$$
+
+The long-term impacts, by contrast, additionally account for the effect multiplying through time  
+
+$$
+\frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].
+$$
+
+For more information see @Elhorst.2012.
+
 ![Summary impact measures in dynamic spatial panel models [@Elhorst.2012]](fig/Elhorst_panel.PNG)
+
+## Example: Local employment impacts of immigration
+
+@Fingleton.2020: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916
+
+_This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of._
+
+_We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._
+
+![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)
 
 
 

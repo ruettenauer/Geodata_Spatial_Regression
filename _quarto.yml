@@ -21,7 +21,6 @@ book:
     - 10_spatiotemporal.qmd
     - 11_other.qmd
     - 12_exercise2.qmd
-    - summary.qmd
     - references.qmd
 
 bibliography: references.bib

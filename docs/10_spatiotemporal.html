@@ -234,13 +234,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -268,7 +262,8 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#impacts-in-spatial-panel-models" id="toc-impacts-in-spatial-panel-models" class="nav-link" data-scroll-target="#impacts-in-spatial-panel-models"><span class="header-section-number">11.2.1</span> Impacts in spatial panel models</a></li>
   </ul></li>
-  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.3</span> Example: Industrial facilities and municipal income</a></li>
+  <li><a href="#example-local-employment-impacts-of-immigration" id="toc-example-local-employment-impacts-of-immigration" class="nav-link" data-scroll-target="#example-local-employment-impacts-of-immigration"><span class="header-section-number">11.3</span> Example: Local employment impacts of immigration</a></li>
+  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.4</span> Example: Industrial facilities and municipal income</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -439,8 +434,30 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 </section>
 <section id="dynamic-panel-data-models" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="dynamic-panel-data-models"><span class="header-section-number">11.2</span> Dynamic panel data models</h2>
+<p>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</p>
+<p>A general dynamic model would account for all sources of potential dependence, including combinations <span class="citation" data-cites="Elhorst.2012">(<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span>. The most general model can be written as:</p>
+<p><span class="math display">\[
+\begin{split}
+        {\boldsymbol{\mathbf{y}}_t}=&amp; \tau \boldsymbol{\mathbf{y}}_{t-1} + \rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}_t
+        + \gamma(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}_{t-1}}\\
+        &amp;~+ {\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ (\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\theta}}}+ {\boldsymbol{\mathbf{u}}}_t,\\
+        {\boldsymbol{\mathbf{u}}_t}=&amp;  + (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ {\boldsymbol{\mathbf{\nu}}_t},\\
+        {\boldsymbol{\mathbf{\nu}}_t}=&amp; \psi{\boldsymbol{\mathbf{\nu}}}_{t-1} + \lambda(\boldsymbol{\mathbf{I}}_T \otimes {\boldsymbol{\mathbf{W}}_N})\boldsymbol{\mathbf{\nu }}+ {\boldsymbol{\mathbf{\varepsilon}}},
+\end{split}     
+\]</span></p>
+<p>Where <span class="math inline">\({\boldsymbol{\mathbf{X}}}\)</span> could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome <span class="math inline">\(\tau \boldsymbol{\mathbf{y}}_{t-1}\)</span> and the spatially lagged outcome (I_T){y_{t-1}}, and in the error term <span class="math inline">\(\psi{\boldsymbol{\mathbf{\nu}}}_{t-1}\)</span>.</p>
 <section id="impacts-in-spatial-panel-models" class="level3" data-number="11.2.1">
 <h3 data-number="11.2.1" class="anchored" data-anchor-id="impacts-in-spatial-panel-models"><span class="header-section-number">11.2.1</span> Impacts in spatial panel models</h3>
+<p>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in <span class="math inline">\(\boldsymbol{\mathbf{X}}_t\)</span> no influences focal <span class="math inline">\(Y\)</span> and neighbour’s <span class="math inline">\(Y\)</span> but also contemporaneous <span class="math inline">\(Y\)</span> and future <span class="math inline">\(Y\)</span>.</p>
+<p>While the short-term effects are the known impacts</p>
+<p><span class="math display">\[
+\frac{\partial {\boldsymbol{\mathbf{y}}}}{\partial {\boldsymbol{\mathbf{x}}}_k} = ({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}_{NT}})^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}_{NT}}\theta_k\right].
+\]</span></p>
+<p>The long-term impacts, by contrast, additionally account for the effect multiplying through time</p>
+<p><span class="math display">\[
+\frac{\partial {\boldsymbol{\mathbf{y}}}}{\partial {\boldsymbol{\mathbf{x}}}_k} = [(1-\tau){\boldsymbol{\mathbf{I}}}-(\rho+\gamma){\boldsymbol{\mathbf{W}}_{NT}}]^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}_{NT}}\theta_k\right].
+\]</span></p>
+<p>For more information see <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="fig/Elhorst_panel.PNG" class="img-fluid figure-img"></p>
@@ -449,8 +466,20 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 </div>
 </section>
 </section>
-<section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.3</span> Example: Industrial facilities and municipal income</h2>
+<section id="example-local-employment-impacts-of-immigration" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="example-local-employment-impacts-of-immigration"><span class="header-section-number">11.3</span> Example: Local employment impacts of immigration</h2>
+<p><span class="citation" data-cites="Fingleton.2020">Fingleton, Olner, and Pryce (<a href="references.html#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span>: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</p>
+<p><em>This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of.</em></p>
+<p><em>We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment.</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/Fingleton.PNG" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Impacts on employment, <span class="citation" data-cites="Fingleton.2020">Fingleton, Olner, and Pryce (<a href="references.html#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span></figcaption>
+</figure>
+</div>
+</section>
+<section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.4</span> Example: Industrial facilities and municipal income</h2>
 <p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="references.html#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -472,6 +501,9 @@ Elhorst, J. Paul. 2012. <span>“Dynamic Spatial Panels: Models, Methods, and In
 </div>
 <div id="ref-Elhorst.2014" class="csl-entry" role="listitem">
 ———. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+</div>
+<div id="ref-Fingleton.2020" class="csl-entry" role="listitem">
+Fingleton, Bernard, Daniel Olner, and Gwilym Pryce. 2020. <span>“Estimating the Local Employment Impacts of Immigration: <span>A</span> Dynamic Spatial Panel Model.”</span> <em>Urban Studies</em> 57 (13): 2646–62. <a href="https://doi.org/10.1177/0042098019887916">https://doi.org/10.1177/0042098019887916</a>.
 </div>
 <div id="ref-Lee.2010" class="csl-entry" role="listitem">
 Lee, Lung-fei, and Jihai Yu. 2010. <span>“Estimation of <span>Spatial Autoregressive Panel Data Models</span> with <span>Fixed Effects</span>.”</span> <em>Journal of Econometrics</em> 154 (2): 165–85. <a href="https://doi.org/10.1016/j.jeconom.2009.08.001">https://doi.org/10.1016/j.jeconom.2009.08.001</a>.
@@ -920,21 +952,62 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic panel data models</span></span>
 <span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>A general dynamic model would account for all sources of potential dependence, including combinations <span class="co">[</span><span class="ot">@Elhorst.2012</span><span class="co">]</span>. The most general model can be written as:</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>        {\bm y_t}=&amp; \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t</span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="ss">        + </span>\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}<span class="sc">\\</span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>        &amp;~+ {\bm X}{\bm \beta}+ (\bm I_T\otimes {\bm W_N}){\bm X}{\bm \theta}+ {\bm u}_t,<span class="sc">\\</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>        {\bm u_t}=&amp;  + (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu_t},<span class="sc">\\</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>        {\bm \nu_t}=&amp; \psi{\bm \nu}_{t-1} + \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon},</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>$$  </span>
 <span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome \gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}, and in the error term $\psi{\bm \nu}_{t-1}$.</span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in $\bm X_t$ no influences focal $Y$ and neighbour's $Y$ but also contemporaneous $Y$ and future $Y$.</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>While the short-term effects are the known impacts</span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = ({\bm I}-\rho{\bm W_{NT}})^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>The long-term impacts, by contrast, additionally account for the effect multiplying through time  </span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>For more information see @Elhorst.2012.</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Local employment impacts of immigration</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>@Fingleton.2020: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>_This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of._</span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>_We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="al">![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)</span></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

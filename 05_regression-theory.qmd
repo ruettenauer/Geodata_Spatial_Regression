@@ -532,3 +532,9 @@ And this SDM can be interpreted like a combination of SAR and SLX.
 First, there's still substantial auto-correlation in $\bm y$, and this has become even stronger as compared to SAR.
 
 Second, we can interpret the direction of the effect, but we *cannot interpret the coefficient as marginal effects*.
+
+## Examples
+
+__@Boillat.2022__: investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot. Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects.
+
+__@Fischer.2009__:

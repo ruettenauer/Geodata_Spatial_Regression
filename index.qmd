@@ -10,7 +10,7 @@ The main objective of the course is the theoretical understanding and practical 
 
 The field has develops very fast over since few years, and *R* now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in *R*, have a look into the materials references below.
 
-The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) have provided a comprehensive [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023). The focus of this workshop will be on tequchniques for spatial data analysis, such as spatial regression models.
+The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) have provided a comprehensive [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023). The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.
 
 ## Schedule {.unnumbered}
 

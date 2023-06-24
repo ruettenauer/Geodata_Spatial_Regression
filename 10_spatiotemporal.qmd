@@ -1,3 +1,10 @@
+---
+header-includes:
+- \usepackage{threeparttable}
+- \usepackage{siunitx}
+
+---
+
 \newcommand{\Exp}{\mathrm{E}}
 \newcommand\given[1][]{\:#1\vert\:}
 \newcommand{\Cov}{\mathrm{Cov}}
@@ -26,43 +33,117 @@ sessionInfo()
 ```
 
 
-@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Millo.2012 and @Croissant.2018.
+@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Elhorst.2012, @Millo.2012 and @Croissant.2018. @LeSage.2014b discusses Bayesian panel data methods.
 
-## Spatial-Autoregressive (SAR) Model
+Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated [@Lee.2010].
 
+## Static panel data models
 
+The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation [@Millo.2012].
 
 
 $$
-		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}
+		{\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.
 $$	
 
-Small example
+where $\otimes$ is the Kronecker product (block-wise multiplication).
 
 $$
-\begin{bmatrix}
-y_{1} \\
-y_{2} \\
-y_{3}  
-\end{bmatrix} =  \rho
-\begin{bmatrix}
-w_{11} & w_{12} & w_{13}\\
-w_{21} & w_{22} & w_{23}\\
-w_{31} & w_{32} & w_{33} 
-\end{bmatrix} 
-\begin{bmatrix}
-y_{1} \\
-y_{2} \\
-y_{3}  
-\end{bmatrix} + \bm \beta
-\begin{bmatrix}
-x_{11} & x_{12} & \cdots \\
-x_{21} & x_{23} & \cdots \\
-x_{31} & x_{32} & \cdots
-\end{bmatrix} +
-\begin{bmatrix}
-\varepsilon_{1} \\
-\varepsilon_{2} \\
-\varepsilon_{3}  
-\end{bmatrix}
+\begin{split}
+\underbrace{\underbrace{\bm I_T}_{T \times T} \otimes \underbrace{\bm W_N}_{N \times N}}_{NT \times NT}=
+\begin{pmatrix}
+      1 & 0 & \cdots & 0  \\
+      0 & 1 & \cdots & 0  \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & \cdots & 1
+\end{pmatrix}
+\left[\begin{array}{cccc}
+v_{1} w_{1} & v_{1} w_{2} & \cdots & v_{1} w_{m} \\
+v_{2} w_{1} & v_{2} w_{2} & \cdots & v_{2} w_{m} \\
+\vdots & \vdots & \ddots & \vdots \\
+v_{n} w_{1} & v_{n} w_{2} & \cdots & v_{n} w_{m}
+\end{array}\right] =\\
+\begin{pmatrix}
+      \left[\begin{array}{cccc}
+v_{1} w_{1} & v_{1} w_{2} & \cdots & v_{1} w_{m} \\
+v_{2} w_{1} & v_{2} w_{2} & \cdots & v_{2} w_{m} \\
+\vdots & \vdots & \ddots & \vdots \\
+v_{n} w_{1} & v_{n} w_{2} & \cdots & v_{n} w_{m}
+\end{array}\right] & 0 & \cdots & 0  \\
+      0 & \left[\begin{array}{cccc}
+v_{1} w_{1} & v_{1} w_{2} & \cdots & v_{1} w_{m} \\
+v_{2} w_{1} & v_{2} w_{2} & \cdots & v_{2} w_{m} \\
+\vdots & \vdots & \ddots & \vdots \\
+v_{n} w_{1} & v_{n} w_{2} & \cdots & v_{n} w_{m}
+\end{array}\right] & \cdots & 0  \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & \cdots & \left[\begin{array}{cccc}
+v_{1} w_{1} & v_{1} w_{2} & \cdots & v_{1} w_{m} \\
+v_{2} w_{1} & v_{2} w_{2} & \cdots & v_{2} w_{m} \\
+\vdots & \vdots & \ddots & \vdots \\
+v_{n} w_{1} & v_{n} w_{2} & \cdots & v_{n} w_{m}
+\end{array}\right]
+\end{pmatrix}
+\end{split}
 $$
+
+Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix $T$ times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.
+
+The error term can be decomposed into two parts:
+
+$$
+		{\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu},
+$$
+
+where $\bm \iota_T$ is a $T \times 1$ vector of ones, ${\bm I_N}$ an $N \times N$ identity matrix, $\bm \mu$ is a vector of time-invariant individual specific effects (not spatially autocorrelated).
+
+We could obviously extent the specification to allow for error correlation by specifying
+
+$$
+		{\bm \nu}= \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon}.
+$$
+
+The individual effects can be treated as fixed or random.
+
+__Fixed Effects__
+
+In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term: 
+
+$$
+		{y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},
+$$
+where $\mu_i$ denote the individual-specific fixed effects.
+
+As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood [@Elhorst.2014].
+
+__Random Effects__
+
+In the RE model, the individual specific effects are treated as components of the error $\mu \sim \mathrm{IID}(o, \sigma_\mu^2)$. The model can then be written as
+
+$$
+\begin{split}
+		{\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, \\
+		{\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ [\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})]^{-1} {\bm \varepsilon}.
+\end{split}		
+$$	
+
+As with the conventional random effects model, we make the strong assumption that the unobserved individual
+effects are uncorrelated with the covariates $\bm X$ in the model.
+
+## Dynamic panel data models
+
+
+### Impacts in spatial panel models
+
+![Summary impact measures in dynamic spatial panel models [@Elhorst.2012]](fig/Elhorst_panel.PNG)
+
+
+
+## Example: Industrial facilities and municipal income
+
+@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077
+
+![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)
+
+
+![](fig/Table1.png)

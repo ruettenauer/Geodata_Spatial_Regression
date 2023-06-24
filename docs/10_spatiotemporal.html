@@ -114,12 +114,15 @@ div.csl-indent {
   }
 }</script>
 
+</head><body class="nav-sidebar floating">\usepackage{threeparttable}
+\usepackage{siunitx}
+
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-</head>
 
-<body class="nav-sidebar floating">
+
+
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -260,7 +263,12 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#required-packages" id="toc-required-packages" class="nav-link" data-scroll-target="#required-packages">Required packages</a></li>
   <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
-  <li><a href="#spatial-autoregressive-sar-model" id="toc-spatial-autoregressive-sar-model" class="nav-link" data-scroll-target="#spatial-autoregressive-sar-model"><span class="header-section-number">11.1</span> Spatial-Autoregressive (SAR) Model</a></li>
+  <li><a href="#static-panel-data-models" id="toc-static-panel-data-models" class="nav-link" data-scroll-target="#static-panel-data-models"><span class="header-section-number">11.1</span> Static panel data models</a></li>
+  <li><a href="#dynamic-panel-data-models" id="toc-dynamic-panel-data-models" class="nav-link" data-scroll-target="#dynamic-panel-data-models"><span class="header-section-number">11.2</span> Dynamic panel data models</a>
+  <ul class="collapse">
+  <li><a href="#impacts-in-spatial-panel-models" id="toc-impacts-in-spatial-panel-models" class="nav-link" data-scroll-target="#impacts-in-spatial-panel-models"><span class="header-section-number">11.2.1</span> Impacts in spatial panel models</a></li>
+  </ul></li>
+  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.3</span> Example: Industrial facilities and municipal income</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -336,69 +344,146 @@ loaded via a namespace (and not attached):
 [22] lifecycle_1.0.3    compiler_4.3.1     deldir_1.0-9      
 [25] munsell_0.5.0      terra_1.7-29       leafsync_0.1.0    
 [28] codetools_0.2-19   stars_0.6-1        htmltools_0.5.5   
-[31] class_7.3-22       pillar_1.9.0       MASS_7.3-60       
-[34] classInt_0.4-9     lwgeom_0.2-13      wk_0.7.3          
-[37] abind_1.4-5        boot_1.3-28.1      multcomp_1.4-24   
-[40] nlme_3.1-162       tidyselect_1.2.0   digest_0.6.31     
-[43] mvtnorm_1.2-2      dplyr_1.1.2        splines_4.3.1     
-[46] fastmap_1.1.1      grid_4.3.1         colorspace_2.1-0  
-[49] expm_0.999-7       cli_3.6.1          magrittr_2.0.3    
-[52] base64enc_0.1-3    dichromat_2.0-0.1  XML_3.99-0.14     
-[55] survival_3.5-5     utf8_1.2.3         TH.data_1.1-2     
-[58] leafem_0.2.0       e1071_1.7-13       scales_1.2.1      
-[61] sp_1.6-1           rmarkdown_2.22     zoo_1.8-12        
-[64] png_0.1-8          coda_0.19-4        evaluate_0.21     
-[67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
-[70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
-[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
-[76] units_0.8-2       </code></pre>
+[31] class_7.3-22       yaml_2.3.7         pillar_1.9.0      
+[34] MASS_7.3-60        classInt_0.4-9     lwgeom_0.2-13     
+[37] wk_0.7.3           abind_1.4-5        boot_1.3-28.1     
+[40] multcomp_1.4-24    nlme_3.1-162       tidyselect_1.2.0  
+[43] digest_0.6.31      mvtnorm_1.2-2      dplyr_1.1.2       
+[46] splines_4.3.1      fastmap_1.1.1      grid_4.3.1        
+[49] colorspace_2.1-0   expm_0.999-7       cli_3.6.1         
+[52] magrittr_2.0.3     base64enc_0.1-3    dichromat_2.0-0.1 
+[55] XML_3.99-0.14      survival_3.5-5     utf8_1.2.3        
+[58] TH.data_1.1-2      leafem_0.2.0       e1071_1.7-13      
+[61] scales_1.2.1       sp_1.6-1           rmarkdown_2.22    
+[64] zoo_1.8-12         png_0.1-8          coda_0.19-4       
+[67] evaluate_0.21      knitr_1.43         tmaptools_3.1-1   
+[70] s2_1.1.4           rlang_1.1.1        Rcpp_1.0.10       
+[73] glue_1.6.2         DBI_1.1.3          jsonlite_1.8.5    
+[76] R6_2.5.1           units_0.8-2       </code></pre>
 </div>
 </div>
-<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">(<a href="references.html#ref-Croissant.2018" role="doc-biblioref"><strong>Croissant.2018?</strong></a>)</span>.</p>
+<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">Croissant and Millo (<a href="references.html#ref-Croissant.2018" role="doc-biblioref">2018</a>)</span>. <span class="citation" data-cites="LeSage.2014b">LeSage (<a href="references.html#ref-LeSage.2014b" role="doc-biblioref">2014</a>)</span> discusses Bayesian panel data methods.</p>
+<p>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="citation" data-cites="Lee.2010">(<a href="references.html#ref-Lee.2010" role="doc-biblioref">Lee and Yu 2010</a>)</span>.</p>
 </section>
-<section id="spatial-autoregressive-sar-model" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="spatial-autoregressive-sar-model"><span class="header-section-number">11.1</span> Spatial-Autoregressive (SAR) Model</h2>
+<section id="static-panel-data-models" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="static-panel-data-models"><span class="header-section-number">11.1</span> Static panel data models</h2>
+<p>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="citation" data-cites="Millo.2012">(<a href="references.html#ref-Millo.2012" role="doc-biblioref">Millo and Piras 2012</a>)</span>.</p>
 <p><span class="math display">\[
-        {\boldsymbol{\mathbf{y}}}=\alpha{\boldsymbol{\mathbf{\iota}}}+\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}
+        {\boldsymbol{\mathbf{y}}}= +\rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{u}}}.
 \]</span></p>
-<p>Small example</p>
+<p>where <span class="math inline">\(\otimes\)</span> is the Kronecker product (block-wise multiplication).</p>
 <p><span class="math display">\[
-\begin{bmatrix}
-y_{1} \\
-y_{2} \\
-y_{3}  
-\end{bmatrix} =  \rho
-\begin{bmatrix}
-w_{11} &amp; w_{12} &amp; w_{13}\\
-w_{21} &amp; w_{22} &amp; w_{23}\\
-w_{31} &amp; w_{32} &amp; w_{33}
-\end{bmatrix}
-\begin{bmatrix}
-y_{1} \\
-y_{2} \\
-y_{3}  
-\end{bmatrix} + \boldsymbol{\mathbf{\beta}}
-\begin{bmatrix}
-x_{11} &amp; x_{12} &amp; \cdots \\
-x_{21} &amp; x_{23} &amp; \cdots \\
-x_{31} &amp; x_{32} &amp; \cdots
-\end{bmatrix} +
-\begin{bmatrix}
-\varepsilon_{1} \\
-\varepsilon_{2} \\
-\varepsilon_{3}  
-\end{bmatrix}
+\begin{split}
+\underbrace{\underbrace{\boldsymbol{\mathbf{I}}_T}_{T \times T} \otimes \underbrace{\boldsymbol{\mathbf{W}}_N}_{N \times N}}_{NT \times NT}=
+\begin{pmatrix}
+      1 &amp; 0 &amp; \cdots &amp; 0  \\
+      0 &amp; 1 &amp; \cdots &amp; 0  \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \cdots &amp; 1
+\end{pmatrix}
+\left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] =\\
+\begin{pmatrix}
+      \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  \\
+      0 &amp; \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] &amp; \cdots &amp; 0  \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right]
+\end{pmatrix}
+\end{split}
 \]</span></p>
+<p>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix <span class="math inline">\(T\)</span> times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</p>
+<p>The error term can be decomposed into two parts:</p>
+<p><span class="math display">\[
+        {\boldsymbol{\mathbf{u}}}= (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ {\boldsymbol{\mathbf{\nu}}},
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{\mathbf{\iota}}_T\)</span> is a <span class="math inline">\(T \times 1\)</span> vector of ones, <span class="math inline">\({\boldsymbol{\mathbf{I}}_N}\)</span> an <span class="math inline">\(N \times N\)</span> identity matrix, <span class="math inline">\(\boldsymbol{\mathbf{\mu}}\)</span> is a vector of time-invariant individual specific effects (not spatially autocorrelated).</p>
+<p>We could obviously extent the specification to allow for error correlation by specifying</p>
+<p><span class="math display">\[
+        {\boldsymbol{\mathbf{\nu}}}= \lambda(\boldsymbol{\mathbf{I}}_T \otimes {\boldsymbol{\mathbf{W}}_N})\boldsymbol{\mathbf{\nu }}+ {\boldsymbol{\mathbf{\varepsilon}}}.
+\]</span></p>
+<p>The individual effects can be treated as fixed or random.</p>
+<p><strong>Fixed Effects</strong></p>
+<p>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term:</p>
+<p><span class="math display">\[
+        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \boldsymbol{\mathbf{x}}_{it}\boldsymbol{\mathbf{\beta }}+ \mu_i + \nu_{it},
+\]</span> where <span class="math inline">\(\mu_i\)</span> denote the individual-specific fixed effects.</p>
+<p>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="citation" data-cites="Elhorst.2014">(<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">Elhorst 2014</a>)</span>.</p>
+<p><strong>Random Effects</strong></p>
+<p>In the RE model, the individual specific effects are treated as components of the error <span class="math inline">\(\mu \sim \mathrm{IID}(o, \sigma_\mu^2)\)</span>. The model can then be written as</p>
+<p><span class="math display">\[
+\begin{split}
+        {\boldsymbol{\mathbf{y}}}= +\rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{u}}}, \\
+        {\boldsymbol{\mathbf{u}}}= (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ [\boldsymbol{\mathbf{I}}_T \otimes (\boldsymbol{\mathbf{I}}_N -  \lambda{\boldsymbol{\mathbf{W}}_N})]^{-1} {\boldsymbol{\mathbf{\varepsilon}}}.
+\end{split}     
+\]</span></p>
+<p>As with the conventional random effects model, we make the strong assumption that the unobserved individual effects are uncorrelated with the covariates <span class="math inline">\(\boldsymbol{\mathbf{X}}\)</span> in the model.</p>
+</section>
+<section id="dynamic-panel-data-models" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="dynamic-panel-data-models"><span class="header-section-number">11.2</span> Dynamic panel data models</h2>
+<section id="impacts-in-spatial-panel-models" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="impacts-in-spatial-panel-models"><span class="header-section-number">11.2.1</span> Impacts in spatial panel models</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/Elhorst_panel.PNG" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Summary impact measures in dynamic spatial panel models <span class="citation" data-cites="Elhorst.2012">(<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span></figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.3</span> Example: Industrial facilities and municipal income</h2>
+<p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="references.html#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig/Figure1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.</figcaption>
+</figure>
+</div>
+<p><img src="fig/Table1.png" class="img-fluid"></p>
 
 
 <!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Croissant.2018" class="csl-entry" role="listitem">
+Croissant, Yves, and Givanni Millo, eds. 2018. <span>“Spatial <span>Panels</span>.”</span> In <em>Panel <span>Data Econometrics</span> with <span>R</span></em>, 245–84. <span>Chichester, UK</span>: <span>John Wiley &amp; Sons, Ltd</span>. <a href="https://doi.org/10.1002/9781119504641.ch10">https://doi.org/10.1002/9781119504641.ch10</a>.
+</div>
+<div id="ref-Elhorst.2012" class="csl-entry" role="listitem">
+Elhorst, J. Paul. 2012. <span>“Dynamic Spatial Panels: Models, Methods, and Inferences.”</span> <em>Journal of Geographical Systems</em> 14 (1): 5–28. <a href="https://doi.org/10.1007/s10109-011-0158-4">https://doi.org/10.1007/s10109-011-0158-4</a>.
+</div>
 <div id="ref-Elhorst.2014" class="csl-entry" role="listitem">
-Elhorst, J. Paul. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+———. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+</div>
+<div id="ref-Lee.2010" class="csl-entry" role="listitem">
+Lee, Lung-fei, and Jihai Yu. 2010. <span>“Estimation of <span>Spatial Autoregressive Panel Data Models</span> with <span>Fixed Effects</span>.”</span> <em>Journal of Econometrics</em> 154 (2): 165–85. <a href="https://doi.org/10.1016/j.jeconom.2009.08.001">https://doi.org/10.1016/j.jeconom.2009.08.001</a>.
+</div>
+<div id="ref-LeSage.2014b" class="csl-entry" role="listitem">
+LeSage, James P. 2014. <span>“Spatial Econometric Panel Data Model Specification: <span>A Bayesian</span> Approach.”</span> <em>Spatial Statistics</em> 9 (August): 122–45. <a href="https://doi.org/10.1016/j.spasta.2014.02.002">https://doi.org/10.1016/j.spasta.2014.02.002</a>.
 </div>
 <div id="ref-Millo.2012" class="csl-entry" role="listitem">
 Millo, Giovanni, and Gianfranco Piras. 2012. <span>“Splm: <span>Spatial Panel Data Models</span> in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 47 (1). <a href="https://doi.org/10.18637/jss.v047.i01">https://doi.org/10.18637/jss.v047.i01</a>.
+</div>
+<div id="ref-Ruttenauer.2021b" class="csl-entry" role="listitem">
+Rüttenauer, Tobias, and Henning Best. 2021. <span>“Environmental <span>Inequality</span> and <span>Residential Sorting</span> in <span>Germany</span>: <span>A Spatial Time-Series Analysis</span> of the <span>Demographic Consequences</span> of <span>Industrial Sites</span>.”</span> <em>Demography</em> 58 (6): 2243–63. <a href="https://doi.org/10.1215/00703370-9563077">https://doi.org/10.1215/00703370-9563077</a>.
 </div>
 </div>
 </section>
@@ -701,74 +786,155 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">header-includes:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">- \usepackage{threeparttable}</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">- \usepackage{siunitx}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Millo.2012 and @Croissant.2018.</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Spatial-Autoregressive (SAR) Model</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        {\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Elhorst.2012, @Millo.2012 and @Croissant.2018. @LeSage.2014b discusses Bayesian panel data methods.</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="co">[</span><span class="ot">@Lee.2010</span><span class="co">]</span>.</span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>Small example</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Static panel data models</span></span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} =  \rho</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>w_{11} &amp; w_{12} &amp; w_{13}<span class="sc">\\</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>w_{21} &amp; w_{22} &amp; w_{23}<span class="sc">\\</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>w_{31} &amp; w_{32} &amp; w_{33} </span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} </span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>y_{1} <span class="sc">\\</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>y_{2} <span class="sc">\\</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>y_{3}  </span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} + \bm \beta</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>x_{11} &amp; x_{12} &amp; \cdots <span class="sc">\\</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>x_{21} &amp; x_{23} &amp; \cdots <span class="sc">\\</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>x_{31} &amp; x_{32} &amp; \cdots</span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>\end{bmatrix} +</span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>\begin{bmatrix}</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>\varepsilon_{1} <span class="sc">\\</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>\varepsilon_{2} <span class="sc">\\</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>\varepsilon_{3}  </span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>\end{bmatrix}</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="co">[</span><span class="ot">@Millo.2012</span><span class="co">]</span>.</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>where $\otimes$ is the Kronecker product (block-wise multiplication).</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>\underbrace{\underbrace{\bm I_T}_{T \times T} \otimes \underbrace{\bm W_N}_{N \times N}}_{NT \times NT}=</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; 1</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>\left[\begin{array}{cccc}</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>\end{array}\right] =<span class="sc">\\</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>      \left[\begin{array}{cccc}</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>      0 &amp; \left[\begin{array}{cccc}</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>\end{array}\right]</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix $T$ times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>The error term can be decomposed into two parts:</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu},</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>where $\bm \iota_T$ is a $T \times 1$ vector of ones, ${\bm I_N}$ an $N \times N$ identity matrix, $\bm \mu$ is a vector of time-invariant individual specific effects (not spatially autocorrelated).</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>We could obviously extent the specification to allow for error correlation by specifying</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        {\bm \nu}= \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon}.</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>The individual effects can be treated as fixed or random.</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>__Fixed Effects__</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term: </span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>where $\mu_i$ denote the individual-specific fixed effects.</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="co">[</span><span class="ot">@Elhorst.2014</span><span class="co">]</span>.</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>__Random Effects__</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>In the RE model, the individual specific effects are treated as components of the error $\mu \sim \mathrm{IID}(o, \sigma_\mu^2)$. The model can then be written as</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, <span class="sc">\\</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ <span class="co">[</span><span class="ot">\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})</span><span class="co">]</span>^{-1} {\bm \varepsilon}.</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>As with the conventional random effects model, we make the strong assumption that the unobserved individual</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>effects are uncorrelated with the covariates $\bm X$ in the model.</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic panel data models</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

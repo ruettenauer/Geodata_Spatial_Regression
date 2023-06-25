@@ -39,11 +39,7 @@ $$
 \Exp(\varepsilon_i\varepsilon_j)\neq \Exp(\varepsilon_i)\Exp(\varepsilon_j) = 0
 $$
 		
-This violates a basic assumption of the conventional OLS model. In consequence, ignoring spatial dependence can lead to
-		
-* biased inferential statistics
-
-* biased point estimates (depending on the DGP)
+This violates a basic assumption of the conventional OLS model. We will talk more about whether that is good or bad (any guess?).
 
 ### Visualization
 
@@ -61,7 +57,7 @@ mp1 <- tm_shape(msoa.spdf) +
   tm_layout(legend.frame = TRUE, legend.bg.color = TRUE,
             #legend.position = c("right", "bottom"),
             legend.outside = TRUE,
-            main.title = "Percentage home owners", 
+            main.title = "Percent home owners", 
             main.title.position = "center",
             title.snap.to.legend = TRUE) 
 
@@ -69,12 +65,14 @@ mp1
 
 ```
 
-We definitely see some clusters with spatial units having a low share of home owner (e.g. in the city center), and other clusters where home ownership is high (e.g. suburbs in the south and east). However, this is (to some degree) dependent on how we define cutoffs and coloring of the map.
+We definitely see some clusters with spatial units having a low share of home owner (e.g. in the city center), and other clusters where home ownership is high (e.g. suburbs in the south and east, such as Bromley or Havering). 
+
+However, this is (to some degree) dependent on how we define cutoffs and coloring of the map: the Modifiable Areal Unit Problem [@Wong.2009].
 
 ::: {.callout-tip}
 ## Question
 
-Which of the following three chessboards has no (or the lowest) autocorrelation?
+Which of the following three checkerboards has no (or the lowest) autocorrelation?
 :::
 
 ![](fig/segregation.png)
@@ -105,9 +103,7 @@ $$
 		\end{equation}
 $$
 
-Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as:
-
-* Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$. Basically, this measures correlation between neighbouring values.
+Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as: _Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$_. Basically, this measures correlation between neighbouring values.
 
 * Negative values: negative autocorrelation
 
@@ -195,11 +191,11 @@ $$
 \hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' < h_{i,1}
 $$ {#eq-samplevariogram}
 
-with the number of available pairs $N(h_i)$ in each distance interval $h_i$.
+with the number of available pairs $N(h_i)$ in each distance interval $h_i$. Basically, _it is the variance within each distance interval_.
 
 For more information, see for instance the [Geospatial Data Science in R](https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html) by Zia Ahmed or @Pebesma.2023.
 
-To calculate the empirical semi-vriogram, we can use the package `gstat` with the fucntion `variogram()`.
+To calculate the empirical semi-vriogram, we can use the package `gstat` with the function `variogram()`.
 
 ```{r}
 # Variogram No2
@@ -210,7 +206,7 @@ plot(v.no2, xlim = c(0, 1.075 * max(v.no2$dist)),
 
 Above graphs shows that the variance within each distance interval gradually increases, up to a distance of ~ 18km, and then level off at a relative constant level. Lower variances within lower values of distances means that observations are more similar to each other the closer they are.
 
-We can also try to fit a model that resembles the spatial structure. This becomes important when we want to perform interpolation.
+We can also try to fit a model that resembles the spatial structure. This becomes important when we want to perform spatial interpolation (e.g. to impute missings).
 
 ![Theoretical exponential semi-variogram model. Source: https://www.aspexit.com/variogram-and-spatial-autocorrelation](fig/Semi_variogram.png)
 
@@ -241,7 +237,7 @@ plot(v.no2, pl = FALSE,
 
 ## Local Autocorrelation
 
-The Global Moran's I statistics above summarize the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often helpful to inspect the spatial pattern in more detail.
+The Global Moran's I statistic above summarizes the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often more helpful to inspect the spatial pattern in more detail.
 
 The most prominent measure is the Local Indicators of Spatial Association (LISA) [@Anselin.1995]. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the [GeoData Materials](https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html) by Luc Anselin.
 
@@ -370,6 +366,15 @@ Note that it is not suggested to interpret those cluster as singificant in the s
 
 There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see [Chapter 15](https://r-spatial.org/book/15-Measures.html) of @Pebesma.2023.
 
+## Example
+
+### Tate.2021 {.unnumbered}
+
+_This study explores the geography of flood exposure and social vulnerability in the conterminous United States based on spatial analysis of fluvial and pluvial flood extent, land cover, and social vulnerability._
+
+_Mobile homes and racial minorities are most overrepresented in hotspots compared to elsewhere. The results identify priority locations where interventions can mitigate both physical and social aspects of flood vulnerability._
+
+![](fig/Tate.png)
 
 
 ## Exercise

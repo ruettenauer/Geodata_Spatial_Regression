@@ -114,15 +114,12 @@ div.csl-indent {
   }
 }</script>
 
-</head><body class="nav-sidebar floating">\usepackage{threeparttable}
-\usepackage{siunitx}
-
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+</head>
 
-
-
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -263,7 +260,8 @@ div.csl-indent {
   <li><a href="#impacts-in-spatial-panel-models" id="toc-impacts-in-spatial-panel-models" class="nav-link" data-scroll-target="#impacts-in-spatial-panel-models"><span class="header-section-number">11.2.1</span> Impacts in spatial panel models</a></li>
   </ul></li>
   <li><a href="#example-local-employment-impacts-of-immigration" id="toc-example-local-employment-impacts-of-immigration" class="nav-link" data-scroll-target="#example-local-employment-impacts-of-immigration"><span class="header-section-number">11.3</span> Example: Local employment impacts of immigration</a></li>
-  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.4</span> Example: Industrial facilities and municipal income</a></li>
+  <li><a href="#estimation-in-r" id="toc-estimation-in-r" class="nav-link" data-scroll-target="#estimation-in-r"><span class="header-section-number">11.4</span> Estimation in R</a></li>
+  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.5</span> Example: Industrial facilities and municipal income</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -293,8 +291,9 @@ div.csl-indent {
 <section id="required-packages" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="session-info" class="level3 unnumbered">
@@ -324,37 +323,42 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
-[4] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
-[7] mapview_2.11.0    sf_1.0-13        
+ [1] SDPDmod_0.0.3     splm_1.6-2        plm_2.6-3        
+ [4] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
+ [7] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
+[10] mapview_2.11.0    sf_1.0-13        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
- [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
- [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
-[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
-[13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
-[16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
-[19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
-[22] lifecycle_1.0.3    compiler_4.3.1     deldir_1.0-9      
-[25] munsell_0.5.0      terra_1.7-29       leafsync_0.1.0    
-[28] codetools_0.2-19   stars_0.6-1        htmltools_0.5.5   
-[31] class_7.3-22       yaml_2.3.7         pillar_1.9.0      
-[34] MASS_7.3-60        classInt_0.4-9     lwgeom_0.2-13     
-[37] wk_0.7.3           abind_1.4-5        boot_1.3-28.1     
-[40] multcomp_1.4-24    nlme_3.1-162       tidyselect_1.2.0  
-[43] digest_0.6.31      mvtnorm_1.2-2      dplyr_1.1.2       
-[46] splines_4.3.1      fastmap_1.1.1      grid_4.3.1        
-[49] colorspace_2.1-0   expm_0.999-7       cli_3.6.1         
-[52] magrittr_2.0.3     base64enc_0.1-3    dichromat_2.0-0.1 
-[55] XML_3.99-0.14      survival_3.5-5     utf8_1.2.3        
-[58] TH.data_1.1-2      leafem_0.2.0       e1071_1.7-13      
-[61] scales_1.2.1       sp_1.6-1           rmarkdown_2.22    
-[64] zoo_1.8-12         png_0.1-8          coda_0.19-4       
-[67] evaluate_0.21      knitr_1.43         tmaptools_3.1-1   
-[70] s2_1.1.4           rlang_1.1.1        Rcpp_1.0.10       
-[73] glue_1.6.2         DBI_1.1.3          jsonlite_1.8.5    
-[76] R6_2.5.1           units_0.8-2       </code></pre>
+ [1] tidyselect_1.2.0   dplyr_1.1.2        fastmap_1.1.1     
+ [4] leaflet_2.1.2      TH.data_1.1-2      dotCall64_1.0-2   
+ [7] XML_3.99-0.14      digest_0.6.31      lifecycle_1.0.3   
+[10] LearnBayes_2.15.1  survival_3.5-5     terra_1.7-29      
+[13] magrittr_2.0.3     compiler_4.3.1     rlang_1.1.1       
+[16] tools_4.3.1        utf8_1.2.3         collapse_1.9.6    
+[19] knitr_1.43         htmlwidgets_1.6.2  sp_1.6-1          
+[22] classInt_0.4-9     RColorBrewer_1.1-3 multcomp_1.4-24   
+[25] abind_1.4-5        KernSmooth_2.23-21 expm_0.999-7      
+[28] leafsync_0.1.0     grid_4.3.1         stats4_4.3.1      
+[31] fansi_1.0.4        xtable_1.8-4       lfe_2.9-0         
+[34] e1071_1.7-13       leafem_0.2.0       colorspace_2.1-0  
+[37] scales_1.2.1       MASS_7.3-60        dichromat_2.0-0.1 
+[40] cli_3.6.1          mvtnorm_1.2-2      rmarkdown_2.22    
+[43] miscTools_0.6-28   generics_0.1.3     RSpectra_0.16-1   
+[46] tmaptools_3.1-1    bdsmatrix_1.3-6    DBI_1.1.3         
+[49] proxy_0.4-27       ibdreg_0.3.8       splines_4.3.1     
+[52] stars_0.6-1        parallel_4.3.1     s2_1.1.4          
+[55] base64enc_0.1-3    vctrs_0.6.3        boot_1.3-28.1     
+[58] webshot_0.5.4      sandwich_3.0-2     jsonlite_1.8.5    
+[61] Formula_1.2-5      crosstalk_1.2.0    units_0.8-2       
+[64] spam_2.9-1         glue_1.6.2         lwgeom_0.2-13     
+[67] codetools_0.2-19   deldir_1.0-9       raster_3.6-20     
+[70] lmtest_0.9-40      munsell_0.5.0      tibble_3.2.1      
+[73] pillar_1.9.0       htmltools_0.5.5    satellite_1.0.4   
+[76] R6_2.5.1           maxLik_1.5-2       wk_0.7.3          
+[79] Rdpack_2.4         evaluate_0.21      lattice_0.21-8    
+[82] rbibutils_2.2.13   png_0.1-8          class_7.3-22      
+[85] Rcpp_1.0.10        coda_0.19-4        nlme_3.1-162      
+[88] xfun_0.39          zoo_1.8-12         pkgconfig_2.0.3   </code></pre>
 </div>
 </div>
 <p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">Croissant and Millo (<a href="references.html#ref-Croissant.2018" role="doc-biblioref">2018</a>)</span>. <span class="citation" data-cites="LeSage.2014b">LeSage (<a href="references.html#ref-LeSage.2014b" role="doc-biblioref">2014</a>)</span> discusses Bayesian panel data methods.</p>
@@ -478,8 +482,323 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 </figure>
 </div>
 </section>
-<section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.4</span> Example: Industrial facilities and municipal income</h2>
+<section id="estimation-in-r" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="estimation-in-r"><span class="header-section-number">11.4</span> Estimation in R</h2>
+<p>To estimate spatial panel models in R, we can use the <code>splm</code> package of <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span>.</p>
+<p>We use a standard example with longitudinal data from the <code>plm</code> package here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Produc, <span class="at">package =</span> <span class="st">"plm"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(usaww)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Produc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    state year region     pcap     hwy   water    util       pc
+1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80
+2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91
+3 ALABAMA 1972      6 15972.41 7765.42 1764.75 6442.23 38670.30
+4 ALABAMA 1973      6 16406.26 7907.66 1742.41 6756.19 40084.01
+5 ALABAMA 1974      6 16762.67 8025.52 1734.85 7002.29 42057.31
+6 ALABAMA 1975      6 17316.26 8158.23 1752.27 7405.76 43971.71
+    gsp    emp unemp
+1 28418 1010.5   4.7
+2 29375 1021.9   5.2
+3 31303 1072.3   4.7
+4 33430 1135.5   3.9
+5 33749 1169.8   5.5
+6 33604 1155.4   7.7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>usaww[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ALABAMA   ARIZONA ARKANSAS CALIFORNIA COLORADO
+ALABAMA         0.0 0.0000000        0        0.0      0.0
+ARIZONA         0.0 0.0000000        0        0.2      0.2
+ARKANSAS        0.0 0.0000000        0        0.0      0.0
+CALIFORNIA      0.0 0.3333333        0        0.0      0.0
+COLORADO        0.0 0.1428571        0        0.0      0.0
+CONNECTICUT     0.0 0.0000000        0        0.0      0.0
+DELAWARE        0.0 0.0000000        0        0.0      0.0
+FLORIDA         0.5 0.0000000        0        0.0      0.0
+GEORGIA         0.2 0.0000000        0        0.0      0.0
+IDAHO           0.0 0.0000000        0        0.0      0.0
+            CONNECTICUT DELAWARE FLORIDA GEORGIA IDAHO
+ALABAMA               0        0    0.25    0.25     0
+ARIZONA               0        0    0.00    0.00     0
+ARKANSAS              0        0    0.00    0.00     0
+CALIFORNIA            0        0    0.00    0.00     0
+COLORADO              0        0    0.00    0.00     0
+CONNECTICUT           0        0    0.00    0.00     0
+DELAWARE              0        0    0.00    0.00     0
+FLORIDA               0        0    0.00    0.50     0
+GEORGIA               0        0    0.20    0.00     0
+IDAHO                 0        0    0.00    0.00     0</code></pre>
+</div>
+</div>
+<p><code>Produc</code> contains data on US States Production - a panel of 48 observations from 1970 to 1986. <code>usaww</code> is a spatial weights matrix of the 48 continental US States based on the queen contiguity relation.</p>
+<p>Let start with an FE SEM model, using function <code>spml()</code> for maximum likelihood estimation of static spatial panel models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gen listw object</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>usalw <span class="ot">&lt;-</span> <span class="fu">mat2listw</span>(usaww, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spec formula</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">log</span>(gsp) <span class="sc">~</span> <span class="fu">log</span>(pcap) <span class="sc">+</span> <span class="fu">log</span>(pc) <span class="sc">+</span> <span class="fu">log</span>(emp) <span class="sc">+</span> unemp</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">### Esimate FE SEM model</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>semfe.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"within"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">FALSE</span>,            <span class="co"># spatila lg of Y</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"b"</span>,    <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(semfe.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial panel fixed effects error model
+ 
+
+Call:
+spml(formula = fm, data = Produc, index = c("state", "year"), 
+    listw = usalw, na.action = na.fail, model = "within", effect = "individual", 
+    lag = FALSE, spatial.error = "b", method = "eigen", zero.policy = NULL)
+
+Residuals:
+      Min.    1st Qu.     Median    3rd Qu.       Max. 
+-0.1246945 -0.0237699 -0.0034993  0.0170886  0.1882224 
+
+Spatial error parameter:
+    Estimate Std. Error t-value  Pr(&gt;|t|)    
+rho 0.557401   0.033075  16.853 &lt; 2.2e-16 ***
+
+Coefficients:
+            Estimate Std. Error t-value Pr(&gt;|t|)    
+log(pcap)  0.0051438  0.0250109  0.2057  0.83705    
+log(pc)    0.2053026  0.0231427  8.8712  &lt; 2e-16 ***
+log(emp)   0.7822540  0.0278057 28.1328  &lt; 2e-16 ***
+unemp     -0.0022317  0.0010709 -2.0839  0.03717 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A RE SAR model, by contrast, can be estimated using the following options:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Estimate an RE SAR model</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sarre.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"random"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">TRUE</span>,             <span class="co"># spatila lg of Y</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"none"</span>, <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ML panel with spatial lag, random effects 
+
+Call:
+spreml(formula = formula, data = data, index = index, w = listw2mat(listw), 
+    w2 = listw2mat(listw2), lag = lag, errors = errors, cl = cl, 
+    method = "eigen", zero.policy = ..2)
+
+Residuals:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.38    1.57    1.70    1.70    1.80    2.13 
+
+Error variance parameters:
+    Estimate Std. Error t-value Pr(&gt;|t|)  
+phi  21.3175     8.2929  2.5706  0.01015 *
+
+Spatial autoregressive coefficient:
+       Estimate Std. Error t-value  Pr(&gt;|t|)    
+lambda 0.161615   0.029042  5.5648 2.625e-08 ***
+
+Coefficients:
+               Estimate  Std. Error t-value  Pr(&gt;|t|)    
+(Intercept)  1.65814987  0.15071855 11.0016 &lt; 2.2e-16 ***
+log(pcap)    0.01294505  0.02493997  0.5190    0.6037    
+log(pc)      0.22555375  0.02163422 10.4258 &lt; 2.2e-16 ***
+log(emp)     0.67081074  0.02642113 25.3892 &lt; 2.2e-16 ***
+unemp       -0.00579716  0.00089175 -6.5009 7.984e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Note that <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> use a different notation, namely <span class="math inline">\(\lambda\)</span> for lag dependence, and <span class="math inline">\(\rho\)</span> for error dependence….</p>
+<p>Again, we have to use an additional step to get impacts for SAR-like models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of years</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(Produc<span class="sc">$</span>year))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># impacts</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>sarre.mod.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(sarre.mod,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">listw =</span> usalw,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">time =</span> T)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod.imp)                         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (lag, trace):
+                Direct     Indirect        Total
+log(pcap)  0.013028574  0.002411880  0.015440454
+log(pc)    0.227009032  0.042024438  0.269033470
+log(emp)   0.675138835  0.124983264  0.800122098
+unemp     -0.005834562 -0.001080108 -0.006914669
+========================================================
+Simulation results ( variance matrix):
+Direct:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean        SD  Naive SE Time-series SE
+log(pcap)  0.012923 0.0256298 1.812e-03      1.812e-03
+log(pc)    0.227705 0.0217875 1.541e-03      1.541e-03
+log(emp)   0.674736 0.0271749 1.922e-03      1.922e-03
+unemp     -0.005823 0.0009813 6.939e-05      6.939e-05
+
+2. Quantiles for each variable:
+
+              2.5%       25%       50%       75%     97.5%
+log(pcap) -0.03487 -0.004762  0.011612  0.029624  0.064304
+log(pc)    0.18616  0.212098  0.226047  0.243039  0.269157
+log(emp)   0.62436  0.653502  0.675427  0.693538  0.724776
+unemp     -0.00770 -0.006473 -0.005803 -0.005178 -0.003932
+
+========================================================
+Indirect:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean        SD  Naive SE Time-series SE
+log(pcap)  0.002344 0.0049388 3.492e-04      3.419e-04
+log(pc)    0.042946 0.0094980 6.716e-04      8.516e-04
+log(emp)   0.127460 0.0270699 1.914e-03      1.669e-03
+unemp     -0.001096 0.0002835 2.004e-05      2.871e-05
+
+2. Quantiles for each variable:
+
+               2.5%        25%       50%       75%      97.5%
+log(pcap) -0.006488 -0.0007439  0.002108  0.005663  0.0113858
+log(pc)    0.028376  0.0358110  0.042707  0.048986  0.0611002
+log(emp)   0.082663  0.1067643  0.128823  0.144013  0.1872641
+unemp     -0.001708 -0.0012642 -0.001074 -0.000879 -0.0006663
+
+========================================================
+Total:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean       SD  Naive SE Time-series SE
+log(pcap)  0.015267 0.030473 2.155e-03      0.0021548
+log(pc)    0.270652 0.027204 1.924e-03      0.0019236
+log(emp)   0.802195 0.044628 3.156e-03      0.0027532
+unemp     -0.006919 0.001177 8.323e-05      0.0001051
+
+2. Quantiles for each variable:
+
+               2.5%       25%       50%       75%    97.5%
+log(pcap) -0.041245 -0.005507  0.014181  0.036224  0.07514
+log(pc)    0.217658  0.251972  0.268672  0.288260  0.32091
+log(emp)   0.723141  0.769504  0.801592  0.830554  0.90217
+unemp     -0.009325 -0.007703 -0.006883 -0.006126 -0.00477</code></pre>
+</div>
+</div>
+<p>There is an alternative by using the package <code>SDPDmod</code> by Rozeta Simonovska (<a href="https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html">see vignette</a>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### FE SAR model</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sarfe.mod2 <span class="ot">&lt;-</span> <span class="fu">SDPDm</span>(<span class="at">formula =</span> fm, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Produc, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">W =</span> usaww,                 </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>,<span class="st">"year"</span>), <span class="co"># ID</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model =</span> <span class="st">"sar"</span>,             <span class="co"># on of c("sar","sdm"),</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">effect =</span> <span class="st">"individual"</span>,     <span class="co"># FE structure</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dynamic =</span> <span class="cn">FALSE</span>,           <span class="co"># time lags of the dependet variable</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LYtrans =</span> <span class="cn">TRUE</span>)            <span class="co"># Lee-Yu transformation (bias correction)</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sar panel model with individual fixed effects
+
+Call:
+SDPDm(formula = fm, data = Produc, W = usaww, index = c("state", 
+    "year"), model = "sar", effect = "individual", dynamic = FALSE, 
+    LYtrans = TRUE)
+
+Spatial autoregressive coefficient:
+    Estimate Std. Error t-value  Pr(&gt;|t|)    
+rho 0.278598   0.023999  11.609 &lt; 2.2e-16 ***
+
+Coefficients:
+            Estimate Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.0468727  0.0262162 -1.7879   0.07379 .  
+log(pc)    0.1859441  0.0237251  7.8374 4.598e-15 ***
+log(emp)   0.6230539  0.0305554 20.3910 &lt; 2.2e-16 ***
+unemp     -0.0044700  0.0008917 -5.0129 5.362e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>And subsequently, we can calculate the impacts of the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Impats</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sarfe.mod2.imp <span class="ot">&lt;-</span> <span class="fu">impactsSDPDm</span>(sarfe.mod2, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">NSIM =</span> <span class="dv">200</span>, <span class="co"># N simulations</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sd =</span> <span class="dv">12345</span>) <span class="co"># seed</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2.imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Impact estimates for spatial (static) model
+========================================================
+
+Direct:
+             Estimate  Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.04549036  0.02599130 -1.7502   0.08008 .  
+log(pc)    0.18809827  0.02383588  7.8914 2.988e-15 ***
+log(emp)   0.63773076  0.03027063 21.0676 &lt; 2.2e-16 ***
+unemp     -0.00459914  0.00089696 -5.1275 2.936e-07 ***
+
+Indirect:
+             Estimate  Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.01635880  0.00940186 -1.7400   0.08187 .  
+log(pc)    0.06724675  0.00991019  6.7856 1.156e-11 ***
+log(emp)   0.22820595  0.02236869 10.2020 &lt; 2.2e-16 ***
+unemp     -0.00164908  0.00037108 -4.4440 8.829e-06 ***
+
+Total:
+            Estimate Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.0618492  0.0352540 -1.7544   0.07936 .  
+log(pc)    0.2553450  0.0313984  8.1324 4.208e-16 ***
+log(emp)   0.8659367  0.0371925 23.2825 &lt; 2.2e-16 ***
+unemp     -0.0062482  0.0012311 -5.0751 3.873e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Note: I did not manage to estimate a dynamic panel model with <code>SDPDm</code>.</p>
+</section>
+<section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income"><span class="header-section-number">11.5</span> Example: Industrial facilities and municipal income</h2>
 <p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="references.html#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -818,196 +1137,296 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">header-includes:</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">- \usepackage{threeparttable}</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">- \usepackage{siunitx}</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Elhorst.2012, @Millo.2012 and @Croissant.2018. @LeSage.2014b discusses Bayesian panel data methods.</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="co">[</span><span class="ot">@Lee.2010</span><span class="co">]</span>.</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Static panel data models</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="co">[</span><span class="ot">@Millo.2012</span><span class="co">]</span>.</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>where $\otimes$ is the Kronecker product (block-wise multiplication).</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>\underbrace{\underbrace{\bm I_T}_{T \times T} \otimes \underbrace{\bm W_N}_{N \times N}}_{NT \times NT}=</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; 1</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>\left[\begin{array}{cccc}</span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>\end{array}\right] =<span class="sc">\\</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>      \left[\begin{array}{cccc}</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>      0 &amp; \left[\begin{array}{cccc}</span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}</span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>\end{array}\right]</span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix $T$ times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>The error term can be decomposed into two parts:</span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu},</span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>where $\bm \iota_T$ is a $T \times 1$ vector of ones, ${\bm I_N}$ an $N \times N$ identity matrix, $\bm \mu$ is a vector of time-invariant individual specific effects (not spatially autocorrelated).</span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>We could obviously extent the specification to allow for error correlation by specifying</span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        {\bm \nu}= \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon}.</span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>The individual effects can be treated as fixed or random.</span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>__Fixed Effects__</span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term: </span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},</span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>where $\mu_i$ denote the individual-specific fixed effects.</span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="co">[</span><span class="ot">@Elhorst.2014</span><span class="co">]</span>.</span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>__Random Effects__</span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>In the RE model, the individual specific effects are treated as components of the error $\mu \sim \mathrm{IID}(o, \sigma_\mu^2)$. The model can then be written as</span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, <span class="sc">\\</span></span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ <span class="co">[</span><span class="ot">\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})</span><span class="co">]</span>^{-1} {\bm \varepsilon}.</span>
-<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
-<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>As with the conventional random effects model, we make the strong assumption that the unobserved individual</span>
-<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>effects are uncorrelated with the covariates $\bm X$ in the model.</span>
-<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic panel data models</span></span>
-<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</span>
-<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>A general dynamic model would account for all sources of potential dependence, including combinations <span class="co">[</span><span class="ot">@Elhorst.2012</span><span class="co">]</span>. The most general model can be written as:</span>
-<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>        {\bm y_t}=&amp; \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t</span>
-<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="ss">        + </span>\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}<span class="sc">\\</span></span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>        &amp;~+ {\bm X}{\bm \beta}+ (\bm I_T\otimes {\bm W_N}){\bm X}{\bm \theta}+ {\bm u}_t,<span class="sc">\\</span></span>
-<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>        {\bm u_t}=&amp;  + (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu_t},<span class="sc">\\</span></span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>        {\bm \nu_t}=&amp; \psi{\bm \nu}_{t-1} + \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon},</span>
-<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>$$  </span>
-<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome $\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}$, and in the error term $\psi{\bm \nu}_{t-1}$.</span>
-<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
-<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in $\bm X_t$ no influences focal $Y$ and neighbour's $Y$ but also contemporaneous $Y$ and future $Y$.</span>
-<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>While the short-term effects are the known impacts</span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = ({\bm I}-\rho{\bm W_{NT}})^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>The long-term impacts, by contrast, additionally account for the effect multiplying through time  </span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>For more information see @Elhorst.2012.</span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Local employment impacts of immigration</span></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>@Fingleton.2020: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>_This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of._</span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>_We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._</span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a><span class="al">![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)</span></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing and Selecting Models </span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Elhorst.2012, @Millo.2012 and @Croissant.2018. @LeSage.2014b discusses Bayesian panel data methods.</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="co">[</span><span class="ot">@Lee.2010</span><span class="co">]</span>.</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Static panel data models</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="co">[</span><span class="ot">@Millo.2012</span><span class="co">]</span>.</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>where $\otimes$ is the Kronecker product (block-wise multiplication).</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>\underbrace{\underbrace{\bm I_T}_{T \times T} \otimes \underbrace{\bm W_N}_{N \times N}}_{NT \times NT}=</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; 1</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>\left[\begin{array}{cccc}</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>\end{array}\right] =<span class="sc">\\</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>      \left[\begin{array}{cccc}</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>      0 &amp; \left[\begin{array}{cccc}</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>\end{array}\right]</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix $T$ times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>The error term can be decomposed into two parts:</span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu},</span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a>where $\bm \iota_T$ is a $T \times 1$ vector of ones, ${\bm I_N}$ an $N \times N$ identity matrix, $\bm \mu$ is a vector of time-invariant individual specific effects (not spatially autocorrelated).</span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a>We could obviously extent the specification to allow for error correlation by specifying</span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>        {\bm \nu}= \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon}.</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>The individual effects can be treated as fixed or random.</span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a>__Fixed Effects__</span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term: </span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a>        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},</span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a>where $\mu_i$ denote the individual-specific fixed effects.</span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="co">[</span><span class="ot">@Elhorst.2014</span><span class="co">]</span>.</span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>__Random Effects__</span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>In the RE model, the individual specific effects are treated as components of the error $\mu \sim \mathrm{IID}(o, \sigma_\mu^2)$. The model can then be written as</span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>        {\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, <span class="sc">\\</span></span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ <span class="co">[</span><span class="ot">\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})</span><span class="co">]</span>^{-1} {\bm \varepsilon}.</span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>As with the conventional random effects model, we make the strong assumption that the unobserved individual</span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>effects are uncorrelated with the covariates $\bm X$ in the model.</span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic panel data models</span></span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>A general dynamic model would account for all sources of potential dependence, including combinations <span class="co">[</span><span class="ot">@Elhorst.2012</span><span class="co">]</span>. The most general model can be written as:</span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a>        {\bm y_t}=&amp; \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t</span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a><span class="ss">        + </span>\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}<span class="sc">\\</span></span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>        &amp;~+ {\bm X}{\bm \beta}+ (\bm I_T\otimes {\bm W_N}){\bm X}{\bm \theta}+ {\bm u}_t,<span class="sc">\\</span></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a>        {\bm u_t}=&amp;  + (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu_t},<span class="sc">\\</span></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>        {\bm \nu_t}=&amp; \psi{\bm \nu}_{t-1} + \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon},</span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a>Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome $\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}$, and in the error term $\psi{\bm \nu}_{t-1}$.</span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in $\bm X_t$ no influences focal $Y$ and neighbour's $Y$ but also contemporaneous $Y$ and future $Y$.</span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>While the short-term effects are the known impacts</span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = ({\bm I}-\rho{\bm W_{NT}})^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a>The long-term impacts, by contrast, additionally account for the effect multiplying through time  </span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a>For more information see @Elhorst.2012.</span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Local employment impacts of immigration</span></span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>@Fingleton.2020: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a>_This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of._</span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>_We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._</span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a><span class="al">![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)</span></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimation in R</span></span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a>To estimate spatial panel models in R, we can use the <span class="in">`splm`</span> package of @Millo.2012.</span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>We use a standard example with longitudinal data from the <span class="in">`plm`</span> package here.</span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Produc, <span class="at">package =</span> <span class="st">"plm"</span>)</span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(usaww)</span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Produc)</span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a>usaww[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a><span class="in">`Produc`</span> contains data on US States Production - a panel of 48 observations from 1970 to 1986. <span class="in">`usaww`</span> is a spatial weights matrix of the 48 continental US States based on the queen contiguity relation.</span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a>Let start with an FE SEM model, using function <span class="in">`spml()`</span> for maximum likelihood estimation of static spatial panel models.</span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a><span class="co"># Gen listw object</span></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a>usalw <span class="ot">&lt;-</span> <span class="fu">mat2listw</span>(usaww, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a><span class="co"># Spec formula</span></span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">log</span>(gsp) <span class="sc">~</span> <span class="fu">log</span>(pcap) <span class="sc">+</span> <span class="fu">log</span>(pc) <span class="sc">+</span> <span class="fu">log</span>(emp) <span class="sc">+</span> unemp</span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="do">### Esimate FE SEM model</span></span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a>semfe.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"within"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">FALSE</span>,            <span class="co"># spatila lg of Y</span></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"b"</span>,    <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(semfe.mod)</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a>A RE SAR model, by contrast, can be estimated using the following options:</span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a><span class="do">### Estimate an RE SAR model</span></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a>sarre.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"random"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">TRUE</span>,             <span class="co"># spatila lg of Y</span></span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"none"</span>, <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod)</span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>Note that @Millo.2012 use a different notation, namely $\lambda$ for lag dependence, and $\rho$ for error dependence.... </span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a>Again, we have to use an additional step to get impacts for SAR-like models.</span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of years</span></span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(Produc<span class="sc">$</span>year))</span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a><span class="co"># impacts</span></span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a>sarre.mod.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(sarre.mod,</span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a>                         <span class="at">listw =</span> usalw,</span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>                         <span class="at">time =</span> T)</span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod.imp)                         </span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>There is an alternative by using the package <span class="in">`SDPDmod`</span> by Rozeta Simonovska (<span class="co">[</span><span class="ot">see vignette</span><span class="co">](https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html)</span>).</span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a><span class="do">### FE SAR model</span></span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a>sarfe.mod2 <span class="ot">&lt;-</span> <span class="fu">SDPDm</span>(<span class="at">formula =</span> fm, </span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Produc, </span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>                    <span class="at">W =</span> usaww,                 </span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>                    <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>,<span class="st">"year"</span>), <span class="co"># ID</span></span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model =</span> <span class="st">"sar"</span>,             <span class="co"># on of c("sar","sdm"),</span></span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>                    <span class="at">effect =</span> <span class="st">"individual"</span>,     <span class="co"># FE structure</span></span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dynamic =</span> <span class="cn">FALSE</span>,           <span class="co"># time lags of the dependet variable</span></span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LYtrans =</span> <span class="cn">TRUE</span>)            <span class="co"># Lee-Yu transformation (bias correction)</span></span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2)</span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a>And subsequently, we can calculate the impacts of the model.</span>
+<span id="cb18-283"><a href="#cb18-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a><span class="co"># Impats</span></span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>sarfe.mod2.imp <span class="ot">&lt;-</span> <span class="fu">impactsSDPDm</span>(sarfe.mod2, </span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>                               <span class="at">NSIM =</span> <span class="dv">200</span>, <span class="co"># N simulations</span></span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sd =</span> <span class="dv">12345</span>) <span class="co"># seed</span></span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2.imp)</span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a>Note: I did not manage to estimate a dynamic panel model with <span class="in">`SDPDm`</span>.</span>
+<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-304"><a href="#cb18-304" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

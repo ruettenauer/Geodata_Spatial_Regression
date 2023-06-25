@@ -79,13 +79,19 @@ Or we can reverse the above and exclude all intersecting units by specifying `st
 sub2.spdf <- pubs.spdf[ulez.spdf, , op = st_disjoint] # or:
 sub2.spdf <- st_filter(pubs.spdf, ulez.spdf, .predicate = st_disjoint)
 mapview(sub2.spdf)
+```
 
-# We can easily create indicators of whether an MSOA is within ulez or not
+We can easily create indicators of whether an MSOA is within ulez or not.
+
+```{r}
 msoa.spdf$ulez <- 0
+
+# intersecting lsoas
 within <- msoa.spdf[ulez.spdf,]
+
+# use their ids to create binary indicator 
 msoa.spdf$ulez[which(msoa.spdf$MSOA11CD %in% within$MSOA11CD)] <- 1
 table(msoa.spdf$ulez)
-
 ```
 
 ### Point in polygon
@@ -118,8 +124,10 @@ We might be interested in the distance to the nearest pub. Here, we use the pack
 cent.sp <- st_centroid(msoa.spdf[, "MSOA11CD"])
 
 # Get K nearest neighbour with distance
-knb.dist <- st_nn(cent.sp, pubs.spdf,
-                  k = 1, returnDist = TRUE,
+knb.dist <- st_nn(cent.sp, 
+                  pubs.spdf,
+                  k = 1,             # number of nearest neighbours
+                  returnDist = TRUE, # we also want the distance
                   progress = FALSE)
 msoa.spdf$dist_pubs <- unlist(knb.dist$dist)
 summary(msoa.spdf$dist_pubs)
@@ -128,11 +136,14 @@ summary(msoa.spdf$dist_pubs)
 
 ### Intersections + Buffers
 
-We might also be interested in the average tree cover density within 1 km radius around each MSOA centroid. Therefore, we first create a buffer with `st_buffer()` around each midpoint and subsequently use `st_intersetion()` to calculate the overlap.
+We may also want the average pollution within 1 km radius around each MSOA centroid. Note that it is usually better to use a ego-centric method where you calculate the average within a distance rather than using the characteristic of the intersecting cells only [@Lee.2008; @Mohai.2007].
+
+Therefore, we first create a buffer with `st_buffer()` around each midpoint and subsequently use `st_intersetion()` to calculate the overlap.
 
 ```{r}
 # Create buffer (1km radius)
-cent.buf <- st_buffer(cent.sp, dist = 1000)
+cent.buf <- st_buffer(cent.sp, 
+                      dist = 1000) # dist in meters
 mapview(cent.buf)
 
 # Add area of each buffer (in this constant) 
@@ -144,7 +155,11 @@ int.df$int_area <- as.numeric(st_area(int.df)) # area of intersection
 
 # Area of intersection as share of buffer
 int.df$area_per <- int.df$int_area / int.df$area
+```
 
+And we use the percent overalp areas as the weights to calculate a weighted mean.
+
+```{r}
 # Aggregate as weighted mean
 int.df <- st_drop_geometry(int.df)
 int.df$no2_weighted <- int.df$no22011 * int.df$area_per
@@ -230,7 +245,7 @@ save(msoa.spdf, file = "_data/msoa2_spatial.RData")
 
 A large advantage of spatial data is that different data sources can be connected and combined. Another nice advantage is: you can create very nice maps. And it's quite easy to do! [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) provide more comprehensive materials on mapping in their [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023).
 
-Many packages and functions can be used to plot maps of spatial data. For instance, ggplot as a function to plot spatial data using `geom_sf()`. I am personally a fan of tmap, which makes many steps easier (but sometimes is less flexible).
+Many packages and functions can be used to plot maps of spatial data. For instance, ggplot as a function to plot spatial data using `geom_sf()`. I am personally a fan of `tmap`, which makes many steps easier (but sometimes is less flexible).
 
 A great tool for choosing coulour is for instance [Colorbrewer](https://colorbrewer2.org/). `viridisLite` provides another great resource to chose colours.
 
@@ -464,4 +479,9 @@ gp
 
 ## Exercise
 
-tbd
+1) Please calculate the distance of each MSOA to the London city center 
+  a) use google maps to get lon and lat, 
+  b) us `st_as_sf()` to create the spatial point
+  c) use `st_distance()` to calculate the distance
+  
+2) Can you create a plot with the distance to the city centre and pub counts next to each oter?

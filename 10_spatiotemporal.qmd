@@ -20,7 +20,8 @@ header-includes:
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", 
+          "plm", "splm",)
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -146,7 +147,7 @@ $$
 \end{split}		
 $$	
 
-Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome \gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}, and in the error term $\psi{\bm \nu}_{t-1}$.
+Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome $\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}$, and in the error term $\psi{\bm \nu}_{t-1}$.
 
 ### Impacts in spatial panel models
 
@@ -177,6 +178,99 @@ _This paper highlights a number of important gaps in the UK evidence base on the
 _We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._
 
 ![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)
+
+
+## Estimation in R
+
+To estimate spatial panel models in R, we can use the `splm` package of @Millo.2012.
+
+We use a standard example with longitudinal data from the `plm` package here.
+
+```{r}
+data(Produc, package = "plm")
+data(usaww)
+
+head(Produc)
+
+usaww[1:10, 1:10]
+```
+
+
+`Produc` contains data on US States Production - a panel of 48 observations from 1970 to 1986. `usaww` is a spatial weights matrix of the 48 continental US States based on the queen contiguity relation.
+
+Let start with an FE SEM model, using function `spml()` for maximum likelihood estimation of static spatial panel models.
+
+```{r, eval=FALSE}
+
+### Gen listw object
+usalw <- mat2listw(usaww)
+
+### Esimate FE SEM model
+semfe.mod <- spml(formula = fm, data = Produc, 
+                  index = "state",        # ID column
+                  listw = usalw,          # listw
+                  model = "within",       # one of c("within", "random", "pooling").
+                  effect = "individual",  # type of fixed effects
+                  lag = FALSE,            # spatila lg of Y
+                  spatial.error = "b",    # "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)
+                  method = "eigen",       # estimation method
+                  na.action = na.fail,    # handling of missings
+                  zero.policy = NULL)     # handling of missings
+
+summary(semfe.mod)
+
+```
+
+
+A RE SAR model, by contrast, can be estimated using the following options:
+
+```{r, eval=FALSE}
+
+### Estimate an RE SAR model
+sarre.mod <- spml(formula = fm, data = Produc, 
+                  index = "state",        # ID column
+                  listw = usalw,          # listw
+                  model = "random",       # one of c("within", "random", "pooling").
+                  effect = "individual",  # type of fixed effects
+                  lag = TRUE,             # spatila lg of Y
+                  spatial.error = "none", # "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)
+                  method = "eigen",       # estimation method
+                  na.action = na.fail,    # handling of missings
+                  zero.policy = NULL)     # handling of missings
+
+summary(sarre.mod)
+```
+
+
+The problem here is that we only get the coefficient, but no impact calculations (as far as I know). This is not a problem for SEM-like model, but it is a problem with SAR-like models.
+
+There is an alternative by using the package `SDPDmod` by Rozeta Simonovska ([see vignette](https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html)).
+
+```{r, eval=FALSE}
+### FE SAR model
+sarfe.mod2 <- SDPDm(formula = form1, 
+                    data = Produc, 
+                    W = usaww,                 
+                    index = c("state","year"), # ID
+                    model = "sar",             # on of c("sar","sdm"),
+                    effect = "individual",     # FE structure
+                    dynamic = FALSE,           # time lags of the dependet variable
+                    LYtrans = TRUE)            # Lee-Yu transformation (bias correction)
+
+summary(sarfe.mod2)
+```
+
+And subsequently, we can calculate the impacts of the model.
+
+```{r, eval=FALSE}
+# Impats
+sarfe.mod2.imp <- impactsSDPDm(sarfe.mod2, 
+                               NSIM = 200, # N simulations
+                               sd = 12345) # seed
+
+summary(sarfe.mod2.imp)
+```
+
 
 
 

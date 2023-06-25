@@ -450,3 +450,34 @@ For SLX models, nothing is gained from computing the impacts, as they equal the 
 print(impacts(mod_1.slx, listw = queens.lw))
 
 ```
+
+
+
+## Examples
+
+### @Boillat.2022  {.unnumbered}
+
+_The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot._
+
+![](fig/Boillat.png)
+
+_Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects._
+
+### @Fischer.2009  {.unnumbered}
+
+_The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework._
+
+![](fig/Fischer.png)
+
+_A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero._
+
+_The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels._
+
+### @Ruttenauer.2018a  {.unnumbered}
+
+_This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution._
+
+![](fig/census.png)
+
+_Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution._
+

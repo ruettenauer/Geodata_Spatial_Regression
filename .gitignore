@@ -4,7 +4,7 @@
 .Ruserdata
 
 /.quarto/
-/_data/
-!/_data/msoa_spatial.RData
-!/_data/msoa2_spatial.RData
-!/_data/Census_codebookRData
+_data/*
+!_data/msoa_spatial.RData
+!_data/msoa2_spatial.RData
+!_data/Census_codebook.RData

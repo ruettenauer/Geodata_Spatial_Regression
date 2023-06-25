@@ -231,13 +231,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -266,6 +260,12 @@ div.csl-indent {
   <li><a href="#global-spillovers" id="toc-global-spillovers" class="nav-link" data-scroll-target="#global-spillovers"><span class="header-section-number">7.2.2</span> Global spillovers</a></li>
   </ul></li>
   <li><a href="#summary-impact-measures" id="toc-summary-impact-measures" class="nav-link" data-scroll-target="#summary-impact-measures"><span class="header-section-number">7.3</span> Summary impact measures</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">7.4</span> Examples</a>
+  <ul class="collapse">
+  <li><a href="#boillat.2022" id="toc-boillat.2022" class="nav-link" data-scroll-target="#boillat.2022"><span class="citation" data-cites="Boillat.2022">Boillat, Ceddia, and Bottazzi (2022)</span></a></li>
+  <li><a href="#fischer.2009" id="toc-fischer.2009" class="nav-link" data-scroll-target="#fischer.2009"><span class="citation" data-cites="Fischer.2009">Fischer et al. (2009)</span></a></li>
+  <li><a href="#ruttenauer.2018a" id="toc-ruttenauer.2018a" class="nav-link" data-scroll-target="#ruttenauer.2018a"><span class="citation" data-cites="Ruttenauer.2018a">Rüttenauer (2018)</span></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -770,30 +770,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0455488761 0.0902096076 0.121564511
-log(POPDEN) 0.0141629055 0.0266493483 0.039916445
-per_mixed   0.0059841586 0.0107698376 0.016504423
-per_asian   0.0004963264 0.0008152601 0.001260394
-per_black   0.0010383947 0.0021585548 0.002571128
-per_other   0.0033943830 0.0058519799 0.009231998
+log(no2)    0.0490902204 0.0991887277 0.136963307
+log(POPDEN) 0.0136300762 0.0269172501 0.039785922
+per_mixed   0.0068017371 0.0119807712 0.018551571
+per_asian   0.0005056667 0.0008589735 0.001320154
+per_black   0.0010458877 0.0021616572 0.002625838
+per_other   0.0030679673 0.0053011809 0.008354446
 
 Simulated z-values:
-                 Direct   Indirect       Total
-log(no2)      9.9371577   8.395105   9.9531148
-log(POPDEN)  -4.5287108  -4.042193  -4.3055319
-per_mixed     3.5527778   3.313663   3.4504688
-per_asian    -5.2406767  -5.325253  -5.5082389
-per_black   -13.7623001 -11.071850 -14.8533618
-per_other    -0.5113374  -0.519754  -0.5174681
+                 Direct    Indirect       Total
+log(no2)      9.1318719   7.6660763   8.8248012
+log(POPDEN)  -4.6168953  -3.9851631  -4.2778515
+per_mixed     3.0830744   2.9728234   3.0502527
+per_asian    -5.1785329  -5.1588845  -5.3402547
+per_black   -13.6541960 -11.1953696 -14.6548698
+per_other    -0.6977937  -0.6958632  -0.6977967
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-log(POPDEN) 5.9345e-06 5.2954e-05 1.6659e-05
-per_mixed   0.00038119 0.00092082 0.00055961
-per_asian   1.5999e-07 1.0081e-07 3.6244e-08
+log(no2)    &lt; 2.22e-16 1.7764e-14 &lt; 2.22e-16
+log(POPDEN) 3.8952e-06 6.7434e-05 1.8871e-05
+per_mixed   0.0020487  0.0029507  0.0022865 
+per_asian   2.2364e-07 2.4843e-07 9.2816e-08
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.60911485 0.60323503 0.60482941</code></pre>
+per_other   0.4853062  0.4865145  0.4853043 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
@@ -817,31 +817,31 @@ per_other   -0.001820704 -0.003067183 -0.004887888
 Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
-                 Direct     Indirect       Total
-log(no2)    0.047642369 0.0914146299 0.124499677
-log(POPDEN) 0.013327798 0.0249681461 0.037248374
-per_mixed   0.006605227 0.0120668248 0.018436146
-per_asian   0.000501087 0.0008536047 0.001301519
-per_black   0.001064803 0.0024517078 0.002944874
-per_other   0.003156582 0.0054580370 0.008600490
+                  Direct     Indirect       Total
+log(no2)    0.0466689476 0.0883062136 0.122061548
+log(POPDEN) 0.0136401631 0.0255808621 0.038346540
+per_mixed   0.0063038790 0.0114117298 0.017510364
+per_asian   0.0005275083 0.0008582116 0.001345567
+per_black   0.0010108224 0.0023023773 0.002816746
+per_other   0.0033540767 0.0057514393 0.009090367
 
 Simulated z-values:
-                 Direct   Indirect       Total
-log(no2)      9.3716992  8.2326840   9.6311713
-log(POPDEN)  -4.7120244 -4.2538011  -4.5373911
-per_mixed     3.0880942  2.8662403   2.9824012
-per_asian    -5.2050605 -5.1411217  -5.3757740
-per_black   -13.3026770 -9.7451103 -12.9230972
-per_other    -0.5295946 -0.5337459  -0.5330991
+                 Direct    Indirect       Total
+log(no2)      9.7028447   8.6245945   9.9492990
+log(POPDEN)  -4.7529540  -4.2766445  -4.5435996
+per_mixed     3.3089997   3.0899756   3.2050447
+per_asian    -4.9015099  -5.0538505  -5.1449387
+per_black   -14.1099152 -10.4264504 -13.5859746
+per_other    -0.4297319  -0.4353042  -0.4339736
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 2.2204e-16 &lt; 2.22e-16
-log(POPDEN) 2.4527e-06 2.1017e-05 5.6954e-06
-per_mixed   0.0020144  0.0041538  0.00286   
-per_asian   1.9393e-07 2.7310e-07 7.6254e-08
+log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+log(POPDEN) 2.0047e-06 1.8973e-05 5.5302e-06
+per_mixed   0.0009363  0.0020017  0.0013504 
+per_asian   9.5103e-07 4.3299e-07 2.6761e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.5963930  0.5935174  0.59396   </code></pre>
+per_other   0.6673907  0.6633417  0.6643076 </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
@@ -860,6 +860,27 @@ per_black   -0.016229407 -0.018053503 -0.034282910
 per_other   -0.020391354  0.048139008  0.027747654</code></pre>
 </div>
 </div>
+</section>
+<section id="examples" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="examples"><span class="header-section-number">7.4</span> Examples</h2>
+<section id="boillat.2022" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="boillat.2022"><span class="citation" data-cites="Boillat.2022">Boillat, Ceddia, and Bottazzi (<a href="references.html#ref-Boillat.2022" role="doc-biblioref">2022</a>)</span></h3>
+<p><em>The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot.</em></p>
+<p><img src="fig/Boillat.png" class="img-fluid"></p>
+<p><em>Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects.</em></p>
+</section>
+<section id="fischer.2009" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="fischer.2009"><span class="citation" data-cites="Fischer.2009">Fischer et al. (<a href="references.html#ref-Fischer.2009" role="doc-biblioref">2009</a>)</span></h3>
+<p><em>The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework.</em></p>
+<p><img src="fig/Fischer.png" class="img-fluid"></p>
+<p><em>A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero.</em></p>
+<p><em>The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels.</em></p>
+</section>
+<section id="ruttenauer.2018a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="ruttenauer.2018a"><span class="citation" data-cites="Ruttenauer.2018a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2018a" role="doc-biblioref">2018</a>)</span></h3>
+<p><em>This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution.</em></p>
+<p><img src="fig/census.png" class="img-fluid"></p>
+<p><em>Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution.</em></p>
 
 
 <!-- -->
@@ -867,6 +888,12 @@ per_other   -0.020391354  0.048139008  0.027747654</code></pre>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Anselin.2003" class="csl-entry" role="listitem">
 Anselin, Luc. 2003. <span>“Spatial <span>Externalities</span>, <span>Spatial Multipliers</span>, and <span>Spatial Econometrics</span>.”</span> <em>International Regional Science Review</em> 26 (2): 153–66. <a href="https://doi.org/10.1177/0160017602250972">https://doi.org/10.1177/0160017602250972</a>.
+</div>
+<div id="ref-Boillat.2022" class="csl-entry" role="listitem">
+Boillat, Sébastien, M. Graziano Ceddia, and Patrick Bottazzi. 2022. <span>“The Role of Protected Areas and Land Tenure Regimes on Forest Loss in <span>Bolivia</span>: <span>Accounting</span> for Spatial Spillovers.”</span> <em>Global Environmental Change</em> 76 (September): 102571. <a href="https://doi.org/10.1016/j.gloenvcha.2022.102571">https://doi.org/10.1016/j.gloenvcha.2022.102571</a>.
+</div>
+<div id="ref-Fischer.2009" class="csl-entry" role="listitem">
+Fischer, Manfred M., Monika Bartkowska, Aleksandra Riedl, Sascha Sardadvar, and Andrea Kunnert. 2009. <span>“The Impact of Human Capital on Regional Labor Productivity in <span>Europe</span>.”</span> <em>Letters in Spatial and Resource Sciences</em> 2 (2-3): 97–108. <a href="https://doi.org/10.1007/s12076-009-0027-7">https://doi.org/10.1007/s12076-009-0027-7</a>.
 </div>
 <div id="ref-HalleckVega.2015" class="csl-entry" role="listitem">
 Halleck Vega, Solmaria, and J. Paul Elhorst. 2015. <span>“The <span>SLX Model</span>.”</span> <em>Journal of Regional Science</em> 55 (3): 339–63. <a href="https://doi.org/10.1111/jors.12188">https://doi.org/10.1111/jors.12188</a>.
@@ -877,7 +904,11 @@ LeSage, James P. 2014. <span>“What <span>Regional Scientists Need</span> to <s
 <div id="ref-LeSage.2009" class="csl-entry" role="listitem">
 LeSage, James P., and R. Kelley Pace. 2009. <em>Introduction to <span>Spatial Econometrics</span></em>. Statistics, <span>Textbooks</span> and <span>Monographs</span>. <span>Boca Raton</span>: <span>CRC Press</span>.
 </div>
+<div id="ref-Ruttenauer.2018a" class="csl-entry" role="listitem">
+Rüttenauer, Tobias. 2018. <span>“Neighbours <span>Matter</span>: <span class="nocase">A Nation-wide Small-area Assessment</span> of <span>Environmental Inequality</span> in <span>Germany</span>.”</span> <em>Social Science Research</em> 70: 198–211. <a href="https://doi.org/10.1016/j.ssresearch.2017.11.009">https://doi.org/10.1016/j.ssresearch.2017.11.009</a>.
 </div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1629,6 +1660,36 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-462"><a href="#cb17-462" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">impacts</span>(mod_1.slx, <span class="at">listw =</span> queens.lw))</span>
 <span id="cb17-463"><a href="#cb17-463" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-464"><a href="#cb17-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-465"><a href="#cb17-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-466"><a href="#cb17-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-467"><a href="#cb17-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-468"><a href="#cb17-468" aria-hidden="true" tabindex="-1"></a><span class="fu">## Examples</span></span>
+<span id="cb17-469"><a href="#cb17-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-470"><a href="#cb17-470" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Boillat.2022  {.unnumbered}</span></span>
+<span id="cb17-471"><a href="#cb17-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-472"><a href="#cb17-472" aria-hidden="true" tabindex="-1"></a>_The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot._</span>
+<span id="cb17-473"><a href="#cb17-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-474"><a href="#cb17-474" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Boillat.png)</span></span>
+<span id="cb17-475"><a href="#cb17-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-476"><a href="#cb17-476" aria-hidden="true" tabindex="-1"></a>_Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects._</span>
+<span id="cb17-477"><a href="#cb17-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-478"><a href="#cb17-478" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Fischer.2009  {.unnumbered}</span></span>
+<span id="cb17-479"><a href="#cb17-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-480"><a href="#cb17-480" aria-hidden="true" tabindex="-1"></a>_The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework._</span>
+<span id="cb17-481"><a href="#cb17-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-482"><a href="#cb17-482" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Fischer.png)</span></span>
+<span id="cb17-483"><a href="#cb17-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-484"><a href="#cb17-484" aria-hidden="true" tabindex="-1"></a>_A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero._</span>
+<span id="cb17-485"><a href="#cb17-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-486"><a href="#cb17-486" aria-hidden="true" tabindex="-1"></a>_The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels._</span>
+<span id="cb17-487"><a href="#cb17-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-488"><a href="#cb17-488" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Ruttenauer.2018a  {.unnumbered}</span></span>
+<span id="cb17-489"><a href="#cb17-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-490"><a href="#cb17-490" aria-hidden="true" tabindex="-1"></a>_This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution._</span>
+<span id="cb17-491"><a href="#cb17-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-492"><a href="#cb17-492" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/census.png)</span></span>
+<span id="cb17-493"><a href="#cb17-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-494"><a href="#cb17-494" aria-hidden="true" tabindex="-1"></a>_Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution._</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

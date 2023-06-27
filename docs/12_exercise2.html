@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -231,6 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
   <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#diffusion-of-political-regimes" id="toc-diffusion-of-political-regimes" class="nav-link" data-scroll-target="#diffusion-of-political-regimes"><span class="header-section-number">12.1</span> Diffusion of political regimes</a></li>
   </ul>
 </nav>
     </div>
@@ -257,8 +277,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="required-packages" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="session-info" class="level3 unnumbered">
@@ -288,43 +309,120 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
-[4] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
-[7] mapview_2.11.0    sf_1.0-13        
+ [1] SDPDmod_0.0.3     splm_1.6-2        plm_2.6-3        
+ [4] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
+ [7] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
+[10] mapview_2.11.0    sf_1.0-13        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
- [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
- [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
-[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
-[13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
-[16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
-[19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
-[22] lifecycle_1.0.3    compiler_4.3.1     deldir_1.0-9      
-[25] munsell_0.5.0      terra_1.7-29       leafsync_0.1.0    
-[28] codetools_0.2-19   stars_0.6-1        htmltools_0.5.5   
-[31] class_7.3-22       pillar_1.9.0       MASS_7.3-60       
-[34] classInt_0.4-9     lwgeom_0.2-13      wk_0.7.3          
-[37] abind_1.4-5        boot_1.3-28.1      multcomp_1.4-24   
-[40] nlme_3.1-162       tidyselect_1.2.0   digest_0.6.31     
-[43] mvtnorm_1.2-2      dplyr_1.1.2        splines_4.3.1     
-[46] fastmap_1.1.1      grid_4.3.1         colorspace_2.1-0  
-[49] expm_0.999-7       cli_3.6.1          magrittr_2.0.3    
-[52] base64enc_0.1-3    dichromat_2.0-0.1  XML_3.99-0.14     
-[55] survival_3.5-5     utf8_1.2.3         TH.data_1.1-2     
-[58] leafem_0.2.0       e1071_1.7-13       scales_1.2.1      
-[61] sp_1.6-1           rmarkdown_2.22     zoo_1.8-12        
-[64] png_0.1-8          coda_0.19-4        evaluate_0.21     
-[67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
-[70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
-[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
-[76] units_0.8-2       </code></pre>
+ [1] tidyselect_1.2.0   dplyr_1.1.2        fastmap_1.1.1     
+ [4] leaflet_2.1.2      TH.data_1.1-2      dotCall64_1.0-2   
+ [7] XML_3.99-0.14      digest_0.6.31      lifecycle_1.0.3   
+[10] LearnBayes_2.15.1  survival_3.5-5     terra_1.7-29      
+[13] magrittr_2.0.3     compiler_4.3.1     rlang_1.1.1       
+[16] tools_4.3.1        utf8_1.2.3         collapse_1.9.6    
+[19] knitr_1.43         htmlwidgets_1.6.2  sp_1.6-1          
+[22] classInt_0.4-9     RColorBrewer_1.1-3 multcomp_1.4-24   
+[25] abind_1.4-5        KernSmooth_2.23-21 expm_0.999-7      
+[28] leafsync_0.1.0     grid_4.3.1         stats4_4.3.1      
+[31] fansi_1.0.4        xtable_1.8-4       lfe_2.9-0         
+[34] e1071_1.7-13       leafem_0.2.0       colorspace_2.1-0  
+[37] scales_1.2.1       MASS_7.3-60        dichromat_2.0-0.1 
+[40] cli_3.6.1          mvtnorm_1.2-2      rmarkdown_2.22    
+[43] miscTools_0.6-28   generics_0.1.3     RSpectra_0.16-1   
+[46] rstudioapi_0.14    tmaptools_3.1-1    bdsmatrix_1.3-6   
+[49] DBI_1.1.3          proxy_0.4-27       ibdreg_0.3.8      
+[52] splines_4.3.1      stars_0.6-1        parallel_4.3.1    
+[55] s2_1.1.4           base64enc_0.1-3    vctrs_0.6.3       
+[58] boot_1.3-28.1      webshot_0.5.4      sandwich_3.0-2    
+[61] jsonlite_1.8.5     Formula_1.2-5      crosstalk_1.2.0   
+[64] units_0.8-2        spam_2.9-1         glue_1.6.2        
+[67] lwgeom_0.2-13      codetools_0.2-19   deldir_1.0-9      
+[70] raster_3.6-20      lmtest_0.9-40      munsell_0.5.0     
+[73] tibble_3.2.1       pillar_1.9.0       htmltools_0.5.5   
+[76] satellite_1.0.4    R6_2.5.1           maxLik_1.5-2      
+[79] wk_0.7.3           Rdpack_2.4         evaluate_0.21     
+[82] lattice_0.21-8     rbibutils_2.2.13   png_0.1-8         
+[85] class_7.3-22       Rcpp_1.0.10        coda_0.19-4       
+[88] nlme_3.1-162       xfun_0.39          zoo_1.8-12        
+[91] pkgconfig_2.0.3   </code></pre>
 </div>
 </div>
+<p>We use the <code>WDI</code> API package to retrieve data from the World Bank.</p>
+<p>You can open the <a href="https://databank.worldbank.org/home.aspx">World Bank Data browser</a> to go though the data.</p>
+<p>You can search for indicators with <code>WDIsearch()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WDI)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Search GDP per capita</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"CO2 intensity"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             indicator
+6020 EN.ATM.CO2E.EG.ZS
+                                                       name
+6020 CO2 intensity (kg per kg of oil equivalent energy use)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Political Stability</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"Political Stability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             indicator
+7888     GV.POLI.ST.ES
+7889     GV.POLI.ST.NO
+7890     GV.POLI.ST.SE
+14790           PV.EST
+14791        PV.NO.SRC
+14792       PV.PER.RNK
+14793 PV.PER.RNK.LOWER
+14794 PV.PER.RNK.UPPER
+14795       PV.STD.ERR
+                                                                                                                name
+7888                                                                      Political Stability/No Violence (estimate)
+7889                                                       Political Stability/No Violence (number of surveys/polls)
+7890                                                                Political Stability/No Violence (standard error)
+14790                                                Political Stability and Absence of Violence/Terrorism: Estimate
+14791                                       Political Stability and Absence of Violence/Terrorism: Number of Sources
+14792                                         Political Stability and Absence of Violence/Terrorism: Percentile Rank
+14793 Political Stability and Absence of Violence/Terrorism: Percentile Rank, Lower Bound of 90% Confidence Interval
+14794 Political Stability and Absence of Violence/Terrorism: Percentile Rank, Upper Bound of 90% Confidence Interval
+14795                                          Political Stability and Absence of Violence/Terrorism: Standard Error</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"democracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            indicator                        name
+20185 UPP.INS.DEMO.XQ Institutionalized democracy</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The Democracy indicator is an additive eleven-point scale (0-10)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="12_exercise2_cache/html/unnamed-chunk-4_3c5ac554b2c8c452ace859803acbe8af">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define countries, indicators to query, and time period</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>wd.df <span class="ot">&lt;-</span> <span class="fu">WDI</span>(<span class="at">country =</span> <span class="st">"all"</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">indicator =</span> <span class="fu">c</span>(<span class="st">'population'</span> <span class="ot">=</span> <span class="st">"SP.POP.TOTL"</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'gdp_pc'</span> <span class="ot">=</span> <span class="st">"NY.GDP.PCAP.KD"</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'co2_pc'</span> <span class="ot">=</span> <span class="st">"EN.ATM.CO2E.PC"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'co2_intesity'</span> <span class="ot">=</span> <span class="st">"EN.ATM.CO2E.EG.ZS"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'gini'</span> <span class="ot">=</span> <span class="st">"SI.POV.GINI"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'political_stability'</span> <span class="ot">=</span> <span class="st">"GV.POLI.ST.ES"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'inst_democr'</span> <span class="ot">=</span> <span class="st">"UPP.INS.DEMO.XQ"</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">extra =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">start =</span> <span class="dv">2010</span>, <span class="at">end =</span> <span class="dv">2019</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Save</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(wd.df, <span class="at">file =</span> <span class="st">"_data/WDI_data.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="diffusion-of-political-regimes" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="diffusion-of-political-regimes"><span class="header-section-number">12.1</span> Diffusion of political regimes</h2>
+<p>See for instance <span class="citation" data-cites="Gleditsch.2006">Gleditsch and Ward (<a href="references.html#ref-Gleditsch.2006" role="doc-biblioref">2006</a>)</span> for an example for the diffusion of democratization.</p>
 
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Gleditsch.2006" class="csl-entry" role="listitem">
+Gleditsch, Kristian Skrede, and Michael D. Ward. 2006. <span>“Diffusion and the <span>International Context</span> of <span>Democratization</span>.”</span> <em>International Organization</em> 60 (4): 911–33.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -624,29 +722,77 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercise II</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercise II</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>We use the <span class="in">`WDI`</span> API package to retrieve data from the World Bank.</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>You can open the <span class="co">[</span><span class="ot">World Bank Data browser</span><span class="co">](https://databank.worldbank.org/home.aspx)</span> to go though the data.</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>You can search for indicators with <span class="in">`WDIsearch()`</span>.</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="in">```{r warning=FALSE}</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WDI)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Search GDP per capita</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"CO2 intensity"</span>)</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Political Stability</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"Political Stability"</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="fu">WDIsearch</span>(<span class="st">"democracy"</span>)</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="co"># The Democracy indicator is an additive eleven-point scale (0-10)</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, cache=TRUE}</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Define countries, indicators to query, and time period</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>wd.df <span class="ot">&lt;-</span> <span class="fu">WDI</span>(<span class="at">country =</span> <span class="st">"all"</span>, </span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>             <span class="at">indicator =</span> <span class="fu">c</span>(<span class="st">'population'</span> <span class="ot">=</span> <span class="st">"SP.POP.TOTL"</span>, </span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'gdp_pc'</span> <span class="ot">=</span> <span class="st">"NY.GDP.PCAP.KD"</span>, </span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'co2_pc'</span> <span class="ot">=</span> <span class="st">"EN.ATM.CO2E.PC"</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'co2_intesity'</span> <span class="ot">=</span> <span class="st">"EN.ATM.CO2E.EG.ZS"</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'gini'</span> <span class="ot">=</span> <span class="st">"SI.POV.GINI"</span>,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'political_stability'</span> <span class="ot">=</span> <span class="st">"GV.POLI.ST.ES"</span>,</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'inst_democr'</span> <span class="ot">=</span> <span class="st">"UPP.INS.DEMO.XQ"</span>),</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>             <span class="at">extra =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>             <span class="at">start =</span> <span class="dv">2010</span>, <span class="at">end =</span> <span class="dv">2019</span>)</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Save</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(wd.df, <span class="at">file =</span> <span class="st">"_data/WDI_data.RData"</span>)</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Diffusion of political regimes</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>See for instance @Gleditsch.2006 for an example for the diffusion of democratization.</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

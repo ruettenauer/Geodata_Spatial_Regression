@@ -331,7 +331,7 @@ loaded via a namespace (and not attached):
  [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
  [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
  [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
-[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
+[10] parallel_4.3.1     sandwich_3.0-2     stats4_4.3.1      
 [13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
 [16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
 [19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
@@ -352,8 +352,8 @@ loaded via a namespace (and not attached):
 [64] png_0.1-8          coda_0.19-4        evaluate_0.21     
 [67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
 [70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
-[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
-[76] units_0.8-2       </code></pre>
+[73] DBI_1.1.3          rstudioapi_0.14    jsonlite_1.8.5    
+[76] R6_2.5.1           units_0.8-2       </code></pre>
 </div>
 </div>
 </section>
@@ -382,9 +382,11 @@ Warning
 <p>First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume <strong>global</strong> spatial dependence, the second two assume <strong>local</strong> spatial dependence <span class="citation" data-cites="Anselin.2003 HalleckVega.2015 LeSage.2009">(<a href="references.html#ref-Anselin.2003" role="doc-biblioref">Anselin 2003</a>; <a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>; <a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>.</p>
 <p>Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model, the reduced form is given by:</p>
 <p><span class="math display">\[
-{\boldsymbol{\mathbf{y}}}-\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}} ={\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}, \nonumber \\
-({\boldsymbol{\mathbf{I}}_N}-\rho {\boldsymbol{\mathbf{W}}}){\boldsymbol{\mathbf{y}}}={\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}\nonumber, \\
-{\boldsymbol{\mathbf{y}}} =({\boldsymbol{\mathbf{I}}_N}-\rho {\boldsymbol{\mathbf{W}}})^{-1}({\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}),
+\begin{split}
+{\boldsymbol{\mathbf{y}}}-\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}} &amp;={\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}, \nonumber \\
+({\boldsymbol{\mathbf{I}}_N}-\rho {\boldsymbol{\mathbf{W}}}){\boldsymbol{\mathbf{y}}} &amp;={\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}\nonumber, \\
+{\boldsymbol{\mathbf{y}}} &amp;=({\boldsymbol{\mathbf{I}}_N}-\rho {\boldsymbol{\mathbf{W}}})^{-1}({\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}),
+\end{split}
 \]</span> where <span class="math inline">\({\boldsymbol{\mathbf{I}}_N}\)</span> is an <span class="math inline">\(N \times N\)</span> diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.</p>
 <p>If we want to interpret coefficient, we are usually in marginal or partial effects (the association between a unit change in <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>). We obtain these effects by looking at the first derivative.</p>
 <p>When taking the first derivative of the explanatory variable <span class="math inline">\({\boldsymbol{\mathbf{x}}}_k\)</span> from the reduced form in (<span class="math inline">\(\ref{eq:sarred}\)</span>) to interpret the partial effect of a unit change in variable <span class="math inline">\({\boldsymbol{\mathbf{x}}}_k\)</span> on <span class="math inline">\({\boldsymbol{\mathbf{y}}}\)</span>, we receive</p>
@@ -770,30 +772,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0490902204 0.0991887277 0.136963307
-log(POPDEN) 0.0136300762 0.0269172501 0.039785922
-per_mixed   0.0068017371 0.0119807712 0.018551571
-per_asian   0.0005056667 0.0008589735 0.001320154
-per_black   0.0010458877 0.0021616572 0.002625838
-per_other   0.0030679673 0.0053011809 0.008354446
+log(no2)    0.0455025066 0.0904382456 0.122675086
+log(POPDEN) 0.0139202045 0.0260768572 0.039084802
+per_mixed   0.0061206640 0.0111063013 0.017014393
+per_asian   0.0005357784 0.0008712669 0.001363992
+per_black   0.0009491383 0.0023056074 0.002710340
+per_other   0.0031896073 0.0054744727 0.008649304
 
 Simulated z-values:
-                 Direct    Indirect       Total
-log(no2)      9.1318719   7.6660763   8.8248012
-log(POPDEN)  -4.6168953  -3.9851631  -4.2778515
-per_mixed     3.0830744   2.9728234   3.0502527
-per_asian    -5.1785329  -5.1588845  -5.3402547
-per_black   -13.6541960 -11.1953696 -14.6548698
-per_other    -0.6977937  -0.6958632  -0.6977967
+                Direct    Indirect       Total
+log(no2)      9.850663   8.3377592   9.8005408
+log(POPDEN)  -4.478309  -4.0344580  -4.2867037
+per_mixed     3.294072   3.0707541   3.1894542
+per_asian    -4.849417  -5.0016070  -5.0996976
+per_black   -14.944175 -10.3545140 -14.0416100
+per_other    -0.539039  -0.5476395  -0.5454035
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 1.7764e-14 &lt; 2.22e-16
-log(POPDEN) 3.8952e-06 6.7434e-05 1.8871e-05
-per_mixed   0.0020487  0.0029507  0.0022865 
-per_asian   2.2364e-07 2.4843e-07 9.2816e-08
+log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+log(POPDEN) 7.5237e-06 5.4728e-05 1.8134e-05
+per_mixed   0.00098747 0.0021352  0.0014254 
+per_asian   1.2383e-06 5.6854e-07 3.4020e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.4853062  0.4865145  0.4853043 </code></pre>
+per_other   0.58985992 0.5839395  0.5854760 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
@@ -818,30 +820,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0466689476 0.0883062136 0.122061548
-log(POPDEN) 0.0136401631 0.0255808621 0.038346540
-per_mixed   0.0063038790 0.0114117298 0.017510364
-per_asian   0.0005275083 0.0008582116 0.001345567
-per_black   0.0010108224 0.0023023773 0.002816746
-per_other   0.0033540767 0.0057514393 0.009090367
+log(no2)    0.0479167026 0.0951783154 0.133684351
+log(POPDEN) 0.0138604746 0.0257094731 0.038887312
+per_mixed   0.0063802334 0.0113906533 0.017601039
+per_asian   0.0005158999 0.0008884822 0.001372939
+per_black   0.0010043359 0.0022418320 0.002833750
+per_other   0.0033957428 0.0059225402 0.009308621
 
 Simulated z-values:
                  Direct    Indirect       Total
-log(no2)      9.7028447   8.6245945   9.9492990
-log(POPDEN)  -4.7529540  -4.2766445  -4.5435996
-per_mixed     3.3089997   3.0899756   3.2050447
-per_asian    -4.9015099  -5.0538505  -5.1449387
-per_black   -14.1099152 -10.4264504 -13.5859746
-per_other    -0.4297319  -0.4353042  -0.4339736
+log(no2)      9.3737677   8.0190532   9.0691245
+log(POPDEN)  -4.5045337  -4.1366866  -4.3404134
+per_mixed     3.2338074   3.0850276   3.1687293
+per_asian    -5.0024231  -4.9285622  -5.0691926
+per_black   -14.2191538 -10.8239228 -13.6025467
+per_other    -0.5270086  -0.5254849  -0.5265862
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-log(POPDEN) 2.0047e-06 1.8973e-05 5.5302e-06
-per_mixed   0.0009363  0.0020017  0.0013504 
-per_asian   9.5103e-07 4.3299e-07 2.6761e-07
+log(no2)    &lt; 2.22e-16 1.1102e-15 &lt; 2.22e-16
+log(POPDEN) 6.6519e-06 3.5236e-05 1.4221e-05
+per_mixed   0.0012215  0.0020353  0.0015311 
+per_asian   5.6614e-07 8.2837e-07 3.9951e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.6673907  0.6633417  0.6643076 </code></pre>
+per_other   0.5981876  0.5992461  0.5984810 </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
@@ -1282,414 +1284,416 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model, the reduced form is given by:</span>
 <span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>{\bm y}-\rho{\bm W}{\bm y} ={\bm X}{\bm \beta}+ {\bm \varepsilon}, \nonumber <span class="sc">\\</span></span>
-<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\rho {\bm W}){\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}\nonumber, <span class="sc">\\</span></span>
-<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),</span>
-<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>where ${\bm I_N}$ is an $N \times N$ diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.</span>
-<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>If we want to interpret coefficient, we are usually in marginal or partial effects (the association between a unit change in $X$ and $Y$). We obtain these effects by looking at the first derivative.</span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>{\bm y}-\rho{\bm W}{\bm y} &amp;={\bm X}{\bm \beta}+ {\bm \varepsilon}, \nonumber <span class="sc">\\</span></span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\rho {\bm W}){\bm y} &amp;={\bm X}{\bm \beta}+ {\bm \varepsilon}\nonumber, <span class="sc">\\</span></span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>{\bm y} &amp;=({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>where ${\bm I_N}$ is an $N \times N$ diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.</span>
 <span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>When taking the first derivative of the explanatory variable ${\bm x}_k$ from the reduced form in (\ref{eq:sarred}) to interpret the partial effect of a unit change in variable ${\bm x}_k$ on ${\bm y}$, we receive</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>If we want to interpret coefficient, we are usually in marginal or partial effects (the association between a unit change in $X$ and $Y$). We obtain these effects by looking at the first derivative.</span>
 <span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k}=\underbrace{({\bm I_N}-\rho {\bm W})^{-1}}_{N \times N}\beta_k,</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>When taking the first derivative of the explanatory variable ${\bm x}_k$ from the reduced form in (\ref{eq:sarred}) to interpret the partial effect of a unit change in variable ${\bm x}_k$ on ${\bm y}$, we receive</span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>for each covariate $k=<span class="sc">\{</span>1,2,...,K<span class="sc">\}</span>$. As can be seen, the partial derivative with respect to ${\bm x}_k$ produces an $N \times N$ matrix, thereby representing the partial effect of each unit $i$ onto the focal unit $i$ itself and all other units \textcolor{red}{$j=<span class="sc">\{</span>1,2,...,i-1,i+1,...,N<span class="sc">\}</span>$}. </span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k}=\underbrace{({\bm I_N}-\rho {\bm W})^{-1}}_{N \times N}\beta_k,</span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>Note that the diagonal elements of $({\bm I_N}-\rho {\bm W})^{-1}$ are not zero anymore (as they are in $\bm W$). Look at the following minimal example:</span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>for each covariate $k=<span class="sc">\{</span>1,2,...,K<span class="sc">\}</span>$. As can be seen, the partial derivative with respect to ${\bm x}_k$ produces an $N \times N$ matrix, thereby representing the partial effect of each unit $i$ onto the focal unit $i$ itself and all other units \textcolor{red}{$j=<span class="sc">\{</span>1,2,...,i-1,i+1,...,N<span class="sc">\}</span>$}. </span>
 <span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>\tilde{\bm W} = \begin{pmatrix}</span>
-<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>Note that the diagonal elements of $({\bm I_N}-\rho {\bm W})^{-1}$ are not zero anymore (as they are in $\bm W$). Look at the following minimal example:</span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>\tilde{\bm W} = \begin{pmatrix}</span>
 <span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 <span class="sc">\\</span></span>
 <span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 <span class="sc">\\</span></span>
-<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 1 &amp; 0</span>
-<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}, \mathrm{and~normalized} ~</span>
-<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>\bm W = \begin{pmatrix}</span>
-<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 <span class="sc">\\</span></span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 1 &amp; 0</span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}, \mathrm{and~normalized} ~</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>\bm W = \begin{pmatrix}</span>
 <span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
 <span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
-<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0</span>
-<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}      </span>
-<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>and </span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0</span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}      </span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a>\rho = 0.6,</span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>and </span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>then </span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>\rho = 0.6,</span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>\rho \bm W = \begin{pmatrix}</span>
-<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>then </span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>\rho \bm W = \begin{pmatrix}</span>
 <span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
 <span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
-<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0</span>
-<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
-<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>If we want to get the total effect of $X$ on $Y$ we need to add the direct association wihtin $i$ and $j$ and so on... </span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0</span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>\bm I_N - \rho \bm W &amp;=</span>
-<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 0 &amp; 1</span>
-<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} - </span>
-<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>If we want to get the total effect of $X$ on $Y$ we need to add the direct association wihtin $i$ and $j$ and so on... </span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>\bm I_N - \rho \bm W &amp;=</span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; 0 &amp; 0 &amp; 1</span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} - </span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
 <span id="cb17-151"><a href="#cb17-151" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
 <span id="cb17-152"><a href="#cb17-152" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
-<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0</span>
-<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}<span class="sc">\\</span></span>
-<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>&amp; = \begin{pmatrix}</span>
-<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a>      1 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 1 &amp; -0.2 &amp; 0 &amp; -0.2 <span class="sc">\\</span></span>
-<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 1 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 0 &amp; -0.2 &amp; 1 &amp; -0.2 <span class="sc">\\</span></span>
-<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a>      0 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 1</span>
-<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
-<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a>And finally we take the inverse of that</span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a>      0.2 &amp; 0 &amp; 0.2 &amp; 0 &amp; 0.2 <span class="sc">\\</span></span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 0 &amp; 0.3 &amp; 0</span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}<span class="sc">\\</span></span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a>&amp; = \begin{pmatrix}</span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a>      1 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 1 &amp; -0.2 &amp; 0 &amp; -0.2 <span class="sc">\\</span></span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 1 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 0 &amp; -0.2 &amp; 1 &amp; -0.2 <span class="sc">\\</span></span>
+<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>      0 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 1</span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} &amp;=</span>
-<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a>      1 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 1 &amp; -0.2 &amp; 0 &amp; -0.2 <span class="sc">\\</span></span>
-<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 1 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 0 &amp; -0.2 &amp; 1 &amp; -0.2 <span class="sc">\\</span></span>
-<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a>      0 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 1</span>
-<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}^{-1}<span class="sc">\\</span></span>
-<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>&amp;=</span>
-<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; \color{red}{1.28125} &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; \color{red}{1.1875} &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; \color{red}{1.28125} &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; \color{red}{1.1875}</span>
-<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
-<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>As you can see, $(\bm I_N - \rho \bm W)^{-1}$ has \color{red}{diagonal elements} $&gt;1$: these are feedback loops. My $X$ influences my $Y$ directly, but my $Y$ then influences my neigbour's $Y$, which then influences my $Y$ again (also also other neighbour's $Y$s). Thus the influence of my $X$ on my $Y$ includes a spatial multiplier.</span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a>And finally we take the inverse of that</span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} &amp;=</span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a>      1 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 1 &amp; -0.2 &amp; 0 &amp; -0.2 <span class="sc">\\</span></span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.3 &amp; 1 &amp; 0.3 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a>      -0.2 &amp; 0 &amp; -0.2 &amp; 1 &amp; -0.2 <span class="sc">\\</span></span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>      0 &amp; -0.3 &amp; 0 &amp; -0.3 &amp; 1</span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}^{-1}<span class="sc">\\</span></span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>&amp;=</span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; \color{red}{1.28125} &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; \color{red}{1.1875} &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; \color{red}{1.28125} &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; \color{red}{1.1875}</span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a>Check yourself:</span>
+<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a>As you can see, $(\bm I_N - \rho \bm W)^{-1}$ has \color{red}{diagonal elements} $&gt;1$: these are feedback loops. My $X$ influences my $Y$ directly, but my $Y$ then influences my neigbour's $Y$, which then influences my $Y$ again (also also other neighbour's $Y$s). Thus the influence of my $X$ on my $Y$ includes a spatial multiplier.</span>
 <span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>I <span class="ot">=</span> <span class="fu">diag</span>(<span class="dv">5</span>)</span>
-<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">=</span> <span class="fl">0.6</span></span>
-<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>W <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>,</span>
-<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,</span>
-<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>,</span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a>Check yourself:</span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>I <span class="ot">=</span> <span class="fu">diag</span>(<span class="dv">5</span>)</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">=</span> <span class="fl">0.6</span></span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a>W <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>,</span>
 <span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,</span>
-<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>(<span class="at">IrW =</span> I <span class="sc">-</span> rho<span class="sc">*</span>W)</span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>,</span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a>            <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span> , <span class="dv">0</span> , <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,</span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span> , <span class="fl">0.5</span> , <span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a><span class="co"># (I - rho*W)^-1</span></span>
-<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a>(<span class="at">M =</span> <span class="fu">solve</span>(IrW))</span>
-<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>The diagonal elements of indicate how each unit $i$ influences itself (change of $x_i$ on change of $y_i$), and each off-diagonal elements in column $j$ represents the effect of $j$ on each other unit $i$ (change of $x_j$ on change of $y_i$). </span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a>(<span class="at">IrW =</span> I <span class="sc">-</span> rho<span class="sc">*</span>W)</span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a><span class="co"># (I - rho*W)^-1</span></span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>(<span class="at">M =</span> <span class="fu">solve</span>(IrW))</span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>      1.1875 &amp; \color{red}{0.46875} &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 1.28125 &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 1.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; 1.28125 &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; \color{blue}{0.1875} &amp; 0.46875 &amp; 1.1875</span>
-<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
-<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>For instance, $\color{red}{W_{12}}$ indicates that unit 2 has an influence of 0.46875 on unit 1. On the other hand, $\color{blue}{W_{53}}$ indicates that unit 3 has an influence of magnitude 0.1875 on unit 5.</span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a>The diagonal elements of indicate how each unit $i$ influences itself (change of $x_i$ on change of $y_i$), and each off-diagonal elements in column $j$ represents the effect of $j$ on each other unit $i$ (change of $x_j$ on change of $y_i$). </span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>      1.1875 &amp; \color{red}{0.46875} &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 1.28125 &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 1.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; 1.28125 &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; \color{blue}{0.1875} &amp; 0.46875 &amp; 1.1875</span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}.</span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
-<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question</span></span>
-<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>Why does unit 3 have any effect o unit 5? According to $\bm W$ those two units are no neighbours $w_{53} = 0$!</span>
-<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
-<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{equation} --&gt;</span></span>
-<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{split} --&gt;</span></span>
-<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        {\bm y} &amp; =\alpha{\bm \iota}+\rho {\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm \varepsilon} \\ --&gt;</span></span>
-<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        {\bm y} &amp; =({\bm I}-\rho{\bm W})^{-1}(\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm \varepsilon}), --&gt;</span></span>
-<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{split} --&gt;</span></span>
-<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{equation} --&gt;</span></span>
-<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
-<span id="cb17-241"><a href="#cb17-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-242"><a href="#cb17-242" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- we can calculate the first derivative: --&gt;</span></span>
+<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a>For instance, $\color{red}{W_{12}}$ indicates that unit 2 has an influence of 0.46875 on unit 1. On the other hand, $\color{blue}{W_{53}}$ indicates that unit 3 has an influence of magnitude 0.1875 on unit 5.</span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question</span></span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a>Why does unit 3 have any effect o unit 5? According to $\bm W$ those two units are no neighbours $w_{53} = 0$!</span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
+<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{equation} --&gt;</span></span>
+<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{split} --&gt;</span></span>
+<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        {\bm y} &amp; =\alpha{\bm \iota}+\rho {\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm \varepsilon} \\ --&gt;</span></span>
+<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        {\bm y} &amp; =({\bm I}-\rho{\bm W})^{-1}(\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm \varepsilon}), --&gt;</span></span>
+<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{split} --&gt;</span></span>
+<span id="cb17-241"><a href="#cb17-241" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{equation} --&gt;</span></span>
+<span id="cb17-242"><a href="#cb17-242" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
 <span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
-<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{equation} --&gt;</span></span>
-<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{split} --&gt;</span></span>
-<span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        \frac{\partial \bm y}{\partial \bm x_k} &amp; = ({\bm I}-\rho{\bm W})^{-1}\beta_k \\ --&gt;</span></span>
-<span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        &amp; =({\bm I} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k,  --&gt;</span></span>
-<span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{split} --&gt;</span></span>
-<span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{equation}   --&gt;</span></span>
-<span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
-<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    where $\rho{\bm W}\beta_k$ equals the effect stemming from direct neighbours, $\rho^2{\bm W}^2\beta_k$ the effect stemming from second order neighbours (neighbours of neighbours),...  --&gt;</span></span>
-<span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for SAR, SAC, and SDM even the direct impacts differ from the point estimates. This results from the fact that an endogenous term of the dependent variable ${\bm W}{\bm y}$ contains feedback loops through the system of neighbours \citep{Betz.2019,Franzese.2007.0,HalleckVega.2015.0}. A change of $x_{i}$ in the focal unit $i$ influences the focal unit $i$ itself, but also the neighbouring unit $j$, which in turn influences the focal unit $i$ in a feedback loop. This feedback loop is part of the direct impact. --&gt;</span></span>
-<span id="cb17-255"><a href="#cb17-255" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb17-256"><a href="#cb17-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global and local spillovers</span></span>
-<span id="cb17-257"><a href="#cb17-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-258"><a href="#cb17-258" aria-hidden="true" tabindex="-1"></a>The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent **global spillover effects**, the latter three represent **local spillover effects** <span class="co">[</span><span class="ot">@Anselin.2003; @LeSage.2009; @LeSage.2014</span><span class="co">]</span>. </span>
+<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- we can calculate the first derivative: --&gt;</span></span>
+<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
+<span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{equation} --&gt;</span></span>
+<span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \begin{split} --&gt;</span></span>
+<span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        \frac{\partial \bm y}{\partial \bm x_k} &amp; = ({\bm I}-\rho{\bm W})^{-1}\beta_k \\ --&gt;</span></span>
+<span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--        &amp; =({\bm I} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k,  --&gt;</span></span>
+<span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{split} --&gt;</span></span>
+<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    \end{equation}   --&gt;</span></span>
+<span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- $$  --&gt;</span></span>
+<span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--    where $\rho{\bm W}\beta_k$ equals the effect stemming from direct neighbours, $\rho^2{\bm W}^2\beta_k$ the effect stemming from second order neighbours (neighbours of neighbours),...  --&gt;</span></span>
+<span id="cb17-255"><a href="#cb17-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-256"><a href="#cb17-256" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for SAR, SAC, and SDM even the direct impacts differ from the point estimates. This results from the fact that an endogenous term of the dependent variable ${\bm W}{\bm y}$ contains feedback loops through the system of neighbours \citep{Betz.2019,Franzese.2007.0,HalleckVega.2015.0}. A change of $x_{i}$ in the focal unit $i$ influences the focal unit $i$ itself, but also the neighbouring unit $j$, which in turn influences the focal unit $i$ in a feedback loop. This feedback loop is part of the direct impact. --&gt;</span></span>
+<span id="cb17-257"><a href="#cb17-257" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb17-258"><a href="#cb17-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global and local spillovers</span></span>
 <span id="cb17-259"><a href="#cb17-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-260"><a href="#cb17-260" aria-hidden="true" tabindex="-1"></a><span class="fu">### Local spillovers</span></span>
+<span id="cb17-260"><a href="#cb17-260" aria-hidden="true" tabindex="-1"></a>The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent **global spillover effects**, the latter three represent **local spillover effects** <span class="co">[</span><span class="ot">@Anselin.2003; @LeSage.2009; @LeSage.2014</span><span class="co">]</span>. </span>
 <span id="cb17-261"><a href="#cb17-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-262"><a href="#cb17-262" aria-hidden="true" tabindex="-1"></a>In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of ${\bm x}_k$ in the spatially weighted neighbouring observations on the dependent variable of the focal unit: the weighted average among neighbours; when using a row-normalised contiguity weights matrix, ${\bm W} {\bm x}_k$ is the mean value of ${\bm x}_k$ in the neighbouring units. </span>
+<span id="cb17-262"><a href="#cb17-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### Local spillovers</span></span>
 <span id="cb17-263"><a href="#cb17-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-264"><a href="#cb17-264" aria-hidden="true" tabindex="-1"></a>Assume we have $k =2$ covariates, then</span>
+<span id="cb17-264"><a href="#cb17-264" aria-hidden="true" tabindex="-1"></a>In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of ${\bm x}_k$ in the spatially weighted neighbouring observations on the dependent variable of the focal unit: the weighted average among neighbours; when using a row-normalised contiguity weights matrix, ${\bm W} {\bm x}_k$ is the mean value of ${\bm x}_k$ in the neighbouring units. </span>
 <span id="cb17-265"><a href="#cb17-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-266"><a href="#cb17-266" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-267"><a href="#cb17-267" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-268"><a href="#cb17-268" aria-hidden="true" tabindex="-1"></a>\underbrace{\bm W}_{N \times N}  \underbrace{\bm X}_{N \times 2} \underbrace{\bm \theta}_{2 \times 1} &amp; = </span>
-<span id="cb17-269"><a href="#cb17-269" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-270"><a href="#cb17-270" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
-<span id="cb17-271"><a href="#cb17-271" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
+<span id="cb17-266"><a href="#cb17-266" aria-hidden="true" tabindex="-1"></a>Assume we have $k =2$ covariates, then</span>
+<span id="cb17-267"><a href="#cb17-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-268"><a href="#cb17-268" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-269"><a href="#cb17-269" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-270"><a href="#cb17-270" aria-hidden="true" tabindex="-1"></a>\underbrace{\bm W}_{N \times N}  \underbrace{\bm X}_{N \times 2} \underbrace{\bm \theta}_{2 \times 1} &amp; = </span>
+<span id="cb17-271"><a href="#cb17-271" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
 <span id="cb17-272"><a href="#cb17-272" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
 <span id="cb17-273"><a href="#cb17-273" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
-<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0</span>
-<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
-<span id="cb17-276"><a href="#cb17-276" aria-hidden="true" tabindex="-1"></a>  \begin{pmatrix}</span>
-<span id="cb17-277"><a href="#cb17-277" aria-hidden="true" tabindex="-1"></a>      3 &amp; 100 <span class="sc">\\</span></span>
-<span id="cb17-278"><a href="#cb17-278" aria-hidden="true" tabindex="-1"></a>      4 &amp; 140 <span class="sc">\\</span></span>
-<span id="cb17-279"><a href="#cb17-279" aria-hidden="true" tabindex="-1"></a>      1 &amp; 200 <span class="sc">\\</span></span>
-<span id="cb17-280"><a href="#cb17-280" aria-hidden="true" tabindex="-1"></a>      7 &amp; 70  <span class="sc">\\</span></span>
-<span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a>      5 &amp; 250 </span>
-<span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
-<span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a>    \begin{pmatrix}</span>
-<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a>      \theta_1 <span class="sc">\\</span></span>
-<span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a>      \theta_2 </span>
-<span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}<span class="sc">\\</span></span>
-<span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a> &amp; =   </span>
-<span id="cb17-288"><a href="#cb17-288" aria-hidden="true" tabindex="-1"></a> \begin{pmatrix}</span>
-<span id="cb17-289"><a href="#cb17-289" aria-hidden="true" tabindex="-1"></a>      6 &amp; 105 <span class="sc">\\</span></span>
-<span id="cb17-290"><a href="#cb17-290" aria-hidden="true" tabindex="-1"></a>      3 &amp; 190 <span class="sc">\\</span></span>
+<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0 <span class="sc">\\</span></span>
+<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a>      0.33 &amp; 0 &amp; 0.33 &amp; 0 &amp; 0.33 <span class="sc">\\</span></span>
+<span id="cb17-276"><a href="#cb17-276" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0.5 &amp; 0 &amp; 0.5 &amp; 0</span>
+<span id="cb17-277"><a href="#cb17-277" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
+<span id="cb17-278"><a href="#cb17-278" aria-hidden="true" tabindex="-1"></a>  \begin{pmatrix}</span>
+<span id="cb17-279"><a href="#cb17-279" aria-hidden="true" tabindex="-1"></a>      3 &amp; 100 <span class="sc">\\</span></span>
+<span id="cb17-280"><a href="#cb17-280" aria-hidden="true" tabindex="-1"></a>      4 &amp; 140 <span class="sc">\\</span></span>
+<span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a>      1 &amp; 200 <span class="sc">\\</span></span>
+<span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a>      7 &amp; 70  <span class="sc">\\</span></span>
+<span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a>      5 &amp; 250 </span>
+<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
+<span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a>    \begin{pmatrix}</span>
+<span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a>      \theta_1 <span class="sc">\\</span></span>
+<span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a>      \theta_2 </span>
+<span id="cb17-288"><a href="#cb17-288" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}<span class="sc">\\</span></span>
+<span id="cb17-289"><a href="#cb17-289" aria-hidden="true" tabindex="-1"></a> &amp; =   </span>
+<span id="cb17-290"><a href="#cb17-290" aria-hidden="true" tabindex="-1"></a> \begin{pmatrix}</span>
 <span id="cb17-291"><a href="#cb17-291" aria-hidden="true" tabindex="-1"></a>      6 &amp; 105 <span class="sc">\\</span></span>
-<span id="cb17-292"><a href="#cb17-292" aria-hidden="true" tabindex="-1"></a>      3 &amp; 190  <span class="sc">\\</span></span>
-<span id="cb17-293"><a href="#cb17-293" aria-hidden="true" tabindex="-1"></a>      6 &amp; 105 </span>
-<span id="cb17-294"><a href="#cb17-294" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
-<span id="cb17-295"><a href="#cb17-295" aria-hidden="true" tabindex="-1"></a> \begin{pmatrix}</span>
-<span id="cb17-296"><a href="#cb17-296" aria-hidden="true" tabindex="-1"></a>      \theta_1 <span class="sc">\\</span></span>
-<span id="cb17-297"><a href="#cb17-297" aria-hidden="true" tabindex="-1"></a>      \theta_2</span>
-<span id="cb17-298"><a href="#cb17-298" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}<span class="sc">\\</span></span>
-<span id="cb17-299"><a href="#cb17-299" aria-hidden="true" tabindex="-1"></a>\end{split} </span>
-<span id="cb17-300"><a href="#cb17-300" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-301"><a href="#cb17-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-304"><a href="#cb17-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb17-305"><a href="#cb17-305" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">x1 =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">5</span>),</span>
-<span id="cb17-306"><a href="#cb17-306" aria-hidden="true" tabindex="-1"></a>           <span class="at">x2 =</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">140</span>,<span class="dv">200</span>,<span class="dv">70</span>,<span class="dv">270</span>))</span>
-<span id="cb17-307"><a href="#cb17-307" aria-hidden="true" tabindex="-1"></a>(WX <span class="ot">&lt;-</span>  W <span class="sc">%*%</span> X)</span>
-<span id="cb17-308"><a href="#cb17-308" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb17-309"><a href="#cb17-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-310"><a href="#cb17-310" aria-hidden="true" tabindex="-1"></a>Thus, only direct neighbours -- as defined in ${\bm W}$ -- contribute to those local spillover effects. The $\hat{\bm\theta}$ coefficients only estimate how my direct neighbour's $\bm X$ values influence my own outcome $\bm y$.</span>
+<span id="cb17-292"><a href="#cb17-292" aria-hidden="true" tabindex="-1"></a>      3 &amp; 190 <span class="sc">\\</span></span>
+<span id="cb17-293"><a href="#cb17-293" aria-hidden="true" tabindex="-1"></a>      6 &amp; 105 <span class="sc">\\</span></span>
+<span id="cb17-294"><a href="#cb17-294" aria-hidden="true" tabindex="-1"></a>      3 &amp; 190  <span class="sc">\\</span></span>
+<span id="cb17-295"><a href="#cb17-295" aria-hidden="true" tabindex="-1"></a>      6 &amp; 105 </span>
+<span id="cb17-296"><a href="#cb17-296" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}</span>
+<span id="cb17-297"><a href="#cb17-297" aria-hidden="true" tabindex="-1"></a> \begin{pmatrix}</span>
+<span id="cb17-298"><a href="#cb17-298" aria-hidden="true" tabindex="-1"></a>      \theta_1 <span class="sc">\\</span></span>
+<span id="cb17-299"><a href="#cb17-299" aria-hidden="true" tabindex="-1"></a>      \theta_2</span>
+<span id="cb17-300"><a href="#cb17-300" aria-hidden="true" tabindex="-1"></a>  \end{pmatrix}<span class="sc">\\</span></span>
+<span id="cb17-301"><a href="#cb17-301" aria-hidden="true" tabindex="-1"></a>\end{split} </span>
+<span id="cb17-302"><a href="#cb17-302" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-303"><a href="#cb17-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-306"><a href="#cb17-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-307"><a href="#cb17-307" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">x1 =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">5</span>),</span>
+<span id="cb17-308"><a href="#cb17-308" aria-hidden="true" tabindex="-1"></a>           <span class="at">x2 =</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">140</span>,<span class="dv">200</span>,<span class="dv">70</span>,<span class="dv">270</span>))</span>
+<span id="cb17-309"><a href="#cb17-309" aria-hidden="true" tabindex="-1"></a>(WX <span class="ot">&lt;-</span>  W <span class="sc">%*%</span> X)</span>
+<span id="cb17-310"><a href="#cb17-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-311"><a href="#cb17-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-312"><a href="#cb17-312" aria-hidden="true" tabindex="-1"></a>There are no higher order neighbours involved (as long as we do not model them), nor are there any feedback loops due to interdependence.</span>
+<span id="cb17-312"><a href="#cb17-312" aria-hidden="true" tabindex="-1"></a>Thus, only direct neighbours -- as defined in ${\bm W}$ -- contribute to those local spillover effects. The $\hat{\bm\theta}$ coefficients only estimate how my direct neighbour's $\bm X$ values influence my own outcome $\bm y$.</span>
 <span id="cb17-313"><a href="#cb17-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-314"><a href="#cb17-314" aria-hidden="true" tabindex="-1"></a><span class="fu">### Global spillovers</span></span>
+<span id="cb17-314"><a href="#cb17-314" aria-hidden="true" tabindex="-1"></a>There are no higher order neighbours involved (as long as we do not model them), nor are there any feedback loops due to interdependence.</span>
 <span id="cb17-315"><a href="#cb17-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-316"><a href="#cb17-316" aria-hidden="true" tabindex="-1"></a>In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse $({\bm I_N}-\rho {\bm W})^{-1}$ as power series:A power series of $\sum\nolimits_{k=0}^\infty {\bm W}^k$ converges to $({\bm I}-{\bm W})^{-1}$ if the maximum absolute eigenvalue of ${\bm W} &lt; 1$, which is ensured by standardizing ${\bm W}$.}</span>
+<span id="cb17-316"><a href="#cb17-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### Global spillovers</span></span>
 <span id="cb17-317"><a href="#cb17-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-318"><a href="#cb17-318" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-319"><a href="#cb17-319" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-320"><a href="#cb17-320" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\rho {\bm W})^{-1}\beta_k </span>
-<span id="cb17-321"><a href="#cb17-321" aria-hidden="true" tabindex="-1"></a>=({\bm I_N} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k </span>
-<span id="cb17-322"><a href="#cb17-322" aria-hidden="true" tabindex="-1"></a>= ({\bm I_N} + \sum_{h=1}^\infty \rho^h{\bm W}^h)\beta_k ,</span>
-<span id="cb17-323"><a href="#cb17-323" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-324"><a href="#cb17-324" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-325"><a href="#cb17-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a>where the identity matrix represents the direct effects and the sum represents the first and higher order indirect effects and the above mentioned feedback loops. This implies that a change in one unit $i$ does not only affect the direct neighbours but passes through the whole system towards higher-order neighbours, where the impact declines with distance within the neighbouring system. Global indirect impacts thus are `multiplied' by influencing direct neighbours as specified in $\bm W$ and indirect neighbours not connected according to $\bm W$, with additional feedback loops between those neighbours.</span>
+<span id="cb17-318"><a href="#cb17-318" aria-hidden="true" tabindex="-1"></a>In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse $({\bm I_N}-\rho {\bm W})^{-1}$ as power series:A power series of $\sum\nolimits_{k=0}^\infty {\bm W}^k$ converges to $({\bm I}-{\bm W})^{-1}$ if the maximum absolute eigenvalue of ${\bm W} &lt; 1$, which is ensured by standardizing ${\bm W}$.}</span>
+<span id="cb17-319"><a href="#cb17-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-320"><a href="#cb17-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-321"><a href="#cb17-321" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-322"><a href="#cb17-322" aria-hidden="true" tabindex="-1"></a>({\bm I_N}-\rho {\bm W})^{-1}\beta_k </span>
+<span id="cb17-323"><a href="#cb17-323" aria-hidden="true" tabindex="-1"></a>=({\bm I_N} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k </span>
+<span id="cb17-324"><a href="#cb17-324" aria-hidden="true" tabindex="-1"></a>= ({\bm I_N} + \sum_{h=1}^\infty \rho^h{\bm W}^h)\beta_k ,</span>
+<span id="cb17-325"><a href="#cb17-325" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-327"><a href="#cb17-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-328"><a href="#cb17-328" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-329"><a href="#cb17-329" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-330"><a href="#cb17-330" aria-hidden="true" tabindex="-1"></a>\underbrace{(\underbrace{\bm I_N}_{N \times N} - \underbrace{\rho}_{\hat{=} 0.6} \underbrace{\bm W}_{N \times N})^{-1}}_{N \times N} \beta_k</span>
-<span id="cb17-331"><a href="#cb17-331" aria-hidden="true" tabindex="-1"></a>&amp;=</span>
-<span id="cb17-332"><a href="#cb17-332" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-333"><a href="#cb17-333" aria-hidden="true" tabindex="-1"></a>      1.\color{red}{1875} &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-334"><a href="#cb17-334" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 1.\color{red}{28125} &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-335"><a href="#cb17-335" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 1.\color{red}{1875} &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
-<span id="cb17-336"><a href="#cb17-336" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; 1.\color{red}{28125} &amp; 0.3125 <span class="sc">\\</span></span>
-<span id="cb17-337"><a href="#cb17-337" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 1.\color{red}{1875}</span>
-<span id="cb17-338"><a href="#cb17-338" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}</span>
-<span id="cb17-339"><a href="#cb17-339" aria-hidden="true" tabindex="-1"></a>  \begin{matrix}</span>
-<span id="cb17-340"><a href="#cb17-340" aria-hidden="true" tabindex="-1"></a>      (\beta_1 + \beta_2)<span class="sc">\\</span></span>
-<span id="cb17-341"><a href="#cb17-341" aria-hidden="true" tabindex="-1"></a>  \end{matrix}<span class="sc">\\</span>.</span>
-<span id="cb17-342"><a href="#cb17-342" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-343"><a href="#cb17-343" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-344"><a href="#cb17-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-345"><a href="#cb17-345" aria-hidden="true" tabindex="-1"></a>All diagonal elements of $\mathrm{diag}({\bm W})=w_{ii}=0$. However, diagonal elements of higher order neighbours are not zero $\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0$. </span>
+<span id="cb17-328"><a href="#cb17-328" aria-hidden="true" tabindex="-1"></a>where the identity matrix represents the direct effects and the sum represents the first and higher order indirect effects and the above mentioned feedback loops. This implies that a change in one unit $i$ does not only affect the direct neighbours but passes through the whole system towards higher-order neighbours, where the impact declines with distance within the neighbouring system. Global indirect impacts thus are `multiplied' by influencing direct neighbours as specified in $\bm W$ and indirect neighbours not connected according to $\bm W$, with additional feedback loops between those neighbours.</span>
+<span id="cb17-329"><a href="#cb17-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-330"><a href="#cb17-330" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-331"><a href="#cb17-331" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-332"><a href="#cb17-332" aria-hidden="true" tabindex="-1"></a>\underbrace{(\underbrace{\bm I_N}_{N \times N} - \underbrace{\rho}_{\hat{=} 0.6} \underbrace{\bm W}_{N \times N})^{-1}}_{N \times N} \beta_k</span>
+<span id="cb17-333"><a href="#cb17-333" aria-hidden="true" tabindex="-1"></a>&amp;=</span>
+<span id="cb17-334"><a href="#cb17-334" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-335"><a href="#cb17-335" aria-hidden="true" tabindex="-1"></a>      1.\color{red}{1875} &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-336"><a href="#cb17-336" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 1.\color{red}{28125} &amp; 0.3125 &amp; 0.28125 &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-337"><a href="#cb17-337" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 1.\color{red}{1875} &amp; 0.46875 &amp; 0.1875 <span class="sc">\\</span></span>
+<span id="cb17-338"><a href="#cb17-338" aria-hidden="true" tabindex="-1"></a>      0.3125 &amp; 0.28125 &amp; 0.3125 &amp; 1.\color{red}{28125} &amp; 0.3125 <span class="sc">\\</span></span>
+<span id="cb17-339"><a href="#cb17-339" aria-hidden="true" tabindex="-1"></a>      0.1875 &amp; 0.46875 &amp; 0.1875 &amp; 0.46875 &amp; 1.\color{red}{1875}</span>
+<span id="cb17-340"><a href="#cb17-340" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix}</span>
+<span id="cb17-341"><a href="#cb17-341" aria-hidden="true" tabindex="-1"></a>  \begin{matrix}</span>
+<span id="cb17-342"><a href="#cb17-342" aria-hidden="true" tabindex="-1"></a>      (\beta_1 + \beta_2)<span class="sc">\\</span></span>
+<span id="cb17-343"><a href="#cb17-343" aria-hidden="true" tabindex="-1"></a>  \end{matrix}<span class="sc">\\</span>.</span>
+<span id="cb17-344"><a href="#cb17-344" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-345"><a href="#cb17-345" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-346"><a href="#cb17-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-347"><a href="#cb17-347" aria-hidden="true" tabindex="-1"></a>Intuitively, $\rho{\bm W}$ only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas $\rho^2{\bm W}^2$ contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, $({\bm I_N}-\rho {\bm W})^{-1}\beta_k$ includes <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>feedback effects<span class="kw">&lt;/span&gt;</span> from $\rho^2{\bm W}^2$ on (they are part of the direct impacts according to the summary measures below). This is way the <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>diagonal above<span class="kw">&lt;/span&gt;</span> $\geq 1$.</span>
+<span id="cb17-347"><a href="#cb17-347" aria-hidden="true" tabindex="-1"></a>All diagonal elements of $\mathrm{diag}({\bm W})=w_{ii}=0$. However, diagonal elements of higher order neighbours are not zero $\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0$. </span>
 <span id="cb17-348"><a href="#cb17-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-349"><a href="#cb17-349" aria-hidden="true" tabindex="-1"></a>In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects <span class="co">[</span><span class="ot">@LeSage.2014</span><span class="co">]</span>. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by ${\bm W}$ (the average over all neighbours in case of a row-normalised weights matrix). </span>
+<span id="cb17-349"><a href="#cb17-349" aria-hidden="true" tabindex="-1"></a>Intuitively, $\rho{\bm W}$ only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas $\rho^2{\bm W}^2$ contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, $({\bm I_N}-\rho {\bm W})^{-1}\beta_k$ includes <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>feedback effects<span class="kw">&lt;/span&gt;</span> from $\rho^2{\bm W}^2$ on (they are part of the direct impacts according to the summary measures below). This is way the <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>diagonal above<span class="kw">&lt;/span&gt;</span> $\geq 1$.</span>
 <span id="cb17-350"><a href="#cb17-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-351"><a href="#cb17-351" aria-hidden="true" tabindex="-1"></a>For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. </span>
+<span id="cb17-351"><a href="#cb17-351" aria-hidden="true" tabindex="-1"></a>In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects <span class="co">[</span><span class="ot">@LeSage.2014</span><span class="co">]</span>. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by ${\bm W}$ (the average over all neighbours in case of a row-normalised weights matrix). </span>
 <span id="cb17-352"><a href="#cb17-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-353"><a href="#cb17-353" aria-hidden="true" tabindex="-1"></a>In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. </span>
+<span id="cb17-353"><a href="#cb17-353" aria-hidden="true" tabindex="-1"></a>For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. </span>
 <span id="cb17-354"><a href="#cb17-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-355"><a href="#cb17-355" aria-hidden="true" tabindex="-1"></a>Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. @Anselin.2003 proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in ${\bm x}_k$ <span class="co">[</span><span class="ot">@LeSage.2014</span><span class="co">]</span>.</span>
+<span id="cb17-355"><a href="#cb17-355" aria-hidden="true" tabindex="-1"></a>In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. </span>
 <span id="cb17-356"><a href="#cb17-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-357"><a href="#cb17-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-357"><a href="#cb17-357" aria-hidden="true" tabindex="-1"></a>Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. @Anselin.2003 proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in ${\bm x}_k$ <span class="co">[</span><span class="ot">@LeSage.2014</span><span class="co">]</span>.</span>
 <span id="cb17-358"><a href="#cb17-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-359"><a href="#cb17-359" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary impact measures</span></span>
+<span id="cb17-359"><a href="#cb17-359" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-360"><a href="#cb17-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-361"><a href="#cb17-361" aria-hidden="true" tabindex="-1"></a>Note that the derivative in SAR, SAC, and SDM is a $N \times N$ matrix, returning individual effects of each unit on each other unit, differentiated in _direct, indirect, and total impacts_. </span>
+<span id="cb17-361"><a href="#cb17-361" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary impact measures</span></span>
 <span id="cb17-362"><a href="#cb17-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-363"><a href="#cb17-363" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-364"><a href="#cb17-364" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-365"><a href="#cb17-365" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} \beta &amp;=</span>
-<span id="cb17-366"><a href="#cb17-366" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-367"><a href="#cb17-367" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
-<span id="cb17-368"><a href="#cb17-368" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
-<span id="cb17-369"><a href="#cb17-369" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
-<span id="cb17-370"><a href="#cb17-370" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
-<span id="cb17-371"><a href="#cb17-371" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875}</span>
-<span id="cb17-372"><a href="#cb17-372" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} \beta</span>
-<span id="cb17-373"><a href="#cb17-373" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-374"><a href="#cb17-374" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-375"><a href="#cb17-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-376"><a href="#cb17-376" aria-hidden="true" tabindex="-1"></a>**However, the individual effects (how $i$ influences $j$) mainly vary because of variation in ${\bm W}$. **</span>
+<span id="cb17-363"><a href="#cb17-363" aria-hidden="true" tabindex="-1"></a>Note that the derivative in SAR, SAC, and SDM is a $N \times N$ matrix, returning individual effects of each unit on each other unit, differentiated in _direct, indirect, and total impacts_. </span>
+<span id="cb17-364"><a href="#cb17-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-365"><a href="#cb17-365" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-366"><a href="#cb17-366" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-367"><a href="#cb17-367" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} \beta &amp;=</span>
+<span id="cb17-368"><a href="#cb17-368" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-369"><a href="#cb17-369" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
+<span id="cb17-370"><a href="#cb17-370" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
+<span id="cb17-371"><a href="#cb17-371" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
+<span id="cb17-372"><a href="#cb17-372" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
+<span id="cb17-373"><a href="#cb17-373" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875}</span>
+<span id="cb17-374"><a href="#cb17-374" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} \beta</span>
+<span id="cb17-375"><a href="#cb17-375" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-376"><a href="#cb17-376" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-377"><a href="#cb17-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-378"><a href="#cb17-378" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
-<span id="cb17-379"><a href="#cb17-379" aria-hidden="true" tabindex="-1"></a><span class="fu">### Do not interpret these as "estimated" individual impacts</span></span>
-<span id="cb17-380"><a href="#cb17-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-381"><a href="#cb17-381" aria-hidden="true" tabindex="-1"></a>We estimate two scalar parameters in a SAR model: $\beta$ for the direct coefficient and $rho$ for the auto-regressive parameter.</span>
+<span id="cb17-378"><a href="#cb17-378" aria-hidden="true" tabindex="-1"></a>**However, the individual effects (how $i$ influences $j$) mainly vary because of variation in ${\bm W}$. **</span>
+<span id="cb17-379"><a href="#cb17-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-380"><a href="#cb17-380" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb17-381"><a href="#cb17-381" aria-hidden="true" tabindex="-1"></a><span class="fu">### Do not interpret these as "estimated" individual impacts</span></span>
 <span id="cb17-382"><a href="#cb17-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-383"><a href="#cb17-383" aria-hidden="true" tabindex="-1"></a>All variation in the effects matrix $(\bm I_N - \rho \bm W)^{-1}$ \beta comes from the relationship in $\bm W$ which we have given a-priori!</span>
-<span id="cb17-384"><a href="#cb17-384" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb17-385"><a href="#cb17-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-386"><a href="#cb17-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-387"><a href="#cb17-387" aria-hidden="true" tabindex="-1"></a>Since reporting the individual partial effects is usually not of interest, @LeSage.2009 proposed to average over these effect matrices. While the average diagonal elements of the effects matrix $(\bm I_N - \rho \bm W)^{-1}$ represent the so called direct impacts of variable ${\bm x}_k$, the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects). </span>
+<span id="cb17-383"><a href="#cb17-383" aria-hidden="true" tabindex="-1"></a>We estimate two scalar parameters in a SAR model: $\beta$ for the direct coefficient and $rho$ for the auto-regressive parameter.</span>
+<span id="cb17-384"><a href="#cb17-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-385"><a href="#cb17-385" aria-hidden="true" tabindex="-1"></a>All variation in the effects matrix $(\bm I_N - \rho \bm W)^{-1}$ \beta comes from the relationship in $\bm W$ which we have given a-priori!</span>
+<span id="cb17-386"><a href="#cb17-386" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb17-387"><a href="#cb17-387" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-388"><a href="#cb17-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-389"><a href="#cb17-389" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>direct impacts<span class="kw">&lt;/span&gt;</span> refer to an average effect of a unit change in $x_i$ on $y_i$, and <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>the indirect (spillover) impacts<span class="kw">&lt;/span&gt;</span>  indicate how a change in $x_i$, on average, influences all neighbouring units $y_j$.</span>
+<span id="cb17-389"><a href="#cb17-389" aria-hidden="true" tabindex="-1"></a>Since reporting the individual partial effects is usually not of interest, @LeSage.2009 proposed to average over these effect matrices. While the average diagonal elements of the effects matrix $(\bm I_N - \rho \bm W)^{-1}$ represent the so called direct impacts of variable ${\bm x}_k$, the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects). </span>
 <span id="cb17-390"><a href="#cb17-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-391"><a href="#cb17-391" aria-hidden="true" tabindex="-1"></a>Though previous literature <span class="co">[</span><span class="ot">@HalleckVega.2015; @LeSage.2009</span><span class="co">]</span> has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial `multiplier' component if we specify an endogenous lagged depended variable, as a change in $\bm x_i$ influences $\bm y_i$, which influences $\bm y_j$, which in turn influences $\bm y_i$.</span>
+<span id="cb17-391"><a href="#cb17-391" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>direct impacts<span class="kw">&lt;/span&gt;</span> refer to an average effect of a unit change in $x_i$ on $y_i$, and <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>the indirect (spillover) impacts<span class="kw">&lt;/span&gt;</span>  indicate how a change in $x_i$, on average, influences all neighbouring units $y_j$.</span>
 <span id="cb17-392"><a href="#cb17-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-393"><a href="#cb17-393" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-394"><a href="#cb17-394" aria-hidden="true" tabindex="-1"></a>Usually, one should use summary measures to report effects in spatial models <span class="co">[</span><span class="ot">@LeSage.2009</span><span class="co">]</span>. @HalleckVega.2015 provide a nice summary of the impacts for each model:</span>
+<span id="cb17-393"><a href="#cb17-393" aria-hidden="true" tabindex="-1"></a>Though previous literature <span class="co">[</span><span class="ot">@HalleckVega.2015; @LeSage.2009</span><span class="co">]</span> has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial `multiplier' component if we specify an endogenous lagged depended variable, as a change in $\bm x_i$ influences $\bm y_i$, which influences $\bm y_j$, which in turn influences $\bm y_i$.</span>
+<span id="cb17-394"><a href="#cb17-394" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-395"><a href="#cb17-395" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-396"><a href="#cb17-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-397"><a href="#cb17-397" aria-hidden="true" tabindex="-1"></a>Model | Direct Impacts | Indirect Impacts | type</span>
-<span id="cb17-398"><a href="#cb17-398" aria-hidden="true" tabindex="-1"></a>:-: | :-: | :-: | :-:</span>
-<span id="cb17-399"><a href="#cb17-399" aria-hidden="true" tabindex="-1"></a>OLS/SEM | $\beta_k$ | -- | --</span>
-<span id="cb17-400"><a href="#cb17-400" aria-hidden="true" tabindex="-1"></a>SAR/SAC | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global</span>
-<span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a>SLX/SDEM | $\beta_k$ | $\theta_k$ | local</span>
-<span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}$ |global</span>
-<span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} \beta &amp;=</span>
-<span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
-<span id="cb17-408"><a href="#cb17-408" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
-<span id="cb17-409"><a href="#cb17-409" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
-<span id="cb17-410"><a href="#cb17-410" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
-<span id="cb17-411"><a href="#cb17-411" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
-<span id="cb17-412"><a href="#cb17-412" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875}</span>
-<span id="cb17-413"><a href="#cb17-413" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} \beta</span>
-<span id="cb17-414"><a href="#cb17-414" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb17-415"><a href="#cb17-415" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb17-416"><a href="#cb17-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-417"><a href="#cb17-417" aria-hidden="true" tabindex="-1"></a>The different indirect effects / spatial effects mean conceptually different things:</span>
+<span id="cb17-396"><a href="#cb17-396" aria-hidden="true" tabindex="-1"></a>Usually, one should use summary measures to report effects in spatial models <span class="co">[</span><span class="ot">@LeSage.2009</span><span class="co">]</span>. @HalleckVega.2015 provide a nice summary of the impacts for each model:</span>
+<span id="cb17-397"><a href="#cb17-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-398"><a href="#cb17-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-399"><a href="#cb17-399" aria-hidden="true" tabindex="-1"></a>Model | Direct Impacts | Indirect Impacts | type</span>
+<span id="cb17-400"><a href="#cb17-400" aria-hidden="true" tabindex="-1"></a>:-: | :-: | :-: | :-:</span>
+<span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a>OLS/SEM | $\beta_k$ | -- | --</span>
+<span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a>SAR/SAC | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global</span>
+<span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a>SLX/SDEM | $\beta_k$ | $\theta_k$ | local</span>
+<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}$ |global</span>
+<span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb17-408"><a href="#cb17-408" aria-hidden="true" tabindex="-1"></a>(\bm I_N - \rho \bm W)^{-1} \beta &amp;=</span>
+<span id="cb17-409"><a href="#cb17-409" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb17-410"><a href="#cb17-410" aria-hidden="true" tabindex="-1"></a>      \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
+<span id="cb17-411"><a href="#cb17-411" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
+<span id="cb17-412"><a href="#cb17-412" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} <span class="sc">\\</span></span>
+<span id="cb17-413"><a href="#cb17-413" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.3125} &amp; \color{blue}{0.28125} &amp; \color{blue}{0.3125} &amp; \color{red}{1.28125} &amp; \color{blue}{0.3125} <span class="sc">\\</span></span>
+<span id="cb17-414"><a href="#cb17-414" aria-hidden="true" tabindex="-1"></a>      \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{blue}{0.1875} &amp; \color{blue}{0.46875} &amp; \color{red}{1.1875}</span>
+<span id="cb17-415"><a href="#cb17-415" aria-hidden="true" tabindex="-1"></a>      \end{pmatrix} \beta</span>
+<span id="cb17-416"><a href="#cb17-416" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb17-417"><a href="#cb17-417" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-418"><a href="#cb17-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-419"><a href="#cb17-419" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Global spillover effects: SAR, SAC, SDM</span>
+<span id="cb17-419"><a href="#cb17-419" aria-hidden="true" tabindex="-1"></a>The different indirect effects / spatial effects mean conceptually different things:</span>
 <span id="cb17-420"><a href="#cb17-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-421"><a href="#cb17-421" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Local spillover effects: SLX, SDEM</span>
+<span id="cb17-421"><a href="#cb17-421" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Global spillover effects: SAR, SAC, SDM</span>
 <span id="cb17-422"><a href="#cb17-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-423"><a href="#cb17-423" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
-<span id="cb17-424"><a href="#cb17-424" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common ratio between direct and indirect impacts in SAR and SAC</span></span>
-<span id="cb17-425"><a href="#cb17-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-426"><a href="#cb17-426" aria-hidden="true" tabindex="-1"></a>Note that impacts in SAR only estimate one single spatial multiplier coefficient. Thus direct and indirect impacts are bound to a common ratio, say $\phi$, across all covariates.</span>
+<span id="cb17-423"><a href="#cb17-423" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Local spillover effects: SLX, SDEM</span>
+<span id="cb17-424"><a href="#cb17-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-425"><a href="#cb17-425" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb17-426"><a href="#cb17-426" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common ratio between direct and indirect impacts in SAR and SAC</span></span>
 <span id="cb17-427"><a href="#cb17-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-428"><a href="#cb17-428" aria-hidden="true" tabindex="-1"></a>if $\beta_1^{direct} = \phi\beta_1^{indirect}$, then $\beta_2^{direct} = \phi\beta_2^{indirect}$, $\beta_k^{direct} = \phi\beta_k^{indirect}$. </span>
-<span id="cb17-429"><a href="#cb17-429" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb17-430"><a href="#cb17-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-431"><a href="#cb17-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-428"><a href="#cb17-428" aria-hidden="true" tabindex="-1"></a>Note that impacts in SAR only estimate one single spatial multiplier coefficient. Thus direct and indirect impacts are bound to a common ratio, say $\phi$, across all covariates.</span>
+<span id="cb17-429"><a href="#cb17-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-430"><a href="#cb17-430" aria-hidden="true" tabindex="-1"></a>if $\beta_1^{direct} = \phi\beta_1^{indirect}$, then $\beta_2^{direct} = \phi\beta_2^{indirect}$, $\beta_k^{direct} = \phi\beta_k^{indirect}$. </span>
+<span id="cb17-431"><a href="#cb17-431" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb17-432"><a href="#cb17-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-433"><a href="#cb17-433" aria-hidden="true" tabindex="-1"></a>We can calculate these impacts using <span class="in">`impacts()`</span> with simulated distributions, e.g. for the SAR model:</span>
+<span id="cb17-433"><a href="#cb17-433" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-434"><a href="#cb17-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-437"><a href="#cb17-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb17-438"><a href="#cb17-438" aria-hidden="true" tabindex="-1"></a>mod_1.sar.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.sar, <span class="at">listw =</span> queens.lw, <span class="at">R =</span> <span class="dv">300</span>)</span>
-<span id="cb17-439"><a href="#cb17-439" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-440"><a href="#cb17-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-441"><a href="#cb17-441" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
-<span id="cb17-442"><a href="#cb17-442" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
-<span id="cb17-443"><a href="#cb17-443" aria-hidden="true" tabindex="-1"></a>trMatc <span class="ot">&lt;-</span> <span class="fu">trW</span>(W, <span class="at">type =</span> <span class="st">"mult"</span>,</span>
-<span id="cb17-444"><a href="#cb17-444" aria-hidden="true" tabindex="-1"></a>              <span class="at">m =</span> <span class="dv">30</span>) <span class="co"># number of powers</span></span>
-<span id="cb17-445"><a href="#cb17-445" aria-hidden="true" tabindex="-1"></a>mod_1.sar.imp2 <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.sar, </span>
-<span id="cb17-446"><a href="#cb17-446" aria-hidden="true" tabindex="-1"></a>                          <span class="at">tr =</span> trMatc, <span class="co"># trace instead of listw</span></span>
-<span id="cb17-447"><a href="#cb17-447" aria-hidden="true" tabindex="-1"></a>                          <span class="at">R =</span> <span class="dv">300</span>, </span>
-<span id="cb17-448"><a href="#cb17-448" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Q =</span> <span class="dv">30</span>) <span class="co"># number of power series used for approximation</span></span>
-<span id="cb17-449"><a href="#cb17-449" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar.imp2, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-450"><a href="#cb17-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-451"><a href="#cb17-451" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-435"><a href="#cb17-435" aria-hidden="true" tabindex="-1"></a>We can calculate these impacts using <span class="in">`impacts()`</span> with simulated distributions, e.g. for the SAR model:</span>
+<span id="cb17-436"><a href="#cb17-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-439"><a href="#cb17-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-440"><a href="#cb17-440" aria-hidden="true" tabindex="-1"></a>mod_1.sar.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.sar, <span class="at">listw =</span> queens.lw, <span class="at">R =</span> <span class="dv">300</span>)</span>
+<span id="cb17-441"><a href="#cb17-441" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-442"><a href="#cb17-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-443"><a href="#cb17-443" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
+<span id="cb17-444"><a href="#cb17-444" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
+<span id="cb17-445"><a href="#cb17-445" aria-hidden="true" tabindex="-1"></a>trMatc <span class="ot">&lt;-</span> <span class="fu">trW</span>(W, <span class="at">type =</span> <span class="st">"mult"</span>,</span>
+<span id="cb17-446"><a href="#cb17-446" aria-hidden="true" tabindex="-1"></a>              <span class="at">m =</span> <span class="dv">30</span>) <span class="co"># number of powers</span></span>
+<span id="cb17-447"><a href="#cb17-447" aria-hidden="true" tabindex="-1"></a>mod_1.sar.imp2 <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.sar, </span>
+<span id="cb17-448"><a href="#cb17-448" aria-hidden="true" tabindex="-1"></a>                          <span class="at">tr =</span> trMatc, <span class="co"># trace instead of listw</span></span>
+<span id="cb17-449"><a href="#cb17-449" aria-hidden="true" tabindex="-1"></a>                          <span class="at">R =</span> <span class="dv">300</span>, </span>
+<span id="cb17-450"><a href="#cb17-450" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Q =</span> <span class="dv">30</span>) <span class="co"># number of power series used for approximation</span></span>
+<span id="cb17-451"><a href="#cb17-451" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar.imp2, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb17-452"><a href="#cb17-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-453"><a href="#cb17-453" aria-hidden="true" tabindex="-1"></a>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.</span>
+<span id="cb17-453"><a href="#cb17-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-454"><a href="#cb17-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-455"><a href="#cb17-455" aria-hidden="true" tabindex="-1"></a>_If population density increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in population density increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._</span>
+<span id="cb17-455"><a href="#cb17-455" aria-hidden="true" tabindex="-1"></a>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.</span>
 <span id="cb17-456"><a href="#cb17-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-457"><a href="#cb17-457" aria-hidden="true" tabindex="-1"></a>For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it's the effects of direct neighbours only.</span>
+<span id="cb17-457"><a href="#cb17-457" aria-hidden="true" tabindex="-1"></a>_If population density increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in population density increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._</span>
 <span id="cb17-458"><a href="#cb17-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-461"><a href="#cb17-461" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb17-462"><a href="#cb17-462" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">impacts</span>(mod_1.slx, <span class="at">listw =</span> queens.lw))</span>
-<span id="cb17-463"><a href="#cb17-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-464"><a href="#cb17-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-459"><a href="#cb17-459" aria-hidden="true" tabindex="-1"></a>For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it's the effects of direct neighbours only.</span>
+<span id="cb17-460"><a href="#cb17-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-463"><a href="#cb17-463" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-464"><a href="#cb17-464" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">impacts</span>(mod_1.slx, <span class="at">listw =</span> queens.lw))</span>
 <span id="cb17-465"><a href="#cb17-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-466"><a href="#cb17-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-466"><a href="#cb17-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-467"><a href="#cb17-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-468"><a href="#cb17-468" aria-hidden="true" tabindex="-1"></a><span class="fu">## Examples</span></span>
+<span id="cb17-468"><a href="#cb17-468" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-469"><a href="#cb17-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-470"><a href="#cb17-470" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Boillat.2022  {.unnumbered}</span></span>
+<span id="cb17-470"><a href="#cb17-470" aria-hidden="true" tabindex="-1"></a><span class="fu">## Examples</span></span>
 <span id="cb17-471"><a href="#cb17-471" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-472"><a href="#cb17-472" aria-hidden="true" tabindex="-1"></a>_The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot._</span>
+<span id="cb17-472"><a href="#cb17-472" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Boillat.2022  {.unnumbered}</span></span>
 <span id="cb17-473"><a href="#cb17-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-474"><a href="#cb17-474" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Boillat.png)</span></span>
+<span id="cb17-474"><a href="#cb17-474" aria-hidden="true" tabindex="-1"></a>_The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot._</span>
 <span id="cb17-475"><a href="#cb17-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-476"><a href="#cb17-476" aria-hidden="true" tabindex="-1"></a>_Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects._</span>
+<span id="cb17-476"><a href="#cb17-476" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Boillat.png)</span></span>
 <span id="cb17-477"><a href="#cb17-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-478"><a href="#cb17-478" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Fischer.2009  {.unnumbered}</span></span>
+<span id="cb17-478"><a href="#cb17-478" aria-hidden="true" tabindex="-1"></a>_Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects._</span>
 <span id="cb17-479"><a href="#cb17-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-480"><a href="#cb17-480" aria-hidden="true" tabindex="-1"></a>_The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework._</span>
+<span id="cb17-480"><a href="#cb17-480" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Fischer.2009  {.unnumbered}</span></span>
 <span id="cb17-481"><a href="#cb17-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-482"><a href="#cb17-482" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Fischer.png)</span></span>
+<span id="cb17-482"><a href="#cb17-482" aria-hidden="true" tabindex="-1"></a>_The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework._</span>
 <span id="cb17-483"><a href="#cb17-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-484"><a href="#cb17-484" aria-hidden="true" tabindex="-1"></a>_A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero._</span>
+<span id="cb17-484"><a href="#cb17-484" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Fischer.png)</span></span>
 <span id="cb17-485"><a href="#cb17-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-486"><a href="#cb17-486" aria-hidden="true" tabindex="-1"></a>_The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels._</span>
+<span id="cb17-486"><a href="#cb17-486" aria-hidden="true" tabindex="-1"></a>_A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero._</span>
 <span id="cb17-487"><a href="#cb17-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-488"><a href="#cb17-488" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Ruttenauer.2018a  {.unnumbered}</span></span>
+<span id="cb17-488"><a href="#cb17-488" aria-hidden="true" tabindex="-1"></a>_The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels._</span>
 <span id="cb17-489"><a href="#cb17-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-490"><a href="#cb17-490" aria-hidden="true" tabindex="-1"></a>_This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution._</span>
+<span id="cb17-490"><a href="#cb17-490" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Ruttenauer.2018a  {.unnumbered}</span></span>
 <span id="cb17-491"><a href="#cb17-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-492"><a href="#cb17-492" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/census.png)</span></span>
+<span id="cb17-492"><a href="#cb17-492" aria-hidden="true" tabindex="-1"></a>_This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution._</span>
 <span id="cb17-493"><a href="#cb17-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-494"><a href="#cb17-494" aria-hidden="true" tabindex="-1"></a>_Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution._</span>
+<span id="cb17-494"><a href="#cb17-494" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/census.png)</span></span>
+<span id="cb17-495"><a href="#cb17-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-496"><a href="#cb17-496" aria-hidden="true" tabindex="-1"></a>_Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution._</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

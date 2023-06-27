@@ -484,4 +484,130 @@ gp
   b) us `st_as_sf()` to create the spatial point
   c) use `st_distance()` to calculate the distance
   
-2) Can you create a plot with the distance to the city centre and pub counts next to each oter?
+  
+```{r}
+### Distance to city center
+# Define centre
+centre <- st_as_sf(data.frame(lon = -0.128120855701165, 
+                              lat = 51.50725909644806),
+                   coords = c("lon", "lat"), 
+                   crs = 4326)
+# Reproject
+centre <- st_transform(centre, crs = st_crs(msoa.spdf))
+# Calculate distance
+msoa.spdf$dist_centre <- as.numeric(st_distance(msoa.spdf, centre)) / 1000
+# hist(msoa.spdf$dist_centre)
+```
+
+
+2) Can you create a plot with the distance to the city centre and pub counts next to each otter?
+
+
+
+```{r}
+
+# Define colours
+cols <- viridis(n = 10, direction = 1, option = "B")
+cols2 <- viridis(n = 10, direction = 1, option = "E")
+
+
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "dist_centre", 
+          style = "fisher", # algorithm to def cut points
+          n = 10, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "Distance", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Dist centre", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+
+mp2 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "dist_centre", 
+          style = "quantile", # algorithm to def cut points
+          n = 10, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "Distance", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Dist centre", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+
+mp3 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "pubs_count", 
+          style = "fisher", # algorithm to def cut points
+          n = 10, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "Count", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Pubs", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+
+mp4 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = "pubs_count", 
+          style = "quantile", # algorithm to def cut points
+          n = 10, # Number of requested cut points
+          palette = cols, # colours
+          alpha = 1, # transparency 
+          title = "Count", 
+          legend.hist = FALSE # histogram next to map?
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Pubs", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+
+tmap_arrange(mp1, mp2, mp3, mp4, ncol = 2, nrow = 2)
+```
+
+
+### Geogrphic cter
+
+```{r}
+# Make one single schape
+london <- st_union(msoa.spdf)
+
+# Calculate center
+cent <- st_centroid(london)
+
+mapview(cent)
+```
+

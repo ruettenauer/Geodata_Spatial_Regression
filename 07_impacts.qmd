@@ -72,9 +72,11 @@ First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very 
 Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model, the reduced form is given by:
 
 $$
-{\bm y}-\rho{\bm W}{\bm y} ={\bm X}{\bm \beta}+ {\bm \varepsilon}, \nonumber \\
-({\bm I_N}-\rho {\bm W}){\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}\nonumber, \\
-{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),
+\begin{split}
+{\bm y}-\rho{\bm W}{\bm y} &={\bm X}{\bm \beta}+ {\bm \varepsilon}, \nonumber \\
+({\bm I_N}-\rho {\bm W}){\bm y} &={\bm X}{\bm \beta}+ {\bm \varepsilon}\nonumber, \\
+{\bm y} &=({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),
+\end{split}
 $$
 where ${\bm I_N}$ is an $N \times N$ diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.
 

@@ -10,7 +10,8 @@
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", 
+          "plm", "splm", "SDPDmod")
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -21,3 +22,51 @@ lapply(pkgs, require, character.only = TRUE)
 sessionInfo()
 
 ```
+
+
+
+We use the `WDI` API package to retrieve data from the World Bank.
+
+You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data.
+
+You can search for indicators with `WDIsearch()`.
+```{r warning=FALSE}
+library(WDI)
+
+# Search GDP per capita
+WDIsearch("CO2 intensity")
+
+# Political Stability
+WDIsearch("Political Stability")
+
+# 
+WDIsearch("democracy")
+# The Democracy indicator is an additive eleven-point scale (0-10)
+
+```
+
+```{r, cache=TRUE}
+# Define countries, indicators to query, and time period
+wd.df <- WDI(country = "all", 
+             indicator = c('population' = "SP.POP.TOTL", 
+                           'gdp_pc' = "NY.GDP.PCAP.KD", 
+                           'co2_pc' = "EN.ATM.CO2E.PC",
+                           'co2_intesity' = "EN.ATM.CO2E.EG.ZS",
+                           'gini' = "SI.POV.GINI",
+                           'political_stability' = "GV.POLI.ST.ES",
+                           'inst_democr' = "UPP.INS.DEMO.XQ"),
+             extra = TRUE,
+             start = 2010, end = 2019)
+
+# Save
+save(wd.df, file = "_data/WDI_data.RData")
+```
+
+
+## Diffusion of political regimes
+
+See for instance @Gleditsch.2006 for an example for the diffusion of democratization.
+
+
+
+

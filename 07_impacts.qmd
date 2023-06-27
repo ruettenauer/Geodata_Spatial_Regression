@@ -393,7 +393,7 @@ Model | Direct Impacts | Indirect Impacts | type
 OLS/SEM | $\beta_k$ | -- | --
 SAR/SAC | <span style="color:red">Diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span style="color:blue">Off-diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global
 SLX/SDEM | $\beta_k$ | $\theta_k$ | local
-SDM | <span style="color:red">Diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | <span style="color:blue">Off-diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}$ |global
+SDM | <span style="color:red">Diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | <span style="color:blue">Off-diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}[\beta_k+{\bm W}\theta_k\right]$ |global
 
 $$
 \begin{split}
@@ -444,7 +444,7 @@ summary(mod_1.sar.imp2, zstats = TRUE, short = TRUE)
 
 The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.
 
-_If population density increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in population density increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._
+_If Log NO2 increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in log NO2 increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._
 
 For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it's the effects of direct neighbours only.
 

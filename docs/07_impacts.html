@@ -718,7 +718,7 @@ Do not interpret these as “estimated” individual impacts
 <tr class="even">
 <td style="text-align: center;">SDM</td>
 <td style="text-align: center;"><span style="color:red">Diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}}\theta_k\right]\)</span></td>
-<td style="text-align: center;"><span style="color:blue">Off-diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}\)</span></td>
+<td style="text-align: center;"><span style="color:blue">Off-diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}[\beta_k+{\boldsymbol{\mathbf{W}}}\theta_k\right]\)</span></td>
 <td style="text-align: center;">global</td>
 </tr>
 </tbody>
@@ -772,30 +772,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0455025066 0.0904382456 0.122675086
-log(POPDEN) 0.0139202045 0.0260768572 0.039084802
-per_mixed   0.0061206640 0.0111063013 0.017014393
-per_asian   0.0005357784 0.0008712669 0.001363992
-per_black   0.0009491383 0.0023056074 0.002710340
-per_other   0.0031896073 0.0054744727 0.008649304
+log(no2)    0.0524829552 0.1022810417 0.143098656
+log(POPDEN) 0.0143318012 0.0274204139 0.040862458
+per_mixed   0.0064774203 0.0117946448 0.018023923
+per_asian   0.0005101859 0.0008582299 0.001325580
+per_black   0.0009764256 0.0022254689 0.002612879
+per_other   0.0032522711 0.0056289167 0.008866896
 
 Simulated z-values:
-                Direct    Indirect       Total
-log(no2)      9.850663   8.3377592   9.8005408
-log(POPDEN)  -4.478309  -4.0344580  -4.2867037
-per_mixed     3.294072   3.0707541   3.1894542
-per_asian    -4.849417  -5.0016070  -5.0996976
-per_black   -14.944175 -10.3545140 -14.0416100
-per_other    -0.539039  -0.5476395  -0.5454035
+                 Direct    Indirect       Total
+log(no2)      8.4657238   7.3900865   8.3870246
+log(POPDEN)  -4.3679171  -3.8953950  -4.1459441
+per_mixed     3.2987812   3.0927829   3.2093939
+per_asian    -4.9770423  -5.0189504  -5.1650076
+per_black   -14.6141333 -10.9064652 -14.7506321
+per_other    -0.5384408  -0.5378793  -0.5389522
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-log(POPDEN) 7.5237e-06 5.4728e-05 1.8134e-05
-per_mixed   0.00098747 0.0021352  0.0014254 
-per_asian   1.2383e-06 5.6854e-07 3.4020e-07
+log(no2)    &lt; 2.22e-16 1.4677e-13 &lt; 2.22e-16
+log(POPDEN) 1.2544e-05 9.8039e-05 3.3842e-05
+per_mixed   0.00097106 0.0019829  0.0013302 
+per_asian   6.4563e-07 5.1955e-07 2.4043e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.58985992 0.5839395  0.5854760 </code></pre>
+per_other   0.59027279 0.5906604  0.5899198 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
@@ -820,34 +820,34 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0479167026 0.0951783154 0.133684351
-log(POPDEN) 0.0138604746 0.0257094731 0.038887312
-per_mixed   0.0063802334 0.0113906533 0.017601039
-per_asian   0.0005158999 0.0008884822 0.001372939
-per_black   0.0010043359 0.0022418320 0.002833750
-per_other   0.0033957428 0.0059225402 0.009308621
+log(no2)    0.0482750587 0.0947401752 0.129414575
+log(POPDEN) 0.0141180729 0.0266334529 0.039772063
+per_mixed   0.0064137693 0.0115278775 0.017695583
+per_asian   0.0004562686 0.0008108066 0.001218770
+per_black   0.0010076936 0.0023681107 0.002787339
+per_other   0.0033223319 0.0057895322 0.009095862
 
 Simulated z-values:
                  Direct    Indirect       Total
-log(no2)      9.3737677   8.0190532   9.0691245
-log(POPDEN)  -4.5045337  -4.1366866  -4.3404134
-per_mixed     3.2338074   3.0850276   3.1687293
-per_asian    -5.0024231  -4.9285622  -5.0691926
-per_black   -14.2191538 -10.8239228 -13.6025467
-per_other    -0.5270086  -0.5254849  -0.5265862
+log(no2)      9.1814384   7.9840198   9.2697589
+log(POPDEN)  -4.4222851  -4.0137079  -4.2575876
+per_mixed     3.2153835   3.0604915   3.1591895
+per_asian    -5.5573753  -5.3310076  -5.6270444
+per_black   -14.1105021 -10.2507347 -13.8102815
+per_other    -0.5206874  -0.5288664  -0.5268094
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 1.1102e-15 &lt; 2.22e-16
-log(POPDEN) 6.6519e-06 3.5236e-05 1.4221e-05
-per_mixed   0.0012215  0.0020353  0.0015311 
-per_asian   5.6614e-07 8.2837e-07 3.9951e-07
+log(no2)    &lt; 2.22e-16 1.3323e-15 &lt; 2.22e-16
+log(POPDEN) 9.7662e-06 5.9772e-05 2.0664e-05
+per_mixed   0.0013027  0.0022097  0.0015821 
+per_asian   2.7386e-08 9.7669e-08 1.8332e-08
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.5981876  0.5992461  0.5984810 </code></pre>
+per_other   0.6025846  0.5968981  0.5983259 </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
-<p><em>If population density increases by one unit, this increases the house price in the focal unit by 0.448 units. Overall, a one unit change in population density increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by 0.754.</em></p>
+<p><em>If Log NO2 increases by one unit, this increases the house price in the focal unit by 0.448 units. Overall, a one unit change in log NO2 increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by 0.754.</em></p>
 <p>For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it’s the effects of direct neighbours only.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">impacts</span>(mod_1.slx, <span class="at">listw =</span> queens.lw))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1605,7 +1605,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a>OLS/SEM | $\beta_k$ | -- | --</span>
 <span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a>SAR/SAC | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global</span>
 <span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a>SLX/SDEM | $\beta_k$ | $\theta_k$ | local</span>
-<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}$ |global</span>
+<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ |global</span>
 <span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
@@ -1656,7 +1656,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-454"><a href="#cb17-454" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-455"><a href="#cb17-455" aria-hidden="true" tabindex="-1"></a>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of $x$ in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, ...) influencing 'their $y$'. One can think of this as diffusion or a change in a long-term equilibrium.</span>
 <span id="cb17-456"><a href="#cb17-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-457"><a href="#cb17-457" aria-hidden="true" tabindex="-1"></a>_If population density increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in population density increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._</span>
+<span id="cb17-457"><a href="#cb17-457" aria-hidden="true" tabindex="-1"></a>_If Log NO2 increases by one unit, this increases the house price in the focal unit by `r round(mod_1.sar.imp$res$direct[1], 3)` units. Overall, a one unit change in log NO2 increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by  `r round(mod_1.sar.imp$res$indirect[1], 3)`._</span>
 <span id="cb17-458"><a href="#cb17-458" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-459"><a href="#cb17-459" aria-hidden="true" tabindex="-1"></a>For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it's the effects of direct neighbours only.</span>
 <span id="cb17-460"><a href="#cb17-460" aria-hidden="true" tabindex="-1"></a></span>

@@ -49,5 +49,7 @@ d) Calculate and interpret the summary impact measures.
 
 ### 4) Is SAR the right model choice or would you rather estimate a different model? {.unnumbered}
 
+e) How do results change once you specify a spatial Durbin model? 
+
 
 

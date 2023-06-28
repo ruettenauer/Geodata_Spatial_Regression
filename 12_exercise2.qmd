@@ -164,18 +164,184 @@ kreise.spdf <- st_read(dsn = "_data/Kreisgrenzen_2020_mit_Einwohnerzahl",
 
 1) Chose some variables that could predict life expectancy
 
+Merge data (as with conventional data)
+
+```{r}
+# Merge
+inkar_2015.spdf <- merge(kreise.spdf, inkar.df[inkar.df$year == 2015, ], 
+                         by.x = "ags", by.y = "Kennziffer")
+```
+
+Plot it
+
+```{r}
+cols <- viridis(n = 100, direction = -1, option = "G")
+
+mp1 <-  tm_shape(inkar_2015.spdf) + 
+  tm_fill(col = "Lebenserwartung", 
+          style = "cont", # algorithm to def cut points
+          palette = cols, # colours
+          stretch.palette = TRUE,
+          title = "in years"
+          ) +
+  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("right", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Life expectancy", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8)
+
+mp1
+```
+
+
+
+
 2) __Chose between:__
+
+Generate impacts
+
+```{r}
+# nb <- poly2nb(kreise.spdf, row.names = "ags", queen = TRUE)
+knn <- knearneigh(st_centroid(kreise.spdf), k = 10)
+nb <- knn2nb(knn, row.names = kreise.spdf$ags)
+listw <- nb2listw(nb, style = "W")
+```
+
 
 a) Estimate a cross-sectional spatial model for a selected year
 
+Use a spatial Durbin Error model
+
+```{r}
+# Spec formula
+fm <- Lebenserwartung ~   Beschaeftigtenquote + Krankenhausbetten + pkw_dichte + HaushaltemitKindern + Straenverkehrsunfaelle
+
+# Estimate error model with Durbin = TRUE 
+mod_1.durb <- errorsarlm(fm,  
+                      data = inkar_2015.spdf, 
+                      listw = listw,
+                      Durbin = TRUE)
+
+summary(mod_1.durb)
+
+# Calculate impacts (which is unnecessary in this case)
+mod_1.durb.imp <- impacts(mod_1.durb, listw = listw, R = 300)
+summary(mod_1.durb.imp, zstats = TRUE, short = TRUE)
+
+```
+
+
 b) Estimate a spatial panel model (use the specification you prefer)
+
+I am estimating a spatial FE SAR model here:
+
+```{r}
+
+# Drop NA
+inkar_sub.df <- inkar.df[which(complete.cases(inkar.df[, all.vars(fm)])),]
+
+
+### Esimate FE SEM model
+sarfe.mod <- spml(formula = fm, 
+                  data = inkar_sub.df, 
+                  index = c("Kennziffer", "year"),  # ID column
+                  listw = listw,          # listw
+                  model = "within",       # one of c("within", "random", "pooling").
+                  effect = "individual",  # type of fixed effects
+                  lag = TRUE,             # spatila lg of Y
+                  spatial.error = "none", # "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)
+                  method = "eigen",       # estimation method, for large data e.g. ("spam", "Matrix" or "LU")
+                  na.action = na.fail,    # handling of missings
+                  zero.policy = NULL)     # handling of missings
+
+summary(sarfe.mod)
+
+### Impacts
+# Number of years
+T <- length(unique(inkar_sub.df$year))
+
+# impacts
+sarfe.mod.imp <- impacts(sarfe.mod,
+                         listw = listw,
+                         time = T)
+summary(sarfe.mod.imp)     
+
+```
+
 
 3) Calculate the impacts
 
 
 ### Esimate an FE model with SLX specification
 
+Loops over years to generate WX
 
+```{r}
+
+# All years where we have a balanced sample
+years <- unique(inkar.df$year[which(complete.cases(inkar.df[, all.vars(fm)]))])
+
+# All variables we want ot lag
+vars <- all.vars(fm)
+
+# create listw with the correct rownames (ID = Kennziffer)
+kreise.spdf$Kennziffer <- kreise.spdf$ags
+knn <- knearneigh(st_centroid(kreise.spdf), k = 10)
+nb <- knn2nb(knn, row.names = kreise.spdf$Kennziffer)
+listw <- nb2listw(nb, style = "W")
+
+for(y in years){
+  # Select singe year
+  tmp <- inkar.df[inkar.df$year == y ,]
+  # Select variables and make df
+  x <- st_drop_geometry(tmp[, vars])
+  # Add ID as rownames (we retreive them again later)
+  rownames(x) <- tmp$Kennziffer
+  # Perform lag transformation (rownames contian ids)
+  w.tmp <- create_WX(as.matrix(x),
+                    listw = listw,
+                    prefix = "w",
+                    zero.policy = TRUE) # NAs will get zero
+  w.tmp <- as.data.frame(w.tmp)
+  
+  # add indices back
+  w.tmp$Kennziffer <- row.names(w.tmp)
+  w.tmp$year <- y
+  
+  if(y == years[1]){
+    w.inkar.df <- w.tmp
+  }else{
+    w.inkar.df <- rbind(w.inkar.df, w.tmp)
+  }
+}
+
+head(w.inkar.df)
+
+# Merge back 
+
+inkar.df <- merge(inkar.df, w.inkar.df, by = c("Kennziffer", "year"))
+
+```
+
+
+Estimate a twoways FE panel model
+
+```{r}
+fm2 <- Lebenserwartung ~ Beschaeftigtenquote + Krankenhausbetten + pkw_dichte + HaushaltemitKindern + Straenverkehrsunfaelle +
+  w.Beschaeftigtenquote + w.Krankenhausbetten + w.pkw_dichte + w.HaushaltemitKindern + w.Straenverkehrsunfaelle
+
+slx.fe <- plm(fm2,
+              data = inkar.df,
+              effects = "twoways",
+              model = "within")
+
+summary(slx.fe)
+```
 
 
 <!-- We use the `WDI` API package to retrieve data from the World Bank. -->

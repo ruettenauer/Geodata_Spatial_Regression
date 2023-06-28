@@ -129,23 +129,24 @@ save(inkar.df, file = "_data/inkar.Rdata")
 
 Variables are
 
-------------					   | ------------ |
-|"Kennziffer"                      | ID                                         |
-|"Raumeinheit"                     | Name                                       |
-|"Aggregat"                        | Level                                      |
-|"year"                            | Year                                       |
-|"Bruttoinlandsproduktin1000Euro"  | Gross Domestic Product in 1000 euros       |
-|"HaushaltemitKindern"             | Households with children                   |
-|"Lebenserwartung"                 | Life expectancy                            |
-|"KommunaleSchulden"               | Municipal debts                            |
-|"Pkw-Dichte"                      | Car density                                |
-|"Straenverkehrsunfaelle"          | Road traffic accidents                     |
-|"Einpendler"                      | In-commuters                               |
-|"Auspendler"                      | Out-commuters                              |
-|"Beschaeftigtenquote"             | Employment rate                            |
-|"Bevoelkerunggesamt"              | Population                                 |
-|"Krankenhausbetten"               | Hospital beds per 1,000 inhabitants        |
-|"Gesamtwanderungssaldo"           | Net migration balance                      |
+| Variable | Description |
+| ------------					   | ------------ |
+| "Kennziffer"                      | ID                                         |
+| "Raumeinheit"                     | Name                                       |
+| "Aggregat"                        | Level                                      |
+| "year"                            | Year                                       |
+| "Bruttoinlandsproduktin1000Euro"  | Gross Domestic Product in 1000 euros       |
+| "HaushaltemitKindern"             | Households with children                   |
+| "Lebenserwartung"                 | Life expectancy                            |
+| "KommunaleSchulden"               | Municipal debts                            |
+| "Pkw-Dichte"                      | Car density                                |
+| "Straenverkehrsunfaelle"          | Road traffic accidents                     |
+| "Einpendler"                      | In-commuters                               |
+| "Auspendler"                      | Out-commuters                              |
+| "Beschaeftigtenquote"             | Employment rate                            |
+| "Bevoelkerunggesamt"              | Population                                 |
+| "Krankenhausbetten"               | Hospital beds per 1,000 inhabitants        |
+| "Gesamtwanderungssaldo"           | Net migration balance                      |
 
 
 ## County shapes
@@ -170,6 +171,9 @@ a) Estimate a cross-sectional spatial model for a selected year
 b) Estimate a spatial panel model (use the specification you prefer)
 
 3) Calculate the impacts
+
+
+### Esimate an FE model with SLX specification
 
 
 

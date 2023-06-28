@@ -9,7 +9,6 @@
 
 # Spatio-temporal models
 
-# Comparing and Selecting Models 
 
 ### Required packages {.unnumbered}
 
@@ -38,7 +37,7 @@ The idea behind a static panel data with auto-regressive term is similar to the 
 
 
 $$
-		{\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.
+		{\bm y}= \rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.
 $$	
 
 where $\otimes$ is the Kronecker product (block-wise multiplication).
@@ -117,7 +116,7 @@ In the RE model, the individual specific effects are treated as components of th
 
 $$
 \begin{split}
-		{\bm y}= +\rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, \\
+		{\bm y}= \rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, \\
 		{\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ [\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})]^{-1} {\bm \varepsilon}.
 \end{split}		
 $$	

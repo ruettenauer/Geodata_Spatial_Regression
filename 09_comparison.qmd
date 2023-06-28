@@ -42,7 +42,7 @@ The specific-to-general approach is more common in spatial econometrics. This ap
 
 @Anselin.1996 proposed to use Lagrange multiplier (LM) tests for the hypotheses $H_0$: $\lambda=0$ and $H_0$: $\rho=0$, which are robust against the alternative source of spatial dependence.
 
-###Lagrange Multiplier Test
+### Lagrange Multiplier Test
 
 We have earlier talked about methods to detect auto-correlation -- visualisation and Moran's I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:
 

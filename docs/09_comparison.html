@@ -231,13 +231,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -261,7 +255,8 @@ div.csl-indent {
   <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session">Reload data from pervious session</a></li>
   <li><a href="#specific-to-general" id="toc-specific-to-general" class="nav-link" data-scroll-target="#specific-to-general"><span class="header-section-number">9.1</span> Specific-to-general</a>
   <ul class="collapse">
-  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem"><span class="header-section-number">9.1.1</span> Problem</a></li>
+  <li><a href="#lagrange-multiplier-test" id="toc-lagrange-multiplier-test" class="nav-link" data-scroll-target="#lagrange-multiplier-test"><span class="header-section-number">9.1.1</span> Lagrange Multiplier Test</a></li>
+  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem"><span class="header-section-number">9.1.2</span> Problem</a></li>
   </ul></li>
   <li><a href="#general-to-specific-approach" id="toc-general-to-specific-approach" class="nav-link" data-scroll-target="#general-to-specific-approach"><span class="header-section-number">9.2</span> General-to-specific approach</a></li>
   <li><a href="#general-advice" id="toc-general-advice" class="nav-link" data-scroll-target="#general-advice"><span class="header-section-number">9.3</span> General advice?</a></li>
@@ -337,7 +332,7 @@ loaded via a namespace (and not attached):
  [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
  [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
  [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
-[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
+[10] parallel_4.3.1     sandwich_3.0-2     stats4_4.3.1      
 [13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
 [16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
 [19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
@@ -358,8 +353,8 @@ loaded via a namespace (and not attached):
 [64] png_0.1-8          coda_0.19-4        evaluate_0.21     
 [67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
 [70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
-[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
-[76] units_0.8-2       </code></pre>
+[73] DBI_1.1.3          rstudioapi_0.14    jsonlite_1.8.5    
+[76] R6_2.5.1           units_0.8-2       </code></pre>
 </div>
 </div>
 </section>
@@ -375,7 +370,8 @@ loaded via a namespace (and not attached):
 <h2 data-number="9.1" class="anchored" data-anchor-id="specific-to-general"><span class="header-section-number">9.1</span> Specific-to-general</h2>
 <p>The specific-to-general approach is more common in spatial econometrics. This approach starts with the most basic non-spatial model and tests for possible misspecifications due to omitted autocorrelation in the error term or the dependent variable.</p>
 <p><span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span> proposed to use Lagrange multiplier (LM) tests for the hypotheses <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\lambda=0\)</span> and <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\rho=0\)</span>, which are robust against the alternative source of spatial dependence.</p>
-<p>###Lagrange Multiplier Test</p>
+<section id="lagrange-multiplier-test" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="lagrange-multiplier-test"><span class="header-section-number">9.1.1</span> Lagrange Multiplier Test</h3>
 <p>We have earlier talked about methods to detect auto-correlation – visualisation and Moran’s I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:</p>
 <ul>
 <li>Interdependence (<span class="math inline">\(\rho\)</span>)</li>
@@ -407,8 +403,9 @@ loaded via a namespace (and not attached):
      T &amp;= \mathrm{tr}[(\boldsymbol{\mathbf{W}}^\intercal + \boldsymbol{\mathbf{W}})\boldsymbol{\mathbf{W}}],
 \end{split}     
 \]</span> where <span class="math inline">\(\mathrm{tr}(\boldsymbol{\mathbf{A}})\)</span> is the sum of the main diagonal of any square matrix <span class="math inline">\(\boldsymbol{\mathbf{A}}\)</span>.</p>
-<section id="problem" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="problem"><span class="header-section-number">9.1.1</span> Problem</h3>
+</section>
+<section id="problem" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="problem"><span class="header-section-number">9.1.2</span> Problem</h3>
 <p>The specific-to-general approach based on the robust LM test offers a good performance in distinguishing between SAR, SEM, and non-spatial OLS <span class="citation" data-cites="Florax.2003">(<a href="references.html#ref-Florax.2003" role="doc-biblioref">Florax, Folmer, and Rey 2003</a>)</span>.</p>
 <p>Still, in their original paper, <span class="citation" data-cites="Anselin.1996">Anselin et al. (<a href="references.html#ref-Anselin.1996" role="doc-biblioref">1996</a>)</span> already note the declining power of the robust LM<span class="math inline">\(_\lambda\)</span> test for spatial error dependence with increasing autocorrelation in the dependent variable (indicating some uncertainty under a SAC-like DGP).</p>
 <p><span class="citation" data-cites="Mur.2009">Mur and Angulo (<a href="references.html#ref-Mur.2009" role="doc-biblioref">2009</a>)</span> demonstrate strong drawbacks of the specific-to-general approach under non-optimal conditions like heteroscedasticity or endogeneity.</p>
@@ -939,7 +936,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>@Anselin.1996 proposed to use Lagrange multiplier (LM) tests for the hypotheses $H_0$: $\lambda=0$ and $H_0$: $\rho=0$, which are robust against the alternative source of spatial dependence.</span>
 <span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>###Lagrange Multiplier Test</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Lagrange Multiplier Test</span></span>
 <span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>We have earlier talked about methods to detect auto-correlation -- visualisation and Moran's I. Both methodscan tell us that there is spatial autocorrelation. However, both method do not provide any information on why there is autocorrelation. Possible reasons:</span>
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>

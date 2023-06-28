@@ -718,7 +718,7 @@ Do not interpret these as “estimated” individual impacts
 <tr class="even">
 <td style="text-align: center;">SDM</td>
 <td style="text-align: center;"><span style="color:red">Diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}}\theta_k\right]\)</span></td>
-<td style="text-align: center;"><span style="color:blue">Off-diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}[\beta_k+{\boldsymbol{\mathbf{W}}}\theta_k\right]\)</span></td>
+<td style="text-align: center;"><span style="color:blue">Off-diagonal elements</span> of <span class="math inline">\(({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}})^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}}\theta_k\right]\)</span></td>
 <td style="text-align: center;">global</td>
 </tr>
 </tbody>
@@ -772,30 +772,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0524829552 0.1022810417 0.143098656
-log(POPDEN) 0.0143318012 0.0274204139 0.040862458
-per_mixed   0.0064774203 0.0117946448 0.018023923
-per_asian   0.0005101859 0.0008582299 0.001325580
-per_black   0.0009764256 0.0022254689 0.002612879
-per_other   0.0032522711 0.0056289167 0.008866896
+log(no2)    0.0476358026 0.0975112214 0.132526982
+log(POPDEN) 0.0148833780 0.0273304038 0.041381916
+per_mixed   0.0064678523 0.0115058458 0.017747731
+per_asian   0.0005262827 0.0009026189 0.001384013
+per_black   0.0009561332 0.0021745552 0.002507378
+per_other   0.0033236002 0.0057166557 0.009023507
 
 Simulated z-values:
-                 Direct    Indirect       Total
-log(no2)      8.4657238   7.3900865   8.3870246
-log(POPDEN)  -4.3679171  -3.8953950  -4.1459441
-per_mixed     3.2987812   3.0927829   3.2093939
-per_asian    -4.9770423  -5.0189504  -5.1650076
-per_black   -14.6141333 -10.9064652 -14.7506321
-per_other    -0.5384408  -0.5378793  -0.5389522
+                Direct    Indirect       Total
+log(no2)      9.415228   7.7286942   9.0708801
+log(POPDEN)  -4.189635  -3.8472417  -4.0477246
+per_mixed     3.124789   2.9588494   3.0569958
+per_asian    -4.939221  -4.8273638  -5.0264670
+per_black   -14.962326 -11.0448837 -15.2843695
+per_other    -0.521686  -0.5219918  -0.5228481
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 1.4677e-13 &lt; 2.22e-16
-log(POPDEN) 1.2544e-05 9.8039e-05 3.3842e-05
-per_mixed   0.00097106 0.0019829  0.0013302 
-per_asian   6.4563e-07 5.1955e-07 2.4043e-07
+log(no2)    &lt; 2.22e-16 1.0880e-14 &lt; 2.22e-16
+log(POPDEN) 2.7940e-05 0.00011946 5.1718e-05
+per_mixed   0.0017793  0.00308790 0.0022357 
+per_asian   7.8435e-07 1.3835e-06 4.9960e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.59027279 0.5906604  0.5899198 </code></pre>
+per_other   0.6018890  0.60167603 0.6010800 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative with traces (better for large W)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">as</span>(queens.lw, <span class="st">"CsparseMatrix"</span>)</span>
@@ -820,30 +820,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0482750587 0.0947401752 0.129414575
-log(POPDEN) 0.0141180729 0.0266334529 0.039772063
-per_mixed   0.0064137693 0.0115278775 0.017695583
-per_asian   0.0004562686 0.0008108066 0.001218770
-per_black   0.0010076936 0.0023681107 0.002787339
-per_other   0.0033223319 0.0057895322 0.009095862
+log(no2)    0.0485208515 0.0895593015 0.125772334
+log(POPDEN) 0.0147213163 0.0270223435 0.040960656
+per_mixed   0.0062661305 0.0114295239 0.017479525
+per_asian   0.0005452355 0.0009428653 0.001450832
+per_black   0.0009795726 0.0022969550 0.002763178
+per_other   0.0034032986 0.0058129030 0.009202989
 
 Simulated z-values:
                  Direct    Indirect       Total
-log(no2)      9.1814384   7.9840198   9.2697589
-log(POPDEN)  -4.4222851  -4.0137079  -4.2575876
-per_mixed     3.2153835   3.0604915   3.1591895
-per_asian    -5.5573753  -5.3310076  -5.6270444
-per_black   -14.1105021 -10.2507347 -13.8102815
-per_other    -0.5206874  -0.5288664  -0.5268094
+log(no2)      9.2544221   8.4526193   9.5890971
+log(POPDEN)  -4.3292870  -3.9902065  -4.1883493
+per_mixed     3.3961454   3.1506708   3.2776266
+per_asian    -4.7102146  -4.5879233  -4.7517351
+per_black   -14.5893112 -10.4997659 -13.9002168
+per_other    -0.4836538  -0.4860391  -0.4858548
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 1.3323e-15 &lt; 2.22e-16
-log(POPDEN) 9.7662e-06 5.9772e-05 2.0664e-05
-per_mixed   0.0013027  0.0022097  0.0015821 
-per_asian   2.7386e-08 9.7669e-08 1.8332e-08
+log(no2)    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+log(POPDEN) 1.4959e-05 6.6016e-05 2.8099e-05
+per_mixed   0.00068342 0.001629   0.0010468 
+per_asian   2.4746e-06 4.4768e-06 2.0168e-06
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.6025846  0.5968981  0.5983259 </code></pre>
+per_other   0.62863159 0.626939   0.6270701 </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
@@ -1605,7 +1605,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a>OLS/SEM | $\beta_k$ | -- | --</span>
 <span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a>SAR/SAC | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global</span>
 <span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a>SLX/SDEM | $\beta_k$ | $\theta_k$ | local</span>
-<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ |global</span>
+<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>SDM | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:red"</span><span class="kw">&gt;</span>Diagonal elements<span class="kw">&lt;/span&gt;</span>  of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ | <span class="kw">&lt;span</span> <span class="er">style</span><span class="ot">=</span><span class="st">"color:blue"</span><span class="kw">&gt;</span>Off-diagonal elements<span class="kw">&lt;/span&gt;</span> of $({\bm I}-\rho{\bm W})^{-1}\left<span class="co">[</span><span class="ot">\beta_k+{\bm W}\theta_k\right</span><span class="co">]</span>$ |global</span>
 <span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>

@@ -393,7 +393,7 @@ Model | Direct Impacts | Indirect Impacts | type
 OLS/SEM | $\beta_k$ | -- | --
 SAR/SAC | <span style="color:red">Diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | <span style="color:blue">Off-diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\beta_k$ | global
 SLX/SDEM | $\beta_k$ | $\theta_k$ | local
-SDM | <span style="color:red">Diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | <span style="color:blue">Off-diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}[\beta_k+{\bm W}\theta_k\right]$ |global
+SDM | <span style="color:red">Diagonal elements</span>  of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ | <span style="color:blue">Off-diagonal elements</span> of $({\bm I}-\rho{\bm W})^{-1}\left[\beta_k+{\bm W}\theta_k\right]$ |global
 
 $$
 \begin{split}

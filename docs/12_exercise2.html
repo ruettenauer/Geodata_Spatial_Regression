@@ -237,6 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#please-map-the-life-expectancy-across-germany" id="toc-please-map-the-life-expectancy-across-germany" class="nav-link" data-scroll-target="#please-map-the-life-expectancy-across-germany"><span class="header-section-number">12.3.1</span> Please map the life expectancy across Germany</a></li>
   <li><a href="#test-the-effect-of-regional-characteristics-on-life-expectancy" id="toc-test-the-effect-of-regional-characteristics-on-life-expectancy" class="nav-link" data-scroll-target="#test-the-effect-of-regional-characteristics-on-life-expectancy"><span class="header-section-number">12.3.2</span> Test the effect of regional characteristics on life expectancy</a></li>
+  <li><a href="#esimate-an-fe-model-with-slx-specification" id="toc-esimate-an-fe-model-with-slx-specification" class="nav-link" data-scroll-target="#esimate-an-fe-model-with-slx-specification"><span class="header-section-number">12.3.3</span> Esimate an FE model with SLX specification</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -434,7 +435,84 @@ loaded via a namespace (and not attached):
 <span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(inkar.df, <span class="at">file =</span> <span class="st">"_data/inkar.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Variables are</p>
-<p>———— | ———— | |“Kennziffer” | ID | |“Raumeinheit” | Name | |“Aggregat” | Level | |“year” | Year | |“Bruttoinlandsproduktin1000Euro” | Gross Domestic Product in 1000 euros | |“HaushaltemitKindern” | Households with children | |“Lebenserwartung” | Life expectancy | |“KommunaleSchulden” | Municipal debts | |“Pkw-Dichte” | Car density | |“Straenverkehrsunfaelle” | Road traffic accidents | |“Einpendler” | In-commuters | |“Auspendler” | Out-commuters | |“Beschaeftigtenquote” | Employment rate | |“Bevoelkerunggesamt” | Population | |“Krankenhausbetten” | Hospital beds per 1,000 inhabitants | |“Gesamtwanderungssaldo” | Net migration balance |</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Kennziffer”</td>
+<td>ID</td>
+</tr>
+<tr class="even">
+<td>“Raumeinheit”</td>
+<td>Name</td>
+</tr>
+<tr class="odd">
+<td>“Aggregat”</td>
+<td>Level</td>
+</tr>
+<tr class="even">
+<td>“year”</td>
+<td>Year</td>
+</tr>
+<tr class="odd">
+<td>“Bruttoinlandsproduktin1000Euro”</td>
+<td>Gross Domestic Product in 1000 euros</td>
+</tr>
+<tr class="even">
+<td>“HaushaltemitKindern”</td>
+<td>Households with children</td>
+</tr>
+<tr class="odd">
+<td>“Lebenserwartung”</td>
+<td>Life expectancy</td>
+</tr>
+<tr class="even">
+<td>“KommunaleSchulden”</td>
+<td>Municipal debts</td>
+</tr>
+<tr class="odd">
+<td>“Pkw-Dichte”</td>
+<td>Car density</td>
+</tr>
+<tr class="even">
+<td>“Straenverkehrsunfaelle”</td>
+<td>Road traffic accidents</td>
+</tr>
+<tr class="odd">
+<td>“Einpendler”</td>
+<td>In-commuters</td>
+</tr>
+<tr class="even">
+<td>“Auspendler”</td>
+<td>Out-commuters</td>
+</tr>
+<tr class="odd">
+<td>“Beschaeftigtenquote”</td>
+<td>Employment rate</td>
+</tr>
+<tr class="even">
+<td>“Bevoelkerunggesamt”</td>
+<td>Population</td>
+</tr>
+<tr class="odd">
+<td>“Krankenhausbetten”</td>
+<td>Hospital beds per 1,000 inhabitants</td>
+</tr>
+<tr class="even">
+<td>“Gesamtwanderungssaldo”</td>
+<td>Net migration balance</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="county-shapes" class="level2" data-number="12.2">
 <h2 data-number="12.2" class="anchored" data-anchor-id="county-shapes"><span class="header-section-number">12.2</span> County shapes</h2>
@@ -471,6 +549,9 @@ Geodetic CRS:  WGS 84</code></pre>
 <ol start="3" type="1">
 <li>Calculate the impacts</li>
 </ol>
+</section>
+<section id="esimate-an-fe-model-with-slx-specification" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="esimate-an-fe-model-with-slx-specification"><span class="header-section-number">12.3.3</span> Esimate an FE model with SLX specification</h3>
 <!-- We use the `WDI` API package to retrieve data from the World Bank. -->
 <!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. -->
 <!-- You can search for indicators with `WDIsearch()`. -->
@@ -936,95 +1017,99 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a>Variables are</span>
 <span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>------------                       | ------------ |</span>
-<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>|"Kennziffer"                      | ID                                         |</span>
-<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>|"Raumeinheit"                     | Name                                       |</span>
-<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>|"Aggregat"                        | Level                                      |</span>
-<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>|"year"                            | Year                                       |</span>
-<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>|"Bruttoinlandsproduktin1000Euro"  | Gross Domestic Product in 1000 euros       |</span>
-<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>|"HaushaltemitKindern"             | Households with children                   |</span>
-<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>|"Lebenserwartung"                 | Life expectancy                            |</span>
-<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>|"KommunaleSchulden"               | Municipal debts                            |</span>
-<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>|"Pkw-Dichte"                      | Car density                                |</span>
-<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>|"Straenverkehrsunfaelle"          | Road traffic accidents                     |</span>
-<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>|"Einpendler"                      | In-commuters                               |</span>
-<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>|"Auspendler"                      | Out-commuters                              |</span>
-<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>|"Beschaeftigtenquote"             | Employment rate                            |</span>
-<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>|"Bevoelkerunggesamt"              | Population                                 |</span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>|"Krankenhausbetten"               | Hospital beds per 1,000 inhabitants        |</span>
-<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>|"Gesamtwanderungssaldo"           | Net migration balance                      |</span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>| Variable | Description |</span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>| ------------                     | ------------ |</span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>|"Kennziffer"                      | ID                                         |</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>|"Raumeinheit"                     | Name                                       |</span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>|"Aggregat"                        | Level                                      |</span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>|"year"                            | Year                                       |</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>|"Bruttoinlandsproduktin1000Euro"  | Gross Domestic Product in 1000 euros       |</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>|"HaushaltemitKindern"             | Households with children                   |</span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>|"Lebenserwartung"                 | Life expectancy                            |</span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>|"KommunaleSchulden"               | Municipal debts                            |</span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>|"Pkw-Dichte"                      | Car density                                |</span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>|"Straenverkehrsunfaelle"          | Road traffic accidents                     |</span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>|"Einpendler"                      | In-commuters                               |</span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>|"Auspendler"                      | Out-commuters                              |</span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>|"Beschaeftigtenquote"             | Employment rate                            |</span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>|"Bevoelkerunggesamt"              | Population                                 |</span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>|"Krankenhausbetten"               | Hospital beds per 1,000 inhabitants        |</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>|"Gesamtwanderungssaldo"           | Net migration balance                      |</span>
 <span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="fu">## County shapes</span></span>
-<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>kreise.spdf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"_data/Kreisgrenzen_2020_mit_Einwohnerzahl"</span>,</span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>                       <span class="at">layer =</span> <span class="st">"KRS_ew_20"</span>)</span>
-<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="fu">### Please map the life expectancy across Germany</span></span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Test the effect of regional characteristics on life expectancy</span></span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>1) Chose some variables that could predict life expectancy</span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>2) __Chose between:__</span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>a) Estimate a cross-sectional spatial model for a selected year</span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>b) Estimate a spatial panel model (use the specification you prefer)</span>
-<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>3) Calculate the impacts</span>
-<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## County shapes</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>kreise.spdf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"_data/Kreisgrenzen_2020_mit_Einwohnerzahl"</span>,</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>                       <span class="at">layer =</span> <span class="st">"KRS_ew_20"</span>)</span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercises</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### Please map the life expectancy across Germany</span></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="fu">### Test the effect of regional characteristics on life expectancy</span></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>1) Chose some variables that could predict life expectancy</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>2) __Chose between:__</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>a) Estimate a cross-sectional spatial model for a selected year</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>b) Estimate a spatial panel model (use the specification you prefer)</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>3) Calculate the impacts</span>
 <span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- We use the `WDI` API package to retrieve data from the World Bank. --&gt;</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Esimate an FE model with SLX specification</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. --&gt;</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can search for indicators with `WDIsearch()`. --&gt;</span></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r warning=FALSE} --&gt;</span></span>
-<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(WDI) --&gt;</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- We use the `WDI` API package to retrieve data from the World Bank. --&gt;</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. --&gt;</span></span>
 <span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Search GDP per capita --&gt;</span></span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("CO2 intensity") --&gt;</span></span>
-<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Political Stability --&gt;</span></span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("Political Stability") --&gt;</span></span>
-<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #  --&gt;</span></span>
-<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("democracy") --&gt;</span></span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # The Democracy indicator is an additive eleven-point scale (0-10) --&gt;</span></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can search for indicators with `WDIsearch()`. --&gt;</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r warning=FALSE} --&gt;</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(WDI) --&gt;</span></span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Search GDP per capita --&gt;</span></span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("CO2 intensity") --&gt;</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Political Stability --&gt;</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("Political Stability") --&gt;</span></span>
 <span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
-<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r, cache=TRUE} --&gt;</span></span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define countries, indicators to query, and time period --&gt;</span></span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- wd.df &lt;- WDI(country = "all",  --&gt;</span></span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              indicator = c('population' = "SP.POP.TOTL",  --&gt;</span></span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  --&gt;</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_pc' = "EN.ATM.CO2E.PC", --&gt;</span></span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", --&gt;</span></span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gini' = "SI.POV.GINI", --&gt;</span></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'political_stability' = "GV.POLI.ST.ES", --&gt;</span></span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), --&gt;</span></span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              extra = TRUE, --&gt;</span></span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              start = 2010, end = 2019) --&gt;</span></span>
-<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Save --&gt;</span></span>
-<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(wd.df, file = "_data/WDI_data.RData") --&gt;</span></span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #  --&gt;</span></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("democracy") --&gt;</span></span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # The Democracy indicator is an additive eleven-point scale (0-10) --&gt;</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r, cache=TRUE} --&gt;</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define countries, indicators to query, and time period --&gt;</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- wd.df &lt;- WDI(country = "all",  --&gt;</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              indicator = c('population' = "SP.POP.TOTL",  --&gt;</span></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  --&gt;</span></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_pc' = "EN.ATM.CO2E.PC", --&gt;</span></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", --&gt;</span></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gini' = "SI.POV.GINI", --&gt;</span></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'political_stability' = "GV.POLI.ST.ES", --&gt;</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), --&gt;</span></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              extra = TRUE, --&gt;</span></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              start = 2010, end = 2019) --&gt;</span></span>
 <span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Diffusion of political regimes --&gt;</span></span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. --&gt;</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Save --&gt;</span></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(wd.df, file = "_data/WDI_data.RData") --&gt;</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Diffusion of political regimes --&gt;</span></span>
 <span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. --&gt;</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

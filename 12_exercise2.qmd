@@ -25,6 +25,155 @@ sessionInfo()
 
 
 
+
+## Inkar data
+
+Below, we read and transform some characteristics of the [INKAR data](https://www.inkar.de/) on German counties.
+
+```{r}
+di <- c("_data/")
+
+# Define the downloaded filed
+j <- c("inkar.csv")
+c <- 1
+
+for(k in j){
+  header <- as.vector(t(read.table(paste0(di, k), nrows = 1, sep = ";")[1,]))
+  # Clean header
+  header <- stringi::stri_replace_all_fixed(
+    header, 
+    c("ä", "ö", "ü", "Ä", "Ö", "Ü"), 
+    c("ae", "oe", "ue", "Ae", "Oe", "Ue"), 
+    vectorize_all = FALSE
+  )
+  header <- gsub(" ", "", header)
+  header <- gsub("\\.", "", header)
+  header <- iconv(header, "latin1", "ASCII", sub = "")
+  
+  # Combine with second row header (year)
+  header2 <- as.vector(t(read.table(paste0(di, k), skip = 1, nrows = 1, sep = ";")[1,]))
+  header3 <- paste(header, header2, sep = "_")
+  header3 <- gsub("_NA", "", header3)
+  
+  nc <- length(header3)
+  # Input and rename data
+  data <- read.csv(paste0(di, k), skip = 2, header = FALSE, sep = ";", 
+                   quote = "\"", dec = ",", stringsAsFactors = F,
+                   colClasses = "character")
+  names(data) <- header3
+  data1 <- data
+  
+  # Correct character vars (containing thousands separator)
+  vars <- which(sapply(data1, is.character))
+  vars <- vars[-which(vars %in% c(1:3))]
+  for(l in vars){
+    data1[,l] <- gsub("\\.", "", data1[,l])
+    data1[,l] <- gsub("\\,", ".", data1[,l])
+    data1[,l] <- as.numeric(data1[,l])
+  }
+  
+  
+  # #Save
+  # l <- paste("bearb", k, sep = "_")
+  # write.table(data1, file = l, row.names = FALSE, sep = ";", dec = ".", na = ".")
+  
+  # #Reshape
+  # helpvar1 <- unique(header[4:length(header)])
+  # helpvar2 <-  sort(unique(header2[!is.na(header2)]))
+  # n_vars <- length(helpvar1)
+  # n_times <- length(helpvar2)
+  # helpvar1 <- sort(rep(helpvar1, times = n_times))
+  # helpvar2 <- rep(helpvar2, times = n_vars)
+  # helpvar3 <- paste(helpvar1, helpvar2, sep = "_")
+  # count <- ncol(data1)+1
+  # for(v in helpvar3) {
+  #   if(v %in% names(data1)) {}
+  #   else{
+  #     data1[,count] <- NA
+  #     colnames(data1)[count] <- v
+  #     count <- count+1
+  #   }
+  # }
+  # data1 <- data1[c(colnames(data1)[1:3], sort(helpvar3))]
+  # 
+  # data1 <- reshape(data1, direction = "long", varying = 4:ncol(data1), 
+  #                  sep = "_")
+  data.long <- tidyr::pivot_longer(data1, 
+                                  cols = 4:ncol(data1),
+                                  names_to = c(".value", "year"),
+                                  names_pattern = "(.*)_(.*)")
+  
+  
+  colnames(data.long) <- substr(colnames(data.long), 1, 30)
+  
+  if(c == 1){
+    inkar.df <- data.long
+  }else{
+    inkar.df <- merge(inkar.df, data.long, all.x = TRUE, all.y = TRUE)
+  }
+  
+  c <- c+1
+  
+}
+
+
+
+inkar.df$year <- as.numeric(inkar.df$year)
+
+names(inkar.df)[which(names(inkar.df) == "Pkw-Dichte")] <- "pkw_dichte"
+
+save(inkar.df, file = "_data/inkar.Rdata")
+
+```
+
+
+Variables are
+
+------------					   | ------------ |
+|"Kennziffer"                      | ID                                         |
+|"Raumeinheit"                     | Name                                       |
+|"Aggregat"                        | Level                                      |
+|"year"                            | Year                                       |
+|"Bruttoinlandsproduktin1000Euro"  | Gross Domestic Product in 1000 euros       |
+|"HaushaltemitKindern"             | Households with children                   |
+|"Lebenserwartung"                 | Life expectancy                            |
+|"KommunaleSchulden"               | Municipal debts                            |
+|"Pkw-Dichte"                      | Car density                                |
+|"Straenverkehrsunfaelle"          | Road traffic accidents                     |
+|"Einpendler"                      | In-commuters                               |
+|"Auspendler"                      | Out-commuters                              |
+|"Beschaeftigtenquote"             | Employment rate                            |
+|"Bevoelkerunggesamt"              | Population                                 |
+|"Krankenhausbetten"               | Hospital beds per 1,000 inhabitants        |
+|"Gesamtwanderungssaldo"           | Net migration balance                      |
+
+
+## County shapes
+
+```{r}
+kreise.spdf <- st_read(dsn = "_data/Kreisgrenzen_2020_mit_Einwohnerzahl",
+                       layer = "KRS_ew_20")
+```
+
+## Exercises
+
+### Please map the life expectancy across Germany
+
+### Test the effect of regional characteristics on life expectancy
+
+1) Chose some variables that could predict life expectancy
+
+2) __Chose between:__
+
+a) Estimate a cross-sectional spatial model for a selected year
+
+b) Estimate a spatial panel model (use the specification you prefer)
+
+3) Calculate the impacts
+
+
+
+
 <!-- We use the `WDI` API package to retrieve data from the World Bank. -->
 
 <!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. -->

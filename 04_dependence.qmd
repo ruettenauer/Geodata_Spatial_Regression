@@ -381,8 +381,66 @@ _Mobile homes and racial minorities are most overrepresented in hotspots compare
 
 1. Please calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization.
 
-2. Can you create a map containing the City of London (MSOA11CD = "E02000001") and its then neares neighbours?
+```{r}
+coords <- st_centroid(msoa.spdf)
+k10.nb <- knearneigh(coords, k = 10)
+```
+
+
+2. Can you create a map containing the City of London (MSOA11CD = "E02000001") and its then nearest neighbours?
+
+```{r}
+i <- which(msoa.spdf$MSOA11CD == "E02000001")
+
+# Extract neigbours
+j <- k10.nb$nn[i,]
+
+mapview(list(msoa.spdf[i,], msoa.spdf[j,]), col.regions = c("red", "blue"))
+```
+
 
 3. Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.
 
+```{r}
+# Gen nb object
+k10.nb <- knn2nb(k10.nb)
+
+# Gen listw object
+k10.listw <- nb2listw(k10.nb, style = "W")
+
+# MOran test
+moran.test(msoa.spdf$per_white, listw = k10.listw)
+```
+
+
 4. Produce a LISA cluster map for the characteristic you have chosen.
+
+
+```{r}
+loci2 <- localmoran(msoa.spdf$per_white, listw = k10.listw)
+
+# Calculate clusters
+msoa.spdf$lisa_cluster <- hotspot(loci2, 
+                                  "Pr(z != E(Ii))", 
+                                  cutoff = 0.05, 
+                                  quadrant.type = "mean",
+                                  p.adjust = "BY")
+
+# Map
+mp1 <-  tm_shape(msoa.spdf) + 
+  tm_fill(col = c("lisa_cluster"),
+          palette = viridis(n = 3, direction = -1, option = "D"),
+          colorNA = "white") +
+  tm_borders(col = "grey70", lwd = 0.5, alpha = 0.5) +
+  tm_layout(frame = FALSE,
+            legend.frame = TRUE, legend.bg.color = TRUE,
+            legend.position = c("left", "bottom"),
+            legend.outside = FALSE,
+            main.title = "Percentage White \n LISA Clusters p(BY) < 0.05", 
+            main.title.position = "center",
+            main.title.size = 1.6,
+            legend.title.size = 0.8,
+            legend.text.size = 0.8,)
+
+mp1
+```

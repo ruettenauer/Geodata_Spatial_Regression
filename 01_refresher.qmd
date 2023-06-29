@@ -65,7 +65,7 @@ However, different data providers use different CRS. For instance, spatial data 
 
 There are a lot of different CRS projections, and different national statistics offices provide data in different projections. Data providers usually specify which reference system they use. This is important as using the correct reference system and projection is crucial for plotting and manipulating spatial data.
 
-If you do not know the correct CRS, try starting with a standards CRS like [EPSG:4326](https://epsg.io/4326) if you have decimal degree like coordinates. If it looks like projected coordinates, try searching for the country or region in CRS libraries like [https://epsg.io/](https://epsg.io/). However, you must check if the projected coordinates match their real location, e.g. using `mpaview()`.
+If you do not know the correct CRS, try starting with a standards CRS like [EPSG:4326](https://epsg.io/4326) if you have decimal degree like coordinates. If it looks like projected coordinates, try searching for the country or region in CRS libraries like [https://epsg.io/](https://epsg.io/). However, you must check if the projected coordinates match their real location, e.g. using `mapview()`.
 
 ### Why different projections?
 
@@ -80,7 +80,7 @@ st_crs(world)
 ger.spdf <- world[world$name == "Germany", ]
 plot(st_geometry(ger.spdf))
 
-# Now, lets transform Germany into a CRS optimized for Iceland
+# Now, let's transform Germany into a CRS optimized for Iceland
 ger_rep.spdf <- st_transform(ger.spdf, crs = 5325)
 plot(st_geometry(ger_rep.spdf))
 
@@ -88,13 +88,13 @@ plot(st_geometry(ger_rep.spdf))
 
 Depending on the angle, a 2D projection of the earth looks different. It is important to choose a suitable projection for the available spatial data. For more information on CRS and re-projection, see e.g. @Lovelace.2019 or [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)'s [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023).
 
-## Importing some real word data
+## Importing some real world data
 
 `sf` imports many of the most common spatial data files, like geojson, gpkg, or shp.
 
 ### London shapefile (polygon)
 
-Lets get some administrative boundaries for London from the [London Datastore](https://data.london.gov.uk/dataset/statistical-gis-boundary-files-london). We use the `sf` package and its funtion `st_read()` to import the data.
+Let's get some administrative boundaries for London from the [London Datastore](https://data.london.gov.uk/dataset/statistical-gis-boundary-files-london). We use the `sf` package and its funtion `st_read()` to import the data.
 
 ```{r, cache=TRUE}
 # Create subdir (all data withh be stored in "_data")

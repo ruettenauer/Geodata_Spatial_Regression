@@ -12,14 +12,12 @@
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
-
 ```
 
 ### Session info {.unnumbered}
 
 ```{r}
 sessionInfo()
-
 ```
 
 ### Reload data from pervious session {.unnumbered}
@@ -63,8 +61,6 @@ mod_1.slx <- lmSLX(log(med_house_price) ~ log(no2) + log(POPDEN) +
 Do not interpret coefficients as marginal effects in SAR, SAC, and SDM!! 
 :::
 
-
-
 At first glance, the specifications presented above seem relatively similar in the way of modelling spatial effects. **Yet, they differ in very important aspects**. 
 
 First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume **global** spatial dependence, the second two assume **local** spatial dependence [@Anselin.2003; @HalleckVega.2015; @LeSage.2009]. 
@@ -78,6 +74,7 @@ $$
 {\bm y} &=({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),
 \end{split}
 $$
+
 where ${\bm I_N}$ is an $N \times N$ diagonal matrix (diagonal elements equal 1, 0 otherwise). This contains no spatially lagged dependent variable on the right-hand side.
 
 If we want to interpret coefficient, we are usually in marginal or partial effects (the association between a unit change in $X$ and $Y$). We obtain these effects by looking at the first derivative.
@@ -131,7 +128,7 @@ $$
 \end{split}
 $$
 
-If we want to get the total effect of $X$ on $Y$ we need to add the direct association wihtin $i$ and $j$ and so on... 
+If we want to get the total effect of $X$ on $Y$ we need to add the direct association within $i$ and $j$ and so on... 
 
 $$
 \begin{split}
@@ -202,8 +199,7 @@ W = matrix(c(0 , 0.5 , 0 , 0.5 , 0,
 (M = solve(IrW))
 ```
 
-
-The diagonal elements of indicate how each unit $i$ influences itself (change of $x_i$ on change of $y_i$), and each off-diagonal elements in column $j$ represents the effect of $j$ on each other unit $i$ (change of $x_j$ on change of $y_i$). 
+The diagonal elements of $M$ indicate how each unit $i$ influences itself (change of $x_i$ on change of $y_i$), and each off-diagonal elements in column $j$ represents the effect of $j$ on each other unit $i$ (change of $x_j$ on change of $y_i$). 
 
 $$
 \begin{split}
@@ -421,8 +417,6 @@ Note that impacts in SAR only estimate one single spatial multiplier coefficient
 
 if $\beta_1^{direct} = \phi\beta_1^{indirect}$, then $\beta_2^{direct} = \phi\beta_2^{indirect}$, $\beta_k^{direct} = \phi\beta_k^{indirect}$. 
 :::
-
-
 
 We can calculate these impacts using `impacts()` with simulated distributions, e.g. for the SAR model:
 

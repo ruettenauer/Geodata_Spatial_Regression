@@ -1,10 +1,7 @@
 .Rproj.user
 .Rhistory
+.RData
 .Ruserdata
 
 /.quarto/
-_data/*
-!_data/msoa_spatial.RData
-!_data/msoa2_spatial.RData
-!_data/Census_codebook.RData
-literature/*
+/solutions/

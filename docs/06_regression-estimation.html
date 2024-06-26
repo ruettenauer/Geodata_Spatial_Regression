@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
-
+<meta name="generator" content="quarto-1.3.450">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>Geodata &amp; Spatial Regression - 6&nbsp; Spatial Regression Models: Estimation</title>
+<title>Geodata &amp; Spatial Regression - 7&nbsp; Spatial Regression Models: Estimation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +72,6 @@ div.csl-indent {
   margin-left: 2em;
 }</style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -83,7 +79,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./07_impacts.html" rel="next">
+<link href="./06_exercise2.html" rel="next">
 <link href="./05_regression-theory.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -93,8 +89,7 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -110,42 +105,32 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
-}</script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
-
 <body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_regression-estimation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_regression-estimation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Geodata &amp; Spatial Regression</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -156,7 +141,7 @@ div.csl-indent {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
@@ -182,62 +167,62 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./03_exercise1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./04_dependence.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05_regression-theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06_regression-estimation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_exercise2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercises II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07_impacts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
+  <a href="./08_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
+  <a href="./08_exercise3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises III</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_spatiotemporal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
+  <a href="./09_spatiotemporal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11_other.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./10_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -247,35 +232,33 @@ div.csl-indent {
   </div>
 </li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
+<li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
   <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
   <li><a href="#reload-data-from-pervious-session" id="toc-reload-data-from-pervious-session" class="nav-link" data-scroll-target="#reload-data-from-pervious-session">Reload data from pervious session</a></li>
-  <li><a href="#simulataneity-bias" id="toc-simulataneity-bias" class="nav-link" data-scroll-target="#simulataneity-bias"><span class="header-section-number">6.1</span> Simulataneity bias</a></li>
-  <li><a href="#instrumental-variable" id="toc-instrumental-variable" class="nav-link" data-scroll-target="#instrumental-variable"><span class="header-section-number">6.2</span> Instrumental variable</a></li>
-  <li><a href="#generalized-method-of-moments" id="toc-generalized-method-of-moments" class="nav-link" data-scroll-target="#generalized-method-of-moments"><span class="header-section-number">6.3</span> Generalized Method of Moments</a></li>
-  <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">6.4</span> Maximum likelihood estimation</a>
+  <li><a href="#simulataneity-bias" id="toc-simulataneity-bias" class="nav-link" data-scroll-target="#simulataneity-bias"><span class="header-section-number">7.1</span> Simulataneity bias</a></li>
+  <li><a href="#instrumental-variable" id="toc-instrumental-variable" class="nav-link" data-scroll-target="#instrumental-variable"><span class="header-section-number">7.2</span> Instrumental variable</a></li>
+  <li><a href="#generalized-method-of-moments" id="toc-generalized-method-of-moments" class="nav-link" data-scroll-target="#generalized-method-of-moments"><span class="header-section-number">7.3</span> Generalized Method of Moments</a></li>
+  <li>
+<a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation"><span class="header-section-number">7.4</span> Maximum likelihood estimation</a>
   <ul class="collapse">
-  <li><a href="#ml-sar" id="toc-ml-sar" class="nav-link" data-scroll-target="#ml-sar"><span class="header-section-number">6.4.1</span> ML SAR</a></li>
-  <li><a href="#ml-sem" id="toc-ml-sem" class="nav-link" data-scroll-target="#ml-sem"><span class="header-section-number">6.4.2</span> ML SEM</a></li>
-  </ul></li>
+<li><a href="#ml-sar" id="toc-ml-sar" class="nav-link" data-scroll-target="#ml-sar"><span class="header-section-number">7.4.1</span> ML SAR</a></li>
+  <li><a href="#ml-sem" id="toc-ml-sem" class="nav-link" data-scroll-target="#ml-sem"><span class="header-section-number">7.4.2</span> ML SEM</a></li>
   </ul>
-</nav>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">
+<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span>
+</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -288,24 +271,19 @@ div.csl-indent {
   </div>
   
 
-</header>
-
-<p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
-<section id="required-packages" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
+</header><p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
+<section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="session-info" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
+</section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.3.1 (2023-06-16 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19044)
+<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
 
@@ -317,7 +295,7 @@ locale:
 [4] LC_NUMERIC=C                           
 [5] LC_TIME=English_United Kingdom.utf8    
 
-time zone: Europe/London
+time zone: Europe/Berlin
 tzcode source: internal
 
 attached base packages:
@@ -325,51 +303,44 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-3        spatialreg_1.2-9 
-[4] Matrix_1.5-4.1    spdep_1.2-8       spData_2.2.2     
-[7] mapview_2.11.0    sf_1.0-13        
+[1] viridisLite_0.4.2 tmap_3.3-4        spatialreg_1.3-4 
+[4] Matrix_1.7-0      spdep_1.3-5       spData_2.3.1     
+[7] mapview_2.11.2    sf_1.0-16        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.39          raster_3.6-20      htmlwidgets_1.6.2 
- [4] lattice_0.21-8     vctrs_0.6.3        tools_4.3.1       
- [7] crosstalk_1.2.0    LearnBayes_2.15.1  generics_0.1.3    
-[10] parallel_4.3.1     stats4_4.3.1       sandwich_3.0-2    
-[13] tibble_3.2.1       proxy_0.4-27       fansi_1.0.4       
-[16] pkgconfig_2.0.3    KernSmooth_2.23-21 satellite_1.0.4   
-[19] RColorBrewer_1.1-3 leaflet_2.1.2      webshot_0.5.4     
-[22] lifecycle_1.0.3    compiler_4.3.1     deldir_1.0-9      
-[25] munsell_0.5.0      terra_1.7-29       leafsync_0.1.0    
-[28] codetools_0.2-19   stars_0.6-1        htmltools_0.5.5   
-[31] class_7.3-22       pillar_1.9.0       MASS_7.3-60       
-[34] classInt_0.4-9     lwgeom_0.2-13      wk_0.7.3          
-[37] abind_1.4-5        boot_1.3-28.1      multcomp_1.4-24   
-[40] nlme_3.1-162       tidyselect_1.2.0   digest_0.6.31     
-[43] mvtnorm_1.2-2      dplyr_1.1.2        splines_4.3.1     
-[46] fastmap_1.1.1      grid_4.3.1         colorspace_2.1-0  
-[49] expm_0.999-7       cli_3.6.1          magrittr_2.0.3    
-[52] base64enc_0.1-3    dichromat_2.0-0.1  XML_3.99-0.14     
-[55] survival_3.5-5     utf8_1.2.3         TH.data_1.1-2     
-[58] leafem_0.2.0       e1071_1.7-13       scales_1.2.1      
-[61] sp_1.6-1           rmarkdown_2.22     zoo_1.8-12        
-[64] png_0.1-8          coda_0.19-4        evaluate_0.21     
-[67] knitr_1.43         tmaptools_3.1-1    s2_1.1.4          
-[70] rlang_1.1.1        Rcpp_1.0.10        glue_1.6.2        
-[73] DBI_1.1.3          jsonlite_1.8.5     R6_2.5.1          
-[76] units_0.8-2       </code></pre>
+ [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
+ [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
+ [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
+[10] sandwich_3.1-0     proxy_0.4-27       KernSmooth_2.23-24
+[13] satellite_1.0.5    RColorBrewer_1.1-3 leaflet_2.2.2     
+[16] lifecycle_1.0.4    compiler_4.4.1     deldir_2.0-4      
+[19] munsell_0.5.1      terra_1.7-78       codetools_0.2-20  
+[22] leafsync_0.1.0     stars_0.6-5        htmltools_0.5.8.1 
+[25] class_7.3-22       MASS_7.3-60.2      classInt_0.4-10   
+[28] lwgeom_0.2-14      wk_0.9.1           abind_1.4-5       
+[31] boot_1.3-30        multcomp_1.4-25    nlme_3.1-164      
+[34] digest_0.6.35      mvtnorm_1.2-5      splines_4.4.1     
+[37] fastmap_1.2.0      grid_4.4.1         colorspace_2.1-0  
+[40] cli_3.6.2          magrittr_2.0.3     base64enc_0.1-3   
+[43] dichromat_2.0-0.1  XML_3.99-0.16.1    survival_3.6-4    
+[46] leafem_0.2.3       TH.data_1.1-2      e1071_1.7-14      
+[49] scales_1.3.0       sp_2.1-4           rmarkdown_2.27    
+[52] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
+[55] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
+[58] s2_1.1.6           rlang_1.1.4        Rcpp_1.0.12       
+[61] glue_1.7.0         DBI_1.2.3          rstudioapi_0.16.0 
+[64] jsonlite_1.8.8     R6_2.5.1           units_0.8-5       </code></pre>
 </div>
 </div>
-</section>
-<section id="reload-data-from-pervious-session" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
+</section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results <span class="citation" data-cites="Anselin.1998 Franzese.2007">(<a href="references.html#ref-Anselin.1998" role="doc-biblioref">Anselin and Bera 1998</a>; <a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>)</span>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood <span class="citation" data-cites="Anselin.1988 Lee.2004 Ord.1975">(<a href="references.html#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>; <a href="references.html#ref-Lee.2004" role="doc-biblioref">Lee 2004</a>; <a href="references.html#ref-Ord.1975" role="doc-biblioref">Ord 1975</a>)</span> or instrumental variable approaches using generalized methods of moments <span class="citation" data-cites="Drukker.2013 Kelejian.1998 Kelejian.2010">(<a href="references.html#ref-Drukker.2013" role="doc-biblioref">Drukker, Egger, and Prucha 2013</a>; <a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>, <a href="references.html#ref-Kelejian.2010" role="doc-biblioref">2010</a>)</span>, in which the endogenous lagged variables can be instrumented by <span class="math inline">\(q\)</span> higher order lags of the exogenous regressors <span class="math inline">\(({\boldsymbol{\mathbf{X}}}, {\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{X}}}, {\boldsymbol{\mathbf{W}}^2 \boldsymbol{\mathbf{X}}},..., {\boldsymbol{\mathbf{W}}^q \boldsymbol{\mathbf{X}}})\)</span> <span class="citation" data-cites="Kelejian.1998">(<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
-</section>
-<section id="simulataneity-bias" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="simulataneity-bias"><span class="header-section-number">6.1</span> Simulataneity bias</h2>
+<p>Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results <span class="citation" data-cites="Anselin.1998 Franzese.2007">(<a href="#ref-Anselin.1998" role="doc-biblioref">Anselin and Bera 1998</a>; <a href="#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>)</span>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood <span class="citation" data-cites="Anselin.1988 Lee.2004 Ord.1975">(<a href="#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>; <a href="#ref-Lee.2004" role="doc-biblioref">Lee 2004</a>; <a href="#ref-Ord.1975" role="doc-biblioref">Ord 1975</a>)</span> or instrumental variable approaches using generalized methods of moments <span class="citation" data-cites="Drukker.2013 Kelejian.1998 Kelejian.2010">(<a href="#ref-Drukker.2013" role="doc-biblioref">Drukker, Egger, and Prucha 2013</a>; <a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>, <a href="#ref-Kelejian.2010" role="doc-biblioref">2010</a>)</span>, in which the endogenous lagged variables can be instrumented by <span class="math inline">\(q\)</span> higher order lags of the exogenous regressors <span class="math inline">\(({\boldsymbol{\mathbf{X}}}, {\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{X}}}, {\boldsymbol{\mathbf{W}}^2 \boldsymbol{\mathbf{X}}},..., {\boldsymbol{\mathbf{W}}^q \boldsymbol{\mathbf{X}}})\)</span> <span class="citation" data-cites="Kelejian.1998">(<a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
+</section><section id="simulataneity-bias" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="simulataneity-bias">
+<span class="header-section-number">7.1</span> Simulataneity bias</h2>
 <p>Remember what is happening when we estimate a spatial auto-regressive model.</p>
-<p><img src="fig/Graph.png" class="img-fluid"></p>
+<p><img src="fig/Graph.jpg" class="img-fluid"></p>
 <p>Note the circular process here: My <span class="math inline">\(X\)</span> influences my <span class="math inline">\(Y\)</span>, which then influences your <span class="math inline">\(Y\)</span>, which then influences my <span class="math inline">\(Y\)</span> again. We write this as</p>
 <p><span class="math display">\[
     \begin{equation}
@@ -393,7 +364,7 @@ loaded via a namespace (and not attached):
           \hat{\rho}_{OLS} = \rho + \left[\left(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}} \right)^\top\left(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}} \right)\right]^{-1}\left(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}} \right)^\top\varepsilon \\
                                 = \rho + \left(\sum_{i = 1}^n \boldsymbol{\mathbf{y}}_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\boldsymbol{\mathbf{y}}_{Li}\epsilon_i\right),
 \]</span></p>
-<p>with <span class="math inline">\(\boldsymbol{\mathbf{y}}_{Li}\)</span> defined as the <span class="math inline">\(i\)</span>th element of the spatial lag operator <span class="math inline">\(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}} = \boldsymbol{\mathbf{y}}_L\)</span>. It can further be shown that the second part of the equation <span class="math inline">\(\neq 0\)</span>, which demonstrates that OLS gives a biased estimate of <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="Franzese.2007 Sarrias.2023">(<a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>; <a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>.</p>
+<p>with <span class="math inline">\(\boldsymbol{\mathbf{y}}_{Li}\)</span> defined as the <span class="math inline">\(i\)</span>th element of the spatial lag operator <span class="math inline">\(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}} = \boldsymbol{\mathbf{y}}_L\)</span>. It can further be shown that the second part of the equation <span class="math inline">\(\neq 0\)</span>, which demonstrates that OLS gives a biased estimate of <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="Franzese.2007 Sarrias.2023">(<a href="#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>; <a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -407,10 +378,9 @@ Warning
 <p>Do not estimate spatial lags of the dependent variable in OLS. It will suffer from simultaneity bias.</p>
 </div>
 </div>
-</section>
-<section id="instrumental-variable" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="instrumental-variable"><span class="header-section-number">6.2</span> Instrumental variable</h2>
-<p>A potential way of estimating spatial lag /SAR models is 2SLS <span class="citation" data-cites="Kelejian.1998">(<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
+</section><section id="instrumental-variable" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="instrumental-variable">
+<span class="header-section-number">7.2</span> Instrumental variable</h2>
+<p>A potential way of estimating spatial lag /SAR models is 2SLS <span class="citation" data-cites="Kelejian.1998">(<a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
 <p>We start with our standard model</p>
 <p><span class="math display">\[
         {\boldsymbol{\mathbf{y}}}=\alpha{\boldsymbol{\mathbf{\iota}}}+\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}}.
@@ -424,24 +394,24 @@ Warning
 =({\boldsymbol{\mathbf{I}}_N} + \rho{\boldsymbol{\mathbf{W}}} + \rho^2{\boldsymbol{\mathbf{W}}}^2 + \rho^3{\boldsymbol{\mathbf{W}}}^3 + ...)\beta_k
 = ({\boldsymbol{\mathbf{I}}_N} + \sum_{h=1}^\infty \rho^h{\boldsymbol{\mathbf{W}}}^h)\beta_k .
 \]</span></p>
-<p>Thus, <span class="citation" data-cites="Kelejian.1998">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">1998</a>)</span> suggested to use a set of lagged covariates as instruments for <span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{Y}}\)</span>:</p>
+<p>Thus, <span class="citation" data-cites="Kelejian.1998">Kelejian and Prucha (<a href="#ref-Kelejian.1998" role="doc-biblioref">1998</a>)</span> suggested to use a set of lagged covariates as instruments for <span class="math inline">\(\boldsymbol{\mathbf{W}} \boldsymbol{\mathbf{Y}}\)</span>:</p>
 <p><span class="math display">\[
 \boldsymbol{\mathbf{H}} = \boldsymbol{\mathbf{X}}, \boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{X}}, \boldsymbol{\mathbf{W}}^2\boldsymbol{\mathbf{X}}, ... , \boldsymbol{\mathbf{W}}^l\boldsymbol{\mathbf{X}},
 \]</span></p>
 <p>where <span class="math inline">\(l\)</span> is a pre-defined number for the higher order neighbours included. In practice, <span class="math inline">\(l\)</span> is usually restricted to <span class="math inline">\(l=2\)</span>.</p>
-<p>This has further been developed by, for instance, using a (truncated) power series as instruments <span class="citation" data-cites="Kelejian.2004">(<a href="references.html#ref-Kelejian.2004" role="doc-biblioref">Kelejian, Prucha, and Yuzefovich 2004</a>)</span>:</p>
+<p>This has further been developed by, for instance, using a (truncated) power series as instruments <span class="citation" data-cites="Kelejian.2004">(<a href="#ref-Kelejian.2004" role="doc-biblioref">Kelejian, Prucha, and Yuzefovich 2004</a>)</span>:</p>
 <p><span class="math display">\[
 \boldsymbol{\mathbf{H}} =\left[\boldsymbol{\mathbf{X}}, \boldsymbol{\mathbf{W}}\left(\sum_{l = 1}^{\infty}\rho^{l}\boldsymbol{\mathbf{W}}^l\right)\boldsymbol{\mathbf{X}} \boldsymbol{\mathbf{\beta}}\right].
 \]</span></p>
 <p>We can estimate this using the pacakge <code>spatialreg</code> with the function <code>stsls()</code>,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod_1.sls <span class="ot">&lt;-</span> <span class="fu">stsls</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">listw =</span> queens.lw,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="co">#  heteroskedasticity robust SEs</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">W2X =</span> <span class="cn">TRUE</span>) <span class="co"># Second order neighbours are included as instruments (else only first)</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sls</span> <span class="op">&lt;-</span> <span class="fu">stsls</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>                     <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
+<span>                   data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                   listw <span class="op">=</span> <span class="va">queens.lw</span>,</span>
+<span>                   robust <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co">#  heteroskedasticity robust SEs</span></span>
+<span>                   W2X <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Second order neighbours are included as instruments (else only first)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.sls</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -467,10 +437,9 @@ per_other   -0.00280423     0.00332302 -0.8439 0.3987377
 Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 </div>
 </div>
-</section>
-<section id="generalized-method-of-moments" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="generalized-method-of-moments"><span class="header-section-number">6.3</span> Generalized Method of Moments</h2>
-<p>Generalized Method of Moments (GMM) provides a way of estimating spatial error / SEM models. A motivation for GMM was that Maximum Likelihood was unfeasible for large samples and its consistent could not be shown. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus proposed a Moments estimator for SEM.</p>
+</section><section id="generalized-method-of-moments" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="generalized-method-of-moments">
+<span class="header-section-number">7.3</span> Generalized Method of Moments</h2>
+<p>Generalized Method of Moments (GMM) provides a way of estimating spatial error / SEM models. A motivation for GMM was that Maximum Likelihood was unfeasible for large samples and its consistent could not be shown. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus proposed a Moments estimator for SEM.</p>
 <p>We start with the model</p>
 <p><span class="math display">\[
         \begin{equation}
@@ -480,8 +449,8 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
         \end{split}
         \end{equation}
 \]</span></p>
-<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance paramter.</p>
-<p>In essence, the GMM works as follows <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
+<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance paramter.</p>
+<p>In essence, the GMM works as follows <span class="citation" data-cites="Sarrias.2023">(<a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
 <ol type="1">
 <li><p>First of all obtain a consistent estimate of <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span>, say <span class="math inline">\(\widetilde{\boldsymbol{\mathbf{\beta}}}\)</span> using either OLS or non-linear least squares (NLS).</p></li>
 <li><p>Use this estimate to obtain an estimate of <span class="math inline">\(\boldsymbol{\mathbf{u}}\)</span>, say <span class="math inline">\(\widehat{\boldsymbol{\mathbf{u}}}\)</span>,</p></li>
@@ -499,15 +468,15 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 \boldsymbol{\mathbf{\Omega}}(\lambda) &amp;= (\boldsymbol{\mathbf{I}} - \lambda\boldsymbol{\mathbf{W}})^{-1}(\boldsymbol{\mathbf{I}} - \lambda\boldsymbol{\mathbf{W}}^\top)^{-1}
 \end{split}
 \]</span></p>
-<p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="references.html#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
 <p>We can calculate the estimator using <code>GMerrorsar()</code> from <code>spatialreg</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod_1.gmm <span class="ot">&lt;-</span> <span class="fu">GMerrorsar</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">listw =</span> queens.lw,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">se.lambda =</span> <span class="cn">TRUE</span>) <span class="co"># Provide standard error for lambda</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.gmm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.gmm</span> <span class="op">&lt;-</span> <span class="fu">GMerrorsar</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>                     <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
+<span>                   data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                   listw <span class="op">=</span> <span class="va">queens.lw</span>,</span>
+<span>                   se.lambda <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Provide standard error for lambda</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.gmm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -537,12 +506,11 @@ Number of observations: 983
 Number of parameters estimated: 9 </code></pre>
 </div>
 </div>
-</section>
-<section id="maximum-likelihood-estimation" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="maximum-likelihood-estimation"><span class="header-section-number">6.4</span> Maximum likelihood estimation</h2>
-<section id="ml-sar" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="ml-sar"><span class="header-section-number">6.4.1</span> ML SAR</h3>
-<p>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on <span class="citation" data-cites="Ord.1975">Ord (<a href="references.html#ref-Ord.1975" role="doc-biblioref">1975</a>)</span> and <span class="citation" data-cites="Anselin.1988">Anselin (<a href="references.html#ref-Anselin.1988" role="doc-biblioref">1988</a>)</span>.</p>
+</section><section id="maximum-likelihood-estimation" class="level2" data-number="7.4"><h2 data-number="7.4" class="anchored" data-anchor-id="maximum-likelihood-estimation">
+<span class="header-section-number">7.4</span> Maximum likelihood estimation</h2>
+<section id="ml-sar" class="level3" data-number="7.4.1"><h3 data-number="7.4.1" class="anchored" data-anchor-id="ml-sar">
+<span class="header-section-number">7.4.1</span> ML SAR</h3>
+<p>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on <span class="citation" data-cites="Ord.1975">Ord (<a href="#ref-Ord.1975" role="doc-biblioref">1975</a>)</span> and <span class="citation" data-cites="Anselin.1988">Anselin (<a href="#ref-Anselin.1988" role="doc-biblioref">1988</a>)</span>.</p>
 <p>Starting with</p>
 <p><span class="math display">\[
 \begin{split}
@@ -565,7 +533,7 @@ Number of parameters estimated: 9 </code></pre>
 &amp;= \log\left| \boldsymbol{\mathbf{A}}\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\boldsymbol{\mathbf{y}}^\top \boldsymbol{\mathbf{A}}^\top\boldsymbol{\mathbf{A}}\boldsymbol{\mathbf{y}} - 2\left(\boldsymbol{\mathbf{A}}\boldsymbol{\mathbf{y}}\right)^\top\boldsymbol{\mathbf{X}}\boldsymbol{\mathbf{\beta }}+ \boldsymbol{\mathbf{\beta}}^\top\boldsymbol{\mathbf{X}}^\top\boldsymbol{\mathbf{X}}\boldsymbol{\mathbf{\beta}}\right],
 \end{split}
 \]</span></p>
-<p>ML estimation of the SAR works as follows <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>:</p>
+<p>ML estimation of the SAR works as follows <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>:</p>
 <ol type="1">
 <li><p>Perform the two auxiliary regression of <span class="math inline">\(\boldsymbol{\mathbf{y}}\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{W}}\boldsymbol{\mathbf{y}}\)</span> on <span class="math inline">\(\boldsymbol{\mathbf{X}}\)</span> to obtain the estimators <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\beta}}}_O\)</span> and <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\beta}}}_L\)</span> as in Equation <span class="math display">\[
 \begin{split}
@@ -582,7 +550,8 @@ Number of parameters estimated: 9 </code></pre>
 \ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\top\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\boldsymbol{\mathbf{I}}_n - \rho\boldsymbol{\mathbf{W}}\right|,
 \]</span></p>
 <ol start="4" type="1">
-<li>Use the estimate of <span class="math inline">\(\widehat{\rho}\)</span> to plug it back in to the expression for <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span> and <span class="math inline">\(\sigma^2\)</span></li>
+<li>Use the estimate of <span class="math inline">\(\widehat{\rho}\)</span> to plug it back in to the expression for <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span> and <span class="math inline">\(\sigma^2\)</span>
+</li>
 </ol>
 <p><span class="math display">\[
 \begin{split}
@@ -591,9 +560,8 @@ Number of parameters estimated: 9 </code></pre>
 \frac{\left(\boldsymbol{\mathbf{A}}\boldsymbol{\mathbf{y}} - \boldsymbol{\mathbf{X}}\boldsymbol{\mathbf{\beta}}_{ML}\right)^\top\left(\boldsymbol{\mathbf{A}}\boldsymbol{\mathbf{y}} - \boldsymbol{\mathbf{X}}\boldsymbol{\mathbf{\beta}}_{ML}\right)}{n}
 \end{split}
 \]</span></p>
-</section>
-<section id="ml-sem" class="level3" data-number="6.4.2">
-<h3 data-number="6.4.2" class="anchored" data-anchor-id="ml-sem"><span class="header-section-number">6.4.2</span> ML SEM</h3>
+</section><section id="ml-sem" class="level3" data-number="7.4.2"><h3 data-number="7.4.2" class="anchored" data-anchor-id="ml-sem">
+<span class="header-section-number">7.4.2</span> ML SEM</h3>
 <p>We can also use ML to estimate the spatial error / SEM model of the form</p>
 <p><span class="math display">\[
         \begin{equation}
@@ -621,7 +589,7 @@ Number of parameters estimated: 9 </code></pre>
 \boldsymbol{\mathbf{\Omega}}(\lambda) = \boldsymbol{\mathbf{B}}^\top \boldsymbol{\mathbf{B}} = \left(\boldsymbol{\mathbf{I}}_n-\lambda\boldsymbol{\mathbf{W}}\right)^\top \left(\boldsymbol{\mathbf{I}}_n-\lambda\boldsymbol{\mathbf{W}}\right)
 \end{split}
 \]</span></p>
-<p>Based on <span class="citation" data-cites="Anselin.1998">Anselin and Bera (<a href="references.html#ref-Anselin.1998" role="doc-biblioref">1998</a>)</span>, the ML estimation of SEM follow the procedure <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
+<p>Based on <span class="citation" data-cites="Anselin.1998">Anselin and Bera (<a href="#ref-Anselin.1998" role="doc-biblioref">1998</a>)</span>, the ML estimation of SEM follow the procedure <span class="citation" data-cites="Sarrias.2023">(<a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
 <ol type="1">
 <li><p>Carry out an OLS of <span class="math inline">\(\boldsymbol{\mathbf{B}}\boldsymbol{\mathbf{X}}\)</span> on <span class="math inline">\(\boldsymbol{\mathbf{B}}\boldsymbol{\mathbf{y}}\)</span>; get <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\beta}}}_{OLS}\)</span></p></li>
 <li><p>Compute initial set of residuals <span class="math inline">\(\widehat{\epsilon}_{OLS} = \boldsymbol{\mathbf{B}}\boldsymbol{\mathbf{y}} - \boldsymbol{\mathbf{B}}\boldsymbol{\mathbf{X}}\widehat{\boldsymbol{\mathbf{\beta}}}_{OLS}\)</span></p></li>
@@ -635,21 +603,19 @@ Number of parameters estimated: 9 </code></pre>
 <li><p>Given <span class="math inline">\(\widehat{\lambda}\)</span>, estimate <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\beta}}}(\lambda)\)</span> by GLS and obtain a new vector of residuals, <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\varepsilon}}}(\lambda)\)</span></p></li>
 <li><p>Given <span class="math inline">\(\widehat{\boldsymbol{\mathbf{\varepsilon}}}(\lambda)\)</span> and <span class="math inline">\(\widehat{\lambda}\)</span>, estimate <span class="math inline">\(\widehat{\sigma}(\lambda)\)</span>.</p></li>
 </ol>
-<p>The package <code>spatialreg</code> <span class="citation" data-cites="Bivand.2021">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</p>
-<p>Table from <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>:</p>
+<p>The package <code>spatialreg</code> <span class="citation" data-cites="Bivand.2021">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</p>
+<p>Table from <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>:</p>
 <table class="table">
 <colgroup>
 <col style="width: 8%">
 <col style="width: 41%">
 <col style="width: 50%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th>model</th>
 <th>model name</th>
 <th>maximum likelihood estimation function</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td>SEM</td>
@@ -690,12 +656,12 @@ Number of parameters estimated: 9 </code></pre>
 </table>
 <p><strong>ML SAR</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                        per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> queens.lw,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sar</span> <span class="op">&lt;-</span> <span class="fu">lagsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>                        <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
+<span>                      data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                      listw <span class="op">=</span> <span class="va">queens.lw</span>,</span>
+<span>                      Durbin <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># we could here extend to SDM</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.sar</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -734,12 +700,12 @@ test value: 8.609, p-value: 0.0033451</code></pre>
 </div>
 <p><strong>ML SEM</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mod_1.sem <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                          per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">listw =</span> queens.lw,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDEM</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sem</span> <span class="op">&lt;-</span> <span class="fu">errorsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span></span>
+<span>                          <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
+<span>                        data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                        listw <span class="op">=</span> <span class="va">queens.lw</span>,</span>
+<span>                        Durbin <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># we could here extend to SDEM</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.sem</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -771,14 +737,14 @@ Log likelihood: 271.8839 for error model
 ML residual variance (sigma squared): 0.026911, (sigma: 0.16405)
 Number of observations: 983 
 Number of parameters estimated: 9 
-AIC: NA (not available for weighted model), (AIC for lm: 95.786)</code></pre>
+AIC: -525.77, (AIC for lm: 95.786)</code></pre>
 </div>
 </div>
 
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Anselin.1988" class="csl-entry" role="listitem">
 Anselin, Luc. 1988. <em>Spatial <span>Econometrics</span>: <span>Methods</span> and <span>Models</span></em>. Studies in <span>Operational Regional Science</span>. <span>Dordrecht</span>: <span>Kluwer</span>.
 </div>
@@ -822,11 +788,7 @@ Pebesma, Edzer, and Roger Bivand. 2023. <em>Spatial <span>Data Science</span>: <
 Sarrias, Mauricio. 2023. <em>Intermediate <span>Spatial Econometrics</span> with <span>Applications</span> in <span>R</span></em>.
 </div>
 </div>
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1109,16 +1071,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./05_regression-theory.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07_impacts.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./06_exercise2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercises II</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -1164,7 +1124,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>Remember what is happening when we estimate a spatial auto-regressive model.</span>
 <span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Graph.png)</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Graph.jpg)</span></span>
 <span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>Note the circular process here: My $X$ influences my $Y$, which then influences your $Y$, which then influences my $Y$ again. We write this as</span>
 <span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>

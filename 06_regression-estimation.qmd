@@ -40,7 +40,7 @@ Note that most of the spatial model specifications can not be estimated by Least
 
 Remember what is happening when we estimate a spatial auto-regressive model.
 
-![](fig/Graph.png)
+![](fig/Graph.jpg)
 
 Note the circular process here: My $X$ influences my $Y$, which then influences your $Y$, which then influences my $Y$ again. We write this as
 
@@ -356,3 +356,4 @@ mod_1.sem <- errorsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) +
                         Durbin = FALSE) # we could here extend to SDEM
 summary(mod_1.sem)
 ```
+

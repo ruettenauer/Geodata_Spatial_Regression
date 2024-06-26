@@ -1,0 +1,75 @@
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+
+# Exercises II
+
+### Required packages {.unnumbered}
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session {.unnumbered}
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+## Environmental inequality
+
+How would you investigate the following descriptive research question: Are immigrant minorities in London exposed to higher levels of pollution? Also consider the spatial structure. What's your dependent and what is your independent variable?
+
+### 1) Define a neigbours weights object of your choice {.unnumbered}
+
+Assume a typical neighbourhood would be 2.5km in diameter
+
+
+
+### 2) Estimate the extent of spatial auto-correlation in air pollution {.unnumbered}
+
+
+
+### 3) Estimate a Spatial SAR regression model {.unnumbered}
+
+
+
+### 4) Estimate a Spatial SEM regression model {.unnumbered}
+
+
+
+### 5) Estimate a Spatial SLX regression model {.unnumbered}
+
+
+
+### 6) Estimate a Spatial Durbin regression model {.unnumbered}
+
+
+
+### 7) Estimate a Spatial Durbin Error regression model {.unnumbered}
+
+
+
+### 8) Sneak preview on tomorrow: Which of the spatial model specifications about would you choose / prefer in a real world example?
+
+
+### 9) Please calculate the spatially lagged value of the median house price.
+
+
+
+### 10) Can you use the results of the previous task to run a non-linear SLX model, where you predict if an MSOA is within the ulez zone based on the house prices? Can you make sense of the result?
+
+

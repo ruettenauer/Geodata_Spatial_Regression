@@ -1,0 +1,74 @@
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+$$
+:::
+
+
+# Exercises I
+
+### Required packages {.unnumbered}
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite",
+          "ggplot2", "ggthemes") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session {.unnumbered}
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+
+## General Exercises
+
+### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} 
+
+
+
+### 2) What is the Coordinate reference system of this German shape file? {.unnumbered}
+
+
+
+
+### 3) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
+
+
+
+### 4) OPTIONAL: Can you create a map containing the City of London (MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
+
+
+
+
+### 5) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
+
+
+
+
+### 6) Please calculate the queens neighbours and make a listw object that includes the second order neighbours (see `nblag()`). {.unnumbered}
+
+
+
+### 7) Generate a matrix from the listw object {.unnumbered}
+
+
+
+### 8) What do you get when you multiply a variable (data column) such as the home owner rate with your weights matrix? {.unnumbered}
+
+

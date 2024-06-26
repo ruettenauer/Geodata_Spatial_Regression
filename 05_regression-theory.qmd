@@ -35,7 +35,7 @@ load("_data/msoa2_spatial.RData")
 
 There are various techniques to model spatial dependence and spatial processes [@LeSage.2009]. Here, we will just cover a few of the most common techniques / econometric models. One advantage of the most basic spatial model (SLX) is that this method can easily be incorporated in a variety of other methodologies, such as machine learning approaches.
 
-For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions.
+For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions. @Ruttenauer.2024b is a handbook chapter based on the materials of this workshop.
 
 
 ## Why do we need spatial regression models
@@ -124,20 +124,18 @@ Essentially, the non-spatial OLS estimator $\beta_{OLS}$ is biased in the presen
 
 - An omitted variable and $\mathrm{E}({\bm \varepsilon}|{\bm x})\neq0$. This non-spatial omitted variable bias $\gamma$ is amplified by spatial dependence in the disturbances ($\lambda$) and spatial autocorrelation in the dependent variable ($\rho$), but also increases with positive values of $\delta$ if either $\rho\neq 0$ or $\lambda\neq 0$. Obviously, it also increases with $\gamma$.
 
+
+
 ## Spatial Regression Models
 
 Broadly, spatial dependence or clustering in some characteristic can be the result of three different processes:
 
-```{mermaid}
-flowchart TD
-  id1{Spatial dependence} --> A[Spatial interdepence]
-  id1 --> B[Spillovers from covariates]
-  id1 --> C[Clustering unobservables]
-```
+![](fig/Graph.jpg)
 
-Strictly speaking, there are some other possibilities too, such as measurement error or the wrong choice on the spatial level. For instance, imagine we have a city-specific characteristic (e.g. public spending) allocated to neighbourhood units. Obviously, this will introduce heavy autocorrelation on the neigbourhood level by construction.
+Strictly speaking, there are some other possibilities too, such as measurement error or the wrong choice on the spatial level. For instance, imagine we have a city-specific characteristic (e.g. public spending) allocated to neighbourhood units. Obviously, this will introduce heavy autocorrelation on the neighbourhood level by construction.
 
 There are three basic ways of incorporating spatial dependence, which then can be further combined. As before, the $N \times N$ spatial weights matrix $\bm W$ defines the spatial relationship between units.
+
 
 ### Spatial Error Model (SEM)
 
@@ -372,7 +370,7 @@ We can estimate spatial models using `spatialreg`.
 
 ### SAR
 
-Lets estimate a spatial SAR model using the `lagsarlm()` with contiguity weights. We use median house value as depended variable, and include population density (`POPDEN`), the air pollution (`no2`), and the share of ethnic minorities (`per_mixed`, `per_asian`, `per_black`,  `per_other`).
+Let's estimate a spatial SAR model using the `lagsarlm()` with contiguity weights. We use median house value as depended variable, and include population density (`POPDEN`), the air pollution (`no2`), and the share of ethnic minorities (`per_mixed`, `per_asian`, `per_black`,  `per_other`).
 
 ```{r}
 mod_1.sar <- lagsarlm(log(med_house_price) ~ log(no2) + log(POPDEN) + 
@@ -441,10 +439,10 @@ For instance, lets look at population density:
 
 2. A high population density in the neighbouring areas is related to higher house prices (while keeping population density in the focal unit constant). A 1% increase in the *average* population density *across the adjacent neighbourhoods* increases house prices in *the focal unit* by `r round(unname(mod_1.slx$coefficients["lag.log.POPDEN."]), 2)`%) 
 
-Potential interpretation: areas with a low population density in central regions of the city (high pop density in surrounding neighbourhoods) have higher house prices. We could try testing this interpretation by including the distance to the city center as a control.
+Potential interpretation: areas with a low population density in central regions of the city (high pop density in surrounding neighbourhoods) have higher house prices. We could try testing this interpretation by including the distance to the city centre as a control.
 :::
 
-Also note how the air pollution coefficient has changed here, with a negative effect in the focal unit and positive one amonf the neighbouring units.
+Also note how the air pollution coefficient has changed here, with a negative effect in the focal unit and positive one among the neighbouring units.
 
 An alternative way of estimating the same model is lagging the covariates first.
 
@@ -511,7 +509,8 @@ And this SDEM can be interpreted like a combination of SEM and SLX.
 
 First, we still see highly significant auto-correlation in the error term. However, it's lower in magnitude now that we also include the $\bm W X$ terms.
 
-Second, the coefficients tell a smimilar story as in the SLX (use the same interpretation), but some coefficient magnitudes have become smaller.
+Second, the coefficients tell a similar story as in the SLX (use the same interpretation), but some coefficient magnitudes have become smaller.
+
 
 ### SDM
 

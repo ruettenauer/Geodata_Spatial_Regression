@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Geodata &amp; Spatial Regression - 12&nbsp; Spatio-temporal models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10_other.html" rel="next">
+<link href="./08_exercise3.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09_spatiotemporal.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Geodata &amp; Spatial Regression</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_refresher.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Refresher</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_spatial-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Manipulation &amp; Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Spatial Relationships W</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_exercise1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_dependence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_regression-theory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_regression-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_exercise2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercises II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_impacts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_exercise3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises III</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_spatiotemporal.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#required-packages" id="toc-required-packages" class="nav-link active" data-scroll-target="#required-packages">Required packages</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
+  <li><a href="#static-panel-data-models" id="toc-static-panel-data-models" class="nav-link" data-scroll-target="#static-panel-data-models"><span class="header-section-number">12.1</span> Static panel data models</a></li>
+  <li>
+<a href="#dynamic-panel-data-models" id="toc-dynamic-panel-data-models" class="nav-link" data-scroll-target="#dynamic-panel-data-models"><span class="header-section-number">12.2</span> Dynamic panel data models</a>
+  <ul class="collapse">
+<li><a href="#impacts-in-spatial-panel-models" id="toc-impacts-in-spatial-panel-models" class="nav-link" data-scroll-target="#impacts-in-spatial-panel-models"><span class="header-section-number">12.2.1</span> Impacts in spatial panel models</a></li>
+  </ul>
+</li>
+  <li><a href="#example-local-employment-impacts-of-immigration" id="toc-example-local-employment-impacts-of-immigration" class="nav-link" data-scroll-target="#example-local-employment-impacts-of-immigration"><span class="header-section-number">12.3</span> Example: Local employment impacts of immigration</a></li>
+  <li><a href="#estimation-in-r" id="toc-estimation-in-r" class="nav-link" data-scroll-target="#estimation-in-r"><span class="header-section-number">12.4</span> Estimation in R</a></li>
+  <li><a href="#example-industrial-facilities-and-municipal-income" id="toc-example-industrial-facilities-and-municipal-income" class="nav-link" data-scroll-target="#example-industrial-facilities-and-municipal-income"><span class="header-section-number">12.5</span> Example: Industrial facilities and municipal income</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">
+<span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span>
+</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 22631)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_United Kingdom.utf8 
+[2] LC_CTYPE=English_United Kingdom.utf8   
+[3] LC_MONETARY=English_United Kingdom.utf8
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.utf8    
+
+time zone: Europe/Berlin
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods  
+[7] base     
+
+other attached packages:
+ [1] SDPDmod_0.0.5     splm_1.6-5        plm_2.6-4        
+ [4] viridisLite_0.4.2 tmap_3.3-4        spatialreg_1.3-4 
+ [7] Matrix_1.7-0      spdep_1.3-5       spData_2.3.1     
+[10] mapview_2.11.2    sf_1.0-16        
+
+loaded via a namespace (and not attached):
+ [1] fastmap_1.2.0       leaflet_2.2.2       TH.data_1.1-2      
+ [4] dotCall64_1.1-1     fixest_0.12.1       XML_3.99-0.16.1    
+ [7] digest_0.6.35       lifecycle_1.0.4     dreamerr_1.4.0     
+[10] LearnBayes_2.15.1   survival_3.6-4      terra_1.7-78       
+[13] magrittr_2.0.3      compiler_4.4.1      rlang_1.1.4        
+[16] tools_4.4.1         collapse_2.0.14     knitr_1.47         
+[19] htmlwidgets_1.6.4   sp_2.1-4            classInt_0.4-10    
+[22] RColorBrewer_1.1-3  multcomp_1.4-25     abind_1.4-5        
+[25] KernSmooth_2.23-24  numDeriv_2016.8-1.1 leafsync_0.1.0     
+[28] grid_4.4.1          stats4_4.4.1        xtable_1.8-4       
+[31] lfe_3.0-0           e1071_1.7-14        leafem_0.2.3       
+[34] colorspace_2.1-0    scales_1.3.0        MASS_7.3-60.2      
+[37] dichromat_2.0-0.1   cli_3.6.2           mvtnorm_1.2-5      
+[40] rmarkdown_2.27      miscTools_0.6-28    generics_0.1.3     
+[43] RSpectra_0.16-1     rstudioapi_0.16.0   tmaptools_3.1-1    
+[46] bdsmatrix_1.3-7     DBI_1.2.3           proxy_0.4-27       
+[49] stringr_1.5.1       splines_4.4.1       stars_0.6-5        
+[52] parallel_4.4.1      s2_1.1.6            stringmagic_1.1.2  
+[55] base64enc_0.1-3     boot_1.3-30         sandwich_3.1-0     
+[58] jsonlite_1.8.8      Formula_1.2-5       crosstalk_1.2.1    
+[61] units_0.8-5         spam_2.10-0         glue_1.7.0         
+[64] lwgeom_0.2-14       codetools_0.2-20    stringi_1.8.4      
+[67] deldir_2.0-4        raster_3.6-26       lmtest_0.9-40      
+[70] munsell_0.5.1       htmltools_0.5.8.1   satellite_1.0.5    
+[73] R6_2.5.1            wk_0.9.1            maxLik_1.5-2.1     
+[76] Rdpack_2.6          evaluate_0.24.0     lattice_0.22-6     
+[79] rbibutils_2.2.16    png_0.1-8           class_7.3-22       
+[82] Rcpp_1.0.12         coda_0.19-4.1       nlme_3.1-164       
+[85] xfun_0.45           zoo_1.8-12         </code></pre>
+</div>
+</div>
+<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">Croissant and Millo (<a href="#ref-Croissant.2018" role="doc-biblioref">2018</a>)</span>. <span class="citation" data-cites="LeSage.2014b">LeSage (<a href="#ref-LeSage.2014b" role="doc-biblioref">2014</a>)</span> discusses Bayesian panel data methods.</p>
+<p>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="citation" data-cites="Lee.2010">(<a href="#ref-Lee.2010" role="doc-biblioref">Lee and Yu 2010</a>)</span>.</p>
+</section><section id="static-panel-data-models" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="static-panel-data-models">
+<span class="header-section-number">12.1</span> Static panel data models</h2>
+<p>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="citation" data-cites="Millo.2012">(<a href="#ref-Millo.2012" role="doc-biblioref">Millo and Piras 2012</a>)</span>.</p>
+<p><span class="math display">\[
+        {\boldsymbol{\mathbf{y}}}= \rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{u}}}.
+\]</span></p>
+<p>where <span class="math inline">\(\otimes\)</span> is the Kronecker product (block-wise multiplication).</p>
+<p><span class="math display">\[
+\begin{split}
+\underbrace{\underbrace{\boldsymbol{\mathbf{I}}_T}_{T \times T} \otimes \underbrace{\boldsymbol{\mathbf{W}}_N}_{N \times N}}_{NT \times NT}=
+\begin{pmatrix}
+      1 &amp; 0 &amp; \cdots &amp; 0  \\
+      0 &amp; 1 &amp; \cdots &amp; 0  \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \cdots &amp; 1
+\end{pmatrix}
+\left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] =\\
+\begin{pmatrix}
+      \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  \\
+      0 &amp; \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right] &amp; \cdots &amp; 0  \\
+      \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}
+v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} \\
+v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
+\end{array}\right]
+\end{pmatrix}
+\end{split}
+\]</span></p>
+<p>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix <span class="math inline">\(T\)</span> times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</p>
+<p>The error term can be decomposed into two parts:</p>
+<p><span class="math display">\[
+        {\boldsymbol{\mathbf{u}}}= (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ {\boldsymbol{\mathbf{\nu}}},
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{\mathbf{\iota}}_T\)</span> is a <span class="math inline">\(T \times 1\)</span> vector of ones, <span class="math inline">\({\boldsymbol{\mathbf{I}}_N}\)</span> an <span class="math inline">\(N \times N\)</span> identity matrix, <span class="math inline">\(\boldsymbol{\mathbf{\mu}}\)</span> is a vector of time-invariant individual specific effects (not spatially autocorrelated).</p>
+<p>We could obviously extent the specification to allow for error correlation by specifying</p>
+<p><span class="math display">\[
+        {\boldsymbol{\mathbf{\nu}}}= \lambda(\boldsymbol{\mathbf{I}}_T \otimes {\boldsymbol{\mathbf{W}}_N})\boldsymbol{\mathbf{\nu }}+ {\boldsymbol{\mathbf{\varepsilon}}}.
+\]</span></p>
+<p>The individual effects can be treated as fixed or random.</p>
+<p><strong>Fixed Effects</strong></p>
+<p>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term:</p>
+<p><span class="math display">\[
+        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \boldsymbol{\mathbf{x}}_{it}\boldsymbol{\mathbf{\beta }}+ \mu_i + \nu_{it},
+\]</span> where <span class="math inline">\(\mu_i\)</span> denote the individual-specific fixed effects.</p>
+<p>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="citation" data-cites="Elhorst.2014">(<a href="#ref-Elhorst.2014" role="doc-biblioref">Elhorst 2014</a>)</span>.</p>
+<p><strong>Random Effects</strong></p>
+<p>In the RE model, the individual specific effects are treated as components of the error <span class="math inline">\(\mu \sim \mathrm{IID}(o, \sigma_\mu^2)\)</span>. The model can then be written as</p>
+<p><span class="math display">\[
+\begin{split}
+        {\boldsymbol{\mathbf{y}}}= \rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{u}}}, \\
+        {\boldsymbol{\mathbf{u}}}= (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ [\boldsymbol{\mathbf{I}}_T \otimes (\boldsymbol{\mathbf{I}}_N -  \lambda{\boldsymbol{\mathbf{W}}_N})]^{-1} {\boldsymbol{\mathbf{\varepsilon}}}.
+\end{split}     
+\]</span></p>
+<p>As with the conventional random effects model, we make the strong assumption that the unobserved individual effects are uncorrelated with the covariates <span class="math inline">\(\boldsymbol{\mathbf{X}}\)</span> in the model.</p>
+</section><section id="dynamic-panel-data-models" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="dynamic-panel-data-models">
+<span class="header-section-number">12.2</span> Dynamic panel data models</h2>
+<p>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</p>
+<p>A general dynamic model would account for all sources of potential dependence, including combinations <span class="citation" data-cites="Elhorst.2012">(<a href="#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span>. The most general model can be written as:</p>
+<p><span class="math display">\[
+\begin{split}
+        {\boldsymbol{\mathbf{y}}_t}=&amp; \tau \boldsymbol{\mathbf{y}}_{t-1} + \rho(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}}_t
+        + \gamma(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}_{t-1}}\\
+        &amp;~+ {\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ (\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\theta}}}+ {\boldsymbol{\mathbf{u}}}_t,\\
+        {\boldsymbol{\mathbf{u}}_t}=&amp;  + (\boldsymbol{\mathbf{\iota}}_T \otimes {\boldsymbol{\mathbf{I}}_N})\boldsymbol{\mathbf{\mu}}+ {\boldsymbol{\mathbf{\nu}}_t},\\
+        {\boldsymbol{\mathbf{\nu}}_t}=&amp; \psi{\boldsymbol{\mathbf{\nu}}}_{t-1} + \lambda(\boldsymbol{\mathbf{I}}_T \otimes {\boldsymbol{\mathbf{W}}_N})\boldsymbol{\mathbf{\nu }}+ {\boldsymbol{\mathbf{\varepsilon}}},
+\end{split}     
+\]</span></p>
+<p>Where <span class="math inline">\({\boldsymbol{\mathbf{X}}}\)</span> could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome <span class="math inline">\(\tau \boldsymbol{\mathbf{y}}_{t-1}\)</span> and the spatially lagged outcome <span class="math inline">\(\gamma(\boldsymbol{\mathbf{I}}_T\otimes {\boldsymbol{\mathbf{W}}_N}){\boldsymbol{\mathbf{y}}_{t-1}}\)</span>, and in the error term <span class="math inline">\(\psi{\boldsymbol{\mathbf{\nu}}}_{t-1}\)</span>.</p>
+<section id="impacts-in-spatial-panel-models" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="impacts-in-spatial-panel-models">
+<span class="header-section-number">12.2.1</span> Impacts in spatial panel models</h3>
+<p>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in <span class="math inline">\(\boldsymbol{\mathbf{X}}_t\)</span> no influences focal <span class="math inline">\(Y\)</span> and neighbour’s <span class="math inline">\(Y\)</span> but also contemporaneous <span class="math inline">\(Y\)</span> and future <span class="math inline">\(Y\)</span>.</p>
+<p>While the short-term effects are the known impacts</p>
+<p><span class="math display">\[
+\frac{\partial {\boldsymbol{\mathbf{y}}}}{\partial {\boldsymbol{\mathbf{x}}}_k} = ({\boldsymbol{\mathbf{I}}}-\rho{\boldsymbol{\mathbf{W}}_{NT}})^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}_{NT}}\theta_k\right].
+\]</span></p>
+<p>The long-term impacts, by contrast, additionally account for the effect multiplying through time</p>
+<p><span class="math display">\[
+\frac{\partial {\boldsymbol{\mathbf{y}}}}{\partial {\boldsymbol{\mathbf{x}}}_k} = [(1-\tau){\boldsymbol{\mathbf{I}}}-(\rho+\gamma){\boldsymbol{\mathbf{W}}_{NT}}]^{-1}\left[\beta_k+{\boldsymbol{\mathbf{W}}_{NT}}\theta_k\right].
+\]</span></p>
+<p>For more information see <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="fig/Elhorst_panel.PNG" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Summary impact measures in dynamic spatial panel models <span class="citation" data-cites="Elhorst.2012">(<a href="#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span></figcaption></figure>
+</div>
+</section></section><section id="example-local-employment-impacts-of-immigration" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="example-local-employment-impacts-of-immigration">
+<span class="header-section-number">12.3</span> Example: Local employment impacts of immigration</h2>
+<p><span class="citation" data-cites="Fingleton.2020">Fingleton, Olner, and Pryce (<a href="#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span>: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</p>
+<p><em>This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of.</em></p>
+<p><em>We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment.</em></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="fig/Fingleton.PNG" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Impacts on employment, <span class="citation" data-cites="Fingleton.2020">Fingleton, Olner, and Pryce (<a href="#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span></figcaption></figure>
+</div>
+</section><section id="estimation-in-r" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="estimation-in-r">
+<span class="header-section-number">12.4</span> Estimation in R</h2>
+<p>To estimate spatial panel models in R, we can use the <code>splm</code> package of <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span>.</p>
+<p>We use a standard example with longitudinal data from the <code>plm</code> package here.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Produc</span>, package <span class="op">=</span> <span class="st">"plm"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">usaww</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Produc</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    state year region     pcap     hwy   water    util       pc
+1 ALABAMA 1970      6 15032.67 7325.80 1655.68 6051.20 35793.80
+2 ALABAMA 1971      6 15501.94 7525.94 1721.02 6254.98 37299.91
+3 ALABAMA 1972      6 15972.41 7765.42 1764.75 6442.23 38670.30
+4 ALABAMA 1973      6 16406.26 7907.66 1742.41 6756.19 40084.01
+5 ALABAMA 1974      6 16762.67 8025.52 1734.85 7002.29 42057.31
+6 ALABAMA 1975      6 17316.26 8158.23 1752.27 7405.76 43971.71
+    gsp    emp unemp
+1 28418 1010.5   4.7
+2 29375 1021.9   5.2
+3 31303 1072.3   4.7
+4 33430 1135.5   3.9
+5 33749 1169.8   5.5
+6 33604 1155.4   7.7</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">usaww</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ALABAMA   ARIZONA ARKANSAS CALIFORNIA COLORADO
+ALABAMA         0.0 0.0000000        0        0.0      0.0
+ARIZONA         0.0 0.0000000        0        0.2      0.2
+ARKANSAS        0.0 0.0000000        0        0.0      0.0
+CALIFORNIA      0.0 0.3333333        0        0.0      0.0
+COLORADO        0.0 0.1428571        0        0.0      0.0
+CONNECTICUT     0.0 0.0000000        0        0.0      0.0
+DELAWARE        0.0 0.0000000        0        0.0      0.0
+FLORIDA         0.5 0.0000000        0        0.0      0.0
+GEORGIA         0.2 0.0000000        0        0.0      0.0
+IDAHO           0.0 0.0000000        0        0.0      0.0
+            CONNECTICUT DELAWARE FLORIDA GEORGIA IDAHO
+ALABAMA               0        0    0.25    0.25     0
+ARIZONA               0        0    0.00    0.00     0
+ARKANSAS              0        0    0.00    0.00     0
+CALIFORNIA            0        0    0.00    0.00     0
+COLORADO              0        0    0.00    0.00     0
+CONNECTICUT           0        0    0.00    0.00     0
+DELAWARE              0        0    0.00    0.00     0
+FLORIDA               0        0    0.00    0.50     0
+GEORGIA               0        0    0.20    0.00     0
+IDAHO                 0        0    0.00    0.00     0</code></pre>
+</div>
+</div>
+<p><code>Produc</code> contains data on US States Production - a panel of 48 observations from 1970 to 1986. <code>usaww</code> is a spatial weights matrix of the 48 continental US States based on the queen contiguity relation.</p>
+<p>Let start with an FE SEM model, using function <code>spml()</code> for maximum likelihood estimation of static spatial panel models.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Gen listw object</span></span>
+<span><span class="va">usalw</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">usaww</span>, style <span class="op">=</span> <span class="st">"W"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Spec formula</span></span>
+<span><span class="va">fm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">gsp</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pcap</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">pc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">emp</span><span class="op">)</span> <span class="op">+</span> <span class="va">unemp</span></span>
+<span></span>
+<span><span class="co">### Esimate FE SEM model</span></span>
+<span><span class="va">semfe.mod</span> <span class="op">&lt;-</span> <span class="fu">spml</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">fm</span>, data <span class="op">=</span> <span class="va">Produc</span>, </span>
+<span>                  index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"year"</span><span class="op">)</span>,  <span class="co"># ID column</span></span>
+<span>                  listw <span class="op">=</span> <span class="va">usalw</span>,          <span class="co"># listw</span></span>
+<span>                  model <span class="op">=</span> <span class="st">"within"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span>                  effect <span class="op">=</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span>                  lag <span class="op">=</span> <span class="cn">FALSE</span>,            <span class="co"># spatila lg of Y</span></span>
+<span>                  spatial.error <span class="op">=</span> <span class="st">"b"</span>,    <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span>                  method <span class="op">=</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span>                  na.action <span class="op">=</span> <span class="va">na.fail</span>,    <span class="co"># handling of missings</span></span>
+<span>                  zero.policy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>     <span class="co"># handling of missings</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">semfe.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial panel fixed effects error model
+ 
+
+Call:
+spml(formula = fm, data = Produc, index = c("state", "year"), 
+    listw = usalw, na.action = na.fail, model = "within", effect = "individual", 
+    lag = FALSE, spatial.error = "b", method = "eigen", zero.policy = NULL)
+
+Residuals:
+      Min.    1st Qu.     Median    3rd Qu.       Max. 
+-0.1246945 -0.0237699 -0.0034993  0.0170886  0.1882224 
+
+Spatial error parameter:
+    Estimate Std. Error t-value  Pr(&gt;|t|)    
+rho 0.557401   0.033075  16.853 &lt; 2.2e-16 ***
+
+Coefficients:
+            Estimate Std. Error t-value Pr(&gt;|t|)    
+log(pcap)  0.0051438  0.0250109  0.2057  0.83705    
+log(pc)    0.2053026  0.0231427  8.8712  &lt; 2e-16 ***
+log(emp)   0.7822540  0.0278057 28.1328  &lt; 2e-16 ***
+unemp     -0.0022317  0.0010709 -2.0839  0.03717 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>A RE SAR model, by contrast, can be estimated using the following options:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Estimate an RE SAR model</span></span>
+<span><span class="va">sarre.mod</span> <span class="op">&lt;-</span> <span class="fu">spml</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">fm</span>, data <span class="op">=</span> <span class="va">Produc</span>, </span>
+<span>                  index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"state"</span>, <span class="st">"year"</span><span class="op">)</span>,  <span class="co"># ID column</span></span>
+<span>                  listw <span class="op">=</span> <span class="va">usalw</span>,          <span class="co"># listw</span></span>
+<span>                  model <span class="op">=</span> <span class="st">"random"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span>                  effect <span class="op">=</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span>                  lag <span class="op">=</span> <span class="cn">TRUE</span>,             <span class="co"># spatila lg of Y</span></span>
+<span>                  spatial.error <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span>                  method <span class="op">=</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span>                  na.action <span class="op">=</span> <span class="va">na.fail</span>,    <span class="co"># handling of missings</span></span>
+<span>                  zero.policy <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>     <span class="co"># handling of missings</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sarre.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ML panel with spatial lag, random effects 
+
+Call:
+spreml(formula = formula, data = data, index = index, w = listw2mat(listw), 
+    w2 = listw2mat(listw2), lag = lag, errors = errors, cl = cl, 
+    method = "eigen", zero.policy = ..2)
+
+Residuals:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.38    1.57    1.70    1.70    1.80    2.13 
+
+Error variance parameters:
+    Estimate Std. Error t-value Pr(&gt;|t|)  
+phi  21.3175     8.2929  2.5706  0.01015 *
+
+Spatial autoregressive coefficient:
+       Estimate Std. Error t-value  Pr(&gt;|t|)    
+lambda 0.161615   0.029042  5.5648 2.625e-08 ***
+
+Coefficients:
+               Estimate  Std. Error t-value  Pr(&gt;|t|)    
+(Intercept)  1.65814987  0.15071855 11.0016 &lt; 2.2e-16 ***
+log(pcap)    0.01294505  0.02493997  0.5190    0.6037    
+log(pc)      0.22555375  0.02163422 10.4258 &lt; 2.2e-16 ***
+log(emp)     0.67081074  0.02642113 25.3892 &lt; 2.2e-16 ***
+unemp       -0.00579716  0.00089175 -6.5009 7.984e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Note that <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> use a different notation, namely <span class="math inline">\(\lambda\)</span> for lag dependence, and <span class="math inline">\(\rho\)</span> for error dependence….</p>
+<p>Again, we have to use an additional step to get impacts for SAR-like models.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Number of years</span></span>
+<span><span class="cn">T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">Produc</span><span class="op">$</span><span class="va">year</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># impacts</span></span>
+<span><span class="va">sarre.mod.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">sarre.mod</span>,</span>
+<span>                         listw <span class="op">=</span> <span class="va">usalw</span>,</span>
+<span>                         time <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sarre.mod.imp</span><span class="op">)</span>                         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (lag, trace):
+                Direct     Indirect        Total
+log(pcap)  0.013028574  0.002411880  0.015440454
+log(pc)    0.227009032  0.042024438  0.269033470
+log(emp)   0.675138835  0.124983264  0.800122098
+unemp     -0.005834562 -0.001080108 -0.006914669
+========================================================
+Simulation results ( variance matrix):
+Direct:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean        SD  Naive SE Time-series SE
+log(pcap)  0.012817 0.0236158 1.670e-03      1.670e-03
+log(pc)    0.228161 0.0238446 1.686e-03      1.686e-03
+log(emp)   0.673436 0.0273567 1.934e-03      1.934e-03
+unemp     -0.005725 0.0009959 7.042e-05      8.404e-05
+
+2. Quantiles for each variable:
+
+               2.5%       25%       50%       75%     97.5%
+log(pcap) -0.028700 -0.004117  0.012886  0.025488  0.059341
+log(pc)    0.186352  0.213629  0.226230  0.243493  0.274273
+log(emp)   0.627049  0.655013  0.671785  0.690894  0.728055
+unemp     -0.007515 -0.006398 -0.005753 -0.005112 -0.003803
+
+========================================================
+Indirect:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+               Mean        SD  Naive SE Time-series SE
+log(pcap)  0.002462 0.0045859 3.243e-04      3.243e-04
+log(pc)    0.042471 0.0105099 7.432e-04      7.442e-04
+log(emp)   0.125219 0.0280392 1.983e-03      1.983e-03
+unemp     -0.001066 0.0003018 2.134e-05      2.134e-05
+
+2. Quantiles for each variable:
+
+               2.5%        25%       50%        75%      97.5%
+log(pcap) -0.005534 -0.0007401  0.002088  0.0050629  0.0126691
+log(pc)    0.023851  0.0352145  0.041238  0.0493883  0.0618389
+log(emp)   0.075965  0.1054720  0.123942  0.1411269  0.1935765
+unemp     -0.001710 -0.0012649 -0.001037 -0.0008369 -0.0005317
+
+========================================================
+Total:
+
+Iterations = 1:200
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 200 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+              Mean       SD  Naive SE Time-series SE
+log(pcap)  0.01528 0.028107 1.987e-03      0.0019875
+log(pc)    0.27063 0.030318 2.144e-03      0.0025144
+log(emp)   0.79866 0.042636 3.015e-03      0.0030149
+unemp     -0.00679 0.001213 8.574e-05      0.0001043
+
+2. Quantiles for each variable:
+
+               2.5%       25%       50%       75%     97.5%
+log(pcap) -0.033379 -0.004956  0.014979  0.031052  0.071116
+log(pc)    0.217613  0.251382  0.268490  0.290274  0.341111
+log(emp)   0.718303  0.767928  0.795737  0.824363  0.890740
+unemp     -0.009063 -0.007549 -0.006883 -0.006033 -0.004597</code></pre>
+</div>
+</div>
+<p>There is an alternative by using the package <code>SDPDmod</code> by Rozeta Simonovska (<a href="https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html">see vignette</a>).</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### FE SAR model</span></span>
+<span><span class="va">sarfe.mod2</span> <span class="op">&lt;-</span> <span class="fu">SDPDm</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">fm</span>, </span>
+<span>                    data <span class="op">=</span> <span class="va">Produc</span>, </span>
+<span>                    W <span class="op">=</span> <span class="va">usaww</span>,                 </span>
+<span>                    index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"state"</span>,<span class="st">"year"</span><span class="op">)</span>, <span class="co"># ID</span></span>
+<span>                    model <span class="op">=</span> <span class="st">"sar"</span>,             <span class="co"># on of c("sar","sdm"),</span></span>
+<span>                    effect <span class="op">=</span> <span class="st">"individual"</span>,     <span class="co"># FE structure</span></span>
+<span>                    dynamic <span class="op">=</span> <span class="cn">FALSE</span>,           <span class="co"># time lags of the dependet variable</span></span>
+<span>                    LYtrans <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>            <span class="co"># Lee-Yu transformation (bias correction)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sarfe.mod2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sar panel model with individual fixed effects
+
+Call:
+SDPDm(formula = fm, data = Produc, W = usaww, index = c("state", 
+    "year"), model = "sar", effect = "individual", dynamic = FALSE, 
+    LYtrans = TRUE)
+
+Spatial autoregressive coefficient:
+    Estimate Std. Error t-value  Pr(&gt;|t|)    
+rho  0.27856    0.02400  11.607 &lt; 2.2e-16 ***
+
+Coefficients:
+            Estimate Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.0468700  0.0262162 -1.7878    0.0738 .  
+log(pc)    0.1859579  0.0237252  7.8380 4.578e-15 ***
+log(emp)   0.6230728  0.0305554 20.3916 &lt; 2.2e-16 ***
+unemp     -0.0044701  0.0008917 -5.0130 5.359e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>And subsequently, we can calculate the impacts of the model.</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Impats</span></span>
+<span><span class="va">sarfe.mod2.imp</span> <span class="op">&lt;-</span> <span class="fu">impactsSDPDm</span><span class="op">(</span><span class="va">sarfe.mod2</span>, </span>
+<span>                               NSIM <span class="op">=</span> <span class="fl">200</span>, <span class="co"># N simulations</span></span>
+<span>                               sd <span class="op">=</span> <span class="fl">12345</span><span class="op">)</span> <span class="co"># seed</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sarfe.mod2.imp</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Impact estimates for spatial (static) model
+========================================================
+
+Direct:
+             Estimate  Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.04548734  0.02599122 -1.7501    0.0801 .  
+log(pc)    0.18811130  0.02383583  7.8920 2.975e-15 ***
+log(emp)   0.63774644  0.03027064 21.0682 &lt; 2.2e-16 ***
+unemp     -0.00459922  0.00089695 -5.1276 2.935e-07 ***
+
+Indirect:
+             Estimate  Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.01635496  0.00940025 -1.7398   0.08189 .  
+log(pc)    0.06724002  0.00990916  6.7856 1.156e-11 ***
+log(emp)   0.22817291  0.02236760 10.2010 &lt; 2.2e-16 ***
+unemp     -0.00164883  0.00037103 -4.4440 8.831e-06 ***
+
+Total:
+            Estimate Std. Error t-value  Pr(&gt;|t|)    
+log(pcap) -0.0618423  0.0352523 -1.7543   0.07938 .  
+log(pc)    0.2553513  0.0313969  8.1330 4.188e-16 ***
+log(emp)   0.8659194  0.0371907 23.2832 &lt; 2.2e-16 ***
+unemp     -0.0062481  0.0012311 -5.0752 3.871e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Note: I did not manage to estimate a dynamic panel model with <code>SDPDm</code>.</p>
+</section><section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income">
+<span class="header-section-number">12.5</span> Example: Industrial facilities and municipal income</h2>
+<p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="fig/Figure1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.</figcaption></figure>
+</div>
+<p><img src="fig/Table1.png" class="img-fluid"></p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Croissant.2018" class="csl-entry" role="listitem">
+Croissant, Yves, and Givanni Millo, eds. 2018. <span>“Spatial <span>Panels</span>.”</span> In <em>Panel <span>Data Econometrics</span> with <span>R</span></em>, 245–84. <span>Chichester, UK</span>: <span>John Wiley &amp; Sons, Ltd</span>. <a href="https://doi.org/10.1002/9781119504641.ch10">https://doi.org/10.1002/9781119504641.ch10</a>.
+</div>
+<div id="ref-Elhorst.2012" class="csl-entry" role="listitem">
+Elhorst, J. Paul. 2012. <span>“Dynamic Spatial Panels: Models, Methods, and Inferences.”</span> <em>Journal of Geographical Systems</em> 14 (1): 5–28. <a href="https://doi.org/10.1007/s10109-011-0158-4">https://doi.org/10.1007/s10109-011-0158-4</a>.
+</div>
+<div id="ref-Elhorst.2014" class="csl-entry" role="listitem">
+———. 2014. <em>Spatial <span>Econometrics</span>: <span>From Cross-Sectional Data</span> to <span>Spatial Panels</span></em>. <span>SpringerBriefs</span> in <span>Regional Science</span>. <span>Berlin and Heidelberg</span>: <span>Springer</span>. <a href="https://doi.org/10.1007/978-3-642-40340-8">https://doi.org/10.1007/978-3-642-40340-8</a>.
+</div>
+<div id="ref-Fingleton.2020" class="csl-entry" role="listitem">
+Fingleton, Bernard, Daniel Olner, and Gwilym Pryce. 2020. <span>“Estimating the Local Employment Impacts of Immigration: <span>A</span> Dynamic Spatial Panel Model.”</span> <em>Urban Studies</em> 57 (13): 2646–62. <a href="https://doi.org/10.1177/0042098019887916">https://doi.org/10.1177/0042098019887916</a>.
+</div>
+<div id="ref-Lee.2010" class="csl-entry" role="listitem">
+Lee, Lung-fei, and Jihai Yu. 2010. <span>“Estimation of <span>Spatial Autoregressive Panel Data Models</span> with <span>Fixed Effects</span>.”</span> <em>Journal of Econometrics</em> 154 (2): 165–85. <a href="https://doi.org/10.1016/j.jeconom.2009.08.001">https://doi.org/10.1016/j.jeconom.2009.08.001</a>.
+</div>
+<div id="ref-LeSage.2014b" class="csl-entry" role="listitem">
+LeSage, James P. 2014. <span>“Spatial Econometric Panel Data Model Specification: <span>A Bayesian</span> Approach.”</span> <em>Spatial Statistics</em> 9 (August): 122–45. <a href="https://doi.org/10.1016/j.spasta.2014.02.002">https://doi.org/10.1016/j.spasta.2014.02.002</a>.
+</div>
+<div id="ref-Millo.2012" class="csl-entry" role="listitem">
+Millo, Giovanni, and Gianfranco Piras. 2012. <span>“Splm: <span>Spatial Panel Data Models</span> in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 47 (1). <a href="https://doi.org/10.18637/jss.v047.i01">https://doi.org/10.18637/jss.v047.i01</a>.
+</div>
+<div id="ref-Ruttenauer.2021b" class="csl-entry" role="listitem">
+Rüttenauer, Tobias, and Henning Best. 2021. <span>“Environmental <span>Inequality</span> and <span>Residential Sorting</span> in <span>Germany</span>: <span>A Spatial Time-Series Analysis</span> of the <span>Demographic Consequences</span> of <span>Industrial Sites</span>.”</span> <em>Demography</em> 58 (6): 2243–63. <a href="https://doi.org/10.1215/00703370-9563077">https://doi.org/10.1215/00703370-9563077</a>.
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./08_exercise3.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises III</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./10_other.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Other Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Spatio-temporal models</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>@Elhorst.2014 provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in @Elhorst.2012, @Millo.2012 and @Croissant.2018. @LeSage.2014b discusses Bayesian panel data methods.</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="co">[</span><span class="ot">@Lee.2010</span><span class="co">]</span>.</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Static panel data models</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="co">[</span><span class="ot">@Millo.2012</span><span class="co">]</span>.</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>        {\bm y}= \rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>where $\otimes$ is the Kronecker product (block-wise multiplication).</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>\underbrace{\underbrace{\bm I_T}_{T \times T} \otimes \underbrace{\bm W_N}_{N \times N}}_{NT \times NT}=</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>      1 &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>      0 &amp; 1 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; 1</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>\left[\begin{array}{cccc}</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>\end{array}\right] =<span class="sc">\\</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>      \left[\begin{array}{cccc}</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; 0 &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>      0 &amp; \left[\begin{array}{cccc}</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>\end{array}\right] &amp; \cdots &amp; 0  <span class="sc">\\</span></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>      \vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>      0 &amp; 0 &amp; \cdots &amp; \left[\begin{array}{cccc}</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>v_{1} w_{1} &amp; v_{1} w_{2} &amp; \cdots &amp; v_{1} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>v_{2} w_{1} &amp; v_{2} w_{2} &amp; \cdots &amp; v_{2} w_{m} <span class="sc">\\</span></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>\vdots &amp; \vdots &amp; \ddots &amp; \vdots <span class="sc">\\</span></span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>\end{array}\right]</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>Here we model only spatial dependence within each cross-section and multiply the same spatial weights matrix $T$ times. Off block-diagonal elements are all zero. So there is no spatial dependence that goes across time.</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>The error term can be decomposed into two parts:</span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu},</span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>where $\bm \iota_T$ is a $T \times 1$ vector of ones, ${\bm I_N}$ an $N \times N$ identity matrix, $\bm \mu$ is a vector of time-invariant individual specific effects (not spatially autocorrelated).</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>We could obviously extent the specification to allow for error correlation by specifying</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>        {\bm \nu}= \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon}.</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>The individual effects can be treated as fixed or random.</span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a>__Fixed Effects__</span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>In the FE model, the individual specific effects are treated as fixed. If we re-write the equation above, we derive at the well-know fixed effects formula with an additional spatial autoregressive term: </span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>        {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},</span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>where $\mu_i$ denote the individual-specific fixed effects.</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="co">[</span><span class="ot">@Elhorst.2014</span><span class="co">]</span>.</span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>__Random Effects__</span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>In the RE model, the individual specific effects are treated as components of the error $\mu \sim \mathrm{IID}(o, \sigma_\mu^2)$. The model can then be written as</span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>        {\bm y}= \rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}, <span class="sc">\\</span></span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>        {\bm u}= (\bm \iota_T \otimes {\bm I_N})\bm \mu+ <span class="co">[</span><span class="ot">\bm I_T \otimes (\bm I_N -  \lambda{\bm W_N})</span><span class="co">]</span>^{-1} {\bm \varepsilon}.</span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>As with the conventional random effects model, we make the strong assumption that the unobserved individual</span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>effects are uncorrelated with the covariates $\bm X$ in the model.</span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dynamic panel data models</span></span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a>A general dynamic model would account for all sources of potential dependence, including combinations <span class="co">[</span><span class="ot">@Elhorst.2012</span><span class="co">]</span>. The most general model can be written as:</span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>        {\bm y_t}=&amp; \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t</span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="ss">        + </span>\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}<span class="sc">\\</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>        &amp;~+ {\bm X}{\bm \beta}+ (\bm I_T\otimes {\bm W_N}){\bm X}{\bm \theta}+ {\bm u}_t,<span class="sc">\\</span></span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>        {\bm u_t}=&amp;  + (\bm \iota_T \otimes {\bm I_N})\bm \mu+ {\bm \nu_t},<span class="sc">\\</span></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a>        {\bm \nu_t}=&amp; \psi{\bm \nu}_{t-1} + \lambda(\bm I_T \otimes {\bm W_N})\bm \nu + {\bm \varepsilon},</span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a>$$  </span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a>Where ${\bm X}$ could further contain time-lagged covariates. Compared to the static spatial panel model, we have introduced temporal dependency in the outcome $\tau \bm y_{t-1}$ and the spatially lagged outcome $\gamma(\bm I_T\otimes {\bm W_N}){\bm y_{t-1}}$, and in the error term $\psi{\bm \nu}_{t-1}$.</span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Impacts in spatial panel models</span></span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a>Note that similar to the distinction between local and global spillovers, we now have to distinguish between short-term and long-term effects. A change in $\bm X_t$ no influences focal $Y$ and neighbour's $Y$ but also contemporaneous $Y$ and future $Y$.</span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a>While the short-term effects are the known impacts</span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = ({\bm I}-\rho{\bm W_{NT}})^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>The long-term impacts, by contrast, additionally account for the effect multiplying through time  </span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>\frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].</span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a>For more information see @Elhorst.2012.</span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Summary impact measures in dynamic spatial panel models [@Elhorst.2012]</span><span class="co">](fig/Elhorst_panel.PNG)</span></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Local employment impacts of immigration</span></span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a>@Fingleton.2020: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>_This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of._</span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>_We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment._</span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a><span class="al">![Impacts on employment, @Fingleton.2020](fig/Fingleton.PNG)</span></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Estimation in R</span></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a>To estimate spatial panel models in R, we can use the <span class="in">`splm`</span> package of @Millo.2012.</span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>We use a standard example with longitudinal data from the <span class="in">`plm`</span> package here.</span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Produc, <span class="at">package =</span> <span class="st">"plm"</span>)</span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(usaww)</span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Produc)</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a>usaww[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a><span class="in">`Produc`</span> contains data on US States Production - a panel of 48 observations from 1970 to 1986. <span class="in">`usaww`</span> is a spatial weights matrix of the 48 continental US States based on the queen contiguity relation.</span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a>Let start with an FE SEM model, using function <span class="in">`spml()`</span> for maximum likelihood estimation of static spatial panel models.</span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a><span class="co"># Gen listw object</span></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a>usalw <span class="ot">&lt;-</span> <span class="fu">mat2listw</span>(usaww, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Spec formula</span></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> <span class="fu">log</span>(gsp) <span class="sc">~</span> <span class="fu">log</span>(pcap) <span class="sc">+</span> <span class="fu">log</span>(pc) <span class="sc">+</span> <span class="fu">log</span>(emp) <span class="sc">+</span> unemp</span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="do">### Esimate FE SEM model</span></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a>semfe.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"within"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">FALSE</span>,            <span class="co"># spatila lg of Y</span></span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"b"</span>,    <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(semfe.mod)</span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a>A RE SAR model, by contrast, can be estimated using the following options:</span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a><span class="do">### Estimate an RE SAR model</span></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a>sarre.mod <span class="ot">&lt;-</span> <span class="fu">spml</span>(<span class="at">formula =</span> fm, <span class="at">data =</span> Produc, </span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a>                  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"year"</span>),  <span class="co"># ID column</span></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a>                  <span class="at">listw =</span> usalw,          <span class="co"># listw</span></span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>                  <span class="at">model =</span> <span class="st">"random"</span>,       <span class="co"># one of c("within", "random", "pooling").</span></span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>                  <span class="at">effect =</span> <span class="st">"individual"</span>,  <span class="co"># type of fixed effects</span></span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>                  <span class="at">lag =</span> <span class="cn">TRUE</span>,             <span class="co"># spatila lg of Y</span></span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>                  <span class="at">spatial.error =</span> <span class="st">"none"</span>, <span class="co"># "b" (Baltagi), "kkp" (Kapoor, Kelejian and Prucha)</span></span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"eigen"</span>,       <span class="co"># estimation method, for large data e.g. ("spam", "Matrix" or "LU")</span></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.action =</span> na.fail,    <span class="co"># handling of missings</span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a>                  <span class="at">zero.policy =</span> <span class="cn">NULL</span>)     <span class="co"># handling of missings</span></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod)</span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a>Note that @Millo.2012 use a different notation, namely $\lambda$ for lag dependence, and $\rho$ for error dependence.... </span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a>Again, we have to use an additional step to get impacts for SAR-like models.</span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of years</span></span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(Produc<span class="sc">$</span>year))</span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a><span class="co"># impacts</span></span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a>sarre.mod.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(sarre.mod,</span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a>                         <span class="at">listw =</span> usalw,</span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a>                         <span class="at">time =</span> T)</span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarre.mod.imp)                         </span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>There is an alternative by using the package <span class="in">`SDPDmod`</span> by Rozeta Simonovska (<span class="co">[</span><span class="ot">see vignette</span><span class="co">](https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html)</span>).</span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a><span class="do">### FE SAR model</span></span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a>sarfe.mod2 <span class="ot">&lt;-</span> <span class="fu">SDPDm</span>(<span class="at">formula =</span> fm, </span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> Produc, </span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>                    <span class="at">W =</span> usaww,                 </span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>                    <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"state"</span>,<span class="st">"year"</span>), <span class="co"># ID</span></span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model =</span> <span class="st">"sar"</span>,             <span class="co"># on of c("sar","sdm"),</span></span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a>                    <span class="at">effect =</span> <span class="st">"individual"</span>,     <span class="co"># FE structure</span></span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dynamic =</span> <span class="cn">FALSE</span>,           <span class="co"># time lags of the dependet variable</span></span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LYtrans =</span> <span class="cn">TRUE</span>)            <span class="co"># Lee-Yu transformation (bias correction)</span></span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2)</span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a>And subsequently, we can calculate the impacts of the model.</span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-285"><a href="#cb18-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Impats</span></span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a>sarfe.mod2.imp <span class="ot">&lt;-</span> <span class="fu">impactsSDPDm</span>(sarfe.mod2, </span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>                               <span class="at">NSIM =</span> <span class="dv">200</span>, <span class="co"># N simulations</span></span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sd =</span> <span class="dv">12345</span>) <span class="co"># seed</span></span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarfe.mod2.imp)</span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a>Note: I did not manage to estimate a dynamic panel model with <span class="in">`SDPDm`</span>.</span>
+<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example: Industrial facilities and municipal income</span></span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a>@Ruttenauer.2021b: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a><span class="al">![Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.](fig/Figure1.png)</span></span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Table1.png)</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

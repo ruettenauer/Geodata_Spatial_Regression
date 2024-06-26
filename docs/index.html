@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tobias Rüttenauer">
-<meta name="dcterms.date" content="2025-02-06">
+<meta name="dcterms.date" content="2024-01-07">
 
 <title>Geodata &amp; Spatial Regression</title>
 <style>
@@ -111,7 +111,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -130,7 +131,7 @@ div.csl-indent {
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -144,7 +145,7 @@ div.csl-indent {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Geodata &amp; Spatial Regression</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/ruettenauer/Geodata_Spatial_Regression/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -181,56 +182,62 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./03_exercise1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./04_dependence.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Detecting Spatial Dependence</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05_regression-theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06_regression-estimation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Regression Models: Estimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_exercise2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercises II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07_impacts.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial Impacts</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08_exercise1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exercise I</span></span></a>
+  <a href="./08_comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Comparing and Selecting Models</span></span></a>
+  <a href="./08_exercise3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises III</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10_spatiotemporal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
+  <a href="./09_spatiotemporal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Spatio-temporal models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11_other.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./12_exercise2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise II</span></span></a>
+  <a href="./10_other.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Other Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -281,7 +288,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 6, 2025</p>
+      <p class="date">January 7, 2024</p>
     </div>
   </div>
   
@@ -293,12 +300,12 @@ div.csl-indent {
 
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis.</p>
-<p>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as social, economic, and environmental data. This also opens up the possibility of analyzing spatial patterns and processes (e.g., spillover effects or diffusion).</p>
-<p>Many social science research questions are spatially dependent such as voting outcomes, housing prices, labour markets, protest behavior, or migration decisions. Observing an event in one region or neighborhood increases the likelihood that we observe similar processes in proximate areas. As Tobler’s first law of geography puts it: “Everything is related to everything else, but near things are more related than distant things”. This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated when analyzing spatial data. However, more imoprtantly, spatial processes are interesting for their own sake. Spatial regression models can detect spatial dependence and explicitly model spatial relations, identifying spatial clustering, spillovers or diffusion processes.</p>
-<p>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyze spatial processes, and furthermore, the course addresses several methods for defining spatial relationships, detecting and diagnosing spatial dependence and autocorrelation. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</p>
+<p>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis. <span class="citation" data-cites="Ruttenauer.2024b">Rüttenauer (<a href="#ref-Ruttenauer.2024b" role="doc-biblioref">2024</a>)</span> provides a handbook chapter accompanying these workshop materials.</p>
+<p>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as social, economic, and environmental data. This also opens up the possibility of analysing spatial patterns and processes (e.g., spillover effects or diffusion).</p>
+<p>Many social science research questions are spatially dependent such as voting outcomes, housing prices, labour markets, protest behaviour, or migration decisions. Observing an event in one region or neighbourhood increases the likelihood that we observe similar processes in proximate areas. As Tobler’s first law of geography puts it: “Everything is related to everything else, but near things are more related than distant things”. This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated when analysing spatial data. However, more importantly, spatial processes are interesting for their own sake. Spatial regression models can detect spatial dependence and explicitly model spatial relations, identifying spatial clustering, spillovers or diffusion processes.</p>
+<p>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyse spatial processes, and furthermore, the course addresses several methods for defining spatial relationships, detecting and diagnosing spatial dependence and autocorrelation. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</p>
 <p>The field has developed very quickly over the past few years, and <em>R</em> now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in <em>R</em>, have a look into the materials references below.</p>
-<p>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in <em>R</em>. <a href="https://stefanjuenger.github.io/">Stefan Jünger</a> &amp; <a href="https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe">Anne-Kathrin Stroppe</a> have provided a comprehensive <a href="https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023">GESIS workshop on geospatial techniques in R</a>. The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.</p>
+<p>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in <em>R</em>. <a href="https://stefanjuenger.github.io/">Stefan Jünger</a> &amp; <a href="https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe">Anne-Kathrin Stroppe</a> have provided a comprehensive <a href="https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2024">GESIS workshop on geospatial techniques in R</a>. The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.</p>
 <section id="schedule" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="schedule">Schedule</h2>
 <table class="table">
@@ -335,7 +342,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>15:45 - 17:15</td>
-<td>Detecting Spatial Dependence</td>
+<td>Lab Exercises in R</td>
 </tr>
 </tbody>
 </table>
@@ -349,7 +356,7 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td>10:00 - 11:30</td>
-<td>Spatial Regression Models: Theory</td>
+<td>Detecting Spatial Dependence</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -357,7 +364,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>11:45 - 13:00</td>
-<td>Estimating Spatial Regression Models</td>
+<td>Spatial Regression Models: Theory</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -365,7 +372,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>14:00 - 15:30</td>
-<td>Interpreting Results: Spatial Impacts</td>
+<td>Estimating Spatial Regression Models</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -387,7 +394,7 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td>10:00 - 11:30</td>
-<td>Comparing and Selecting Models</td>
+<td>Interpreting Results: Spatial Impacts</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -395,7 +402,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>11:45 - 13:00</td>
-<td>Spatiotemporal models</td>
+<td>Comparing and Selecting Models</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -403,7 +410,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>14:00 - 15:30</td>
-<td>Other Models: GWR &amp; Binary Outcomes</td>
+<td>Lab Exercises in R</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -411,7 +418,7 @@ div.csl-indent {
 </tr>
 <tr class="odd">
 <td>15:45 - 17:15</td>
-<td>Lab Exercises in R</td>
+<td>Other Models</td>
 </tr>
 </tbody>
 </table>
@@ -435,7 +442,7 @@ div.csl-indent {
 <li><p>Great open-science book on <a href="https://www.r-spatial.org/book">Spatial Data Science</a> <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span></p></li>
 <li><p>Comprehensive introduction to spatial econometrics: <span class="citation" data-cites="LeSage.2009">LeSage and Pace (<a href="#ref-LeSage.2009" role="doc-biblioref">2009</a>)</span></p></li>
 <li><p>Relative intuitive introduction to spatial econometrics: <span class="citation" data-cites="Ward.2008">Ward and Gleditsch (<a href="#ref-Ward.2008" role="doc-biblioref">2008</a>)</span></p></li>
-<li><p>Article-length introductions to spatial econometrics: <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>, <span class="citation" data-cites="LeSage.2014">LeSage (<a href="#ref-LeSage.2014" role="doc-biblioref">2014</a>)</span>, and <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span></p></li>
+<li><p>Article-length introductions to spatial econometrics: <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>, <span class="citation" data-cites="LeSage.2014">LeSage (<a href="#ref-LeSage.2014" role="doc-biblioref">2014</a>)</span>, <span class="citation" data-cites="Ruttenauer.2024b">Rüttenauer (<a href="#ref-Ruttenauer.2024b" role="doc-biblioref">2024</a>)</span>, and <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span></p></li>
 </ul>
 </section>
 <section id="course-materials" class="level2 unnumbered">
@@ -488,6 +495,9 @@ Pebesma, Edzer, and Roger Bivand. 2023. <em>Spatial <span>Data Science</span>: <
 </div>
 <div id="ref-Ruttenauer.2022a" class="csl-entry" role="listitem">
 Rüttenauer, Tobias. 2022. <span>“Spatial <span>Regression Models</span>: <span>A Systematic Comparison</span> of <span>Different Model Specifications Using Monte Carlo Experiments</span>.”</span> <em>Sociological Methods &amp; Research</em> 51 (2): 728–59. <a href="https://doi.org/10.1177/0049124119882467">https://doi.org/10.1177/0049124119882467</a>.
+</div>
+<div id="ref-Ruttenauer.2024b" class="csl-entry" role="listitem">
+———. 2024. <span>“Spatial <span>Data Analysis</span>.”</span> <span>arXiv</span>. <a href="https://arxiv.org/abs/2402.09895">https://arxiv.org/abs/2402.09895</a>.
 </div>
 <div id="ref-Tennekes.2018" class="csl-entry" role="listitem">
 Tennekes, Martijn. 2018. <span>“Tmap : <span>Thematic Maps</span> in <span>R</span>.”</span> <em>Journal of Statistical Software</em> 84 (6). <a href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>.
@@ -795,17 +805,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction {.unnumbered}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis. @Ruttenauer.2024b provides a handbook chapter accompanying these workshop materials.</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as social, economic, and environmental data. This also opens up the possibility of analyzing spatial patterns and processes (e.g., spillover effects or diffusion).</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as social, economic, and environmental data. This also opens up the possibility of analysing spatial patterns and processes (e.g., spillover effects or diffusion).</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Many social science research questions are spatially dependent such as voting outcomes, housing prices, labour markets, protest behavior, or migration decisions. Observing an event in one region or neighborhood increases the likelihood that we observe similar processes in proximate areas. As Tobler's first law of geography puts it: "Everything is related to everything else, but near things are more related than distant things". This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated when analyzing spatial data. However, more imoprtantly, spatial processes are interesting for their own sake. Spatial regression models can detect spatial dependence and explicitly model spatial relations, identifying spatial clustering, spillovers or diffusion processes.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Many social science research questions are spatially dependent such as voting outcomes, housing prices, labour markets, protest behaviour, or migration decisions. Observing an event in one region or neighbourhood increases the likelihood that we observe similar processes in proximate areas. As Tobler's first law of geography puts it: "Everything is related to everything else, but near things are more related than distant things". This dependence can stem from spatial contagion, spatial spillovers, or common confounders. Therefore, basic assumptions of standard regression models are violated when analysing spatial data. However, more importantly, spatial processes are interesting for their own sake. Spatial regression models can detect spatial dependence and explicitly model spatial relations, identifying spatial clustering, spillovers or diffusion processes.</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyze spatial processes, and furthermore, the course addresses several methods for defining spatial relationships, detecting and diagnosing spatial dependence and autocorrelation. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>The main objective of the course is the theoretical understanding and practical application of spatial regression models. This course will first give an overview on how to perform common spatial operations using spatial information, such as aggregating spatial units, calculating distances, merging spatial data as well as visualizing them. The course will further focus on the analysis of geographic data and the application of spatial regression techniques to model and analyse spatial processes, and furthermore, the course addresses several methods for defining spatial relationships, detecting and diagnosing spatial dependence and autocorrelation. Finally, we will discuss various spatial regression techniques to model processes, clarify the assumptions of these models, and show how they differ in their applications and interpretations.</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>The field has developed very quickly over the past few years, and *R* now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in *R*, have a look into the materials references below.</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. <span class="co">[</span><span class="ot">Stefan Jünger</span><span class="co">](https://stefanjuenger.github.io/)</span> &amp; <span class="co">[</span><span class="ot">Anne-Kathrin Stroppe</span><span class="co">](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)</span> have provided a comprehensive <span class="co">[</span><span class="ot">GESIS workshop on geospatial techniques in R</span><span class="co">](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023)</span>. The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. <span class="co">[</span><span class="ot">Stefan Jünger</span><span class="co">](https://stefanjuenger.github.io/)</span> &amp; <span class="co">[</span><span class="ot">Anne-Kathrin Stroppe</span><span class="co">](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)</span> have provided a comprehensive <span class="co">[</span><span class="ot">GESIS workshop on geospatial techniques in R</span><span class="co">](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2024)</span>. The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schedule {.unnumbered}</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
@@ -817,27 +827,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                               |</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Defining Spatial Relationships (W)        |</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                              |</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Detecting Spatial Dependence              |</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Lab Exercises in R                        |</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>| Day 2         | Spatial Regression Models I           |</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>|---------------|---------------------------------------|</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Spatial Regression Models: Theory     |</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Detecting Spatial Dependence          |</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                          |</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Estimating Spatial Regression Models  |</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Spatial Regression Models: Theory     |</span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                           |</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Interpreting Results: Spatial Impacts |</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Estimating Spatial Regression Models  |</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                          |</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Lab Exercises in R                    |</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>| Day 3         | Spatial Regression Models II        |</span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>|---------------|-------------------------------------|</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Comparing and Selecting Models      |</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>| 10:00 - 11:30 | Interpreting Results: Spatial Impacts  |</span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                        |</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Spatiotemporal models               |</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>| 11:45 - 13:00 | Comparing and Selecting Models      |</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>|               | Lunch break                         |</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Other Models: GWR &amp; Binary Outcomes |</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>| 14:00 - 15:30 | Lab Exercises in R                  |</span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>|               | Coffee break                        |</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Lab Exercises in R                  |</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>| 15:45 - 17:15 | Other Models                        |</span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Some useful packages {.unnumbered}</span></span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
@@ -865,7 +875,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Relative intuitive introduction to spatial econometrics: @Ward.2008</span>
 <span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Article-length introductions to spatial econometrics: @Elhorst.2012, @HalleckVega.2015, @LeSage.2014, and @Ruttenauer.2022a</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Article-length introductions to spatial econometrics: @Elhorst.2012, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2024b, and @Ruttenauer.2022a</span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Course materials {.unnumbered}</span></span>
 <span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>

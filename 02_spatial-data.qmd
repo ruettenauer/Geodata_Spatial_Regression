@@ -4,7 +4,7 @@
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr",
-          "nomisr", "osmdata", "tidyr", "texreg", "downlit", "xml2") 
+          "nomisr", "osmdata", "OpenStreetMap", "tidyr", "texreg", "downlit", "xml2") 
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -13,7 +13,7 @@ For mapping
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 pkgs <- c("tmap", "tmaptools", "viridisLite", 
-          "ggplot2", "ggthemes", "rmapshaper") 
+          "ggplot2", "ggthemes", "rmapshaper", "cowplot") 
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -46,8 +46,11 @@ The [online Vignettes of the sf package](https://r-spatial.github.io/sf/articles
 st_crs(msoa.spdf) == st_crs(pol.spdf)
 st_crs(msoa.spdf) == st_crs(pubs.spdf)
 st_crs(msoa.spdf) == st_crs(ulez.spdf)
+```
 
+The spatial data files are on different projections. Before we can do any spatial operations with them, we have to transform them into a common projection.
 
+```{r}
 # MSOA in different crs --> transform
 pol.spdf <- st_transform(pol.spdf, crs = st_crs(msoa.spdf))
 pubs.spdf <- st_transform(pubs.spdf, crs = st_crs(msoa.spdf))
@@ -58,6 +61,8 @@ ulez.spdf <- st_transform(ulez.spdf, crs = st_crs(msoa.spdf))
 msoa.spdf <- st_make_valid(msoa.spdf)
 
 ```
+
+The `st_make_valid()` function can help if the spatial geometries have some problems such as holes or points that don't match exactly.
 
 ### Subsetting
 
@@ -115,6 +120,7 @@ msoa.spdf$pubs_count[is.na(msoa.spdf$pubs_count)] <- 0
 
 ```
 
+
 ### Distance measures
 
 We might be interested in the distance to the nearest pub. Here, we use the package `nngeo` to find k nearest neighbours with the respective distance.
@@ -157,7 +163,7 @@ int.df$int_area <- as.numeric(st_area(int.df)) # area of intersection
 int.df$area_per <- int.df$int_area / int.df$area
 ```
 
-And we use the percent overalp areas as the weights to calculate a weighted mean.
+And we use the percent overlap areas as the weights to calculate a weighted mean.
 
 ```{r}
 # Aggregate as weighted mean
@@ -175,6 +181,13 @@ mapview(msoa.spdf[, "no2"])
 ```
 
 Note: for buffer related methods, it often makes sense to use population weighted centroids instead of geographic centroids (see [here](https://geoportal.statistics.gov.uk/datasets/ons::middle-layer-super-output-areas-december-2011-population-weighted-centroids/about) for MSOA population weighted centroids). However, often this information is not available.
+
+### and more
+
+There are more spatial operation possible using sf. Have a look at the [sf Cheatsheet](fig/sf.pdf).
+
+![](fig/sf_1.png)
+
 
 ### Air pollution and ethnic minorities
 
@@ -240,6 +253,9 @@ hist(log(msoa.spdf$med_house_price))
 # Save
 save(msoa.spdf, file = "_data/msoa2_spatial.RData")
 ```
+
+
+
 
 ## Visualization
 
@@ -330,6 +346,7 @@ mp1
 
 ```
 
+
 We can also add some map information from OSM. However, it's sometimes a bit tricky with the projection. That's why we switch into the OSM projection here. Note that this osm query is build on retiring packages.
 
 ```{r, warning=FALSE}
@@ -341,8 +358,7 @@ ulez.spdf <- st_transform(ulez.spdf, 4326)
 msoa.spdf <- st_transform(msoa.spdf, 4326)
 
 # Get OSM data for background
-osm_tmp <- read_osm(st_bbox(msoa.spdf), ext = 1, 
-                    type = "stamen-toner", zoom = NULL) 
+osm_tmp <- read_osm(st_bbox(msoa.spdf), ext = 1.1, type = "osm-german") 
 
 # Define colours
 cols <- viridis(n = 7, direction = 1, option = "C")
@@ -477,13 +493,37 @@ gp <- ggplot(msoa.spdf)+
 gp
 ```
 
-## Exercise
 
-1) Please calculate the distance of each MSOA to the London city center 
+## Exercises
+
+1) What is the difference between a spatial "sf" object and a conventional "data.frame"? What's the purpose of the function `st_drop_geometry()`?
+
+It's the same. A spatial "sf" object just has an additional column containing the spatial coordinates.
+
+2) Using msoa.spdf, please create a spatial data frame that contains only the MSOA areas that are within the ulez zone.
+
+```{r}
+sub4.spdf <- msoa.spdf[ulez.spdf, ]
+```
+
+
+3) Please create a map for London (or only the msoa-ulez subset) which shows the share of Asian residents (or any other ethnic group).
+
+```{r}
+gp <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = per_asian))+
+    scale_fill_viridis_c(option = "E")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .6))
+gp
+```
+
+
+4) Please calculate the distance of each MSOA to the London city centre 
   a) use google maps to get lon and lat, 
-  b) us `st_as_sf()` to create the spatial point
+  b) use `st_as_sf()` to create the spatial point
   c) use `st_distance()` to calculate the distance
-  
   
 ```{r}
 ### Distance to city center
@@ -498,10 +538,9 @@ centre <- st_transform(centre, crs = st_crs(msoa.spdf))
 msoa.spdf$dist_centre <- as.numeric(st_distance(msoa.spdf, centre)) / 1000
 # hist(msoa.spdf$dist_centre)
 ```
-
-
-2) Can you create a plot with the distance to the city centre and pub counts next to each otter?
-
+  
+  
+5) Can you create a plot with the distance to the city centre and pub counts next to each other?  
 
 
 ```{r}
@@ -597,17 +636,3 @@ mp4 <-  tm_shape(msoa.spdf) +
 
 tmap_arrange(mp1, mp2, mp3, mp4, ncol = 2, nrow = 2)
 ```
-
-
-### Geogrphic cter
-
-```{r}
-# Make one single schape
-london <- st_union(msoa.spdf)
-
-# Calculate center
-cent <- st_centroid(london)
-
-mapview(cent)
-```
-

@@ -16,6 +16,31 @@ sessionInfo()
 
 ```
 
+
+## Packages
+
+*Please make sure that you have installed the following packages*:
+
+```{r}
+pks <- c("dplyr",
+"gstat",
+"mapview",
+"nngeo",
+"nomisr",
+"osmdata",
+"rnaturalearth",
+"sf",
+"spatialreg",
+"spdep",
+"texreg",
+"tidyr",
+"tmap",
+"viridisLite")
+```
+
+The most important package is [sf: Simple Features for R](https://r-spatial.github.io/sf/). users are strongly encouraged to install the sf binary packages from CRAN. If that does not work, please have a look at the [installation instructions](https://r-spatial.github.io/sf/). It requires software packages GEOS, GDAL and PROJ.
+
+
 ## Coordinates
 
 In general, spatial data is structured like conventional/tidy data (e.g. data.frames, matrices), but has one additional dimension: every observation is linked to some sort of geo-spatial information. Most common types of spatial information are:
@@ -116,7 +141,7 @@ msoa.spdf <- st_read(dsn = paste0(dn, "/statistical-gis-boundaries-london/ESRI")
 
 ```
 
-The object `msoa.spdf` is our spatial data.frame. It looks essentially like a conventional data.frame, but has some additional attributes and geo-graphical information stored with it. Most importantaly, notice the column `geometry`, which contains a list of polygons. In most cases, we have one polygon for each line / observation.
+The object `msoa.spdf` is our spatial data.frame. It looks essentially like a conventional data.frame, but has some additional attributes and geo-graphical information stored with it. Most importantly, notice the column `geometry`, which contains a list of polygons. In most cases, we have one polygon for each line / observation.
 
 ```{r, cache=FALSE}
 head(msoa.spdf)
@@ -129,7 +154,7 @@ However, `sf` reads everything spatial, such as `geo.json`, which usually is mor
 
 ```{r, cache=TRUE}
 # Download file
-ulez.link <- "https://data.london.gov.uk/download/ultra_low_emissions_zone/3d980a29-c340-4892-8230-ed40d8c7f32d/Ultra_Low_Emissions_Zone.json"
+ulez.link <- "https://data.london.gov.uk/download/ultra_low_emissions_zone/936d71d8-c5fc-40ad-a392-6bec86413b48/CentralUltraLowEmissionZone.geojson"
 download.file(ulez.link, paste0(dn, "/ulez.json"))
 
 # Read geo.json
@@ -276,6 +301,10 @@ And we can, for instance, plot the spatial distribution of ethnic groups.
 ```{r}
 
 msoa.spdf$per_white <- msoa.spdf$KS201EW_100 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_mixed <- msoa.spdf$KS201EW_200 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_asian <- msoa.spdf$KS201EW_300 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_black <- msoa.spdf$KS201EW_400 / msoa.spdf$KS201EW0001 * 100
+msoa.spdf$per_other <- msoa.spdf$KS201EW_500 / msoa.spdf$KS201EW0001 * 100
 
 mapview(msoa.spdf[, "per_white"])
 
@@ -375,3 +404,6 @@ save(ulez.spdf, file = "_data/ulez_spatial.RData")
 save(pol.spdf, file = "_data/pollution_spatial.RData")
 save(pubs.spdf, file = "_data/pubs_spatial.RData")
 ```
+
+
+

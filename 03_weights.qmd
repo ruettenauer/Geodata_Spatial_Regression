@@ -245,7 +245,7 @@ Overall, how many neighbours does unit 9 have (including all columns)? How do yo
 rowSums(W)[9]
 ```
 
-We can also use the nb object to see which ones the neighbours are. Here, for instance, neighbours of unit 6:
+We can also use the nb object to see    which ones the neighbours are. Here, for instance, neighbours of unit 6:
 
 ```{r}
 queens.nb[6]
@@ -339,6 +339,7 @@ sub.lw <- nb2listwdist(knn.nb,
 W_sub <- listw2mat(sub.lw)
 formatC(W_sub, format = "f", digits = 6)
 ```
+
 
 ## Islands / missings
 

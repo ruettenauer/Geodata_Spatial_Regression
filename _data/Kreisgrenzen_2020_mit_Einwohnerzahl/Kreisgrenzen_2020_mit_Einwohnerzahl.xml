@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><MD_Metadata xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:xalan="http://xml.apache.org/xalan" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml" xmlns="http://www.isotc211.org/2005/gmd">
+    <language>
+        <gco:CharacterString>deu</gco:CharacterString>
+    </language>
+    <characterSet>
+        <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+    </characterSet>
+    <hierarchyLevel>
+        <MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset" codeSpace="ISOTC211/19115">dataset</MD_ScopeCode>
+    </hierarchyLevel>
+    <hierarchyLevelName>
+        <gco:CharacterString>dataset</gco:CharacterString>
+    </hierarchyLevelName>
+    <contact gco:nilReason="missing"/>
+    <dateStamp>
+        <gco:Date>2021-10-19</gco:Date>
+    </dateStamp>
+    <metadataStandardName>
+        <gco:CharacterString>ISO 19139 Geographic Information - Metadata - Implementation Specification</gco:CharacterString>
+    </metadataStandardName>
+    <metadataStandardVersion>
+        <gco:CharacterString>2007</gco:CharacterString>
+    </metadataStandardVersion>
+    <spatialRepresentationInfo>
+        <MD_VectorSpatialRepresentation>
+            <topologyLevel>
+                <MD_TopologyLevelCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_TopologyLevelCode" codeListValue="geometryOnly" codeSpace="ISOTC211/19115">geometryOnly</MD_TopologyLevelCode>
+            </topologyLevel>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="composite" codeSpace="ISOTC211/19115">composite</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                </MD_GeometricObjects>
+            </geometricObjects>
+        </MD_VectorSpatialRepresentation>
+    </spatialRepresentationInfo>
+    <referenceSystemInfo>
+        <MD_ReferenceSystem>
+            <referenceSystemIdentifier>
+                <RS_Identifier>
+                    <code>
+                        <gco:CharacterString>3857</gco:CharacterString>
+                    </code>
+                    <codeSpace>
+                        <gco:CharacterString>EPSG</gco:CharacterString>
+                    </codeSpace>
+                    <version>
+                        <gco:CharacterString>6.18.3(9.3.1.2)</gco:CharacterString>
+                    </version>
+                </RS_Identifier>
+            </referenceSystemIdentifier>
+        </MD_ReferenceSystem>
+    </referenceSystemInfo>
+    <identificationInfo>
+        <MD_DataIdentification>
+            <citation>
+                <CI_Citation>
+                    <title>
+                        <gco:CharacterString>KRS_ew_20_</gco:CharacterString>
+                    </title>
+                    <date gco:nilReason="missing"/>
+                    <presentationForm>
+                        <CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="mapDigital" codeSpace="ISOTC211/19115">mapDigital</CI_PresentationFormCode>
+                    </presentationForm>
+                </CI_Citation>
+            </citation>
+            <abstract>
+                <gco:CharacterString>Der Service stellt die administrativen Kreisgrenzen mit Einwohnerzahl zum Stand 31. Dezember 2020 ohne Wasserflächen im Maßstab 1:250.000 zur Verfügung.Der Datenbestand entspricht den Georeferenzdaten VG250-Ebenen des BKG Bundesamtes für Kartographie und Geodäsie auf Ebene Kreis (KRS) mit folgender Geometrieänderung:Es wurden nur die Land-Geometrien (GF = 4) übernommen und auf Web Mercator umprojiziert.VG250 Datensatzbeschreibung des BKGEnglish This service provides the administrative County boundaries of Germany with population number as of December 31st, 2020.This layer only contains land surfaces at a 1:250,000 scale. It corresponds to the georeferenced VG250 data of the BKG Federal Agency for Cartography and Geodesy.Only the land geometries (GF=4) were adopted and projected to Web Mercator.</gco:CharacterString>
+            </abstract>
+            <purpose>
+                <gco:CharacterString>Offiziellen Kreisgrenzen Deutschlands mit Einwohnerzahl, optimiert für Analyse und statistische Berechnungen. / County boundaries of Germany with population number, for Analysis and Demographic enrichment. Stand: 31.12.2020</gco:CharacterString>
+            </purpose>
+            <credit>
+                <gco:CharacterString>© GeoBasis-DE / BKG, Statistisches Bundesamt (Destatis) (2021)</gco:CharacterString>
+            </credit>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>2020, BKG, boundaries, Deutschland, Germany, Open Data, Grenzen, Kreise, Kreisgrenzen, DE, Verwaltungsgebiete, GeoBasis-DE, Kreis, administrative, county, counties, VG250, EWZ, Einwohnerzahl, population, Statistik, Bevölkerung</gco:CharacterString>
+                    </keyword>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <resourceConstraints>
+                <MD_Constraints>
+                    <useLimitation>
+                        <gco:CharacterString>Die Daten sind &amp;quot;Open Data&amp;quot; und können für kommerzielle und nicht kommerzielle Zwecke gemäß des Datenlizenz Deutschland – Namensnennung – Version 2.0 verwendet werden. Insbesondere hat jeder Nutzer den Quellenvermerk zu allen Geodaten, Metadaten und Geodatendiensten erkennbar und in optischem Zusammenhang zu platzieren. Veränderungen, Bearbeitungen, neue Gestaltungen oder sonstige Abwandlungen sind mit einem Veränderungshinweis im Quellenvermerk zu versehen.Quellenvermerk:  © GeoBasis-DE / BKG, Statistisches Bundesamt (Destatis) (2021)EnglishThis database is available for free commercial and non-commercial use as long as attribution to the source is made in accordance with the Terms &amp;amp; Conditions. Each user must place the source note to all spatial data and metadata. Changes, edits, and alterations to the data are to be indicated with the source note.Source:  © GeoBasis-DE / BKG, Statistisches Bundesamt (Destatis) (2021)</gco:CharacterString>
+                    </useLimitation>
+                </MD_Constraints>
+            </resourceConstraints>
+            <spatialRepresentationType>
+                <MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector" codeSpace="ISOTC211/19115">vector</MD_SpatialRepresentationTypeCode>
+            </spatialRepresentationType>
+            <language>
+                <gco:CharacterString>deu</gco:CharacterString>
+            </language>
+            <characterSet>
+                <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+            </characterSet>
+            <environmentDescription>
+                <gco:CharacterString>Esri ArcGIS 12.8.3.29751</gco:CharacterString>
+            </environmentDescription>
+        </MD_DataIdentification>
+    </identificationInfo>
+    <distributionInfo>
+        <MD_Distribution>
+            <distributionFormat>
+                <MD_Format>
+                    <name>
+                        <gco:CharacterString>File Geodatabase Feature Class</gco:CharacterString>
+                    </name>
+                    <version gco:nilReason="missing"/>
+                </MD_Format>
+            </distributionFormat>
+        </MD_Distribution>
+    </distributionInfo>
+</MD_Metadata>

@@ -181,7 +181,7 @@ lm1 <- lm(per_owner ~ dist_centre + POPDEN, msoa.spdf)
 lm.morantest(lm1, listw = queens.lw, alternative = "two.sided")
 ```
 
-There is still considerable auto-correlation in the residuals. However, we have reduce it by a substantial amount with two very simple control variables.
+There is still considerable auto-correlation in the residuals. However, we have reduced it by a substantial amount with two very simple control variables.
 
 ### Semivariogram
 
@@ -233,6 +233,11 @@ plot(v.no2, pl = FALSE,
      ylab = "Semivariance")
 ```
 
+### Example
+
+![Semivariogram of Air pollution and income deprivation in England on the LSOA level for 2019.](fig/Semivariogram_2019.png)
+
+When looking at approx. 10 km distance: the variance in income deprivation is nearly as high when looking at areas within 10km as it would be when looking at areas within 100km distance. This indicates that income deprivation is very local and varies already within smaller areas such as within cities or district. Air pollution, in contrast, has a much lower variance within 10km distances than we would find when looking at the data within 100km distance. This indicates that air pollution has stronger large-scale spatial patterns. When moving locally (e.g. within 10km) to a random location, it would be more difficult to improve in air pollution than it would be to improve in income deprivation.
 
 
 ## Local Autocorrelation
@@ -377,70 +382,17 @@ _Mobile homes and racial minorities are most overrepresented in hotspots compare
 ![](fig/Tate.png)
 
 
-## Exercise
+## Exercises
 
 1. Please calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization.
 
-```{r}
-coords <- st_centroid(msoa.spdf)
-k10.nb <- knearneigh(coords, k = 10)
-```
 
 
-2. Can you create a map containing the City of London (MSOA11CD = "E02000001") and its then nearest neighbours?
-
-```{r}
-i <- which(msoa.spdf$MSOA11CD == "E02000001")
-
-# Extract neigbours
-j <- k10.nb$nn[i,]
-
-mapview(list(msoa.spdf[i,], msoa.spdf[j,]), col.regions = c("red", "blue"))
-```
+2. Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.
 
 
-3. Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.
 
-```{r}
-# Gen nb object
-k10.nb <- knn2nb(k10.nb)
-
-# Gen listw object
-k10.listw <- nb2listw(k10.nb, style = "W")
-
-# MOran test
-moran.test(msoa.spdf$per_white, listw = k10.listw)
-```
+3. Produce a LISA cluster map for the characteristic you have chosen.
 
 
-4. Produce a LISA cluster map for the characteristic you have chosen.
 
-
-```{r}
-loci2 <- localmoran(msoa.spdf$per_white, listw = k10.listw)
-
-# Calculate clusters
-msoa.spdf$lisa_cluster <- hotspot(loci2, 
-                                  "Pr(z != E(Ii))", 
-                                  cutoff = 0.05, 
-                                  quadrant.type = "mean",
-                                  p.adjust = "BY")
-
-# Map
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = c("lisa_cluster"),
-          palette = viridis(n = 3, direction = -1, option = "D"),
-          colorNA = "white") +
-  tm_borders(col = "grey70", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("left", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Percentage White \n LISA Clusters p(BY) < 0.05", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8,)
-
-mp1
-```

@@ -5,7 +5,7 @@ project:
 book:
   title: "Geodata & Spatial Regression"
   author: "Tobias Rüttenauer"
-  date: "01/07/2024"
+  date: last-modified
   repo-url: https://github.com/ruettenauer/Geodata_Spatial_Regression/
   chapters:
     - index.qmd

@@ -274,15 +274,29 @@ div.csl-indent {
   </div>
   
 
-</header><section id="required-packages" class="level3" data-number="13.0.1"><h3 data-number="13.0.1" class="anchored" data-anchor-id="required-packages">
+</header><p><span class="math display">\[
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+\]</span></p>
+<section id="required-packages" class="level3" data-number="13.0.1"><h3 data-number="13.0.1" class="anchored" data-anchor-id="required-packages">
 <span class="header-section-number">13.0.1</span> Required packages</h3>
-<div class="cell">
+<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-1_c5b6f7703e475e33b752628b15313d01">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"GWmodel"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3" data-number="13.0.2"><h3 data-number="13.0.2" class="anchored" data-anchor-id="session-info">
 <span class="header-section-number">13.0.2</span> Session info</h3>
-<div class="cell">
+<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-2_28378d05999073dc74eba3aa8ef1282c">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14 ucrt)
@@ -340,20 +354,20 @@ loaded via a namespace (and not attached):
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3" data-number="13.0.3"><h3 data-number="13.0.3" class="anchored" data-anchor-id="reload-data-from-pervious-session">
 <span class="header-section-number">13.0.3</span> Reload data from pervious session</h3>
-<div class="cell">
+<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-3_b43bf38c3b1366d58f0eb4b9e83c7776">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="geographically-weighted-regression" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="geographically-weighted-regression">
 <span class="header-section-number">13.1</span> Geographically weighted regression</h2>
 <p>Does the relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> vary depending on the region we are looking at? With geographically weighted regressions (GWR), we can exploit the spatial heterogeneity in relations / coefficients.</p>
-<p>GWR <span class="citation" data-cites="Brunsdon.1996 Gollini.2015">(<a href="#ref-Brunsdon.1996" role="doc-biblioref">Brunsdon, Fotheringham, and Charlton 1996</a>; <a href="#ref-Gollini.2015" role="doc-biblioref">Gollini et al. 2015</a>)</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For <span class="math inline">\(L\)</span> given locations across London, we receive <span class="math inline">\(L\)</span> different coefficients.</p>
+<p>GWR <span class="citation" data-cites="Brunsdon.1996 Gollini.2015">(<a href="references.html#ref-Brunsdon.1996" role="doc-biblioref">Brunsdon, Fotheringham, and Charlton 1996</a>; <a href="references.html#ref-Gollini.2015" role="doc-biblioref">Gollini et al. 2015</a>)</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For <span class="math inline">\(L\)</span> given locations across London, we receive <span class="math inline">\(L\)</span> different coefficients.</p>
 <p><span class="math display">\[
-\begin{align}
-\hat{\boldsymbol{\mathbf{\beta}}}_l=&amp; ({\boldsymbol{\mathbf{X}}}^\intercal{\boldsymbol{\mathbf{M}}}_l{\boldsymbol{\mathbf{X}}})^{-1}{\boldsymbol{\mathbf{X}}}^\intercal{\boldsymbol{\mathbf{M}}}_l{\boldsymbol{\mathbf{Y}}},
-\end{align}
+\begin{split}
+\hat{\bm \beta}_l=&amp; ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},
+\end{split}
 \]</span></p>
-<p>The <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\({\boldsymbol{\mathbf{M}}}_l\)</span> defines the weights at each local point <span class="math inline">\(l\)</span>, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth <span class="math inline">\(b\)</span> around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via <code>gwr.basic()</code> or <code>gwr.robust()</code> of the <code>GWmodel</code> package.</p>
-<div class="cell">
+<p>The <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\({\bm M}_l\)</span> defines the weights at each local point <span class="math inline">\(l\)</span>, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth <span class="math inline">\(b\)</span> around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via <code>gwr.basic()</code> or <code>gwr.robust()</code> of the <code>GWmodel</code> package.</p>
+<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-4_a2f8661d1304625458bf635916e3f013">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Search for the optimal bandwidth </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">hv_1.bw</span> <span class="op">&lt;-</span> <span class="fu">bw.gwr</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> <span class="va">pubs_count</span> ,</span>
@@ -393,7 +407,7 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
 <pre><code>   ***********************************************************************
    *                       Package   GWmodel                             *
    ***********************************************************************
-   Program starts at: 2024-06-26 12:16:49.453682 
+   Program starts at: 2024-06-29 17:44:07.836814 
    Call:
    gwr.basic(formula = formula, data = data, bw = bw, kernel = kernel, 
     adaptive = adaptive, p = p, theta = theta, longlat = longlat, 
@@ -461,11 +475,11 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
    Adjusted R-square value:  0.7050051 
 
    ***********************************************************************
-   Program stops at: 2024-06-26 12:16:57.037792 </code></pre>
+   Program stops at: 2024-06-29 17:44:15.354337 </code></pre>
 </div>
 </div>
 <p>The results give a range of coefficients for different locations. Let’s map those individual coefficients.</p>
-<div class="cell">
+<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-5_d655ac51d098224ff8a9882d91fdf3c1">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Spatial object</span></span>
 <span><span class="va">gwr.spdf</span> <span class="op">&lt;-</span> <span class="fu">st_as_sf</span><span class="op">(</span><span class="va">hv_1.gwr</span><span class="op">$</span><span class="va">SDF</span><span class="op">)</span></span>
 <span><span class="va">gwr.spdf</span> <span class="op">&lt;-</span> <span class="fu">st_make_valid</span><span class="op">(</span><span class="va">gwr.spdf</span><span class="op">)</span></span>
@@ -511,55 +525,55 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
 <li><p>Estimation challenging and computationally intense</p></li>
 <li><p>Hard to interpret due to non-linear effects in non-linear models</p></li>
 </ul>
-<p><span class="citation" data-cites="Elhorst.2017b">(<a href="#ref-Elhorst.2017b" role="doc-biblioref"><strong>Elhorst.2017b?</strong></a>)</span>, <span class="citation" data-cites="Franzese.2016">Franzese, Hays, and Cook (<a href="#ref-Franzese.2016" role="doc-biblioref">2016</a>)</span></p>
+<p><span class="citation" data-cites="Elhorst.2017a">Elhorst et al. (<a href="references.html#ref-Elhorst.2017a" role="doc-biblioref">2017</a>)</span>, <span class="citation" data-cites="Franzese.2016">Franzese, Hays, and Cook (<a href="references.html#ref-Franzese.2016" role="doc-biblioref">2016</a>)</span></p>
 <section id="problem-with-non-linear-models" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="problem-with-non-linear-models">
 <span class="header-section-number">13.2.1</span> Problem with non-linear models</h3>
 <p>Spatial-SAR-Probit <span class="math display">\[
-        {\boldsymbol{\mathbf{y}}^\star}=\rho{\boldsymbol{\mathbf{W}}}{\boldsymbol{\mathbf{y}}^\star}+{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}+ {\boldsymbol{\mathbf{\varepsilon}}} \\     
+        {\bm y^\star}=\rho{\bm W}{\bm y^\star}+{\bm X}{\bm \beta}+ {\bm \varepsilon} \\     
         y_i = \{1 \text{ if } y_i^\star &gt; 0; 0 \text{ if } y_i^\star \leq 0 \} \nonumber
 \]</span></p>
 <p>or in reduced form:</p>
 <p><span class="math display">\[
-        {\boldsymbol{\mathbf{y}}^\star}=(\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} + \boldsymbol{\mathbf{u}} \text{, } \boldsymbol{\mathbf{u}} = (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\varepsilon}}},\\
-        \text{with } \boldsymbol{\mathbf{u}} \sim MVN(0, (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^\intercal (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}) \nonumber
+        {\bm y^\star}=(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + \bm u \text{, } \bm u = (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon},\\
+        \text{with } \bm u \sim MVN(0, (\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1}) \nonumber
 \]</span></p>
 <ul>
-<li><p>Probability <span class="math inline">\(\boldsymbol{\mathbf{y}}^\star\)</span> is a latent variable, not observed</p></li>
+<li><p>Probability <span class="math inline">\(\bm y^\star\)</span> is a latent variable, not observed</p></li>
 <li><p>We only observe binary outcome <span class="math inline">\(y_i\)</span></p></li>
-<li><p><span class="math inline">\(\mathrm{Cov}(y_i, y_j)\)</span> is not the same as <span class="math inline">\(\mathrm{Cov}(y_i^\star, y_j^\star)\)</span></p></li>
+<li><p><span class="math inline">\(\Cov(y_i, y_j)\)</span> is not the same as <span class="math inline">\(\Cov(y_i^\star, y_j^\star)\)</span></p></li>
 <li><p>Error term is heteroskedastic and spatially correlated</p></li>
 </ul>
 <p>Probability</p>
 <p><span class="math display">\[
-        \mathrm{Prob}[{\boldsymbol{\mathbf{y}}^\star}&gt;0]  =
-        \mathrm{Prob}[(\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}} +
-        (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\varepsilon}}}] \\
-          =  \mathrm{Prob}[(\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{\varepsilon}}} &lt;
-         (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}] \nonumber
+        \mathrm{Prob}[{\bm y^\star}&gt;0]  =
+        \mathrm{Prob}[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} +
+        (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon}] \\
+          =  \mathrm{Prob}[(\bm I - \rho{\bm W})^{-1}{\bm \varepsilon} &lt;
+         (\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}] \nonumber
 \]</span></p>
 <pre><code>or in using the observed outcome:</code></pre>
 <p><span class="math display">\[
-        \mathrm{Prob}[\boldsymbol{\mathbf{y}}_i=1 | \boldsymbol{\mathbf{X}}]  =
+        \mathrm{Prob}[\bm y_i=1 | \bm X]  =
         \mathrm{Prob}\big[u_i &lt;
-         [(\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}]_i\big] \\
-          = \boldsymbol{\mathbf{\phi}}\{[(\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1}{\boldsymbol{\mathbf{X}}}{\boldsymbol{\mathbf{\beta}}}]_i
+         [(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}]_i\big] \\
+          = \bm \phi\{[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}]_i
          / \sigma_{ui}\}
 \]</span></p>
 <ul>
-<li><p><span class="math inline">\(\boldsymbol{\mathbf{\phi}}\{\}\)</span> is an n-dimensional cumulative-normal distribution</p></li>
-<li><p><span class="math inline">\(\sigma_{ui}\)</span> equals <span class="math inline">\((\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^\intercal (\boldsymbol{\mathbf{I}} - \rho{\boldsymbol{\mathbf{W}}})^{-1})_{ii}\)</span>, not constant</p></li>
+<li><p><span class="math inline">\(\bm \phi\{\}\)</span> is an n-dimensional cumulative-normal distribution</p></li>
+<li><p><span class="math inline">\(\sigma_{ui}\)</span> equals <span class="math inline">\((\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1})_{ii}\)</span>, not constant</p></li>
 <li><p>no analytical solution</p></li>
 </ul></section><section id="estimation" class="level3" data-number="13.2.2"><h3 data-number="13.2.2" class="anchored" data-anchor-id="estimation">
 <span class="header-section-number">13.2.2</span> Estimation</h3>
 <p>Estimation methods for Spatial-SAR Probit / Logit</p>
 <ul>
-<li><p>Expectation Maximization <span class="citation" data-cites="McMillen.1992">(<a href="#ref-McMillen.1992" role="doc-biblioref">McMillen 1992</a>)</span>.</p></li>
-<li><p>(Linearized) Generalized Methods of Moments <span class="citation" data-cites="Klier.2008">(<a href="#ref-Klier.2008" role="doc-biblioref">Klier and McMillen 2008</a>)</span>.</p></li>
-<li><p>Recursive Importance Sampling <span class="citation" data-cites="Beron.2004">(<a href="#ref-Beron.2004" role="doc-biblioref">Beron and Vijverberg 2004</a>)</span>.</p></li>
-<li><p>Maximum Simulated Likelihood RIS <span class="citation" data-cites="Franzese.2016">(<a href="#ref-Franzese.2016" role="doc-biblioref">Franzese, Hays, and Cook 2016</a>)</span></p></li>
-<li><p>Bayesian approach with Markov Chain Monte Carlo simulations <span class="citation" data-cites="LeSage.2009">(<a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>: R package <code>spatialprobit</code></p></li>
+<li><p>Expectation Maximization <span class="citation" data-cites="McMillen.1992">(<a href="references.html#ref-McMillen.1992" role="doc-biblioref">McMillen 1992</a>)</span>.</p></li>
+<li><p>(Linearized) Generalized Methods of Moments <span class="citation" data-cites="Klier.2008">(<a href="references.html#ref-Klier.2008" role="doc-biblioref">Klier and McMillen 2008</a>)</span>.</p></li>
+<li><p>Recursive Importance Sampling <span class="citation" data-cites="Beron.2004">(<a href="references.html#ref-Beron.2004" role="doc-biblioref">Beron and Vijverberg 2004</a>)</span>.</p></li>
+<li><p>Maximum Simulated Likelihood RIS <span class="citation" data-cites="Franzese.2016">(<a href="references.html#ref-Franzese.2016" role="doc-biblioref">Franzese, Hays, and Cook 2016</a>)</span></p></li>
+<li><p>Bayesian approach with Markov Chain Monte Carlo simulations <span class="citation" data-cites="LeSage.2009">(<a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>: R package <code>spatialprobit</code></p></li>
 </ul>
-<p>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal’ effects may vary with values of the independent variables and the location <span class="citation" data-cites="Lacombe.2018">(<a href="#ref-Lacombe.2018" role="doc-biblioref">Lacombe and LeSage 2018</a>)</span>.</p>
+<p>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal’ effects may vary with values of the independent variables and the location <span class="citation" data-cites="Lacombe.2018">(<a href="references.html#ref-Lacombe.2018" role="doc-biblioref">Lacombe and LeSage 2018</a>)</span>.</p>
 </section><section id="suggestion" class="level3" data-number="13.2.3"><h3 data-number="13.2.3" class="anchored" data-anchor-id="suggestion">
 <span class="header-section-number">13.2.3</span> Suggestion</h3>
 <pre><code>In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. 
@@ -576,12 +590,15 @@ If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Beron.2004" class="csl-entry" role="listitem">
 Beron, Kurt J., and Wim P. M. Vijverberg. 2004. <span>“Probit in a <span>Spatial Context</span>: <span>A Monte Carlo Analysis</span>.”</span> In <em>Advances in <span>Spatial Econometrics</span>: <span>Methodology</span>, <span>Tools</span> and <span>Applications</span></em>, edited by Luc Anselin, Florax, Raymond J. G. M, and Sergio J. Rey, 169–95. <span>Berlin, Heidelberg</span>: <span>Springer Berlin Heidelberg</span>. <a href="https://doi.org/10.1007/978-3-662-05617-2%E2%80%97%208">https://doi.org/10.1007/978-3-662-05617-2‗ 8</a>.
 </div>
 <div id="ref-Brunsdon.1996" class="csl-entry" role="listitem">
 Brunsdon, Chris, A. Stewart Fotheringham, and Martin E. Charlton. 1996. <span>“Geographically <span>Weighted Regression</span>: <span>A Method</span> for <span>Exploring Spatial Nonstationarity</span>.”</span> <em>Geographical Analysis</em> 28 (4): 281–98. <a href="https://doi.org/10.1111/j.1538-4632.1996.tb00936.x">https://doi.org/10.1111/j.1538-4632.1996.tb00936.x</a>.
+</div>
+<div id="ref-Elhorst.2017a" class="csl-entry" role="listitem">
+Elhorst, J. Paul, Pim Heijnen, Anna Samarina, and Jan P. A. M. Jacobs. 2017. <span>“Transitions at <span>Different Moments</span> in <span>Time</span>: <span>A Spatial Probit Approach</span>.”</span> <em>Journal of Applied Econometrics</em> 32 (2): 422–39. <a href="https://doi.org/10.1002/jae.2505">https://doi.org/10.1002/jae.2505</a>.
 </div>
 <div id="ref-Franzese.2016" class="csl-entry" role="listitem">
 Franzese, Robert J., Jude C. Hays, and Scott J. Cook. 2016. <span>“Spatial- and <span>Spatiotemporal-Autoregressive Probit Models</span> of <span>Interdependent Binary Outcomes</span>.”</span> <em>Political Science Research and Methods</em> 4 (01): 151–73. <a href="https://doi.org/10.1017/psrm.2015.14">https://doi.org/10.1017/psrm.2015.14</a>.
@@ -896,210 +913,221 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Other Models</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"GWmodel"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>\newcommand{\Prob}{\mathrm{Prob}}</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Other Models</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"GWmodel"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
 <span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## Geographically weighted regression</span></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>Does the relation between $y$ and $x$ vary depending on the region we are looking at? With geographically weighted regressions (GWR), we can exploit the spatial heterogeneity in relations / coefficients.</span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>GWR <span class="co">[</span><span class="ot">@Brunsdon.1996; @Gollini.2015</span><span class="co">]</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For $L$ given locations across London, we receive $L$ different coefficients.</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>\begin{align} </span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>\hat{\bm \beta}_l=&amp; ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},</span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>\end{align}</span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>The $N \times N$ matrix ${\bm M}_l$ defines the weights at each local point $l$, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth $b$ around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via <span class="in">`gwr.basic()`</span> or <span class="in">`gwr.robust()`</span> of the <span class="in">`GWmodel`</span> package.</span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for the optimal bandwidth </span></span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>hv_1.bw <span class="ot">&lt;-</span> <span class="fu">bw.gwr</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> pubs_count ,</span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">as_Spatial</span>(msoa.spdf),</span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>                  <span class="at">kernel =</span> <span class="st">"boxcar"</span>,</span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>                  <span class="at">adaptive =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>hv_1.bw</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Geographically weighted regression</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>Does the relation between $y$ and $x$ vary depending on the region we are looking at? With geographically weighted regressions (GWR), we can exploit the spatial heterogeneity in relations / coefficients.</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>GWR <span class="co">[</span><span class="ot">@Brunsdon.1996; @Gollini.2015</span><span class="co">]</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For $L$ given locations across London, we receive $L$ different coefficients.</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>\begin{split} </span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>\hat{\bm \beta}_l=&amp; ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>The $N \times N$ matrix ${\bm M}_l$ defines the weights at each local point $l$, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth $b$ around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via <span class="in">`gwr.basic()`</span> or <span class="in">`gwr.robust()`</span> of the <span class="in">`GWmodel`</span> package.</span>
 <span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="do">### GWR </span></span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>hv_1.gwr <span class="ot">&lt;-</span> <span class="fu">gwr.robust</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> pubs_count,</span>
-<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> <span class="fu">as_Spatial</span>(msoa.spdf), </span>
-<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel =</span> <span class="st">"boxcar"</span>, </span>
-<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>                      <span class="at">adaptive =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bw =</span> hv_1.bw, </span>
-<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>                      <span class="at">longlat =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(hv_1.gwr)</span>
-<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for the optimal bandwidth </span></span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>hv_1.bw <span class="ot">&lt;-</span> <span class="fu">bw.gwr</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> pubs_count ,</span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">as_Spatial</span>(msoa.spdf),</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>                  <span class="at">kernel =</span> <span class="st">"boxcar"</span>,</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>                  <span class="at">adaptive =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>hv_1.bw</span>
 <span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>The results give a range of coefficients for different locations. Let's map those individual coefficients.</span>
-<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial object</span></span>
-<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>gwr.spdf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(hv_1.gwr<span class="sc">$</span>SDF)</span>
-<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>gwr.spdf <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(gwr.spdf)</span>
-<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Map</span></span>
-<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)</span>
-<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a>mp2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(gwr.spdf) <span class="sc">+</span></span>
-<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"log(POPDEN)"</span>, </span>
-<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>          <span class="at">style =</span> <span class="st">"cont"</span>, </span>
-<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a>          <span class="co"># n = 8,</span></span>
-<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"Coefficient"</span>, </span>
-<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="fu">viridis</span>(<span class="dv">100</span>),</span>
-<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>          <span class="at">midpoint =</span> <span class="cn">TRUE</span>, <span class="at">stretch.palette =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"grey85"</span>) <span class="sc">+</span></span>
-<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.frame =</span> <span class="cn">TRUE</span>, <span class="at">legend.bg.color =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a>            <span class="co">#legend.position = c("right", "bottom"),</span></span>
-<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.outside =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title =</span> <span class="st">"Coefficient of log population density"</span>, </span>
-<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
-<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.snap.to.legend =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a>mp2 </span>
-<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a>Just from looking at the map, there may be a connection with the undergrpund network - the effect of population density on house values seems to be stronger / more positive where underground connection is weaker?!</span>
-<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Linear Models</span></span>
-<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a>Models with endogenous regressors (SAR)</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a><span class="do">### GWR </span></span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>hv_1.gwr <span class="ot">&lt;-</span> <span class="fu">gwr.robust</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> pubs_count,</span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> <span class="fu">as_Spatial</span>(msoa.spdf), </span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel =</span> <span class="st">"boxcar"</span>, </span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>                      <span class="at">adaptive =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>                      <span class="at">bw =</span> hv_1.bw, </span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>                      <span class="at">longlat =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(hv_1.gwr)</span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>The results give a range of coefficients for different locations. Let's map those individual coefficients.</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial object</span></span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a>gwr.spdf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(hv_1.gwr<span class="sc">$</span>SDF)</span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>gwr.spdf <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(gwr.spdf)</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Map</span></span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"view"</span>)</span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a>mp2 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(gwr.spdf) <span class="sc">+</span></span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">col =</span> <span class="st">"log(POPDEN)"</span>, </span>
+<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a>          <span class="at">style =</span> <span class="st">"cont"</span>, </span>
+<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a>          <span class="co"># n = 8,</span></span>
+<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">"Coefficient"</span>, </span>
+<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette =</span> <span class="fu">viridis</span>(<span class="dv">100</span>),</span>
+<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a>          <span class="at">midpoint =</span> <span class="cn">TRUE</span>, <span class="at">stretch.palette =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"grey85"</span>) <span class="sc">+</span></span>
+<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.frame =</span> <span class="cn">TRUE</span>, <span class="at">legend.bg.color =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a>            <span class="co">#legend.position = c("right", "bottom"),</span></span>
+<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a>            <span class="at">legend.outside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title =</span> <span class="st">"Coefficient of log population density"</span>, </span>
+<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a>            <span class="at">main.title.position =</span> <span class="st">"center"</span>,</span>
+<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a>            <span class="at">title.snap.to.legend =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In the literature: mostly spatial probit considered</span>
-<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Spatial logit rather uncommon (non normally distributed errors)</span>
-<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a>mp2 </span>
+<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a>Just from looking at the map, there may be a connection with the undergrpund network - the effect of population density on house values seems to be stronger / more positive where underground connection is weaker?!</span>
 <span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-119"><a href="#cb16-119" aria-hidden="true" tabindex="-1"></a>Issues with non-linear spatial models</span>
+<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-119"><a href="#cb16-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Non-Linear Models</span></span>
 <span id="cb16-120"><a href="#cb16-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estimation: with dependent observations, we need to maximize one $n$-dimensional (log-)likelihood instead of a product of $n$ independent distributions</span>
+<span id="cb16-121"><a href="#cb16-121" aria-hidden="true" tabindex="-1"></a>Models with endogenous regressors (SAR)</span>
 <span id="cb16-122"><a href="#cb16-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-123"><a href="#cb16-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estimation challenging and computationally intense</span>
-<span id="cb16-124"><a href="#cb16-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-125"><a href="#cb16-125" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hard to interpret due to non-linear effects in non-linear models</span>
-<span id="cb16-126"><a href="#cb16-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-127"><a href="#cb16-127" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-128"><a href="#cb16-128" aria-hidden="true" tabindex="-1"></a>@Elhorst.2017b, @Franzese.2016</span>
-<span id="cb16-129"><a href="#cb16-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-130"><a href="#cb16-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem with non-linear models</span></span>
+<span id="cb16-123"><a href="#cb16-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-124"><a href="#cb16-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In the literature: mostly spatial probit considered</span>
+<span id="cb16-125"><a href="#cb16-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-126"><a href="#cb16-126" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Spatial logit rather uncommon (non normally distributed errors)</span>
+<span id="cb16-127"><a href="#cb16-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-128"><a href="#cb16-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-129"><a href="#cb16-129" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-130"><a href="#cb16-130" aria-hidden="true" tabindex="-1"></a>Issues with non-linear spatial models</span>
 <span id="cb16-131"><a href="#cb16-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-132"><a href="#cb16-132" aria-hidden="true" tabindex="-1"></a>Spatial-SAR-Probit</span>
-<span id="cb16-133"><a href="#cb16-133" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-134"><a href="#cb16-134" aria-hidden="true" tabindex="-1"></a>        {\bm y^\star}=\rho{\bm W}{\bm y^\star}+{\bm X}{\bm \beta}+ {\bm \varepsilon} <span class="sc">\\</span>     </span>
-<span id="cb16-135"><a href="#cb16-135" aria-hidden="true" tabindex="-1"></a>        y_i = <span class="sc">\{</span>1 \text{ if } y_i^\star &gt; 0; 0 \text{ if } y_i^\star \leq 0 <span class="sc">\}</span> \nonumber</span>
-<span id="cb16-136"><a href="#cb16-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-132"><a href="#cb16-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estimation: with dependent observations, we need to maximize one $n$-dimensional (log-)likelihood instead of a product of $n$ independent distributions</span>
+<span id="cb16-133"><a href="#cb16-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-134"><a href="#cb16-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Estimation challenging and computationally intense</span>
+<span id="cb16-135"><a href="#cb16-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-136"><a href="#cb16-136" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hard to interpret due to non-linear effects in non-linear models</span>
 <span id="cb16-137"><a href="#cb16-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-138"><a href="#cb16-138" aria-hidden="true" tabindex="-1"></a>or in reduced form:</span>
-<span id="cb16-139"><a href="#cb16-139" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-140"><a href="#cb16-140" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-141"><a href="#cb16-141" aria-hidden="true" tabindex="-1"></a>        {\bm y^\star}=(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + \bm u \text{, } \bm u = (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon},<span class="sc">\\</span></span>
-<span id="cb16-142"><a href="#cb16-142" aria-hidden="true" tabindex="-1"></a>        \text{with } \bm u \sim MVN(0, (\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1}) \nonumber</span>
-<span id="cb16-143"><a href="#cb16-143" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-144"><a href="#cb16-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-145"><a href="#cb16-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Probability $\bm y^\star$ is a latent variable, not observed</span>
-<span id="cb16-146"><a href="#cb16-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-147"><a href="#cb16-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We only observe binary outcome $y_i$</span>
+<span id="cb16-138"><a href="#cb16-138" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-139"><a href="#cb16-139" aria-hidden="true" tabindex="-1"></a>@Elhorst.2017a, @Franzese.2016</span>
+<span id="cb16-140"><a href="#cb16-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-141"><a href="#cb16-141" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problem with non-linear models</span></span>
+<span id="cb16-142"><a href="#cb16-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-143"><a href="#cb16-143" aria-hidden="true" tabindex="-1"></a>Spatial-SAR-Probit</span>
+<span id="cb16-144"><a href="#cb16-144" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-145"><a href="#cb16-145" aria-hidden="true" tabindex="-1"></a>        {\bm y^\star}=\rho{\bm W}{\bm y^\star}+{\bm X}{\bm \beta}+ {\bm \varepsilon} <span class="sc">\\</span>     </span>
+<span id="cb16-146"><a href="#cb16-146" aria-hidden="true" tabindex="-1"></a>        y_i = <span class="sc">\{</span>1 \text{ if } y_i^\star &gt; 0; 0 \text{ if } y_i^\star \leq 0 <span class="sc">\}</span> \nonumber</span>
+<span id="cb16-147"><a href="#cb16-147" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb16-148"><a href="#cb16-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-149"><a href="#cb16-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\Cov(y_i, y_j)$ is not the same as $\Cov(y_i^\star, y_j^\star)$</span>
-<span id="cb16-150"><a href="#cb16-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-151"><a href="#cb16-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Error term is heteroskedastic and spatially correlated</span>
-<span id="cb16-152"><a href="#cb16-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-153"><a href="#cb16-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-154"><a href="#cb16-154" aria-hidden="true" tabindex="-1"></a>Probability</span>
+<span id="cb16-149"><a href="#cb16-149" aria-hidden="true" tabindex="-1"></a>or in reduced form:</span>
+<span id="cb16-150"><a href="#cb16-150" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-151"><a href="#cb16-151" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-152"><a href="#cb16-152" aria-hidden="true" tabindex="-1"></a>        {\bm y^\star}=(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + \bm u \text{, } \bm u = (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon},<span class="sc">\\</span></span>
+<span id="cb16-153"><a href="#cb16-153" aria-hidden="true" tabindex="-1"></a>        \text{with } \bm u \sim MVN(0, (\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1}) \nonumber</span>
+<span id="cb16-154"><a href="#cb16-154" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb16-155"><a href="#cb16-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-156"><a href="#cb16-156" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-157"><a href="#cb16-157" aria-hidden="true" tabindex="-1"></a>        \Prob<span class="co">[</span><span class="ot">{\bm y^\star}&gt;0</span><span class="co">]</span>  = </span>
-<span id="cb16-158"><a href="#cb16-158" aria-hidden="true" tabindex="-1"></a>        \Prob[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + </span>
-<span id="cb16-159"><a href="#cb16-159" aria-hidden="true" tabindex="-1"></a>        (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon}] <span class="sc">\\</span></span>
-<span id="cb16-160"><a href="#cb16-160" aria-hidden="true" tabindex="-1"></a>          =  \Prob[(\bm I - \rho{\bm W})^{-1}{\bm \varepsilon} &lt;</span>
-<span id="cb16-161"><a href="#cb16-161" aria-hidden="true" tabindex="-1"></a>         (\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}] \nonumber</span>
-<span id="cb16-162"><a href="#cb16-162" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-156"><a href="#cb16-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Probability $\bm y^\star$ is a latent variable, not observed</span>
+<span id="cb16-157"><a href="#cb16-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-158"><a href="#cb16-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We only observe binary outcome $y_i$</span>
+<span id="cb16-159"><a href="#cb16-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-160"><a href="#cb16-160" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\Cov(y_i, y_j)$ is not the same as $\Cov(y_i^\star, y_j^\star)$</span>
+<span id="cb16-161"><a href="#cb16-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-162"><a href="#cb16-162" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Error term is heteroskedastic and spatially correlated</span>
 <span id="cb16-163"><a href="#cb16-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-164"><a href="#cb16-164" aria-hidden="true" tabindex="-1"></a><span class="in">    or in using the observed outcome:</span></span>
-<span id="cb16-165"><a href="#cb16-165" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb16-166"><a href="#cb16-166" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-167"><a href="#cb16-167" aria-hidden="true" tabindex="-1"></a>        \Prob<span class="co">[</span><span class="ot">\bm y_i=1 | \bm X</span><span class="co">]</span>  = </span>
-<span id="cb16-168"><a href="#cb16-168" aria-hidden="true" tabindex="-1"></a>        \Prob\big[u_i &lt;</span>
-<span id="cb16-169"><a href="#cb16-169" aria-hidden="true" tabindex="-1"></a>         <span class="co">[</span><span class="ot">(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}</span><span class="co">]</span>_i\big] <span class="sc">\\</span></span>
-<span id="cb16-170"><a href="#cb16-170" aria-hidden="true" tabindex="-1"></a>          = \bm \phi<span class="sc">\{</span><span class="co">[</span><span class="ot">(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}</span><span class="co">]</span>_i </span>
-<span id="cb16-171"><a href="#cb16-171" aria-hidden="true" tabindex="-1"></a>         / \sigma_{ui}<span class="sc">\}</span> </span>
-<span id="cb16-172"><a href="#cb16-172" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-173"><a href="#cb16-173" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-174"><a href="#cb16-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\bm \phi<span class="sc">\{\}</span>$ is an n-dimensional cumulative-normal distribution </span>
-<span id="cb16-175"><a href="#cb16-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-176"><a href="#cb16-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\sigma_{ui}$ equals $(\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1})_{ii}$, not constant</span>
-<span id="cb16-177"><a href="#cb16-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no analytical solution</span>
-<span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation</span></span>
-<span id="cb16-181"><a href="#cb16-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-182"><a href="#cb16-182" aria-hidden="true" tabindex="-1"></a>Estimation methods for Spatial-SAR Probit / Logit</span>
-<span id="cb16-183"><a href="#cb16-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-184"><a href="#cb16-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Expectation Maximization <span class="co">[</span><span class="ot">@McMillen.1992</span><span class="co">]</span>.</span>
-<span id="cb16-185"><a href="#cb16-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-186"><a href="#cb16-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Linearized) Generalized Methods of Moments <span class="co">[</span><span class="ot">@Klier.2008</span><span class="co">]</span>.</span>
-<span id="cb16-187"><a href="#cb16-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-188"><a href="#cb16-188" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Recursive Importance Sampling <span class="co">[</span><span class="ot">@Beron.2004</span><span class="co">]</span>.</span>
-<span id="cb16-189"><a href="#cb16-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-190"><a href="#cb16-190" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Maximum Simulated Likelihood RIS <span class="co">[</span><span class="ot">@Franzese.2016</span><span class="co">]</span></span>
-<span id="cb16-191"><a href="#cb16-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-192"><a href="#cb16-192" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian approach with Markov Chain Monte Carlo simulations <span class="co">[</span><span class="ot">@LeSage.2009</span><span class="co">]</span>: R package <span class="in">`spatialprobit`</span></span>
-<span id="cb16-193"><a href="#cb16-193" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-194"><a href="#cb16-194" aria-hidden="true" tabindex="-1"></a>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal' effects may vary with values of the independent variables and the location <span class="co">[</span><span class="ot">@Lacombe.2018</span><span class="co">]</span>.</span>
-<span id="cb16-195"><a href="#cb16-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-196"><a href="#cb16-196" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suggestion</span></span>
-<span id="cb16-197"><a href="#cb16-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-198"><a href="#cb16-198" aria-hidden="true" tabindex="-1"></a><span class="in">    In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. </span></span>
-<span id="cb16-199"><a href="#cb16-199" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb16-200"><a href="#cb16-200" aria-hidden="true" tabindex="-1"></a><span class="in">    If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (set high ndraw and burn-in, e.g. 7500 and 2500).</span></span>
-<span id="cb16-201"><a href="#cb16-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-164"><a href="#cb16-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-165"><a href="#cb16-165" aria-hidden="true" tabindex="-1"></a>Probability</span>
+<span id="cb16-166"><a href="#cb16-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-167"><a href="#cb16-167" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-168"><a href="#cb16-168" aria-hidden="true" tabindex="-1"></a>        \Prob<span class="co">[</span><span class="ot">{\bm y^\star}&gt;0</span><span class="co">]</span>  = </span>
+<span id="cb16-169"><a href="#cb16-169" aria-hidden="true" tabindex="-1"></a>        \Prob[(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta} + </span>
+<span id="cb16-170"><a href="#cb16-170" aria-hidden="true" tabindex="-1"></a>        (\bm I - \rho{\bm W})^{-1}{\bm \varepsilon}] <span class="sc">\\</span></span>
+<span id="cb16-171"><a href="#cb16-171" aria-hidden="true" tabindex="-1"></a>          =  \Prob[(\bm I - \rho{\bm W})^{-1}{\bm \varepsilon} &lt;</span>
+<span id="cb16-172"><a href="#cb16-172" aria-hidden="true" tabindex="-1"></a>         (\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}] \nonumber</span>
+<span id="cb16-173"><a href="#cb16-173" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-174"><a href="#cb16-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-175"><a href="#cb16-175" aria-hidden="true" tabindex="-1"></a><span class="in">    or in using the observed outcome:</span></span>
+<span id="cb16-176"><a href="#cb16-176" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb16-177"><a href="#cb16-177" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-178"><a href="#cb16-178" aria-hidden="true" tabindex="-1"></a>        \Prob<span class="co">[</span><span class="ot">\bm y_i=1 | \bm X</span><span class="co">]</span>  = </span>
+<span id="cb16-179"><a href="#cb16-179" aria-hidden="true" tabindex="-1"></a>        \Prob\big[u_i &lt;</span>
+<span id="cb16-180"><a href="#cb16-180" aria-hidden="true" tabindex="-1"></a>         <span class="co">[</span><span class="ot">(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}</span><span class="co">]</span>_i\big] <span class="sc">\\</span></span>
+<span id="cb16-181"><a href="#cb16-181" aria-hidden="true" tabindex="-1"></a>          = \bm \phi<span class="sc">\{</span><span class="co">[</span><span class="ot">(\bm I - \rho{\bm W})^{-1}{\bm X}{\bm \beta}</span><span class="co">]</span>_i </span>
+<span id="cb16-182"><a href="#cb16-182" aria-hidden="true" tabindex="-1"></a>         / \sigma_{ui}<span class="sc">\}</span> </span>
+<span id="cb16-183"><a href="#cb16-183" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb16-184"><a href="#cb16-184" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-185"><a href="#cb16-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\bm \phi<span class="sc">\{\}</span>$ is an n-dimensional cumulative-normal distribution </span>
+<span id="cb16-186"><a href="#cb16-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-187"><a href="#cb16-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\sigma_{ui}$ equals $(\bm I - \rho{\bm W})^\intercal (\bm I - \rho{\bm W})^{-1})_{ii}$, not constant</span>
+<span id="cb16-188"><a href="#cb16-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-189"><a href="#cb16-189" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no analytical solution</span>
+<span id="cb16-190"><a href="#cb16-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-191"><a href="#cb16-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimation</span></span>
+<span id="cb16-192"><a href="#cb16-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-193"><a href="#cb16-193" aria-hidden="true" tabindex="-1"></a>Estimation methods for Spatial-SAR Probit / Logit</span>
+<span id="cb16-194"><a href="#cb16-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-195"><a href="#cb16-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Expectation Maximization <span class="co">[</span><span class="ot">@McMillen.1992</span><span class="co">]</span>.</span>
+<span id="cb16-196"><a href="#cb16-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-197"><a href="#cb16-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>(Linearized) Generalized Methods of Moments <span class="co">[</span><span class="ot">@Klier.2008</span><span class="co">]</span>.</span>
+<span id="cb16-198"><a href="#cb16-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-199"><a href="#cb16-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Recursive Importance Sampling <span class="co">[</span><span class="ot">@Beron.2004</span><span class="co">]</span>.</span>
+<span id="cb16-200"><a href="#cb16-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-201"><a href="#cb16-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Maximum Simulated Likelihood RIS <span class="co">[</span><span class="ot">@Franzese.2016</span><span class="co">]</span></span>
 <span id="cb16-202"><a href="#cb16-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-203"><a href="#cb16-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>So far, no `best practice' guide</span>
-<span id="cb16-204"><a href="#cb16-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-205"><a href="#cb16-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No systematic comparison of estimation methods</span>
+<span id="cb16-203"><a href="#cb16-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bayesian approach with Markov Chain Monte Carlo simulations <span class="co">[</span><span class="ot">@LeSage.2009</span><span class="co">]</span>: R package <span class="in">`spatialprobit`</span></span>
+<span id="cb16-204"><a href="#cb16-204" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-205"><a href="#cb16-205" aria-hidden="true" tabindex="-1"></a>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal' effects may vary with values of the independent variables and the location <span class="co">[</span><span class="ot">@Lacombe.2018</span><span class="co">]</span>.</span>
 <span id="cb16-206"><a href="#cb16-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-207"><a href="#cb16-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In R: Only <span class="in">`spatialprobit`</span> provides impact measures?</span>
+<span id="cb16-207"><a href="#cb16-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Suggestion</span></span>
 <span id="cb16-208"><a href="#cb16-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-209"><a href="#cb16-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hard to interpret results</span>
-<span id="cb16-210"><a href="#cb16-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-211"><a href="#cb16-211" aria-hidden="true" tabindex="-1"></a>Work-around: If the specification is theoretical plausible, using SLX probit / logit might be a practical solution! </span>
+<span id="cb16-209"><a href="#cb16-209" aria-hidden="true" tabindex="-1"></a><span class="in">    In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. </span></span>
+<span id="cb16-210"><a href="#cb16-210" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb16-211"><a href="#cb16-211" aria-hidden="true" tabindex="-1"></a><span class="in">    If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (set high ndraw and burn-in, e.g. 7500 and 2500).</span></span>
 <span id="cb16-212"><a href="#cb16-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-213"><a href="#cb16-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-214"><a href="#cb16-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>So far, no `best practice' guide</span>
+<span id="cb16-215"><a href="#cb16-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-216"><a href="#cb16-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No systematic comparison of estimation methods</span>
+<span id="cb16-217"><a href="#cb16-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-218"><a href="#cb16-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In R: Only <span class="in">`spatialprobit`</span> provides impact measures?</span>
+<span id="cb16-219"><a href="#cb16-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-220"><a href="#cb16-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hard to interpret results</span>
+<span id="cb16-221"><a href="#cb16-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-222"><a href="#cb16-222" aria-hidden="true" tabindex="-1"></a>Work-around: If the specification is theoretical plausible, using SLX probit / logit might be a practical solution! </span>
+<span id="cb16-223"><a href="#cb16-223" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

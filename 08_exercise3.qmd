@@ -1,9 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\tr}{\mathrm{tr}}
 \newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
 \newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
 
 # Exercises III
 
@@ -69,13 +79,13 @@ summary(mod_1.sar)
 ```
 
 
-### 1) Please calculate the true multiplier matrix $({\bm I_N}-\rho {\bm W})^{-1}$ of this SAR model. {.unnumbered}
+### 1) Please calculate the true multiplier matrix of this SAR model. {.unnumbered}
+
+The multiplier matrix is given by $({\bm I_N}- \rho {\bm W})^{-1}$.
 
 
 
-
-
-### 2) Create an $N \times N$ effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8? {.unnumbered}
+### 2) Create an N x N effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8? {.unnumbered}
 
 
 

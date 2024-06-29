@@ -1,9 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\tr}{\mathrm{tr}}
 \newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
 \newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
 
 
 # Detecting Spatial Dependence
@@ -87,20 +97,16 @@ To calculate Moran's I, we first define a neighbours weights matrix W.
 
 Global Moran's I test statistic:
 $$		
-		\begin{equation} 
-		\bm I  = \frac{N}{S_0}	
-		\frac{\sum_i\sum_j w_{ij}(y_i-\bar{y})(y_j-\bar{y})}
-			{\sum_i (y_i-\bar{y})^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
-		\end{equation}
+\bm I  = \frac{N}{S_0}	
+\frac{\sum_i\sum_j w_{ij}(y_i-\bar{y})(y_j-\bar{y})}
+{\sum_i (y_i-\bar{y})^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
 $$
 It is often written with deviations $z$
 
 $$		
-		\begin{equation} 
-		\bm I  = \frac{N}{S_0}	
-		\frac{\sum_i\sum_j w_{ij}(z_i)(z_j)}
-			{\sum_i (z_i)^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
-		\end{equation}
+\bm I  = \frac{N}{S_0}	
+\frac{\sum_i\sum_j w_{ij}(z_i)(z_j)}
+{\sum_i (z_i)^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}
 $$
 
 Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as: _Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$_. Basically, this measures correlation between neighbouring values.
@@ -189,7 +195,7 @@ The sample variogram $\gamma(h)$ for distance intervals $h_i$ describes the aver
 
 $$
 \hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' < h_{i,1}
-$$ {#eq-samplevariogram}
+$$ 
 
 with the number of available pairs $N(h_i)$ in each distance interval $h_i$. Basically, _it is the variance within each distance interval_.
 
@@ -283,13 +289,11 @@ mp1
 Local Moran's I is a local version of the overall Moran's I to identify local clusters and local spatial outliers [@Anselin.1995]. The Local Moran's I is just a local version which is calculated for each location:
 
 $$		
-		\begin{equation} 
 		\bm I_i  = 	
 		\frac{z_i \sum_j w_{ij}z_j}
 			{\sum_i (z_i)^2 / (n-1)}, \text{where }
-		\end{equation}
 $$
-We use the unfction `localmoran()` to calculate the local test statistic .
+We use the function `localmoran()` to calculate the local test statistic .
 
 ```{r}
 loci <- localmoran(msoa.spdf$per_owner, listw = queens.lw)

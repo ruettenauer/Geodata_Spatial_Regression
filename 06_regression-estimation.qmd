@@ -1,12 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+::: {.content-hidden unless-format="html"}
+$$
 \newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
 \newcommand{\plim}{\operatornamewithlimits{plim}}
 \newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
 
 # Spatial Regression Models: Estimation
 
@@ -45,9 +52,7 @@ Remember what is happening when we estimate a spatial auto-regressive model.
 Note the circular process here: My $X$ influences my $Y$, which then influences your $Y$, which then influences my $Y$ again. We write this as
 
 $$
-    \begin{equation} 
 		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}.
-		\end{equation}  
 $$	
 
 If we ignore ${\bm X}{\bm \beta}$ and write the pure auto-regressive term in its reduce form, we get: 
@@ -150,12 +155,10 @@ Generalized Method of Moments (GMM) provides a way of estimating spatial error /
 We start with the model 
 
 $$
-		\begin{equation} 
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
 		\end{split} 
-		\end{equation}
 $$
 
 The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance paramter.
@@ -269,23 +272,19 @@ $$
 We can also use ML to estimate the spatial error / SEM model of the form
 
 $$
-		\begin{equation} 
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}\\
 		\varepsilon  &\sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n)
 		\end{split} 
-		\end{equation}
 $$
 Its reduce for is given by
 
 $$
-		\begin{equation} 
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+({\bm I_N}-\lambda {\bm W})^{-1}{\bm \varepsilon}.\\
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+\bm B^{-1}{\bm \varepsilon}.
 		\end{split} 
-		\end{equation}
 $$
 
 where $\bm B = ({\bm I_N}-\lambda {\bm W})$.
@@ -307,7 +306,7 @@ Based on @Anselin.1998, the ML estimation of SEM follow the procedure [@Sarrias.
 
 2) Compute initial set of residuals $\widehat{\epsilon}_{OLS} = \bm B\bm y - \bm B\bm X\widehat{\bm \beta}_{OLS}$
 
-3) Given $\widehat{\epsilon}_{OLS} $, find $\widehat{\lambda}$ that maximizes the concentrated likelihood
+3) Given $\widehat{\epsilon}_{OLS}$, find $\widehat{\lambda}$ that maximizes the concentrated likelihood
 
 $$
 \ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\top\bm B^\top\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.

@@ -1,12 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+::: {.content-hidden unless-format="html"}
+$$
 \newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
 \newcommand{\plim}{\operatornamewithlimits{plim}}
 \newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
 
 # Spatial Regression Models
 
@@ -142,12 +149,10 @@ There are three basic ways of incorporating spatial dependence, which then can b
 * Clustering on Unobservables
 
 $$
-		\begin{equation} 
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
 		\end{split} 
-		\end{equation}
 $$		
 
 $\lambda$ denotes the strength of the spatial correlation in the errors of the model: *your errors influence my errors*. 
@@ -163,9 +168,7 @@ $\lambda$ is defined in the range $[-1, +1]$.
 * Interdependence
 
 $$
-    \begin{equation} 
 		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}
-		\end{equation}  
 $$	
 
 $\rho$ denotes the strength of the spatial correlation in the dependent variable (spatial autocorrelation): *your outcome influences my outcome*. 
@@ -181,9 +184,7 @@ $\rho$ is defined in the range $[-1, +1]$.
 * Spillovers in Covariates
 
 $$
-		\begin{equation}
 		{\bm y}=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm \varepsilon}
-		\end{equation}
 $$	
 
 $\theta$ denotes the strength of the spatial spillover effects from covariate(s) on the dependent variable: *your covariates influence my outcome*. 
@@ -198,9 +199,7 @@ Moreover, there are models combining two sets of the above specifications.
 * Spillovers in Covariates
 
 $$
-		\begin{equation}
 		{\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm \varepsilon}
-		\end{equation}
 $$	
 
 ### Spatial Durbin Error Model (SDEM)
@@ -209,12 +208,10 @@ $$
 * Spillovers in Covariates
 
 $$
-    \begin{equation}
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
 		\end{split}
-		\end{equation}
 $$
 
 ### Combined Spatial Autocorrelation Model (SAC)
@@ -223,12 +220,10 @@ $$
 * Interdependence
 
 $$
-		\begin{equation}
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
 		\end{split}
-		\end{equation}
 $$
 
 
@@ -239,12 +234,10 @@ $$
 * Spillovers in Covariates
 
 $$
-		\begin{equation}
 		\begin{split}
 		{\bm y}&=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+{\bm W}{\bm X}{\bm \theta}+ {\bm u},\\
 		{\bm u}&=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
 		\end{split}
-		\end{equation}
 $$
 
 
@@ -253,7 +246,7 @@ $$
 
 The General Nesting Spatial Model (GNS) is only weakly (or not?) identifiable [@Gibbons.2012]. 
 
-It's analogous to Manski's reflection problem on neighbourhood effects \citep{Manski.1993.0}: If people in the same group behave similar, this can be because a) imitating behaviour of the group, b) exogenous characteristics of the group influence the behaviour, and c) members of the same group are exposed to the same external circumstances. *We just cannot separate those in observational data.*
+It's analogous to Manski's reflection problem on neighbourhood effects @Manski.1993: If people in the same group behave similar, this can be because a) imitating behaviour of the group, b) exogenous characteristics of the group influence the behaviour, and c) members of the same group are exposed to the same external circumstances. *We just cannot separate those in observational data.*
 :::
 
 Note that all of these models assume different data generating processes (DGP) leading to the spatial pattern. Although there are specifications tests, it is generally not possible to let the data decide which one is the true underlying DGP [@Cook.2020; @Ruttenauer.2022a]. However, there might be theoretical reasons to guide the model specification [@Cook.2020]. 

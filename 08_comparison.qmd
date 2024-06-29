@@ -1,13 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+::: {.content-hidden unless-format="html"}
+$$
 \newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
 \newcommand{\irow}[1]{%
 \begin{pmatrix}#1\end{pmatrix}
 }
+$$
+:::
 
 # Comparing and Selecting Models 
 
@@ -184,7 +190,7 @@ In theory, we would
 
 2) subsequently restrict the model to simplified specifications based on the significance of parameters in the GNS. 
 
-The problem with this strategy is that the GNS is only weakly identified and, thus, is of little help in selecting the correct restrictions \citep{Burridge.2016}. 
+The problem with this strategy is that the GNS is only weakly identified and, thus, is of little help in selecting the correct restrictions [@Burridge.2016]. 
 
 The most intuitive alternative would be to start with one of the two-source models SDM, SDEM, or SAC. This, however, bears the risk of imposing the wrong restriction in the first place [@Cook.2020]. Furthermore, @Cook.2020 show that more complicated restrictions are necessary to derive all single-source models from SDEM or SAC specifications. @Anselin.2024 argue that the Ge
 
@@ -284,7 +290,7 @@ Below an illustration about the indirect impacts, if the spatial process is a co
 
 3) Spillovers in Covariates
 
-![Bias of indirect impacts and 95\% confidence interval of empirical standard deviation for different strengths of autocorrelation: ${\bm \beta}=(0.2, 0.5)^\intercal$, ${\bm \gamma}=(0, 0)^\intercal$, ${\bm\delta}=(0, 0)^\intercal$, ${\bm\theta}=(0.1, 0.8)^\intercal$. $\rho=$ autocorrelation in the dependent variable ($\bm W \bm y$); $\bm \delta=$ autocorrelation in the covariates ($\bm x_k = f(\bm W \bm  x_k)$); $\lambda=$ autocorrelation in the disturbances ($\bm W \bm u$); $\bm \theta=$ spatial spillover effects of covariates ($\bm W \bm X$); $\bm\gamma=$ strength of omv.](fig/sim11_combined_1_ind.jpg)
+![Bias of indirect impacts and 95\% confidence interval of empirical standard deviation for different strengths of autocorrelation: ${\bm \beta}=(0.2, 0.5)^\intercal$, ${\bm \gamma}=(0, 0)^\intercal$, ${\bm\delta}=(0, 0)^\intercal$, ${\bm\theta}=(0.1, 0.8)^\intercal$. $\rho=$ autocorrelation in the dependent variable ($\bm W \bm y$); $\bm \delta=$ autocorrelation in the covariates ($\bm x_k = f(\bm W \bm  x_k)$); $\lambda=$ autocorrelation in the disturbances ($\bm W \bm u$); $\bm \theta=$ spatial spillover effects of covariates ($\bm W \bm X$); $\bm\gamma=$ strength of omv.](fig/sim11_combined_1.png)
 
 
 First, in a GNS-like situation, the bias in SDM grows with increasing autocorrelation in ${\bm y}$ ($\rho$) and increasing autocorrelation in the disturbances ($\lambda$). 

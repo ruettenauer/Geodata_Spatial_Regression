@@ -1,3 +1,16 @@
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+
 # Refresher
 
 ### Required packages {.unnumbered}
@@ -121,7 +134,7 @@ Depending on the angle, a 2D projection of the earth looks different. It is impo
 
 Let's get some administrative boundaries for London from the [London Datastore](https://data.london.gov.uk/dataset/statistical-gis-boundary-files-london). We use the `sf` package and its funtion `st_read()` to import the data.
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, eval=FALSE}
 # Create subdir (all data withh be stored in "_data")
 dn <- "_data"
 ifelse(dir.exists(dn), "Exists", dir.create(dn))
@@ -132,7 +145,10 @@ boundary.link <- "https://data.london.gov.uk/download/statistical-gis-boundary-f
 download.file(boundary.link, tmpf)
 unzip(zipfile = tmpf, exdir = paste0(dn))
 unlink(tmpf)
+```
 
+```{r}
+dn <- "_data"
 # This is a shapefile
 # We only need the MSOA layer for now
 msoa.spdf <- st_read(dsn = paste0(dn, "/statistical-gis-boundaries-london/ESRI"),
@@ -152,11 +168,13 @@ Shapefiles are still among the most common formats to store and transmit spatial
 
 However, `sf` reads everything spatial, such as `geo.json`, which usually is more efficient, but less common (but we're getting there).
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, eval=FALSE}
 # Download file
 ulez.link <- "https://data.london.gov.uk/download/ultra_low_emissions_zone/936d71d8-c5fc-40ad-a392-6bec86413b48/CentralUltraLowEmissionZone.geojson"
 download.file(ulez.link, paste0(dn, "/ulez.json"))
+```
 
+```{r, cache=TRUE, eval=TRUE}
 # Read geo.json
 st_layers(paste0(dn, "/ulez.json"))
 ulez.spdf <- st_read(dsn = paste0(dn, "/ulez.json")) # here dsn is simply the file
@@ -165,7 +183,7 @@ head(ulez.spdf)
 
 Again, this looks like a conventional `data.frame` but has the additional column `geometry` containing the coordinates of each observation. `st_geometry()` returns only the geographic object and `st_drop_geometry()` only the `data.frame` without the coordinates. We can plot the object using `mapview()`.
 
-```{r}
+```{r mapview}
 mapview(msoa.spdf[, "POPDEN"])
 ```
 
@@ -175,7 +193,7 @@ Now that we have some boundaries and shapes of spatial units in London, we can s
 
 A good source for demographic data is for instance the 2011 census. Below we use the nomis API to retrieve population data for London, See the [Vignette](https://cran.r-project.org/web/packages/nomisr/vignettes/introduction.html) for more information (Guest users are limited to 25,000 rows per query). Below is a wrapper to avoid some errors with sex and urban-rural cross-tabulation in some of the data.
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, eval=FALSE}
 ### For larger request, register and set key
 # Sys.setenv(NOMIS_API_KEY = "XXX")
 # nomis_api_key(check_env = TRUE)
@@ -285,20 +303,21 @@ for(i in ksids){
 
 
 # Descriptions are saved in the codebook
-head(census_keystat_cb.df)
+save(census_keystat.df, file = "_data/Census_ckeystat.RData")
 save(census_keystat_cb.df, file = "_data/Census_codebook.RData")
 ```
 
 Now, we have one file containing the geometries of MSOAs and one file with the census information on ethnic groups. Obviously, we can easily merge them together using the MSOA identifiers.
 
-```{r}
+```{r, eval=TRUE}
+load("_data/Census_ckeystat.RData")
 msoa.spdf <- merge(msoa.spdf, census_keystat.df,
                    by.x = "MSOA11CD", by.y = "msoa11", all.x = TRUE)
 ```
 
 And we can, for instance, plot the spatial distribution of ethnic groups.
 
-```{r}
+```{r, eval=FALSE}
 
 msoa.spdf$per_white <- msoa.spdf$KS201EW_100 / msoa.spdf$KS201EW0001 * 100
 msoa.spdf$per_mixed <- msoa.spdf$KS201EW_200 / msoa.spdf$KS201EW0001 * 100
@@ -316,10 +335,13 @@ If you're interested in more data sources, see for instance [APIs for social sci
 
 So far, we have queried data on administrative units. However, often data comes on other spatial scales. For instance, we might be interested in the amount of air pollution, which is provided on a regular grid across the UK from [Defra](https://uk-air.defra.gov.uk/data/pcm-data).
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, eval=FALSE}
 # Download
 pol.link <- "https://uk-air.defra.gov.uk/datastore/pcm/mapno22011.csv"
 download.file(pol.link, paste0(dn, "/mapno22011.csv"))
+```
+
+```{r}
 pol.df <- read.csv(paste0(dn, "/mapno22011.csv"), skip = 5, header = T, sep = ",",
                       stringsAsFactors = F, na.strings = "MISSING")
 

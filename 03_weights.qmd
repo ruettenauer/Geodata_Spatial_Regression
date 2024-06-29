@@ -1,12 +1,19 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+::: {.content-hidden unless-format="html"}
+$$
 \newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
 \newcommand{\plim}{\operatornamewithlimits{plim}}
 \newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
 
 # Spatial Relationships W
 
@@ -53,16 +60,18 @@ The connectivity between units is usually represented in a matrix $\bm W$. There
 
 ![Figure: Different measures of connectivity, Source: @Bivand.2018](fig/Bivand_neighbours.png)
 
-In spatial econometrics, the spatial connectivity (as shown above) is usually represented by a spatial weights matrix ${\boldsymbol{\mathbf{W}}}$: $$
-\begin{equation} 
-        \boldsymbol{\mathbf{W}} = \begin{bmatrix} 
-            w_{11} & w_{12} & \dots & w_{1n} \\
-            w_{21} & w_{22} & \dots & w_{2n} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            w_{n1} & w_{n2} & \dots     & w_{nn} 
-            \end{bmatrix}
-        \end{equation}
-$$ The spatial weights matrix $\bm W$ is an $N \times N$ dimensional matrix with elements $w_{ij}$ specifying the relation or connectivity between each pair of units $i$ and $j$.
+In spatial econometrics, the spatial connectivity (as shown above) is usually represented by a spatial weights matrix ${\boldsymbol{\mathbf{W}}}$: 
+
+$$
+\boldsymbol{\mathbf{W}} = \begin{bmatrix} 
+    w_{11} & w_{12} & \dots & w_{1n} \\
+    w_{21} & w_{22} & \dots & w_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    w_{n1} & w_{n2} & \dots     & w_{nn} 
+    \end{bmatrix}
+$$ 
+
+The spatial weights matrix $\bm W$ is an $N \times N$ dimensional matrix with elements $w_{ij}$ specifying the relation or connectivity between each pair of units $i$ and $j$.
 
 Note: The diagonal elements $w_{i,i}= w_{1,1}, w_{2,2}, \dots, w_{n,n}$ of $\bm W$ are always zero. No unit is a neighbour of itself. This is not true for spatial multiplier matrices (as we will see later).
 
@@ -72,25 +81,22 @@ A very common type of spatial weights. Binary specification, taking the value 1 
 
 Contiguity weights $w_{i,j}$, where
 
-```{=tex}
-\begin{equation}
+$$
   w_{i,j} =
     \begin{cases}
       1 & \text{if $i$ and $j$ neighbours}\\
       0 & \text{otherwise}
     \end{cases}       
-\end{equation}
-```
+$$
+
 A contiguity weights matrix with three units, where unit 1 and unit 3 are neighbours, while unit 2 has no neighbours would look like this:
 
 $$
-        \begin{equation} 
-        \boldsymbol{\mathbf{W}}  = \begin{bmatrix} 
-            0 & 0 & 1  \\
-            0 & 0 & 0  \\
-            1 & 0 & 0  
-            \end{bmatrix}   \nonumber
-        \end{equation}
+\boldsymbol{\mathbf{W}}  = \begin{bmatrix} 
+    0 & 0 & 1  \\
+    0 & 0 & 0  \\
+    1 & 0 & 0  
+    \end{bmatrix}   \nonumber
 $$
 
 -   Sparse matrices
@@ -159,13 +165,11 @@ Another common type uses the distance $d_{ij}$ between each unit $i$ and $j$.
 -   Inverse distance weights $w_{i,j} = \frac{1}{d_{ij}^\alpha}$, where $\alpha$ define the strength of the spatial decay.
 
 $$
-        \begin{equation} 
-        \boldsymbol{\mathbf{W}} = \begin{bmatrix} 
+\boldsymbol{\mathbf{W}} = \begin{bmatrix} 
             0 & \frac{1}{d_{ij}^\alpha} & \frac{1}{d_{ij}^\alpha}  \\
-            \frac{1}{d_{ij}^\alpha} & 0 & \frac{1}{d_{ij}^\alpha}  \\
-            \frac{1}{d_{ij}^\alpha} & \frac{1}{d_{ij}^\alpha} & 0  
-            \end{bmatrix}   \nonumber
-        \end{equation}
+\frac{1}{d_{ij}^\alpha} & 0 & \frac{1}{d_{ij}^\alpha}  \\
+\frac{1}{d_{ij}^\alpha} & \frac{1}{d_{ij}^\alpha} & 0  
+\end{bmatrix}   \nonumber
 $$
 
 -   Dense matrices

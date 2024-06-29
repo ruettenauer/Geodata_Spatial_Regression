@@ -1,9 +1,20 @@
-\newcommand{\Exp}{\mathrm{E}}
-\newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\Cov}{\mathrm{Cov}}
-\newcommand{\Var}{\mathrm{Var}}
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\tr}{\mathrm{tr}}
 \newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
 \newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
+
 \newcommand{\Prob}{\mathrm{Prob}}
 
 # Other Models
@@ -38,9 +49,9 @@ Does the relation between $y$ and $x$ vary depending on the region we are lookin
 GWR [@Brunsdon.1996; @Gollini.2015] is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For $L$ given locations across London, we receive $L$ different coefficients.
 
 $$
-\begin{align} 
+\begin{split} 
 \hat{\bm \beta}_l=& ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},
-\end{align}
+\end{split}
 $$
 
 The $N \times N$ matrix ${\bm M}_l$ defines the weights at each local point $l$, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth $b$ around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via `gwr.basic()` or `gwr.robust()` of the `GWmodel` package.
@@ -117,7 +128,7 @@ Issues with non-linear spatial models
 - Hard to interpret due to non-linear effects in non-linear models
 
 	
-@Elhorst.2017b, @Franzese.2016
+@Elhorst.2017a, @Franzese.2016
 
 ### Problem with non-linear models
 

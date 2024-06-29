@@ -1,6 +1,9 @@
 project:
   type: book
   output-dir: docs
+execute:
+  cache: true  
+  freeze: auto
 
 book:
   title: "Geodata & Spatial Regression"
@@ -44,7 +47,10 @@ format:
         R.options:
           width: 68
   pdf:
-    documentclass: scrreprt
+    documentclass: scrbook
     always_allow_html: true
+    include-in-header:
+      - text: |
+          \usepackage{dcolumn}
     
 pdf-engine: lualatex

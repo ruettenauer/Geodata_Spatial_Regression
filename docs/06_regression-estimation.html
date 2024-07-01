@@ -369,11 +369,11 @@ loaded via a namespace (and not attached):
 \]</span></p>
 <p>The OLS estimator for the spatial lag term then is</p>
 <p><span class="math display">\[
-\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.
+\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.
 \]</span></p>
 <p>It can then be shown that the OLS estimators equals</p>
 <p><span class="math display">\[
-          \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\top\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\top\varepsilon \\
+          \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\intercal\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\intercal\varepsilon \\
                                 = \rho + \left(\sum_{i = 1}^n \bm y_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\bm y_{Li}\epsilon_i\right),
 \]</span></p>
 <p>with <span class="math inline">\(\bm y_{Li}\)</span> defined as the <span class="math inline">\(i\)</span>th element of the spatial lag operator <span class="math inline">\(\bm W\bm y = \bm y_L\)</span>. It can further be shown that the second part of the equation <span class="math inline">\(\neq 0\)</span>, which demonstrates that OLS gives a biased estimate of <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="Franzese.2007 Sarrias.2023">(<a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>; <a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>.</p>
@@ -459,7 +459,15 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
         {\bm u}&amp;=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
         \end{split}
 \]</span></p>
-<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\bm \beta\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance paramter.</p>
+<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\bm \beta\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance parameter. They the following moment conditions:</p>
+<p><span class="math display">\[
+\begin{split}
+  \Exp\left[n^{-1}\varepsilon^\intercal \varepsilon\right] &amp; = \sigma^2, \\
+   \Exp\left[n^{-1}\varepsilon^\intercal\bm W\bm W\varepsilon\right] &amp; = \frac{\sigma^2}{n}\Exp\left[\tr(\bm W^\intercal\bm W\varepsilon\varepsilon^\intercal) \right],\\
+   \Exp\left[n^{-1}\varepsilon^\intercal \bm W \varepsilon \right] &amp; = 0,
+\end{split}   
+\]</span></p>
+<p>which are solved for <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\lambda^2\)</span>, and <span class="math inline">\(\sigma^2\)</span> using <span class="math inline">\(\varepsilon = u - \lambda \bm W u\)</span>.</p>
 <p>In essence, the GMM works as follows <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
 <ol type="1">
 <li><p>First of all obtain a consistent estimate of <span class="math inline">\(\bm \beta\)</span>, say <span class="math inline">\(\widetilde{\bm \beta}\)</span> using either OLS or non-linear least squares (NLS).</p></li>
@@ -467,15 +475,15 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 <li><p>Use <span class="math inline">\(\widehat{\bm u}\)</span>, to estimate <span class="math inline">\(\lambda\)</span>, say <span class="math inline">\(\widehat{\lambda}\)</span>, using</p></li>
 </ol>
 <p><span class="math display">\[
-  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\top\bm \upsilon_n(\lambda, \sigma^2): \rho \in [-a, a], \sigma^2\in [0, b]\right\rbrace,
+  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\intercal\bm \upsilon_n(\lambda, \sigma^2): \rho \in [-a, a], \sigma^2\in [0, b]\right\rbrace,
 \]</span></p>
 <ol start="4" type="1">
 <li>Estimate <span class="math inline">\(\bm \beta\)</span> using Equation</li>
 </ol>
 <p><span class="math display">\[
 \begin{split}
-\bm \beta_{FGLS}(\lambda) &amp;=\left[\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm X\right]^{-1}\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm y.\\
-\bm \Omega(\lambda) &amp;= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\top)^{-1}
+\bm \beta_{FGLS}(\lambda) &amp;=\left[\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm X\right]^{-1}\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm y.\\
+\bm \Omega(\lambda) &amp;= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\intercal)^{-1}
 \end{split}
 \]</span></p>
 <p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="references.html#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
@@ -539,15 +547,15 @@ Number of parameters estimated: 9 </code></pre>
 <p>The ML estimator then choses the parameters <span class="math inline">\(\hat\rho\)</span>, <span class="math inline">\(\hat{\bm \beta}\)</span>, and <span class="math inline">\(\hat\sigma\)</span> to maximize the probability of fitting the observed sample based on the Likelihood function</p>
 <p><span class="math display">\[
 \begin{split}
-\mathcal{L} (\bm \theta) &amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\top (\bm A\bm y-\bm X\bm \beta) \\
-&amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\top \bm A^\top\bm A\bm y - 2\left(\bm A\bm y\right)^\top\bm X\bm \beta + \bm \beta^\top\bm X^\top\bm X\bm \beta\right],
+\mathcal{L} (\bm \theta) &amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\intercal (\bm A\bm y-\bm X\bm \beta) \\
+&amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\intercal \bm A^\intercal\bm A\bm y - 2\left(\bm A\bm y\right)^\intercal\bm X\bm \beta + \bm \beta^\intercal\bm X^\intercal\bm X\bm \beta\right],
 \end{split}
 \]</span></p>
 <p>ML estimation of the SAR works as follows <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>:</p>
 <ol type="1">
 <li><p>Perform the two auxiliary regression of <span class="math inline">\(\bm y\)</span> and <span class="math inline">\(\bm W\bm y\)</span> on <span class="math inline">\(\bm X\)</span> to obtain the estimators <span class="math inline">\(\widehat{\bm \beta}_O\)</span> and <span class="math inline">\(\widehat{\bm \beta}_L\)</span> as in Equation <span class="math display">\[
 \begin{split}
-\widehat{\bm \beta}_{ML}(\rho) &amp;= \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm y - \rho\left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm W\bm y, \\
+\widehat{\bm \beta}_{ML}(\rho) &amp;= \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm y - \rho\left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm W\bm y, \\
 &amp;= \widehat{\bm \beta}_O -\rho \widehat{\bm \beta}_L.
 \end{split}
 \]</span></p></li>
@@ -557,7 +565,7 @@ Number of parameters estimated: 9 </code></pre>
 <li><p>By numerical optimization to obtain an estimate of <span class="math inline">\(\rho\)</span>, maximize the concentrated likelihood given in</p></li>
 </ol>
 <p><span class="math display">\[
-\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\top\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\bm I_n - \rho\bm W\right|,
+\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\intercal\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\bm I_n - \rho\bm W\right|,
 \]</span></p>
 <ol start="4" type="1">
 <li>Use the estimate of <span class="math inline">\(\widehat{\rho}\)</span> to plug it back in to the expression for <span class="math inline">\(\bm \beta\)</span> and <span class="math inline">\(\sigma^2\)</span>
@@ -565,11 +573,16 @@ Number of parameters estimated: 9 </code></pre>
 </ol>
 <p><span class="math display">\[
 \begin{split}
-\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm A\bm y
+\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm A\bm y
 \widehat{\sigma}^2_{ML}(\rho) =\\
-\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\top\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
+\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\intercal\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
 \end{split}
 \]</span></p>
+<p>The evaluation in step 3) can become computation burdensome, as each iteration involves the computation of the <span class="math inline">\(N \times N\)</span> Jacobian term <span class="math inline">\(\left|\bm I_n - \rho\bm W\right|\)</span>. As shown by <span class="citation" data-cites="Ord.1975">Ord (<a href="references.html#ref-Ord.1975" role="doc-biblioref">1975</a>)</span>, this can be speeded up very heavily by using the log-determinant</p>
+<p><span class="math display">\[
+\log\left|\bm I_n -\rho\bm W\right|=\sum_{i=1}^n\log(1 - \rho\omega_i).
+\]</span></p>
+<p>where <span class="math inline">\(\omega_i\)</span> are the eigenvalues of the weights matrix <span class="math inline">\(\bm W\)</span>. The efficiency gains comes from the fact they also need to be calculated once. However, this requires <span class="math inline">\(1 - \rho \omega_i \neq 0\)</span> or <span class="math inline">\(1/\omega_{min} &lt; \rho &lt; 1/\omega_{max}\)</span>. This can be ensures by normalising the weights matrix <span class="math inline">\(\bm W\)</span>.</p>
 </section><section id="ml-sem" class="level3" data-number="7.4.2"><h3 data-number="7.4.2" class="anchored" data-anchor-id="ml-sem">
 <span class="header-section-number">7.4.2</span> ML SEM</h3>
 <p>We can also use ML to estimate the spatial error / SEM model of the form</p>
@@ -591,8 +604,8 @@ Number of parameters estimated: 9 </code></pre>
 <p>The log-likelihood function is given by</p>
 <p><span class="math display">\[
 \begin{split}
-\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\top \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, \\
-\bm \Omega(\lambda) = \bm B^\top \bm B = \left(\bm I_n-\lambda\bm W\right)^\top \left(\bm I_n-\lambda\bm W\right)
+\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\intercal \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, \\
+\bm \Omega(\lambda) = \bm B^\intercal \bm B = \left(\bm I_n-\lambda\bm W\right)^\intercal \left(\bm I_n-\lambda\bm W\right)
 \end{split}
 \]</span></p>
 <p>Based on <span class="citation" data-cites="Anselin.1998">Anselin and Bera (<a href="references.html#ref-Anselin.1998" role="doc-biblioref">1998</a>)</span>, the ML estimation of SEM follow the procedure <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
@@ -602,7 +615,7 @@ Number of parameters estimated: 9 </code></pre>
 <li><p>Given <span class="math inline">\(\widehat{\epsilon}_{OLS}\)</span>, find <span class="math inline">\(\widehat{\lambda}\)</span> that maximizes the concentrated likelihood</p></li>
 </ol>
 <p><span class="math display">\[
-\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\top\bm B^\top\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.
+\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\intercal\bm B^\intercal\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.
 \]</span></p>
 <ol start="4" type="1">
 <li><p>If the convergence criterion is met, proceed, otherwise repeat steps 1, 2 and 3.</p></li>
@@ -1160,13 +1173,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>The OLS estimator for the spatial lag term then is</span>
 <span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.</span>
 <span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>It can then be shown that the OLS estimators equals</span>
 <span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>          \hat{\rho}_{OLS} = \rho + \left<span class="co">[</span><span class="ot">\left(\bm W\bm y \right)^\top\left(\bm W\bm y \right)\right</span><span class="co">]</span>^{-1}\left(\bm W\bm y \right)^\top\varepsilon <span class="sc">\\</span></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>          \hat{\rho}_{OLS} = \rho + \left<span class="co">[</span><span class="ot">\left(\bm W\bm y \right)^\intercal\left(\bm W\bm y \right)\right</span><span class="co">]</span>^{-1}\left(\bm W\bm y \right)^\intercal\varepsilon <span class="sc">\\</span></span>
 <span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>                                = \rho + \left(\sum_{i = 1}^n \bm y_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\bm y_{Li}\epsilon_i\right),</span>
 <span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a></span>
@@ -1251,200 +1264,220 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-167"><a href="#cb13-167" aria-hidden="true" tabindex="-1"></a>        \end{split} </span>
 <span id="cb13-168"><a href="#cb13-168" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-169"><a href="#cb13-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance paramter.</span>
+<span id="cb13-170"><a href="#cb13-170" aria-hidden="true" tabindex="-1"></a>The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance parameter. They the following moment conditions:</span>
 <span id="cb13-171"><a href="#cb13-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>In essence, the GMM works as follows <span class="co">[</span><span class="ot">@Sarrias.2023</span><span class="co">]</span>:</span>
-<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a>1) First of all obtain a consistent estimate of $\bm \beta$, say $\widetilde{\bm \beta}$ using either OLS or non-linear least squares (NLS).</span>
-<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a>2) Use this estimate to obtain an estimate of $\bm u$, say $\widehat{\bm u}$,</span>
-<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>3) Use $\widehat{\bm u}$, to estimate $\lambda$, say $\widehat{\lambda}$, using </span>
+<span id="cb13-172"><a href="#cb13-172" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-173"><a href="#cb13-173" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-174"><a href="#cb13-174" aria-hidden="true" tabindex="-1"></a>  \Exp\left<span class="co">[</span><span class="ot">n^{-1}\varepsilon^\intercal \varepsilon\right</span><span class="co">]</span> &amp; = \sigma^2, <span class="sc">\\</span></span>
+<span id="cb13-175"><a href="#cb13-175" aria-hidden="true" tabindex="-1"></a>   \Exp\left<span class="co">[</span><span class="ot">n^{-1}\varepsilon^\intercal\bm W\bm W\varepsilon\right</span><span class="co">]</span> &amp; = \frac{\sigma^2}{n}\Exp\left<span class="co">[</span><span class="ot">\tr(\bm W^\intercal\bm W\varepsilon\varepsilon^\intercal) \right</span><span class="co">]</span>,<span class="sc">\\</span></span>
+<span id="cb13-176"><a href="#cb13-176" aria-hidden="true" tabindex="-1"></a>   \Exp\left<span class="co">[</span><span class="ot">n^{-1}\varepsilon^\intercal \bm W \varepsilon \right</span><span class="co">]</span> &amp; = 0,</span>
+<span id="cb13-177"><a href="#cb13-177" aria-hidden="true" tabindex="-1"></a>\end{split}   </span>
+<span id="cb13-178"><a href="#cb13-178" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-179"><a href="#cb13-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a>  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\top\bm \upsilon_n(\lambda, \sigma^2): \rho \in <span class="co">[</span><span class="ot">-a, a</span><span class="co">]</span>, \sigma^2\in <span class="co">[</span><span class="ot">0, b</span><span class="co">]</span>\right\rbrace, </span>
-<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-180"><a href="#cb13-180" aria-hidden="true" tabindex="-1"></a>which are solved for $\lambda$, $\lambda^2$, and $\sigma^2$ using $\varepsilon = u - \lambda \bm W u$.  </span>
+<span id="cb13-181"><a href="#cb13-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-182"><a href="#cb13-182" aria-hidden="true" tabindex="-1"></a>In essence, the GMM works as follows <span class="co">[</span><span class="ot">@Sarrias.2023</span><span class="co">]</span>:</span>
 <span id="cb13-183"><a href="#cb13-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a>4) Estimate $\bm \beta$ using Equation </span>
-<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a>\bm \beta_{FGLS}(\lambda) &amp;=\left<span class="co">[</span><span class="ot">\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm X\right</span><span class="co">]</span>^{-1}\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm y.<span class="sc">\\</span></span>
-<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>\bm \Omega(\lambda) &amp;= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\top)^{-1}</span>
-<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-184"><a href="#cb13-184" aria-hidden="true" tabindex="-1"></a>1) First of all obtain a consistent estimate of $\bm \beta$, say $\widetilde{\bm \beta}$ using either OLS or non-linear least squares (NLS).</span>
+<span id="cb13-185"><a href="#cb13-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-186"><a href="#cb13-186" aria-hidden="true" tabindex="-1"></a>2) Use this estimate to obtain an estimate of $\bm u$, say $\widehat{\bm u}$,</span>
+<span id="cb13-187"><a href="#cb13-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-188"><a href="#cb13-188" aria-hidden="true" tabindex="-1"></a>3) Use $\widehat{\bm u}$, to estimate $\lambda$, say $\widehat{\lambda}$, using </span>
+<span id="cb13-189"><a href="#cb13-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-190"><a href="#cb13-190" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-191"><a href="#cb13-191" aria-hidden="true" tabindex="-1"></a>  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\intercal\bm \upsilon_n(\lambda, \sigma^2): \rho \in <span class="co">[</span><span class="ot">-a, a</span><span class="co">]</span>, \sigma^2\in <span class="co">[</span><span class="ot">0, b</span><span class="co">]</span>\right\rbrace, </span>
 <span id="cb13-192"><a href="#cb13-192" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-193"><a href="#cb13-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a>For more, see for instance @Kelejian.2017, chapter 2.2.4 or @Sarrias.2023.</span>
-<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a>We can calculate the estimator using <span class="in">`GMerrorsar()`</span> from <span class="in">`spatialreg`</span>.</span>
-<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>mod_1.gmm <span class="ot">&lt;-</span> <span class="fu">GMerrorsar</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>                     per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>                   <span class="at">listw =</span> queens.lw,</span>
-<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a>                   <span class="at">se.lambda =</span> <span class="cn">TRUE</span>) <span class="co"># Provide standard error for lambda</span></span>
-<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.gmm)</span>
-<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-208"><a href="#cb13-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-209"><a href="#cb13-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Maximum likelihood estimation </span></span>
-<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML SAR</span></span>
-<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on @Ord.1975 and @Anselin.1988.</span>
-<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a>Starting with </span>
-<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a>    \bm y  = \rho \bm W\bm y + \bm X\bm \beta + \varepsilon, <span class="sc">\\</span></span>
-<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a>     \varepsilon  \sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n),</span>
-<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
-<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a>and its reduced form</span>
-<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a>{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}), <span class="sc">\\</span></span>
-<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a>{\bm y} =\bm A^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),</span>
-<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a>where $\bm A = ({\bm I_N}-\rho {\bm W})$.</span>
-<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a>The ML estimator then choses the parameters $\hat\rho$, $\hat{\bm \beta}$, and $\hat\sigma$ to maximize the probability of fitting the observed sample based on the Likelihood function </span>
-<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a>\mathcal{L} (\bm \theta) &amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\top (\bm A\bm y-\bm X\bm \beta) <span class="sc">\\</span></span>
-<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>&amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left<span class="co">[</span><span class="ot">\bm y^\top \bm A^\top\bm A\bm y - 2\left(\bm A\bm y\right)^\top\bm X\bm \beta + \bm \beta^\top\bm X^\top\bm X\bm \beta\right</span><span class="co">]</span>,</span>
-<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a>ML estimation of the SAR works as follows @Sarrias.2023:</span>
-<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a>1)  Perform the two auxiliary regression of $\bm y$ and $\bm W\bm y$ on $\bm X$ to obtain the estimators $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ as in Equation </span>
+<span id="cb13-194"><a href="#cb13-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-195"><a href="#cb13-195" aria-hidden="true" tabindex="-1"></a>4) Estimate $\bm \beta$ using Equation </span>
+<span id="cb13-196"><a href="#cb13-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-197"><a href="#cb13-197" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-198"><a href="#cb13-198" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-199"><a href="#cb13-199" aria-hidden="true" tabindex="-1"></a>\bm \beta_{FGLS}(\lambda) &amp;=\left<span class="co">[</span><span class="ot">\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm X\right</span><span class="co">]</span>^{-1}\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm y.<span class="sc">\\</span></span>
+<span id="cb13-200"><a href="#cb13-200" aria-hidden="true" tabindex="-1"></a>\bm \Omega(\lambda) &amp;= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\intercal)^{-1}</span>
+<span id="cb13-201"><a href="#cb13-201" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-202"><a href="#cb13-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-203"><a href="#cb13-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-204"><a href="#cb13-204" aria-hidden="true" tabindex="-1"></a>For more, see for instance @Kelejian.2017, chapter 2.2.4 or @Sarrias.2023.</span>
+<span id="cb13-205"><a href="#cb13-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-206"><a href="#cb13-206" aria-hidden="true" tabindex="-1"></a>We can calculate the estimator using <span class="in">`GMerrorsar()`</span> from <span class="in">`spatialreg`</span>.</span>
+<span id="cb13-207"><a href="#cb13-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-210"><a href="#cb13-210" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-211"><a href="#cb13-211" aria-hidden="true" tabindex="-1"></a>mod_1.gmm <span class="ot">&lt;-</span> <span class="fu">GMerrorsar</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
+<span id="cb13-212"><a href="#cb13-212" aria-hidden="true" tabindex="-1"></a>                     per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
+<span id="cb13-213"><a href="#cb13-213" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb13-214"><a href="#cb13-214" aria-hidden="true" tabindex="-1"></a>                   <span class="at">listw =</span> queens.lw,</span>
+<span id="cb13-215"><a href="#cb13-215" aria-hidden="true" tabindex="-1"></a>                   <span class="at">se.lambda =</span> <span class="cn">TRUE</span>) <span class="co"># Provide standard error for lambda</span></span>
+<span id="cb13-216"><a href="#cb13-216" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.gmm)</span>
+<span id="cb13-217"><a href="#cb13-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-218"><a href="#cb13-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-219"><a href="#cb13-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-220"><a href="#cb13-220" aria-hidden="true" tabindex="-1"></a><span class="fu">## Maximum likelihood estimation </span></span>
+<span id="cb13-221"><a href="#cb13-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-222"><a href="#cb13-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML SAR</span></span>
+<span id="cb13-223"><a href="#cb13-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-224"><a href="#cb13-224" aria-hidden="true" tabindex="-1"></a>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on @Ord.1975 and @Anselin.1988.</span>
+<span id="cb13-225"><a href="#cb13-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-226"><a href="#cb13-226" aria-hidden="true" tabindex="-1"></a>Starting with </span>
+<span id="cb13-227"><a href="#cb13-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-228"><a href="#cb13-228" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-229"><a href="#cb13-229" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-230"><a href="#cb13-230" aria-hidden="true" tabindex="-1"></a>    \bm y  = \rho \bm W\bm y + \bm X\bm \beta + \varepsilon, <span class="sc">\\</span></span>
+<span id="cb13-231"><a href="#cb13-231" aria-hidden="true" tabindex="-1"></a>     \varepsilon  \sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n),</span>
+<span id="cb13-232"><a href="#cb13-232" aria-hidden="true" tabindex="-1"></a>\end{split}     </span>
+<span id="cb13-233"><a href="#cb13-233" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-234"><a href="#cb13-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-235"><a href="#cb13-235" aria-hidden="true" tabindex="-1"></a>and its reduced form</span>
+<span id="cb13-236"><a href="#cb13-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-237"><a href="#cb13-237" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-238"><a href="#cb13-238" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-239"><a href="#cb13-239" aria-hidden="true" tabindex="-1"></a>{\bm y} =({\bm I_N}-\rho {\bm W})^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}), <span class="sc">\\</span></span>
+<span id="cb13-240"><a href="#cb13-240" aria-hidden="true" tabindex="-1"></a>{\bm y} =\bm A^{-1}({\bm X}{\bm \beta}+ {\bm \varepsilon}),</span>
+<span id="cb13-241"><a href="#cb13-241" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-242"><a href="#cb13-242" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-243"><a href="#cb13-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-244"><a href="#cb13-244" aria-hidden="true" tabindex="-1"></a>where $\bm A = ({\bm I_N}-\rho {\bm W})$.</span>
+<span id="cb13-245"><a href="#cb13-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-246"><a href="#cb13-246" aria-hidden="true" tabindex="-1"></a>The ML estimator then choses the parameters $\hat\rho$, $\hat{\bm \beta}$, and $\hat\sigma$ to maximize the probability of fitting the observed sample based on the Likelihood function </span>
+<span id="cb13-247"><a href="#cb13-247" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-248"><a href="#cb13-248" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-249"><a href="#cb13-249" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a>\widehat{\bm \beta}_{ML}(\rho) &amp;= \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm y - \rho\left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm W\bm y, <span class="sc">\\</span></span>
-<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a>&amp;= \widehat{\bm \beta}_O -\rho \widehat{\bm \beta}_L.</span>
+<span id="cb13-250"><a href="#cb13-250" aria-hidden="true" tabindex="-1"></a>\mathcal{L} (\bm \theta) &amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\intercal (\bm A\bm y-\bm X\bm \beta) <span class="sc">\\</span></span>
+<span id="cb13-251"><a href="#cb13-251" aria-hidden="true" tabindex="-1"></a>&amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left<span class="co">[</span><span class="ot">\bm y^\intercal \bm A^\intercal\bm A\bm y - 2\left(\bm A\bm y\right)^\intercal\bm X\bm \beta + \bm \beta^\intercal\bm X^\intercal\bm X\bm \beta\right</span><span class="co">]</span>,</span>
 <span id="cb13-252"><a href="#cb13-252" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
 <span id="cb13-253"><a href="#cb13-253" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb13-254"><a href="#cb13-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a>2)  Use $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ to compute the residuals in Equation </span>
-<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>\varepsilon_O = \bm y - \bm X\widehat{\bm \beta}_0\,\,\mbox{and} \;\; \varepsilon_L = \bm W\bm y - \bm X\widehat{\bm \beta_L}.</span>
-<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a>3) By numerical optimization to obtain an estimate of $\rho$, maximize the concentrated likelihood given in  </span>
-<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a>\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left<span class="co">[</span><span class="ot">\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\top\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right</span><span class="co">]</span> + \log\left|\bm I_n - \rho\bm W\right|,</span>
-<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>4) Use the estimate of $\widehat{\rho}$ to plug it back in to the expression for $\bm \beta$ and $\sigma^2$ </span>
-<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a>\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm A\bm y</span>
-<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a>\widehat{\sigma}^2_{ML}(\rho) =<span class="sc">\\</span> </span>
-<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a>\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\top\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}</span>
-<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-255"><a href="#cb13-255" aria-hidden="true" tabindex="-1"></a>ML estimation of the SAR works as follows @Sarrias.2023:</span>
+<span id="cb13-256"><a href="#cb13-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-257"><a href="#cb13-257" aria-hidden="true" tabindex="-1"></a>1)  Perform the two auxiliary regression of $\bm y$ and $\bm W\bm y$ on $\bm X$ to obtain the estimators $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ as in Equation </span>
+<span id="cb13-258"><a href="#cb13-258" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-259"><a href="#cb13-259" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-260"><a href="#cb13-260" aria-hidden="true" tabindex="-1"></a>\widehat{\bm \beta}_{ML}(\rho) &amp;= \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm y - \rho\left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm W\bm y, <span class="sc">\\</span></span>
+<span id="cb13-261"><a href="#cb13-261" aria-hidden="true" tabindex="-1"></a>&amp;= \widehat{\bm \beta}_O -\rho \widehat{\bm \beta}_L.</span>
+<span id="cb13-262"><a href="#cb13-262" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb13-266"><a href="#cb13-266" aria-hidden="true" tabindex="-1"></a>2)  Use $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ to compute the residuals in Equation </span>
+<span id="cb13-267"><a href="#cb13-267" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>\varepsilon_O = \bm y - \bm X\widehat{\bm \beta}_0\,\,\mbox{and} \;\; \varepsilon_L = \bm W\bm y - \bm X\widehat{\bm \beta_L}.</span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a>3) By numerical optimization to obtain an estimate of $\rho$, maximize the concentrated likelihood given in  </span>
+<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a>\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left<span class="co">[</span><span class="ot">\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\intercal\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right</span><span class="co">]</span> + \log\left|\bm I_n - \rho\bm W\right|,</span>
 <span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML SEM</span></span>
+<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a>4) Use the estimate of $\widehat{\rho}$ to plug it back in to the expression for $\bm \beta$ and $\sigma^2$ </span>
 <span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a>We can also use ML to estimate the spatial error / SEM model of the form</span>
-<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a>        \begin{split}</span>
-<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},<span class="sc">\\</span></span>
-<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>        {\bm u}&amp;=\lambda{\bm W}{\bm u}+{\bm \varepsilon}<span class="sc">\\</span></span>
-<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a>        \varepsilon  &amp;\sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n)</span>
-<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a>        \end{split} </span>
-<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a>Its reduce for is given by</span>
-<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a>        \begin{split}</span>
-<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+({\bm I_N}-\lambda {\bm W})^{-1}{\bm \varepsilon}.<span class="sc">\\</span></span>
-<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+\bm B^{-1}{\bm \varepsilon}.</span>
-<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a>        \end{split} </span>
-<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm A\bm y</span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a>\widehat{\sigma}^2_{ML}(\rho) =<span class="sc">\\</span> </span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\intercal\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}</span>
+<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-286"><a href="#cb13-286" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-287"><a href="#cb13-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-288"><a href="#cb13-288" aria-hidden="true" tabindex="-1"></a>The evaluation in step 3) can become computation burdensome, as each iteration involves the computation of the $N \times N$ Jacobian term  $\left|\bm I_n - \rho\bm W\right|$. As shown by @Ord.1975, this can be speeded up very heavily by using the log-determinant</span>
+<span id="cb13-289"><a href="#cb13-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-290"><a href="#cb13-290" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-291"><a href="#cb13-291" aria-hidden="true" tabindex="-1"></a>\log\left|\bm I_n -\rho\bm W\right|=\sum_{i=1}^n\log(1 - \rho\omega_i).</span>
+<span id="cb13-292"><a href="#cb13-292" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-293"><a href="#cb13-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-294"><a href="#cb13-294" aria-hidden="true" tabindex="-1"></a>where $\omega_i$ are the eigenvalues of the weights matrix $\bm W$. The efficiency gains comes from the fact they also need to be calculated once. However, this requires $1 - \rho \omega_i \neq 0$ or $1/\omega_{min} &lt; \rho &lt; 1/\omega_{max}$. This can be ensures by normalising the weights matrix $\bm W$.</span>
+<span id="cb13-295"><a href="#cb13-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-296"><a href="#cb13-296" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-297"><a href="#cb13-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a>where $\bm B = ({\bm I_N}-\lambda {\bm W})$.</span>
+<span id="cb13-298"><a href="#cb13-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML SEM</span></span>
 <span id="cb13-299"><a href="#cb13-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a>Note that the OLS estimate of the SEM model are unbiased -- if there is no omitted variable bias! However, even in that case, they are inefficient if $\lambda \neq 0$.</span>
+<span id="cb13-300"><a href="#cb13-300" aria-hidden="true" tabindex="-1"></a>We can also use ML to estimate the spatial error / SEM model of the form</span>
 <span id="cb13-301"><a href="#cb13-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a>The log-likelihood function is given by</span>
-<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
-<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a>\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\top \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, <span class="sc">\\</span></span>
-<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a>\bm \Omega(\lambda) = \bm B^\top \bm B = \left(\bm I_n-\lambda\bm W\right)^\top \left(\bm I_n-\lambda\bm W\right)</span>
-<span id="cb13-308"><a href="#cb13-308" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
-<span id="cb13-309"><a href="#cb13-309" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-302"><a href="#cb13-302" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-303"><a href="#cb13-303" aria-hidden="true" tabindex="-1"></a>        \begin{split}</span>
+<span id="cb13-304"><a href="#cb13-304" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+{\bm u},<span class="sc">\\</span></span>
+<span id="cb13-305"><a href="#cb13-305" aria-hidden="true" tabindex="-1"></a>        {\bm u}&amp;=\lambda{\bm W}{\bm u}+{\bm \varepsilon}<span class="sc">\\</span></span>
+<span id="cb13-306"><a href="#cb13-306" aria-hidden="true" tabindex="-1"></a>        \varepsilon  &amp;\sim \mathcal{N}(\bm 0_n , \sigma^2\bm I_n)</span>
+<span id="cb13-307"><a href="#cb13-307" aria-hidden="true" tabindex="-1"></a>        \end{split} </span>
+<span id="cb13-308"><a href="#cb13-308" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-309"><a href="#cb13-309" aria-hidden="true" tabindex="-1"></a>Its reduce for is given by</span>
 <span id="cb13-310"><a href="#cb13-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a>Based on @Anselin.1998, the ML estimation of SEM follow the procedure <span class="co">[</span><span class="ot">@Sarrias.2023</span><span class="co">]</span>:</span>
-<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a>1) Carry out an OLS of $\bm B\bm X$ on $\bm B\bm y$; get $\widehat{\bm \beta}_{OLS}$</span>
-<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a>2) Compute initial set of residuals $\widehat{\epsilon}_{OLS} = \bm B\bm y - \bm B\bm X\widehat{\bm \beta}_{OLS}$</span>
-<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-317"><a href="#cb13-317" aria-hidden="true" tabindex="-1"></a>3) Given $\widehat{\epsilon}_{OLS}$, find $\widehat{\lambda}$ that maximizes the concentrated likelihood</span>
-<span id="cb13-318"><a href="#cb13-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-319"><a href="#cb13-319" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a>\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left<span class="co">[</span><span class="ot">\frac{1}{n}\widehat{\bm \varepsilon}^\top\bm B^\top\bm B \widehat{\bm \varepsilon}\right</span><span class="co">]</span> + \log\left|\bm B\right|.</span>
-<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a>4) If the convergence criterion is met, proceed, otherwise repeat steps 1, 2 and 3.</span>
-<span id="cb13-324"><a href="#cb13-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-325"><a href="#cb13-325" aria-hidden="true" tabindex="-1"></a>5) Given $\widehat{\lambda}$, estimate $\widehat{\bm \beta}(\lambda)$ by GLS and obtain a new vector of residuals, $\widehat{\bm \varepsilon}(\lambda)$</span>
-<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a>6) Given  $\widehat{\bm \varepsilon}(\lambda)$ and $\widehat{\lambda}$, estimate $\widehat{\sigma}(\lambda)$.</span>
-<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-329"><a href="#cb13-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-330"><a href="#cb13-330" aria-hidden="true" tabindex="-1"></a>The package <span class="in">`spatialreg`</span> <span class="co">[</span><span class="ot">@Bivand.2021, @Pebesma.2023</span><span class="co">]</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</span>
-<span id="cb13-331"><a href="#cb13-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a>Table from @Pebesma.2023:</span>
-<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a>| model | model name                      | maximum likelihood estimation function |</span>
-<span id="cb13-335"><a href="#cb13-335" aria-hidden="true" tabindex="-1"></a>|-------|---------------------------------|----------------------------------------|</span>
-<span id="cb13-336"><a href="#cb13-336" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`errorsarlm(..., Durbin=FALSE)`</span>   |</span>
-<span id="cb13-337"><a href="#cb13-337" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`spautolm(..., family="SAR")`</span>     |</span>
-<span id="cb13-338"><a href="#cb13-338" aria-hidden="true" tabindex="-1"></a>| SDEM  | spatial Durbin error            | <span class="in">`errorsarlm(..., Durbin=TRUE)`</span>    |</span>
-<span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a>| SLM   | spatial lag                     | <span class="in">`lagsarlm(..., Durbin=FALSE)`</span>     |</span>
-<span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a>| SDM   | spatial Durbin                  | <span class="in">`lagsarlm(..., Durbin=TRUE)`</span>      |</span>
-<span id="cb13-341"><a href="#cb13-341" aria-hidden="true" tabindex="-1"></a>| SAC   | spatial autoregressive combined | <span class="in">`sacsarlm(..., Durbin=FALSE)`</span>     |</span>
-<span id="cb13-342"><a href="#cb13-342" aria-hidden="true" tabindex="-1"></a>| GNM   | general nested                  | <span class="in">`sacsarlm(..., Durbin=TRUE)`</span>      |</span>
-<span id="cb13-343"><a href="#cb13-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-311"><a href="#cb13-311" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-312"><a href="#cb13-312" aria-hidden="true" tabindex="-1"></a>        \begin{split}</span>
+<span id="cb13-313"><a href="#cb13-313" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+({\bm I_N}-\lambda {\bm W})^{-1}{\bm \varepsilon}.<span class="sc">\\</span></span>
+<span id="cb13-314"><a href="#cb13-314" aria-hidden="true" tabindex="-1"></a>        {\bm y}&amp;=\alpha{\bm \iota}+{\bm X}{\bm \beta}+\bm B^{-1}{\bm \varepsilon}.</span>
+<span id="cb13-315"><a href="#cb13-315" aria-hidden="true" tabindex="-1"></a>        \end{split} </span>
+<span id="cb13-316"><a href="#cb13-316" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-317"><a href="#cb13-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-318"><a href="#cb13-318" aria-hidden="true" tabindex="-1"></a>where $\bm B = ({\bm I_N}-\lambda {\bm W})$.</span>
+<span id="cb13-319"><a href="#cb13-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-320"><a href="#cb13-320" aria-hidden="true" tabindex="-1"></a>Note that the OLS estimate of the SEM model are unbiased -- if there is no omitted variable bias! However, even in that case, they are inefficient if $\lambda \neq 0$.</span>
+<span id="cb13-321"><a href="#cb13-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-322"><a href="#cb13-322" aria-hidden="true" tabindex="-1"></a>The log-likelihood function is given by</span>
+<span id="cb13-323"><a href="#cb13-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-324"><a href="#cb13-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-325"><a href="#cb13-325" aria-hidden="true" tabindex="-1"></a>\begin{split}</span>
+<span id="cb13-326"><a href="#cb13-326" aria-hidden="true" tabindex="-1"></a>\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\intercal \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, <span class="sc">\\</span></span>
+<span id="cb13-327"><a href="#cb13-327" aria-hidden="true" tabindex="-1"></a>\bm \Omega(\lambda) = \bm B^\intercal \bm B = \left(\bm I_n-\lambda\bm W\right)^\intercal \left(\bm I_n-\lambda\bm W\right)</span>
+<span id="cb13-328"><a href="#cb13-328" aria-hidden="true" tabindex="-1"></a>\end{split}</span>
+<span id="cb13-329"><a href="#cb13-329" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-330"><a href="#cb13-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-331"><a href="#cb13-331" aria-hidden="true" tabindex="-1"></a>Based on @Anselin.1998, the ML estimation of SEM follow the procedure <span class="co">[</span><span class="ot">@Sarrias.2023</span><span class="co">]</span>:</span>
+<span id="cb13-332"><a href="#cb13-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-333"><a href="#cb13-333" aria-hidden="true" tabindex="-1"></a>1) Carry out an OLS of $\bm B\bm X$ on $\bm B\bm y$; get $\widehat{\bm \beta}_{OLS}$</span>
+<span id="cb13-334"><a href="#cb13-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-335"><a href="#cb13-335" aria-hidden="true" tabindex="-1"></a>2) Compute initial set of residuals $\widehat{\epsilon}_{OLS} = \bm B\bm y - \bm B\bm X\widehat{\bm \beta}_{OLS}$</span>
+<span id="cb13-336"><a href="#cb13-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-337"><a href="#cb13-337" aria-hidden="true" tabindex="-1"></a>3) Given $\widehat{\epsilon}_{OLS}$, find $\widehat{\lambda}$ that maximizes the concentrated likelihood</span>
+<span id="cb13-338"><a href="#cb13-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-339"><a href="#cb13-339" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-340"><a href="#cb13-340" aria-hidden="true" tabindex="-1"></a>\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left<span class="co">[</span><span class="ot">\frac{1}{n}\widehat{\bm \varepsilon}^\intercal\bm B^\intercal\bm B \widehat{\bm \varepsilon}\right</span><span class="co">]</span> + \log\left|\bm B\right|.</span>
+<span id="cb13-341"><a href="#cb13-341" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb13-342"><a href="#cb13-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-343"><a href="#cb13-343" aria-hidden="true" tabindex="-1"></a>4) If the convergence criterion is met, proceed, otherwise repeat steps 1, 2 and 3.</span>
 <span id="cb13-344"><a href="#cb13-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-345"><a href="#cb13-345" aria-hidden="true" tabindex="-1"></a>**ML SAR**</span>
+<span id="cb13-345"><a href="#cb13-345" aria-hidden="true" tabindex="-1"></a>5) Given $\widehat{\lambda}$, estimate $\widehat{\bm \beta}(\lambda)$ by GLS and obtain a new vector of residuals, $\widehat{\bm \varepsilon}(\lambda)$</span>
 <span id="cb13-346"><a href="#cb13-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-349"><a href="#cb13-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-350"><a href="#cb13-350" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb13-351"><a href="#cb13-351" aria-hidden="true" tabindex="-1"></a>                        per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb13-352"><a href="#cb13-352" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb13-353"><a href="#cb13-353" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> queens.lw,</span>
-<span id="cb13-354"><a href="#cb13-354" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
-<span id="cb13-355"><a href="#cb13-355" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
-<span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a>**ML SEM**</span>
-<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a>mod_1.sem <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span></span>
-<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a>                          per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a>                        <span class="at">listw =</span> queens.lw,</span>
-<span id="cb13-367"><a href="#cb13-367" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDEM</span></span>
-<span id="cb13-368"><a href="#cb13-368" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sem)</span>
-<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-347"><a href="#cb13-347" aria-hidden="true" tabindex="-1"></a>6) Given  $\widehat{\bm \varepsilon}(\lambda)$ and $\widehat{\lambda}$, estimate $\widehat{\sigma}(\lambda)$.</span>
+<span id="cb13-348"><a href="#cb13-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-349"><a href="#cb13-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-350"><a href="#cb13-350" aria-hidden="true" tabindex="-1"></a>The package <span class="in">`spatialreg`</span> <span class="co">[</span><span class="ot">@Bivand.2021, @Pebesma.2023</span><span class="co">]</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</span>
+<span id="cb13-351"><a href="#cb13-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-352"><a href="#cb13-352" aria-hidden="true" tabindex="-1"></a>Table from @Pebesma.2023:</span>
+<span id="cb13-353"><a href="#cb13-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-354"><a href="#cb13-354" aria-hidden="true" tabindex="-1"></a>| model | model name                      | maximum likelihood estimation function |</span>
+<span id="cb13-355"><a href="#cb13-355" aria-hidden="true" tabindex="-1"></a>|-------|---------------------------------|----------------------------------------|</span>
+<span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`errorsarlm(..., Durbin=FALSE)`</span>   |</span>
+<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`spautolm(..., family="SAR")`</span>     |</span>
+<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a>| SDEM  | spatial Durbin error            | <span class="in">`errorsarlm(..., Durbin=TRUE)`</span>    |</span>
+<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a>| SLM   | spatial lag                     | <span class="in">`lagsarlm(..., Durbin=FALSE)`</span>     |</span>
+<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a>| SDM   | spatial Durbin                  | <span class="in">`lagsarlm(..., Durbin=TRUE)`</span>      |</span>
+<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a>| SAC   | spatial autoregressive combined | <span class="in">`sacsarlm(..., Durbin=FALSE)`</span>     |</span>
+<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a>| GNM   | general nested                  | <span class="in">`sacsarlm(..., Durbin=TRUE)`</span>      |</span>
+<span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a>**ML SAR**</span>
+<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
+<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a>                        per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
+<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> queens.lw,</span>
+<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
+<span id="cb13-375"><a href="#cb13-375" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
+<span id="cb13-376"><a href="#cb13-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a>**ML SEM**</span>
+<span id="cb13-379"><a href="#cb13-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-383"><a href="#cb13-383" aria-hidden="true" tabindex="-1"></a>mod_1.sem <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span></span>
+<span id="cb13-384"><a href="#cb13-384" aria-hidden="true" tabindex="-1"></a>                          per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
+<span id="cb13-385"><a href="#cb13-385" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb13-386"><a href="#cb13-386" aria-hidden="true" tabindex="-1"></a>                        <span class="at">listw =</span> queens.lw,</span>
+<span id="cb13-387"><a href="#cb13-387" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDEM</span></span>
+<span id="cb13-388"><a href="#cb13-388" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sem)</span>
+<span id="cb13-389"><a href="#cb13-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -70,13 +70,13 @@ $$
 The OLS estimator for the spatial lag term then is
 
 $$
-\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\top}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.
+\hat{\rho}_{OLS} = \left[\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\left(\bm W\bm y \right)}_{(n\times 1)}\right]^{-1}\underbrace{\left(\bm W\bm y \right)^\intercal}_{(1\times n)}\underbrace{\bm y}_{(n\times 1)}.
 $$
 
 It can then be shown that the OLS estimators equals
 
 $$
-          \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\top\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\top\varepsilon \\
+          \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\intercal\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\intercal\varepsilon \\
                                 = \rho + \left(\sum_{i = 1}^n \bm y_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\bm y_{Li}\epsilon_i\right),
 $$
 
@@ -161,7 +161,17 @@ $$
 		\end{split} 
 $$
 
-The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance paramter.
+The key issue here is to find a consistent estimator for $\lambda$. However, we usually do not want to draw inference about $\lambda$ itself, but only need it to consistently estimate $\bm \beta$. @Kelejian.1999 thus treat $\lambda$ as pure nuisance parameter. They the following moment conditions:
+
+$$
+\begin{split}
+  \Exp\left[n^{-1}\varepsilon^\intercal \varepsilon\right] & = \sigma^2, \\
+   \Exp\left[n^{-1}\varepsilon^\intercal\bm W\bm W\varepsilon\right] & = \frac{\sigma^2}{n}\Exp\left[\tr(\bm W^\intercal\bm W\varepsilon\varepsilon^\intercal) \right],\\
+   \Exp\left[n^{-1}\varepsilon^\intercal \bm W \varepsilon \right] & = 0,
+\end{split}   
+$$
+
+which are solved for $\lambda$, $\lambda^2$, and $\sigma^2$ using $\varepsilon = u - \lambda \bm W u$.  
 
 In essence, the GMM works as follows [@Sarrias.2023]:
 
@@ -172,7 +182,7 @@ In essence, the GMM works as follows [@Sarrias.2023]:
 3) Use $\widehat{\bm u}$, to estimate $\lambda$, say $\widehat{\lambda}$, using 
 
 $$
-  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\top\bm \upsilon_n(\lambda, \sigma^2): \rho \in [-a, a], \sigma^2\in [0, b]\right\rbrace, 
+  (\widehat{\lambda}_{NLS, n}, \widehat{\sigma}^2_{NLS, N}) = \mathrm{argmin} \left\lbrace \bm \upsilon_n(\lambda, \sigma^2)^\intercal\bm \upsilon_n(\lambda, \sigma^2): \rho \in [-a, a], \sigma^2\in [0, b]\right\rbrace, 
 $$
 
 
@@ -180,8 +190,8 @@ $$
 
 $$
 \begin{split}
-\bm \beta_{FGLS}(\lambda) &=\left[\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm X\right]^{-1}\bm X^\top\bm \Omega(\widehat{\lambda})^{-1}\bm y.\\
-\bm \Omega(\lambda) &= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\top)^{-1}
+\bm \beta_{FGLS}(\lambda) &=\left[\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm X\right]^{-1}\bm X^\intercal\bm \Omega(\widehat{\lambda})^{-1}\bm y.\\
+\bm \Omega(\lambda) &= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\intercal)^{-1}
 \end{split}
 $$
 
@@ -229,8 +239,8 @@ The ML estimator then choses the parameters $\hat\rho$, $\hat{\bm \beta}$, and $
 
 $$
 \begin{split}
-\mathcal{L} (\bm \theta) &= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\top (\bm A\bm y-\bm X\bm \beta) \\
-&= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\top \bm A^\top\bm A\bm y - 2\left(\bm A\bm y\right)^\top\bm X\bm \beta + \bm \beta^\top\bm X^\top\bm X\bm \beta\right],
+\mathcal{L} (\bm \theta) &= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}(\bm A\bm y-\bm X\bm \beta)^\intercal (\bm A\bm y-\bm X\bm \beta) \\
+&= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\intercal \bm A^\intercal\bm A\bm y - 2\left(\bm A\bm y\right)^\intercal\bm X\bm \beta + \bm \beta^\intercal\bm X^\intercal\bm X\bm \beta\right],
 \end{split}
 $$
 
@@ -239,7 +249,7 @@ ML estimation of the SAR works as follows @Sarrias.2023:
 1)  Perform the two auxiliary regression of $\bm y$ and $\bm W\bm y$ on $\bm X$ to obtain the estimators $\widehat{\bm \beta}_O$ and $\widehat{\bm \beta}_L$ as in Equation 
 $$
 \begin{split}
-\widehat{\bm \beta}_{ML}(\rho) &= \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm y - \rho\left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm W\bm y, \\
+\widehat{\bm \beta}_{ML}(\rho) &= \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm y - \rho\left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm W\bm y, \\
 &= \widehat{\bm \beta}_O -\rho \widehat{\bm \beta}_L.
 \end{split}
 $$
@@ -254,18 +264,28 @@ $$
 3) By numerical optimization to obtain an estimate of $\rho$, maximize the concentrated likelihood given in  
 
 $$
-\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\top\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\bm I_n - \rho\bm W\right|,
+\ell(\rho)=-\frac{n}{2}-\frac{n}{2}\log(2\pi) - \frac{n}{2}\log\left[\frac{\left(\varepsilon_O - \rho\varepsilon_L\right)^\intercal\left(\varepsilon_O - \rho\varepsilon_L\right)}{n}\right] + \log\left|\bm I_n - \rho\bm W\right|,
 $$
 	
 4) Use the estimate of $\widehat{\rho}$ to plug it back in to the expression for $\bm \beta$ and $\sigma^2$ 
 
 $$
 \begin{split}
-\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\top\bm X\right)^{-1}\bm X^\top\bm A\bm y
+\widehat{\bm \beta}_{ML}(\rho) = \left(\bm X^\intercal\bm X\right)^{-1}\bm X^\intercal\bm A\bm y
 \widehat{\sigma}^2_{ML}(\rho) =\\ 
-\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\top\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
+\frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\intercal\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
 \end{split}
 $$
+
+The evaluation in step 3) can become computation burdensome, as each iteration involves the computation of the $N \times N$ Jacobian term  $\left|\bm I_n - \rho\bm W\right|$. As shown by @Ord.1975, this can be speeded up very heavily by using the log-determinant
+
+$$
+\log\left|\bm I_n -\rho\bm W\right|=\sum_{i=1}^n\log(1 - \rho\omega_i).
+$$
+
+where $\omega_i$ are the eigenvalues of the weights matrix $\bm W$. The efficiency gains comes from the fact they also need to be calculated once. However, this requires $1 - \rho \omega_i \neq 0$ or $1/\omega_{min} < \rho < 1/\omega_{max}$. This can be ensures by normalising the weights matrix $\bm W$.
+
+
 
 ### ML SEM
 
@@ -295,8 +315,8 @@ The log-likelihood function is given by
 
 $$
 \begin{split}
-\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\top \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, \\
-\bm \Omega(\lambda) = \bm B^\top \bm B = \left(\bm I_n-\lambda\bm W\right)^\top \left(\bm I_n-\lambda\bm W\right)
+\ell(\bm \theta) = - \frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2)-\frac{(\bm y - \bm X\bm \beta)^\intercal \bm \Omega(\lambda) (\bm y - \bm X\bm \beta)}{2\sigma^2} + \log\left|\bm I_n - \lambda \bm W\right|, \\
+\bm \Omega(\lambda) = \bm B^\intercal \bm B = \left(\bm I_n-\lambda\bm W\right)^\intercal \left(\bm I_n-\lambda\bm W\right)
 \end{split}
 $$
 
@@ -309,7 +329,7 @@ Based on @Anselin.1998, the ML estimation of SEM follow the procedure [@Sarrias.
 3) Given $\widehat{\epsilon}_{OLS}$, find $\widehat{\lambda}$ that maximizes the concentrated likelihood
 
 $$
-\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\top\bm B^\top\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.
+\ell(\lambda)= \mbox{const} + \frac{n}{2}\log\left[\frac{1}{n}\widehat{\bm \varepsilon}^\intercal\bm B^\intercal\bm B \widehat{\bm \varepsilon}\right] + \log\left|\bm B\right|.
 $$
 
 4) If the convergence criterion is met, proceed, otherwise repeat steps 1, 2 and 3.

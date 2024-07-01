@@ -388,7 +388,23 @@ _Mobile homes and racial minorities are most overrepresented in hotspots compare
 
 ## Exercises
 
-1. Please calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization.
+1. Please calculate the inverse distance weighted neighbours with a 5km cutoff point (create the listw object using `nb2listwdist()` and minmax normalisation.
+
+
+```{r}
+### Centroids
+coords <- st_geometry(st_centroid(msoa.spdf))
+
+### Nearest neighbours within 5km
+km5.nb <- dnearneigh(coords, 0, 5000)
+
+### In verse distance weighted listw object
+km5.lw <- nb2listwdist(km5.nb,
+                       x = coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "minmax") # for eigenvalue normalization
+```
 
 
 

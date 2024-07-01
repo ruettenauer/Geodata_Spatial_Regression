@@ -406,9 +406,11 @@ pubs.spdf <- pubs.spdf[, c("osm_id", "name", "addr:postcode", "diet:vegan")]
 
 Again, we can inspect the results with `mapview`.
 
-```{r, echo=FALSE}
+```{r}
+# Reload (as I don't run the above here)
 load("_data/osm_d.RData")
 ```
+
 
 ```{r}
 mapview(st_geometry(pubs.spdf))

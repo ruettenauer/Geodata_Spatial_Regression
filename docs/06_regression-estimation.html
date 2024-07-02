@@ -285,7 +285,7 @@ div.csl-indent {
 \begin{pmatrix}#1\end{pmatrix}
 }
 \]</span></p>
-<p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
+<p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
 <div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-1_78d933c94ee823e5ae8822531af125e6">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
@@ -350,7 +350,7 @@ loaded via a namespace (and not attached):
 <div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-3_2e5f7a5f656e79455486ca737d9d3b36">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results <span class="citation" data-cites="Anselin.1998 Franzese.2007">(<a href="references.html#ref-Anselin.1998" role="doc-biblioref">Anselin and Bera 1998</a>; <a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>)</span>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood <span class="citation" data-cites="Anselin.1988 Lee.2004 Ord.1975">(<a href="references.html#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>; <a href="references.html#ref-Lee.2004" role="doc-biblioref">Lee 2004</a>; <a href="references.html#ref-Ord.1975" role="doc-biblioref">Ord 1975</a>)</span> or instrumental variable approaches using generalized methods of moments <span class="citation" data-cites="Drukker.2013 Kelejian.1998 Kelejian.2010">(<a href="references.html#ref-Drukker.2013" role="doc-biblioref">Drukker, Egger, and Prucha 2013</a>; <a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>, <a href="references.html#ref-Kelejian.2010" role="doc-biblioref">2010</a>)</span>, in which the endogenous lagged variables can be instrumented by <span class="math inline">\(q\)</span> higher order lags of the exogenous regressors <span class="math inline">\(({\bm X}, {\bm W \bm X}, {\bm W^2 \bm X},..., {\bm W^q \bm X})\)</span> <span class="citation" data-cites="Kelejian.1998">(<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
+<p>Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results <span class="citation" data-cites="Anselin.1998 Franzese.2007">(<a href="#ref-Anselin.1998" role="doc-biblioref">Anselin and Bera 1998</a>; <a href="#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>)</span>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood <span class="citation" data-cites="Anselin.1988 Lee.2004 Ord.1975">(<a href="#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>; <a href="#ref-Lee.2004" role="doc-biblioref">Lee 2004</a>; <a href="#ref-Ord.1975" role="doc-biblioref">Ord 1975</a>)</span> or instrumental variable approaches using generalized methods of moments <span class="citation" data-cites="Drukker.2013 Kelejian.1998 Kelejian.2010">(<a href="#ref-Drukker.2013" role="doc-biblioref">Drukker, Egger, and Prucha 2013</a>; <a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>, <a href="#ref-Kelejian.2010" role="doc-biblioref">2010</a>)</span>, in which the endogenous lagged variables can be instrumented by <span class="math inline">\(q\)</span> higher order lags of the exogenous regressors <span class="math inline">\(({\bm X}, {\bm W \bm X}, {\bm W^2 \bm X},..., {\bm W^q \bm X})\)</span> <span class="citation" data-cites="Kelejian.1998">(<a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
 </section><section id="simulataneity-bias" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="simulataneity-bias">
 <span class="header-section-number">7.1</span> Simulataneity bias</h2>
 <p>Remember what is happening when we estimate a spatial auto-regressive model.</p>
@@ -376,7 +376,7 @@ loaded via a namespace (and not attached):
           \hat{\rho}_{OLS} = \rho + \left[\left(\bm W\bm y \right)^\intercal\left(\bm W\bm y \right)\right]^{-1}\left(\bm W\bm y \right)^\intercal\varepsilon \\
                                 = \rho + \left(\sum_{i = 1}^n \bm y_{Li}^2\right)^{-1}\left(\sum_{i = 1}^{n}\bm y_{Li}\epsilon_i\right),
 \]</span></p>
-<p>with <span class="math inline">\(\bm y_{Li}\)</span> defined as the <span class="math inline">\(i\)</span>th element of the spatial lag operator <span class="math inline">\(\bm W\bm y = \bm y_L\)</span>. It can further be shown that the second part of the equation <span class="math inline">\(\neq 0\)</span>, which demonstrates that OLS gives a biased estimate of <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="Franzese.2007 Sarrias.2023">(<a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>; <a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>.</p>
+<p>with <span class="math inline">\(\bm y_{Li}\)</span> defined as the <span class="math inline">\(i\)</span>th element of the spatial lag operator <span class="math inline">\(\bm W\bm y = \bm y_L\)</span>. It can further be shown that the second part of the equation <span class="math inline">\(\neq 0\)</span>, which demonstrates that OLS gives a biased estimate of <span class="math inline">\(\rho\)</span> <span class="citation" data-cites="Franzese.2007 Sarrias.2023">(<a href="#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>; <a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -392,7 +392,7 @@ Warning
 </div>
 </section><section id="instrumental-variable" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="instrumental-variable">
 <span class="header-section-number">7.2</span> Instrumental variable</h2>
-<p>A potential way of estimating spatial lag /SAR models is 2SLS <span class="citation" data-cites="Kelejian.1998">(<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
+<p>A potential way of estimating spatial lag /SAR models is 2SLS <span class="citation" data-cites="Kelejian.1998">(<a href="#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
 <p>We start with our standard model</p>
 <p><span class="math display">\[
         {\bm y}=\alpha{\bm \iota}+\rho{\bm W}{\bm y}+{\bm X}{\bm \beta}+ {\bm \varepsilon}.
@@ -406,12 +406,12 @@ Warning
 =({\bm I_N} + \rho{\bm W} + \rho^2{\bm W}^2 + \rho^3{\bm W}^3 + ...)\beta_k
 = ({\bm I_N} + \sum_{h=1}^\infty \rho^h{\bm W}^h)\beta_k .
 \]</span></p>
-<p>Thus, <span class="citation" data-cites="Kelejian.1998">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">1998</a>)</span> suggested to use a set of lagged covariates as instruments for <span class="math inline">\(\bm W \bm Y\)</span>:</p>
+<p>Thus, <span class="citation" data-cites="Kelejian.1998">Kelejian and Prucha (<a href="#ref-Kelejian.1998" role="doc-biblioref">1998</a>)</span> suggested to use a set of lagged covariates as instruments for <span class="math inline">\(\bm W \bm Y\)</span>:</p>
 <p><span class="math display">\[
 \bm H = \bm X, \bm W\bm X, \bm W^2\bm X, ... , \bm W^l\bm X,
 \]</span></p>
 <p>where <span class="math inline">\(l\)</span> is a pre-defined number for the higher order neighbours included. In practice, <span class="math inline">\(l\)</span> is usually restricted to <span class="math inline">\(l=2\)</span>.</p>
-<p>This has further been developed by, for instance, using a (truncated) power series as instruments <span class="citation" data-cites="Kelejian.2004">(<a href="references.html#ref-Kelejian.2004" role="doc-biblioref">Kelejian, Prucha, and Yuzefovich 2004</a>)</span>:</p>
+<p>This has further been developed by, for instance, using a (truncated) power series as instruments <span class="citation" data-cites="Kelejian.2004">(<a href="#ref-Kelejian.2004" role="doc-biblioref">Kelejian, Prucha, and Yuzefovich 2004</a>)</span>:</p>
 <p><span class="math display">\[
 \bm H =\left[\bm X, \bm W\left(\sum_{l = 1}^{\infty}\rho^{l}\bm W^l\right)\bm X \bm\beta\right].
 \]</span></p>
@@ -451,7 +451,7 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 </div>
 </section><section id="generalized-method-of-moments" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="generalized-method-of-moments">
 <span class="header-section-number">7.3</span> Generalized Method of Moments</h2>
-<p>Generalized Method of Moments (GMM) provides a way of estimating spatial error / SEM models. A motivation for GMM was that Maximum Likelihood was unfeasible for large samples and its consistent could not be shown. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus proposed a Moments estimator for SEM.</p>
+<p>Generalized Method of Moments (GMM) provides a way of estimating spatial error / SEM models. A motivation for GMM was that Maximum Likelihood was unfeasible for large samples and its consistent could not be shown. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus proposed a Moments estimator for SEM.</p>
 <p>We start with the model</p>
 <p><span class="math display">\[
         \begin{split}
@@ -459,7 +459,7 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
         {\bm u}&amp;=\lambda{\bm W}{\bm u}+{\bm \varepsilon}
         \end{split}
 \]</span></p>
-<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\bm \beta\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="references.html#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance parameter. They the following moment conditions:</p>
+<p>The key issue here is to find a consistent estimator for <span class="math inline">\(\lambda\)</span>. However, we usually do not want to draw inference about <span class="math inline">\(\lambda\)</span> itself, but only need it to consistently estimate <span class="math inline">\(\bm \beta\)</span>. <span class="citation" data-cites="Kelejian.1999">Kelejian and Prucha (<a href="#ref-Kelejian.1999" role="doc-biblioref">1999</a>)</span> thus treat <span class="math inline">\(\lambda\)</span> as pure nuisance parameter. They the following moment conditions:</p>
 <p><span class="math display">\[
 \begin{split}
   \Exp\left[n^{-1}\varepsilon^\intercal \varepsilon\right] &amp; = \sigma^2, \\
@@ -468,7 +468,7 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 \end{split}   
 \]</span></p>
 <p>which are solved for <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\lambda^2\)</span>, and <span class="math inline">\(\sigma^2\)</span> using <span class="math inline">\(\varepsilon = u - \lambda \bm W u\)</span>.</p>
-<p>In essence, the GMM works as follows <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
+<p>In essence, the GMM works as follows <span class="citation" data-cites="Sarrias.2023">(<a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
 <ol type="1">
 <li><p>First of all obtain a consistent estimate of <span class="math inline">\(\bm \beta\)</span>, say <span class="math inline">\(\widetilde{\bm \beta}\)</span> using either OLS or non-linear least squares (NLS).</p></li>
 <li><p>Use this estimate to obtain an estimate of <span class="math inline">\(\bm u\)</span>, say <span class="math inline">\(\widehat{\bm u}\)</span>,</p></li>
@@ -486,7 +486,7 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 \bm \Omega(\lambda) &amp;= (\bm I - \lambda\bm W)^{-1}(\bm I - \lambda\bm W^\intercal)^{-1}
 \end{split}
 \]</span></p>
-<p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="references.html#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
 <p>We can calculate the estimator using <code>GMerrorsar()</code> from <code>spatialreg</code>.</p>
 <div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-6_e77fa5edb038def06c4ba4bb3f03436b">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.gmm</span> <span class="op">&lt;-</span> <span class="fu">GMerrorsar</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -528,7 +528,7 @@ Number of parameters estimated: 9 </code></pre>
 <span class="header-section-number">7.4</span> Maximum likelihood estimation</h2>
 <section id="ml-sar" class="level3" data-number="7.4.1"><h3 data-number="7.4.1" class="anchored" data-anchor-id="ml-sar">
 <span class="header-section-number">7.4.1</span> ML SAR</h3>
-<p>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on <span class="citation" data-cites="Ord.1975">Ord (<a href="references.html#ref-Ord.1975" role="doc-biblioref">1975</a>)</span> and <span class="citation" data-cites="Anselin.1988">Anselin (<a href="references.html#ref-Anselin.1988" role="doc-biblioref">1988</a>)</span>.</p>
+<p>Maximum Likelihood estimation of spatial models is the most common way of estimation. The procedure to estimate Sar models via ML is based on <span class="citation" data-cites="Ord.1975">Ord (<a href="#ref-Ord.1975" role="doc-biblioref">1975</a>)</span> and <span class="citation" data-cites="Anselin.1988">Anselin (<a href="#ref-Anselin.1988" role="doc-biblioref">1988</a>)</span>.</p>
 <p>Starting with</p>
 <p><span class="math display">\[
 \begin{split}
@@ -551,7 +551,7 @@ Number of parameters estimated: 9 </code></pre>
 &amp;= \log\left| \bm A\right| - \frac{n\log(2\pi)}{2} - \frac{n\log(\sigma^2)}{2} - \frac{1}{2\sigma^2}\left[\bm y^\intercal \bm A^\intercal\bm A\bm y - 2\left(\bm A\bm y\right)^\intercal\bm X\bm \beta + \bm \beta^\intercal\bm X^\intercal\bm X\bm \beta\right],
 \end{split}
 \]</span></p>
-<p>ML estimation of the SAR works as follows <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>:</p>
+<p>ML estimation of the SAR works as follows <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>:</p>
 <ol type="1">
 <li><p>Perform the two auxiliary regression of <span class="math inline">\(\bm y\)</span> and <span class="math inline">\(\bm W\bm y\)</span> on <span class="math inline">\(\bm X\)</span> to obtain the estimators <span class="math inline">\(\widehat{\bm \beta}_O\)</span> and <span class="math inline">\(\widehat{\bm \beta}_L\)</span> as in Equation <span class="math display">\[
 \begin{split}
@@ -578,7 +578,7 @@ Number of parameters estimated: 9 </code></pre>
 \frac{\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)^\intercal\left(\bm A\bm y - \bm X\bm \beta_{ML}\right)}{n}
 \end{split}
 \]</span></p>
-<p>The evaluation in step 3) can become computation burdensome, as each iteration involves the computation of the <span class="math inline">\(N \times N\)</span> Jacobian term <span class="math inline">\(\left|\bm I_n - \rho\bm W\right|\)</span>. As shown by <span class="citation" data-cites="Ord.1975">Ord (<a href="references.html#ref-Ord.1975" role="doc-biblioref">1975</a>)</span>, this can be speeded up very heavily by using the log-determinant</p>
+<p>The evaluation in step 3) can become computation burdensome, as each iteration involves the computation of the <span class="math inline">\(N \times N\)</span> Jacobian term <span class="math inline">\(\left|\bm I_n - \rho\bm W\right|\)</span>. As shown by <span class="citation" data-cites="Ord.1975">Ord (<a href="#ref-Ord.1975" role="doc-biblioref">1975</a>)</span>, this can be speeded up very heavily by using the log-determinant</p>
 <p><span class="math display">\[
 \log\left|\bm I_n -\rho\bm W\right|=\sum_{i=1}^n\log(1 - \rho\omega_i).
 \]</span></p>
@@ -608,7 +608,7 @@ Number of parameters estimated: 9 </code></pre>
 \bm \Omega(\lambda) = \bm B^\intercal \bm B = \left(\bm I_n-\lambda\bm W\right)^\intercal \left(\bm I_n-\lambda\bm W\right)
 \end{split}
 \]</span></p>
-<p>Based on <span class="citation" data-cites="Anselin.1998">Anselin and Bera (<a href="references.html#ref-Anselin.1998" role="doc-biblioref">1998</a>)</span>, the ML estimation of SEM follow the procedure <span class="citation" data-cites="Sarrias.2023">(<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
+<p>Based on <span class="citation" data-cites="Anselin.1998">Anselin and Bera (<a href="#ref-Anselin.1998" role="doc-biblioref">1998</a>)</span>, the ML estimation of SEM follow the procedure <span class="citation" data-cites="Sarrias.2023">(<a href="#ref-Sarrias.2023" role="doc-biblioref">Sarrias 2023</a>)</span>:</p>
 <ol type="1">
 <li><p>Carry out an OLS of <span class="math inline">\(\bm B\bm X\)</span> on <span class="math inline">\(\bm B\bm y\)</span>; get <span class="math inline">\(\widehat{\bm \beta}_{OLS}\)</span></p></li>
 <li><p>Compute initial set of residuals <span class="math inline">\(\widehat{\epsilon}_{OLS} = \bm B\bm y - \bm B\bm X\widehat{\bm \beta}_{OLS}\)</span></p></li>
@@ -622,8 +622,8 @@ Number of parameters estimated: 9 </code></pre>
 <li><p>Given <span class="math inline">\(\widehat{\lambda}\)</span>, estimate <span class="math inline">\(\widehat{\bm \beta}(\lambda)\)</span> by GLS and obtain a new vector of residuals, <span class="math inline">\(\widehat{\bm \varepsilon}(\lambda)\)</span></p></li>
 <li><p>Given <span class="math inline">\(\widehat{\bm \varepsilon}(\lambda)\)</span> and <span class="math inline">\(\widehat{\lambda}\)</span>, estimate <span class="math inline">\(\widehat{\sigma}(\lambda)\)</span>.</p></li>
 </ol>
-<p>The package <code>spatialreg</code> <span class="citation" data-cites="Bivand.2021">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</p>
-<p>Table from <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>:</p>
+<p>The package <code>spatialreg</code> <span class="citation" data-cites="Bivand.2021">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> provides a series of functions to calculate the ML estimator for all spatial models we have considered.</p>
+<p>Table from <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>:</p>
 <table class="table">
 <colgroup>
 <col style="width: 8%">
@@ -763,7 +763,7 @@ AIC: -525.77, (AIC for lm: 95.786)</code></pre>
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Anselin.1988" class="csl-entry" role="listitem">
 Anselin, Luc. 1988. <em>Spatial <span>Econometrics</span>: <span>Methods</span> and <span>Models</span></em>. Studies in <span>Operational Regional Science</span>. <span>Dordrecht</span>: <span>Kluwer</span>.
 </div>

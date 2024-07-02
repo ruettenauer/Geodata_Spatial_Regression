@@ -392,7 +392,7 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 <p>We definitely see some clusters with spatial units having a low share of home owner (e.g.&nbsp;in the city center), and other clusters where home ownership is high (e.g.&nbsp;suburbs in the south and east, such as Bromley or Havering).</p>
-<p>However, this is (to some degree) dependent on how we define cutoffs and coloring of the map: the Modifiable Areal Unit Problem <span class="citation" data-cites="Wong.2009">(<a href="references.html#ref-Wong.2009" role="doc-biblioref">Wong 2009</a>)</span>.</p>
+<p>However, this is (to some degree) dependent on how we define cutoffs and coloring of the map: the Modifiable Areal Unit Problem <span class="citation" data-cites="Wong.2009">(<a href="#ref-Wong.2009" role="doc-biblioref">Wong 2009</a>)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -410,7 +410,7 @@ Question
 <p>Would your answer be the same if we would aggregate the data to four larger areas / districts using the average within each of the four districts?</p>
 </section><section id="morans-i" class="level3" data-number="5.1.2"><h3 data-number="5.1.2" class="anchored" data-anchor-id="morans-i">
 <span class="header-section-number">5.1.2</span> Moran’s I</h3>
-<p>The most common and well known statistic for spatial dependence or autocorrelation is Moran’s I, which goes back to <span class="citation" data-cites="Moran.1950">Moran (<a href="references.html#ref-Moran.1950" role="doc-biblioref">1950</a>)</span> and <span class="citation" data-cites="Cliff.1972">Cliff and Ord (<a href="references.html#ref-Cliff.1972" role="doc-biblioref">1972</a>)</span>. For more extensive materials on Moran’s I see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="references.html#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, Chapter 11.</p>
+<p>The most common and well known statistic for spatial dependence or autocorrelation is Moran’s I, which goes back to <span class="citation" data-cites="Moran.1950">Moran (<a href="#ref-Moran.1950" role="doc-biblioref">1950</a>)</span> and <span class="citation" data-cites="Cliff.1972">Cliff and Ord (<a href="#ref-Cliff.1972" role="doc-biblioref">1972</a>)</span>. For more extensive materials on Moran’s I see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, Chapter 11.</p>
 <p>To calculate Moran’s I, we first define a neighbours weights matrix W.</p>
 <p>Global Moran’s I test statistic: <span class="math display">\[      
 \bm I  = \frac{N}{S_0}  
@@ -557,7 +557,7 @@ Observed Moran I      Expectation         Variance
 \hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' &lt; h_{i,1}
 \]</span></p>
 <p>with the number of available pairs <span class="math inline">\(N(h_i)\)</span> in each distance interval <span class="math inline">\(h_i\)</span>. Basically, <em>it is the variance within each distance interval</em>.</p>
-<p>For more information, see for instance the <a href="https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html">Geospatial Data Science in R</a> by Zia Ahmed or <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>For more information, see for instance the <a href="https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html">Geospatial Data Science in R</a> by Zia Ahmed or <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
 <p>To calculate the empirical semi-vriogram, we can use the package <code>gstat</code> with the function <code>variogram()</code>.</p>
 <div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-10_3f834fbdd0f9b68a29c0f79016ab3abe">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Variogram No2</span></span>
@@ -606,7 +606,7 @@ Observed Moran I      Expectation         Variance
 </section></section><section id="local-autocorrelation" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="local-autocorrelation">
 <span class="header-section-number">5.2</span> Local Autocorrelation</h2>
 <p>The Global Moran’s I statistic above summarizes the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often more helpful to inspect the spatial pattern in more detail.</p>
-<p>The most prominent measure is the Local Indicators of Spatial Association (LISA) <span class="citation" data-cites="Anselin.1995">(<a href="references.html#ref-Anselin.1995" role="doc-biblioref">Anselin 1995</a>)</span>. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the <a href="https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html">GeoData Materials</a> by Luc Anselin.</p>
+<p>The most prominent measure is the Local Indicators of Spatial Association (LISA) <span class="citation" data-cites="Anselin.1995">(<a href="#ref-Anselin.1995" role="doc-biblioref">Anselin 1995</a>)</span>. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the <a href="https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html">GeoData Materials</a> by Luc Anselin.</p>
 <p>For instance, we can use the Moran Plot to identify how single (pairs of) units contribute to the overall dependence.</p>
 <div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-13_9d4deeb18f29e3165b83d4010d3e911b">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu">moran.plot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, <span class="va">queens.lw</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -640,7 +640,7 @@ Observed Moran I      Expectation         Variance
 </div>
 </section><section id="local-morans-i" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="local-morans-i">
 <span class="header-section-number">5.3</span> Local Moran’s I</h2>
-<p>Local Moran’s I is a local version of the overall Moran’s I to identify local clusters and local spatial outliers <span class="citation" data-cites="Anselin.1995">(<a href="references.html#ref-Anselin.1995" role="doc-biblioref">Anselin 1995</a>)</span>. The Local Moran’s I is just a local version which is calculated for each location:</p>
+<p>Local Moran’s I is a local version of the overall Moran’s I to identify local clusters and local spatial outliers <span class="citation" data-cites="Anselin.1995">(<a href="#ref-Anselin.1995" role="doc-biblioref">Anselin 1995</a>)</span>. The Local Moran’s I is just a local version which is calculated for each location:</p>
 <p><span class="math display">\[      
         \bm I_i  =  
         \frac{z_i \sum_j w_{ij}z_j}
@@ -672,7 +672,7 @@ Observed Moran I      Expectation         Variance
 6  Low-High  Low-High  Low-High</code></pre>
 </div>
 </div>
-<p>This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g.&nbsp;by Bonferroni adjustment <span class="citation" data-cites="Bivand.2018a">(<a href="references.html#ref-Bivand.2018a" role="doc-biblioref">Bivand and Wong 2018</a>)</span>.</p>
+<p>This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g.&nbsp;by Bonferroni adjustment <span class="citation" data-cites="Bivand.2018a">(<a href="#ref-Bivand.2018a" role="doc-biblioref">Bivand and Wong 2018</a>)</span>.</p>
 <div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-17_349736b915c1464cf6df8ea3e4bba1bb">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loci.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">loci</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">)</span><span class="op">)</span></span>
@@ -736,8 +736,8 @@ Observed Moran I      Expectation         Variance
 <p><img src="04_dependence_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<p>Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> suggest to speak of <em>interesting clusters</em>. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.</p>
-<p>There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see <a href="https://r-spatial.org/book/15-Measures.html">Chapter 15</a> of <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
+<p>Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span> suggest to speak of <em>interesting clusters</em>. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.</p>
+<p>There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see <a href="https://r-spatial.org/book/15-Measures.html">Chapter 15</a> of <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
 </section><section id="example-1" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="example-1">
 <span class="header-section-number">5.4</span> Example</h2>
 <section id="tate.2021" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="tate.2021">Tate.2021</h3>
@@ -825,7 +825,7 @@ Moran I statistic       Expectation          Variance
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Anselin.1995" class="csl-entry" role="listitem">
 Anselin, Luc. 1995. <span>“Local <span>Indicators</span> of <span>Spatial Association-LISA</span>.”</span> <em>Geographical Analysis</em> 27 (2): 93–115. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x">https://doi.org/10.1111/j.1538-4632.1995.tb00338.x</a>.
 </div>

@@ -1,19 +1,9 @@
-::: {.content-hidden unless-format="html"}
-$$
-\newcommand{\tr}{\mathrm{tr}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\plim}{\operatornamewithlimits{plim}}
-\newcommand{\diag}{\mathrm{diag}}
-\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
-\newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Exp}{\mathrm{E}}
-\newcommand{\Cov}{\mathrm{Cov}}
 \newcommand\given[1][]{\:#1\vert\:}
-\newcommand{\irow}[1]{%
-\begin{pmatrix}#1\end{pmatrix}
-}
-$$
-:::
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
 
 # Exercises II
 
@@ -47,39 +37,138 @@ How would you investigate the following descriptive research question: Are immig
 
 Assume a typical neighbourhood would be 2.5km in diameter
 
+```{r}
+coords <- st_centroid(msoa.spdf)
+
+# Neighbours within 3km distance
+dist_15.nb <- dnearneigh(coords, d1 = 0, d2 = 2500)
+
+summary(dist_15.nb)
+
+# There are some empty neighbour sets. Lets impute those with the nearest neighbour.
+k2.nb <- knearneigh(coords, k = 1)
+
+# Replace zero
+nolink_ids <- which(card(dist_15.nb) == 0)
+dist_15.nb[card(dist_15.nb) == 0] <- k2.nb$nn[nolink_ids, ]
+
+summary(dist_15.nb)
+
+# listw object with row-normalization
+dist_15.lw <- nb2listw(dist_15.nb, style = "W")
+```
 
 
 ### 2) Estimate the extent of spatial auto-correlation in air pollution {.unnumbered}
 
+```{r}
+moran.test(msoa.spdf$no2, listw = dist_15.lw)
+```
 
 
 ### 3) Estimate a Spatial SAR regression model {.unnumbered}
 
+```{r}
+mod_1.sar <- lagsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU  + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = FALSE) # we could here extend to SDM
+summary(mod_1.sar)
+```
 
 
 ### 4) Estimate a Spatial SEM regression model {.unnumbered}
+
+```{r}
+mod_1.sem <- errorsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU  + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = FALSE) # we could here extend to SDEM
+summary(mod_1.sem)
+```
 
 
 
 ### 5) Estimate a Spatial SLX regression model {.unnumbered}
 
+```{r}
+mod_1.slx <- lmSLX(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU  + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw)
+summary(mod_1.slx)
+```
+
 
 
 ### 6) Estimate a Spatial Durbin regression model {.unnumbered}
 
-
+```{r}
+mod_1.dub <- lagsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU  + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = TRUE) # Extend here to Durbin
+summary(mod_1.dub)
+```
 
 ### 7) Estimate a Spatial Durbin Error regression model {.unnumbered}
 
-
+```{r}
+mod_1.dube <- errorsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU  + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = TRUE) # Extend here to Durbin
+summary(mod_1.dube)
+```
 
 ### 8) Sneak preview on tomorrow: Which of the spatial model specifications about would you choose / prefer in a real world example?
 
-
 ### 9) Please calculate the spatially lagged value of the median house price.
 
+```{r}
+# Use lag.listw to lag variable
+splag <- lag.listw(dist_15.lw,
+                   var = msoa.spdf$med_house_price)
 
+msoa.spdf$w.med_house_price <- splag
+
+# Compare
+summary(msoa.spdf$med_house_price)
+summary(msoa.spdf$w.med_house_price)
+```
 
 ### 10) Can you use the results of the previous task to run a non-linear SLX model, where you predict if an MSOA is within the ulez zone based on the house prices? Can you make sense of the result?
 
+```{r}
+### Calculate SLX logit
+mod_2.log <- glm(ulez ~ med_house_price + w.med_house_price,
+                 data = msoa.spdf,
+                 family = "binomial")
+summary(mod_2.log)
+```
+
+
+```{r}
+### Distance to city center
+# Define centre
+centre <- st_as_sf(data.frame(lon = -0.128120855701165, 
+                              lat = 51.50725909644806),
+                   coords = c("lon", "lat"), 
+                   crs = 4326)
+# Reproject
+centre <- st_transform(centre, crs = st_crs(msoa.spdf))
+# Calculate distance
+msoa.spdf$dist_centre <- as.numeric(st_distance(msoa.spdf, centre)) / 1000
+# hist(msoa.spdf$dist_centre)
+
+### Add distance to city centre
+mod_2.log <- glm(ulez ~ med_house_price + w.med_house_price + dist_centre,
+                 data = msoa.spdf,
+                 family = "binomial")
+summary(mod_2.log)
+```
 

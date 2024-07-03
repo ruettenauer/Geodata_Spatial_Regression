@@ -46,11 +46,11 @@ format:
         out.width: 100%
         R.options:
           width: 68
-  pdf:
-    documentclass: scrbook
-    always_allow_html: true
-    include-in-header:
-      - text: |
-          \usepackage{dcolumn}
+  # pdf:
+  #   documentclass: scrbook
+  #   always_allow_html: true
+  #   include-in-header:
+  #     - text: |
+  #         \usepackage{dcolumn}
     
 pdf-engine: lualatex

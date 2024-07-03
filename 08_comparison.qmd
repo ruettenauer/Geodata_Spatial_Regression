@@ -542,9 +542,52 @@ texreg(list(mod_1.ols, mod_1.sar, mod_1.sem, mod_1.slx.lm, mod_1.sdm, mod_1.sdem
   reorder.gof = c(1, 3:6, 2))
 ```
 
+
+::: {.content-hidden unless-format="html"}
+
+```{r}
+#| label: tbl-results
+#| tbl-cap: "Regression Coefficients Dependent variable: Median house prices."
+#| echo: false
+#| results: asis
+
+knitreg(list(mod_1.ols, mod_1.sar, mod_1.sem, mod_1.slx.lm, mod_1.sdm, mod_1.sdem),
+          custom.coef.map = list('(Intercept)' =  '(Intercept)',
+                                 'park_kmsq' =  'Green space',
+                                 'pt_access_index' =  'Public transport access',
+                                 'POPDEN' =  'Population density',
+                                 'per_nonUK' =  'Percent non-UK',
+                                 'per_social' = 'Percent social housing',
+                                 'lag.park_kmsq' =  'W Green space',
+                                 'lag.pt_access_index' =  'W Public transport access',
+                                 'lag.POPDEN' =  'W Population density',
+                                 'lag.per_nonUK' =  'W Percent non-UK',
+                                 'lag.per_social' = 'W Percent social housing',
+                                 'rho' = 'rho',
+                                 'lambda' = 'lambda'),
+          custom.model.names = c("OLS", "SAR", "SEM", "SLX", "SDM", "SDEM"),
+          dcolumn = TRUE, caption.above = TRUE, digits = 3, use.packages = FALSE,
+          caption = "Spatial regression models. Outcome variable: median house price.",
+          include.nobs = FALSE, fontsize = "scriptsize",
+  include.loglik = FALSE,
+  include.aic = FALSE,
+  include.lr = TRUE,
+  include.wald = FALSE,
+  include.fstatistic = FALSE,
+  include.rmse = FALSE,
+  custom.gof.rows = list('Num. obs.' = n.l, 
+                         'AIC' = aic.l), 
+  reorder.gof = c(1, 3:6, 2))
+```
+
+:::
+
+
+::: {.content-hidden unless-format="pdf"}
 ```{=latex}
 \input{fig/Regression.tex}
 ```
+:::
 
 Compared to results from conventional non-spatial models, Table 1 comes with several additions: First, variables starting with a "W" (or "lag") indicate the spatially lagged variable or in the case of row-normalized weights matrices the average value of the respective variable across the local neighbours. Moreover, there are two auto-regressive parameters: "rho" for the estimated auto-correlation in the dependent variable and "lambda" for the estimated auto-correlation in the error term. In case of the SAR, a highly significant $\hat\rho$ coefficient of `r round(mod_1.sar$rho, 3)` indicates strong positive spatial auto-correlation in the median house price: the house price in adjacent areas positively impacts the focal house prices. A $\hat\lambda$ of `r round(mod_1.sem$lambda, 3)` in the SEM however indicates that there is very strong spatial auto-correlation among the (remaining) error variance. The likelihood ratio test in the goodness-of-fit statistics are highly significant in both cases, rejecting the NULL of no spatial auto-autocorrelation.
 

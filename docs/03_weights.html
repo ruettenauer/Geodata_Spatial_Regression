@@ -365,7 +365,7 @@ loaded via a namespace (and not attached):
 </section><section id="spatial-interdependence" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="spatial-interdependence">
 <span class="header-section-number">3.1</span> Spatial interdependence</h2>
 <p>We can not only use coordinates and geo-spatial information to connect different data sources, we can also explicitly model spatial (inter)dependence in the analysis of our data. In many instance, accounting for spatial dependence might even be necessary to avoid biased point estimates and standard errors, as observations are often not independent and identically distributed.</p>
-<p>Tobler’s first law of geography has been used extensively (11,584 citation in 2023-06) to describe spatial dependence: ‘Everything is related to everything else, but near things are more related than distant things’ <span class="citation" data-cites="Tobler.1970">(<a href="#ref-Tobler.1970" role="doc-biblioref">Tobler 1970</a>)</span>.</p>
+<p>Tobler’s first law of geography has been used extensively (11,584 citation in 2023-06) to describe spatial dependence: ‘Everything is related to everything else, but near things are more related than distant things’ <span class="citation" data-cites="Tobler.1970">(<a href="references.html#ref-Tobler.1970" role="doc-biblioref">Tobler 1970</a>)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -377,17 +377,17 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Tobler’s first law is a bit of story</p>
-<p>And it has been labeled as an excuse to not think too much about the reasons for spatial dependence or auto-correlation. For instance, measurement error, omitted variables, or inappropriate levels of aggregation are among reasons for auto-correlation <span class="citation" data-cites="Pebesma.2023">(<a href="#ref-Pebesma.2023" role="doc-biblioref">Pebesma and Bivand 2023</a>)</span>.</p>
+<p>And it has been labeled as an excuse to not think too much about the reasons for spatial dependence or auto-correlation. For instance, measurement error, omitted variables, or inappropriate levels of aggregation are among reasons for auto-correlation <span class="citation" data-cites="Pebesma.2023">(<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">Pebesma and Bivand 2023</a>)</span>.</p>
 </div>
 </div>
 <p>We will come back to the reasons of spatial dependence. However, for now, we are interested in some tools to detect and analyse spatial relations.</p>
 <p>To analyse spatial relations, we first need to define some sort of connectivity between units (e.g.&nbsp;similar to network analysis). There are some obvious candidates that be used to define these relations here: adjacency and proximity.</p>
 </section><section id="bm-w-connectivity-between-units" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="bm-w-connectivity-between-units">
 <span class="header-section-number">3.2</span> <span class="math inline">\(\bm W\)</span>: Connectivity between units</h2>
-<p>The connectivity between units is usually represented in a matrix <span class="math inline">\(\bm W\)</span>. There is an ongoing debate about the importance of spatial weights for spatial econometrics and about the right way to specify weights matrices <span class="citation" data-cites="LeSage.2014a Neumayer.2016">(<a href="#ref-LeSage.2014a" role="doc-biblioref">LeSage and Pace 2014</a>; <a href="#ref-Neumayer.2016" role="doc-biblioref">Neumayer and Plümper 2016</a>)</span>. The following graph shows some possible options in how to define connectivity between units.</p>
+<p>The connectivity between units is usually represented in a matrix <span class="math inline">\(\bm W\)</span>. There is an ongoing debate about the importance of spatial weights for spatial econometrics and about the right way to specify weights matrices <span class="citation" data-cites="LeSage.2014a Neumayer.2016">(<a href="references.html#ref-LeSage.2014a" role="doc-biblioref">LeSage and Pace 2014</a>; <a href="references.html#ref-Neumayer.2016" role="doc-biblioref">Neumayer and Plümper 2016</a>)</span>. The following graph shows some possible options in how to define connectivity between units.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="fig/Bivand_neighbours.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure: Different measures of connectivity, Source: <span class="citation" data-cites="Bivand.2018">Bivand and Rudel (<a href="#ref-Bivand.2018" role="doc-biblioref">2018</a>)</span></figcaption></figure>
+<figcaption class="figure-caption">Figure: Different measures of connectivity, Source: <span class="citation" data-cites="Bivand.2018">Bivand and Rudel (<a href="references.html#ref-Bivand.2018" role="doc-biblioref">2018</a>)</span></figcaption></figure>
 </div>
 <p>In spatial econometrics, the spatial connectivity (as shown above) is usually represented by a spatial weights matrix <span class="math inline">\({\boldsymbol{\mathbf{W}}}\)</span>:</p>
 <p><span class="math display">\[
@@ -596,7 +596,7 @@ Link number distribution:
 </h2>
 <p>Normalizing ensures that the parameter space of the spatial multiplier is restricted to <span class="math inline">\(-1 &lt; \rho &gt; 1\)</span>, and the multiplier matrix is non-singular (don’t worry, more on this later).</p>
 <p>The main message: Normalizing your weights matrix is always a good idea. Otherwise, the spatial parameters might blow up – if you can estimate the model at all. It also ensure easy interpretation of spillover effects.</p>
-<p>Again, how to normalize a weights matrix is subject of debate <span class="citation" data-cites="LeSage.2014a Neumayer.2016">(<a href="#ref-LeSage.2014a" role="doc-biblioref">LeSage and Pace 2014</a>; <a href="#ref-Neumayer.2016" role="doc-biblioref">Neumayer and Plümper 2016</a>)</span>.</p>
+<p>Again, how to normalize a weights matrix is subject of debate <span class="citation" data-cites="LeSage.2014a Neumayer.2016">(<a href="references.html#ref-LeSage.2014a" role="doc-biblioref">LeSage and Pace 2014</a>; <a href="references.html#ref-Neumayer.2016" role="doc-biblioref">Neumayer and Plümper 2016</a>)</span>.</p>
 <section id="row-normalization" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="row-normalization">
 <span class="header-section-number">3.3.1</span> Row-normalization</h3>
 <p>Row-normalization divides each non-zero weight by the sum of all weights of unit <span class="math inline">\(i\)</span>, which is the sum of the row.</p>
@@ -860,7 +860,7 @@ minmax 983 966289 463.6269 23.92505 1117.636</code></pre>
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Bivand.2018" class="csl-entry" role="listitem">
 Bivand, Roger S., and Colin Rudel. 2018. <span>“Rgeos: <span>Interface</span> to <span>Geometry Engine</span> - <span>Open Source</span> (’<span>GEOS</span>’).”</span>
 </div>

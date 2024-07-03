@@ -360,7 +360,7 @@ loaded via a namespace (and not attached):
 </section><section id="geographically-weighted-regression" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="geographically-weighted-regression">
 <span class="header-section-number">13.1</span> Geographically weighted regression</h2>
 <p>Does the relation between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> vary depending on the region we are looking at? With geographically weighted regressions (GWR), we can exploit the spatial heterogeneity in relations / coefficients.</p>
-<p>GWR <span class="citation" data-cites="Brunsdon.1996 Gollini.2015">(<a href="#ref-Brunsdon.1996" role="doc-biblioref">Brunsdon, Fotheringham, and Charlton 1996</a>; <a href="#ref-Gollini.2015" role="doc-biblioref">Gollini et al. 2015</a>)</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For <span class="math inline">\(L\)</span> given locations across London, we receive <span class="math inline">\(L\)</span> different coefficients.</p>
+<p>GWR <span class="citation" data-cites="Brunsdon.1996 Gollini.2015">(<a href="references.html#ref-Brunsdon.1996" role="doc-biblioref">Brunsdon, Fotheringham, and Charlton 1996</a>; <a href="references.html#ref-Gollini.2015" role="doc-biblioref">Gollini et al. 2015</a>)</span> is mainly an explorative tool for spatial data analysis in which we estimate an equation at different geographical points. For <span class="math inline">\(L\)</span> given locations across London, we receive <span class="math inline">\(L\)</span> different coefficients.</p>
 <p><span class="math display">\[
 \begin{split}
 \hat{\bm \beta}_l=&amp; ({\bm X}^\intercal{\bm M}_l{\bm X})^{-1}{\bm X}^\intercal{\bm M}_l{\bm Y},
@@ -525,7 +525,7 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
 <li><p>Estimation challenging and computationally intense</p></li>
 <li><p>Hard to interpret due to non-linear effects in non-linear models</p></li>
 </ul>
-<p><span class="citation" data-cites="Elhorst.2017a">Elhorst et al. (<a href="#ref-Elhorst.2017a" role="doc-biblioref">2017</a>)</span>, <span class="citation" data-cites="Franzese.2016">Franzese, Hays, and Cook (<a href="#ref-Franzese.2016" role="doc-biblioref">2016</a>)</span></p>
+<p><span class="citation" data-cites="Elhorst.2017a">Elhorst et al. (<a href="references.html#ref-Elhorst.2017a" role="doc-biblioref">2017</a>)</span>, <span class="citation" data-cites="Franzese.2016">Franzese, Hays, and Cook (<a href="references.html#ref-Franzese.2016" role="doc-biblioref">2016</a>)</span></p>
 <section id="problem-with-non-linear-models" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="problem-with-non-linear-models">
 <span class="header-section-number">13.2.1</span> Problem with non-linear models</h3>
 <p>Spatial-SAR-Probit <span class="math display">\[
@@ -567,13 +567,13 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
 <span class="header-section-number">13.2.2</span> Estimation</h3>
 <p>Estimation methods for Spatial-SAR Probit / Logit</p>
 <ul>
-<li><p>Expectation Maximization <span class="citation" data-cites="McMillen.1992">(<a href="#ref-McMillen.1992" role="doc-biblioref">McMillen 1992</a>)</span>.</p></li>
-<li><p>(Linearized) Generalized Methods of Moments <span class="citation" data-cites="Klier.2008">(<a href="#ref-Klier.2008" role="doc-biblioref">Klier and McMillen 2008</a>)</span>.</p></li>
-<li><p>Recursive Importance Sampling <span class="citation" data-cites="Beron.2004">(<a href="#ref-Beron.2004" role="doc-biblioref">Beron and Vijverberg 2004</a>)</span>.</p></li>
-<li><p>Maximum Simulated Likelihood RIS <span class="citation" data-cites="Franzese.2016">(<a href="#ref-Franzese.2016" role="doc-biblioref">Franzese, Hays, and Cook 2016</a>)</span></p></li>
-<li><p>Bayesian approach with Markov Chain Monte Carlo simulations <span class="citation" data-cites="LeSage.2009">(<a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>: R package <code>spatialprobit</code></p></li>
+<li><p>Expectation Maximization <span class="citation" data-cites="McMillen.1992">(<a href="references.html#ref-McMillen.1992" role="doc-biblioref">McMillen 1992</a>)</span>.</p></li>
+<li><p>(Linearized) Generalized Methods of Moments <span class="citation" data-cites="Klier.2008">(<a href="references.html#ref-Klier.2008" role="doc-biblioref">Klier and McMillen 2008</a>)</span>.</p></li>
+<li><p>Recursive Importance Sampling <span class="citation" data-cites="Beron.2004">(<a href="references.html#ref-Beron.2004" role="doc-biblioref">Beron and Vijverberg 2004</a>)</span>.</p></li>
+<li><p>Maximum Simulated Likelihood RIS <span class="citation" data-cites="Franzese.2016">(<a href="references.html#ref-Franzese.2016" role="doc-biblioref">Franzese, Hays, and Cook 2016</a>)</span></p></li>
+<li><p>Bayesian approach with Markov Chain Monte Carlo simulations <span class="citation" data-cites="LeSage.2009">(<a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>: R package <code>spatialprobit</code></p></li>
 </ul>
-<p>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal’ effects may vary with values of the independent variables and the location <span class="citation" data-cites="Lacombe.2018">(<a href="#ref-Lacombe.2018" role="doc-biblioref">Lacombe and LeSage 2018</a>)</span>.</p>
+<p>Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal’ effects may vary with values of the independent variables and the location <span class="citation" data-cites="Lacombe.2018">(<a href="references.html#ref-Lacombe.2018" role="doc-biblioref">Lacombe and LeSage 2018</a>)</span>.</p>
 </section><section id="suggestion" class="level3" data-number="13.2.3"><h3 data-number="13.2.3" class="anchored" data-anchor-id="suggestion">
 <span class="header-section-number">13.2.3</span> Suggestion</h3>
 <pre><code>In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. 
@@ -590,7 +590,7 @@ If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Beron.2004" class="csl-entry" role="listitem">
 Beron, Kurt J., and Wim P. M. Vijverberg. 2004. <span>“Probit in a <span>Spatial Context</span>: <span>A Monte Carlo Analysis</span>.”</span> In <em>Advances in <span>Spatial Econometrics</span>: <span>Methodology</span>, <span>Tools</span> and <span>Applications</span></em>, edited by Luc Anselin, Florax, Raymond J. G. M, and Sergio J. Rey, 169–95. <span>Berlin, Heidelberg</span>: <span>Springer Berlin Heidelberg</span>. <a href="https://doi.org/10.1007/978-3-662-05617-2%E2%80%97%208">https://doi.org/10.1007/978-3-662-05617-2‗ 8</a>.
 </div>

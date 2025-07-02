@@ -1,9 +1,9 @@
 project:
   type: book
   output-dir: docs
-execute:
-  cache: true  
-  freeze: auto
+# execute:
+#   cache: true  
+#   freeze: auto
 
 book:
   title: "Geodata & Spatial Regression"

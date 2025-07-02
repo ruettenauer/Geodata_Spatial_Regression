@@ -293,20 +293,20 @@ div.csl-indent {
 }
 \]</span></p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-1_319d61d217060359c1ba60b414dd6937">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-2_026bc298aa2c4ad11c332b8321826eaf">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -323,37 +323,52 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-4        spatialreg_1.3-4 
-[4] Matrix_1.7-0      spdep_1.3-5       spData_2.3.1     
-[7] mapview_2.11.2    sf_1.0-16        
+[1] viridisLite_0.4.2 tmap_4.1          spatialreg_1.3-6 
+[4] Matrix_1.7-3      spdep_1.3-13      spData_2.3.4     
+[7] mapview_2.11.2    sf_1.0-21        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
- [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
- [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
-[10] sandwich_3.1-0     proxy_0.4-27       KernSmooth_2.23-24
-[13] satellite_1.0.5    RColorBrewer_1.1-3 leaflet_2.2.2     
-[16] lifecycle_1.0.4    compiler_4.4.1     deldir_2.0-4      
-[19] munsell_0.5.1      terra_1.7-78       codetools_0.2-20  
-[22] leafsync_0.1.0     stars_0.6-5        htmltools_0.5.8.1 
-[25] class_7.3-22       MASS_7.3-60.2      classInt_0.4-10   
-[28] lwgeom_0.2-14      wk_0.9.1           abind_1.4-5       
-[31] boot_1.3-30        multcomp_1.4-25    nlme_3.1-164      
-[34] digest_0.6.35      mvtnorm_1.2-5      splines_4.4.1     
-[37] fastmap_1.2.0      grid_4.4.1         colorspace_2.1-0  
-[40] cli_3.6.2          magrittr_2.0.3     base64enc_0.1-3   
-[43] dichromat_2.0-0.1  XML_3.99-0.16.1    survival_3.6-4    
-[46] leafem_0.2.3       TH.data_1.1-2      e1071_1.7-14      
-[49] scales_1.3.0       sp_2.1-4           rmarkdown_2.27    
-[52] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
-[55] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
-[58] s2_1.1.6           rlang_1.1.4        Rcpp_1.0.12       
-[61] glue_1.7.0         DBI_1.2.3          rstudioapi_0.16.0 
-[64] jsonlite_1.8.8     R6_2.5.1           units_0.8-5       </code></pre>
+ [1] xfun_0.52               raster_3.6-32          
+ [3] htmlwidgets_1.6.4       lattice_0.22-7         
+ [5] leaflet.providers_2.0.0 tools_4.5.1            
+ [7] crosstalk_1.2.1         LearnBayes_2.15.1      
+ [9] parallel_4.5.1          stats4_4.5.1           
+[11] sandwich_3.1-1          proxy_0.4-27           
+[13] KernSmooth_2.23-26      data.table_1.17.6      
+[15] satellite_1.0.5         RColorBrewer_1.1-3     
+[17] leaflet_2.2.2           lifecycle_1.0.4        
+[19] compiler_4.5.1          farver_2.1.2           
+[21] deldir_2.0-4            terra_1.8-54           
+[23] leafsync_0.1.0          codetools_0.2-20       
+[25] leaflegend_1.2.1        stars_0.6-8            
+[27] htmltools_0.5.8.1       class_7.3-23           
+[29] MASS_7.3-65             classInt_0.4-11        
+[31] lwgeom_0.2-14           wk_0.9.4               
+[33] boot_1.3-31             abind_1.4-8            
+[35] multcomp_1.4-28         nlme_3.1-168           
+[37] digest_0.6.37           mvtnorm_1.3-3          
+[39] splines_4.5.1           fastmap_1.2.0          
+[41] grid_4.5.1              colorspace_2.1-1       
+[43] cli_3.6.5               logger_0.4.0           
+[45] magrittr_2.0.3          maptiles_0.10.0        
+[47] base64enc_0.1-3         XML_3.99-0.18          
+[49] dichromat_2.0-0.1       cols4all_0.8           
+[51] survival_3.8-3          leafem_0.2.4           
+[53] TH.data_1.1-3           e1071_1.7-16           
+[55] scales_1.4.0            sp_2.2-0               
+[57] rmarkdown_2.29          zoo_1.8-14             
+[59] png_0.1-8               coda_0.19-4.1          
+[61] evaluate_1.0.4          knitr_1.50             
+[63] tmaptools_3.2           s2_1.1.9               
+[65] rlang_1.1.6             Rcpp_1.0.14            
+[67] glue_1.8.0              DBI_1.2.3              
+[69] rstudioapi_0.17.1       jsonlite_2.0.0         
+[71] R6_2.6.1                spacesXYZ_1.6-0        
+[73] units_0.8-7            </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-3_a0719479998db228e451f78e8c56b85f">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="coefficient-estimates-neq-marginal-effects" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="coefficient-estimates-neq-marginal-effects">
@@ -473,7 +488,7 @@ Warning
 \]</span></p>
 <p>As you can see, <span class="math inline">\((\bm I_N - \rho \bm W)^{-1}\)</span> has <span class="math inline">\(&gt;1\)</span>: these are feedback loops. My <span class="math inline">\(X\)</span> influences my <span class="math inline">\(Y\)</span> directly, but my <span class="math inline">\(Y\)</span> then influences my neigbour’s <span class="math inline">\(Y\)</span>, which then influences my <span class="math inline">\(Y\)</span> again (also also other neighbour’s <span class="math inline">\(Y\)</span>s). Thus the influence of my <span class="math inline">\(X\)</span> on my <span class="math inline">\(Y\)</span> includes a spatial multiplier.</p>
 <p>Check yourself:</p>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-4_37eb6fdc66c9bf18dbb5c9ad06e07aea">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">I</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">rho</span> <span class="op">=</span> <span class="fl">0.6</span></span>
 <span><span class="va">W</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span> , <span class="fl">0.5</span> , <span class="fl">0</span> , <span class="fl">0.5</span> , <span class="fl">0</span>,</span>
@@ -589,7 +604,7 @@ Question
   \end{pmatrix}\\
 \end{split}
 \]</span></p>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-5_541de2dbf4873a0bc731a4981bf349fc">
+<div class="cell">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">8</span>,<span class="fl">5</span><span class="op">)</span>,</span>
 <span>           x2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">140</span>,<span class="fl">200</span>,<span class="fl">70</span>,<span class="fl">270</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">WX</span> <span class="op">&lt;-</span>  <span class="va">W</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">X</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -751,7 +766,7 @@ Common ratio between direct and indirect impacts in SAR and SAC
 </div>
 </div>
 <p>We can calculate these impacts using <code>impacts()</code> with simulated distributions, e.g.&nbsp;for the SAR model:</p>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-6_304f92be20c2b1b9c391934e8ec42735">
+<div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sar.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.sar</span>, listw <span class="op">=</span> <span class="va">queens.lw</span>, R <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.sar.imp</span>, zstats <span class="op">=</span> <span class="cn">TRUE</span>, short <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -768,30 +783,30 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0491325666 0.0960673435 0.130678524
-log(POPDEN) 0.0140708825 0.0271159538 0.040250826
-per_mixed   0.0067591426 0.0124740956 0.018994819
-per_asian   0.0005109075 0.0008311626 0.001287245
-per_black   0.0010480375 0.0024645474 0.002883968
-per_other   0.0032000020 0.0055828657 0.008763915
+log(no2)    0.0487560358 0.0915725127 0.127881726
+log(POPDEN) 0.0141513870 0.0260421567 0.039346599
+per_mixed   0.0064028464 0.0115804813 0.017800648
+per_asian   0.0004950041 0.0008466437 0.001296977
+per_black   0.0009850150 0.0022117328 0.002680980
+per_other   0.0033172782 0.0056771818 0.008982022
 
 Simulated z-values:
-                 Direct   Indirect       Total
-log(no2)      9.1202522  7.9036075   9.2393144
-log(POPDEN)  -4.4803192 -3.9619012  -4.2352614
-per_mixed     3.0842620  2.8487992   2.9683442
-per_asian    -5.0186410 -5.2080104  -5.3546631
-per_black   -13.5967228 -9.8015390 -13.3171508
-per_other    -0.5795272 -0.5802953  -0.5812698
+                 Direct    Indirect       Total
+log(no2)      9.2031165   8.2479825   9.4149180
+log(POPDEN)  -4.4238853  -4.0566084  -4.2760226
+per_mixed     3.1731306   2.9709044   3.0741336
+per_asian    -5.1953173  -5.1093922  -5.3181655
+per_black   -14.4136021 -10.8115325 -14.2148899
+per_other    -0.5073816  -0.5104742  -0.5100389
 
 Simulated p-values:
             Direct     Indirect   Total     
-log(no2)    &lt; 2.22e-16 2.6645e-15 &lt; 2.22e-16
-log(POPDEN) 7.4532e-06 7.4355e-05 2.2829e-05
-per_mixed   0.0020406  0.0043885  0.0029941 
-per_asian   5.2038e-07 1.9088e-07 8.5716e-08
+log(no2)    &lt; 2.22e-16 2.2204e-16 &lt; 2.22e-16
+log(POPDEN) 9.6942e-06 4.9790e-05 1.9026e-05
+per_mixed   0.001508   0.0029692  0.0021111 
+per_asian   2.0437e-07 3.2320e-07 1.0482e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.5622335  0.5617155  0.5610586 </code></pre>
+per_other   0.611887   0.6097193  0.6100242 </code></pre>
 </div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Alternative with traces (better for large W)</span></span>
 <span><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="va">queens.lw</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span>
@@ -816,36 +831,36 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                   Direct     Indirect       Total
-log(no2)    0.0462390820 0.0923935061 0.127195241
-log(POPDEN) 0.0141127624 0.0274843870 0.040906936
-per_mixed   0.0061703712 0.0113014580 0.017289936
-per_asian   0.0005106548 0.0008247543 0.001293007
-per_black   0.0009932772 0.0022216093 0.002724925
-per_other   0.0033396830 0.0057357218 0.009063946
+log(no2)    0.0489890158 0.0933886261 0.129707864
+log(POPDEN) 0.0142586553 0.0264135151 0.039740630
+per_mixed   0.0066501403 0.0115319039 0.017950667
+per_asian   0.0005295863 0.0008815864 0.001369081
+per_black   0.0010407401 0.0022486552 0.002725844
+per_other   0.0033977350 0.0059672858 0.009353926
 
 Simulated z-values:
                  Direct    Indirect       Total
-log(no2)      9.6736141   8.1901224   9.4658664
-log(POPDEN)  -4.4147999  -3.8546999  -4.1129721
-per_mixed     3.2960644   3.0580784   3.1751816
-per_asian    -5.0875020  -5.3086359  -5.3953887
-per_black   -14.3042225 -10.8172036 -14.0332890
-per_other    -0.4999573  -0.5048925  -0.5037124
+log(no2)      9.1108190   8.1813975   9.3315817
+log(POPDEN)  -4.4688041  -4.1411449  -4.3557772
+per_mixed     3.1729167   3.1313500   3.1871110
+per_asian    -4.7447847  -4.8666775  -4.9691499
+per_black   -13.6327193 -10.8034936 -14.1172625
+per_other    -0.5067312  -0.4996932  -0.5028424
 
 Simulated p-values:
             Direct     Indirect   Total     
 log(no2)    &lt; 2.22e-16 2.2204e-16 &lt; 2.22e-16
-log(POPDEN) 1.0110e-05 0.00011587 3.9060e-05
-per_mixed   0.0009805  0.00222761 0.0014974 
-per_asian   3.6281e-07 1.1045e-07 6.8375e-08
+log(POPDEN) 7.8658e-06 3.4558e-05 1.3260e-05
+per_mixed   0.0015092  0.00174    0.001437  
+per_asian   2.0873e-06 1.1349e-06 6.7247e-07
 per_black   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other   0.6171052  0.61363432 0.6144635 </code></pre>
+per_other   0.6123435  0.61729    0.615075  </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
 <p><em>If Log NO2 increases by one unit, this increases the house price in the focal unit by 0.448 units. Overall, a one unit change in log NO2 increases the house prices in the entire neighbourhood system (direct and higher order neighbours) by 0.754.</em></p>
 <p>For SLX models, nothing is gained from computing the impacts, as they equal the coefficients. Again, it’s the effects of direct neighbours only.</p>
-<div class="cell" data-hash="07_impacts_cache/html/unnamed-chunk-7_f2b62f793de19b1df1f025ddcab5ef86">
+<div class="cell">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.slx</span>, listw <span class="op">=</span> <span class="va">queens.lw</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Impact measures (SlX, glht):

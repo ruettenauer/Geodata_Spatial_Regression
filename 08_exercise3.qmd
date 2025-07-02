@@ -20,7 +20,7 @@ $$
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", 
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "ggplot2", "tmap", "viridis", "viridisLite", 
           "plm", "lfe", "splm", "SDPDmod")
 lapply(pkgs, require, character.only = TRUE)
 
@@ -311,25 +311,27 @@ b) Create a map of life-expectancy
 ```{r}
 cols <- viridis(n = 100, direction = -1, option = "G")
 
-mp1 <-  tm_shape(inkar_2020.spdf) + 
-  tm_fill(col = "life_expectancy", 
-          style = "cont", # algorithm to def cut points
-          palette = cols, # colours
-          stretch.palette = TRUE,
-          title = "in years"
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Life expectancy", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+mp1 <-  ggplot(data = inkar_2020.spdf) +
+  geom_sf(aes(fill = life_expectancy), color = "white", size = 0.5) +
+  scale_fill_gradientn(
+    colours = cols,  # your custom palette
+    name = "in years",
+    na.value = "grey90"
+  ) +
+  labs(title = "Life expectancy") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "black"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
 
 mp1
+
 ```
 
 ### 2) Chose some variables that could predict life expectancy. See for instance the [following paper](https://doi.org/10.1073/pnas.2003719117). {.unnumbered}

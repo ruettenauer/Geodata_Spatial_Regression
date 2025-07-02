@@ -67,7 +67,7 @@ coords <- st_centroid(msoa.spdf)
 k10.nb <- knearneigh(coords, k = 10)
 ```
 
-### 4) OPTIONAL: Can you create a map containing the City of London (MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
+### 4) OPTIONAL: Can you create a map containing the MSOA unit "City of London" (code is MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
 
 ```{r}
 i <- which(msoa.spdf$MSOA11CD == "E02000001")
@@ -75,7 +75,8 @@ i <- which(msoa.spdf$MSOA11CD == "E02000001")
 # Extract neigbours
 j <- k10.nb$nn[i,]
 
-mapview(list(msoa.spdf[i,], msoa.spdf[j,]), col.regions = c("red", "blue"))
+mapview(list(msoa.spdf[i, ], msoa.spdf[j, ]), 
+        col.regions = c("red", "blue"))
 ```
 
 

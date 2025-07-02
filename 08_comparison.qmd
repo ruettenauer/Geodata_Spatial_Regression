@@ -315,14 +315,12 @@ As an example to compare the different spatial model specifications, we estimate
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
 # Load the packages
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "texreg", "extrafont",
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "texreg", 
           "ggplot2", "ggthemes", "rmapshaper", "viridis", "gridExtra") # note: load spdep first, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
 
 # Load the data
 load("_data/msoa3_spatial.RData")
-
-loadfonts()
 
 # Create Contiguity (Queens) neighbours weights
 queens.nb <- poly2nb(msoa.spdf, 

@@ -57,21 +57,35 @@ There is one very easy and intuitive way of detecting spatial autocorrelation: J
 
 ```{r}
 mp1 <- tm_shape(msoa.spdf) +
-  tm_fill(col = "per_owner", 
-          #style = "cont",
-          style = "fisher", n = 8,
-          title = "Median", 
-          palette = viridis(n = 8, direction = -1, option = "C"),
-          legend.hist = TRUE) +
+  tm_polygons(
+    fill = "per_owner",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 8,
+      values = viridis(n = 8, direction = -1, option = "C")
+    ),
+    fill.legend = tm_legend(
+      title = "Median",
+      hist = TRUE
+    ),
+    fill.chart = tm_chart_histogram()                 # add a histogram to the legend
+  ) +
   tm_borders(col = "black", lwd = 1) +
-  tm_layout(legend.frame = TRUE, legend.bg.color = TRUE,
-            #legend.position = c("right", "bottom"),
-            legend.outside = TRUE,
-            main.title = "Percent home owners", 
-            main.title.position = "center",
-            title.snap.to.legend = TRUE) 
+  tm_layout(
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.outside = TRUE,
+    title.snap.to.legend = TRUE
+  ) +
+  tm_title_out(
+    text = "Percent home owners",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
-mp1 
+mp1
+
 
 ```
 
@@ -265,22 +279,33 @@ And we can plot influence values on the Overall Moran statistic.
 
 ```{r}
 msoa.spdf$hat_value <- mp$hat 
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "hat_value", 
-          palette = viridis(n = 10, direction = -1, option = "C"),
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Influence", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "hat_value",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      values = viridis(n = 10, direction = -1, option = "C")
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Influence",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
 mp1
+
 ```
 
 
@@ -320,26 +345,33 @@ msoa.spdf$p_value_adj2 <- p.adjust(loci.df$PrzEIi, "bonferroni")
 
 
 ```{r}
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = c("loci", "p_value", "p_value_adj1", "p_value_adj2"),
-          palette = viridis(n = 10, direction = -1, option = "C"),
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("left", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Local Morans I", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8,
-            panel.labels = c("Morans I",
-                               "P value",
-                               "p value BY",
-                             "p value Bonferroni"))
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = c("loci", "p_value", "p_value_adj1", "p_value_adj2"),
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      values = viridis(n = 10, direction = -1, option = "C")
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("left", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8,
+    panel.labels = c("Morans I", "P value", "p value BY", "p value Bonferroni")
+  ) +
+  tm_title_out(
+    text = "Local Morans I",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
 mp1
+
 ```
 
 Something you can often see are so called LISA hotspot maps. They are based on the same idea as the moran plot, and show cluster of high-high and low-low values. We can use the hotspot function to identify the clusters, with a cutoff for singificance and the adjustment for multiple testing.
@@ -353,22 +385,37 @@ msoa.spdf$lisa_cluster <- hotspot(loci,
                                   p.adjust = "BY")
 
 # Map
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = c("lisa_cluster"),
-          palette = viridis(n = 3, direction = -1, option = "D"),
-          colorNA = "white") +
-  tm_borders(col = "grey70", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("left", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Home Ownership \n LISA Clusters p(BY) < 0.05", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8,)
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "lisa_cluster",
+    fill_alpha = 1,
+    fill.scale = tm_scale_categorical(
+      values = viridis(n = 3, direction = -1, option = "D"),
+      value.na = "grey92"
+    ),
+    fill.legend = tm_legend(
+      na.show = FALSE,
+      title = "Clusters"
+    )
+  ) +
+  tm_borders(col = "grey70", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("left", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Home Ownership \n LISA Clusters p(BY) < 0.05",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
 mp1
+
 ```
 
 Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. @Pebesma.2023 suggest to speak of *interesting clusters*. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.
@@ -429,21 +476,36 @@ msoa.spdf$lisa_cluster <- hotspot(loci2,
                                   p.adjust = "BY")
 
 # Map
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = c("lisa_cluster"),
-          palette = viridis(n = 3, direction = -1, option = "D"),
-          colorNA = "white") +
-  tm_borders(col = "grey70", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("left", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Percentage White \n LISA Clusters p(BY) < 0.05", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8,)
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "lisa_cluster",
+    fill_alpha = 1,
+    fill.scale = tm_scale_categorical(
+      values = viridis(n = 4, direction = -1, option = "D"),
+      value.na = "grey92"
+    ),
+    fill.legend = tm_legend(
+      na.show = FALSE,
+      title = "Clusters"
+    )
+  ) +
+  tm_borders(col = "grey70", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("left", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Percentage White \n LISA Clusters p(BY) < 0.05",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
 mp1
+
 ```
 

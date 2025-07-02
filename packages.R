@@ -24,6 +24,7 @@ library("texreg")
 library("tidyr")
 library("tmap")
 library("tmaptools") 
+library("viridis")
 library("viridisLite")
 library("xml2")
 

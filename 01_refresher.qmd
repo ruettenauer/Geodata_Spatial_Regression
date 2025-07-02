@@ -184,7 +184,7 @@ head(ulez.spdf)
 Again, this looks like a conventional `data.frame` but has the additional column `geometry` containing the coordinates of each observation. `st_geometry()` returns only the geographic object and `st_drop_geometry()` only the `data.frame` without the coordinates. We can plot the object using `mapview()`.
 
 ```{r mapview}
-mapview(msoa.spdf[, "POPDEN"])
+mapview(msoa.spdf, zcol = "POPDEN")
 ```
 
 ### Census API (admin units)
@@ -325,7 +325,7 @@ msoa.spdf$per_asian <- msoa.spdf$KS201EW_300 / msoa.spdf$KS201EW0001 * 100
 msoa.spdf$per_black <- msoa.spdf$KS201EW_400 / msoa.spdf$KS201EW0001 * 100
 msoa.spdf$per_other <- msoa.spdf$KS201EW_500 / msoa.spdf$KS201EW0001 * 100
 
-mapview(msoa.spdf[, "per_white"])
+mapview(msoa.spdf, zcol = "per_white")
 
 ```
 

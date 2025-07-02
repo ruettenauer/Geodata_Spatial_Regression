@@ -193,7 +193,7 @@ int.df <- aggregate(list(no2 = int.df[, "no2_weighted"]),
 # Merge back to spatial data.frame
 msoa.spdf <- merge(msoa.spdf, int.df, by = "MSOA11CD", all.x = TRUE)
 
-mapview(msoa.spdf[, "no2"])
+mapview(msoa.spdf, zcol = "no2")
 
 ```
 
@@ -291,16 +291,26 @@ For instance, lets plot the NO2 estimates using tmap + `tm_fill()` (there are lo
 # Define colours
 cols <- viridis(n = 7, direction = 1, option = "C")
 
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "no2", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "NO2", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) 
+mp1 <- tm_shape(msoa.spdf) +
+  tm_polygons(
+    fill = "no2",                      # variable for fill colouring
+    fill_alpha = 1,                    # transparency 
+    fill.scale = tm_scale_intervals(
+      style = "fisher",                # algorithm to def cut points
+      n = 7,                           # Number of requested cut points
+      values = cols                    # colouring
+    ),
+    fill.legend = tm_legend(
+      title = "NO2",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(
+    col = "white",
+    lwd = 0.5,
+    fill_alpha = 0.5
+  )
+
 
 mp1
 
@@ -313,18 +323,32 @@ Tmap allows to easily combine different objects by defining a new object via `tm
 # Define colours
 cols <- viridis(n = 7, direction = 1, option = "C")
 
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "no2", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "NO2", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+mp1 <- tm_shape(msoa.spdf) +
+  tm_polygons(
+    fill = "no2",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 7,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = "NO2",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(
+    col = "white",
+    lwd = 0.5,
+    fill_alpha = 0.5
+  ) +
   tm_shape(ulez.spdf) +
-  tm_borders(col = "red", lwd = 1, alpha = 1) 
+  tm_borders(
+    col = "red",
+    lwd = 1,
+    fill_alpha = 1
+  )
+
 
 mp1
 
@@ -337,29 +361,49 @@ And it is easy to change the layout.
 # Define colours
 cols <- viridis(n = 7, direction = 1, option = "C")
 
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "no2", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = expression('in'~mu*'g'/m^{3}), 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+mp1 <- tm_shape(msoa.spdf) +
+  tm_polygons(
+    fill = "no2",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 7,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = expression('in'~mu*'g'/m^{3}),
+      hist = FALSE
+    )
+  ) +
+  tm_borders(
+    col = "white",
+    lwd = 0.5,
+    fill_alpha = 0.5
+  ) +
   tm_shape(ulez.spdf) +
-  tm_borders(col = "red", lwd = 1, alpha = 1) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "NO2", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+  tm_borders(
+    col = "red",
+    lwd = 1,
+    fill_alpha = 1
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "NO2",
+    position = tm_pos_out("center", "top",      # top cell
+                          pos.h = "center"),    # position in cell
+    size = 1.6
+  )
 
 mp1
+
 
 ```
 
@@ -380,30 +424,46 @@ osm_tmp <- read_osm(st_bbox(msoa.spdf), ext = 1.1, type = "osm-german")
 # Define colours
 cols <- viridis(n = 7, direction = 1, option = "C")
 
-mp1 <-  tm_shape(osm_tmp) + tm_rgb() +
+mp1 <- tm_shape(osm_tmp) + 
+  tm_rgb() +
+  
   tm_shape(msoa.spdf) + 
-  tm_fill(col = "no2", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 0.8, # transparency 
-          title = expression('in'~mu*'g'/m^{3}), 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_polygons(
+    fill = "no2",
+    fill_alpha = 0.8,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 7,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = expression('in'~mu*'g'/m^{3}),
+      hist = FALSE
+    )
+  ) +
   tm_shape(ulez.spdf) +
-  tm_borders(col = "red", lwd = 1, alpha = 1) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "NO2", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+  tm_borders(
+    col = "red",
+    lwd = 1,
+    fill_alpha = 1
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "NO2",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
 mp1
+
 
 ```
 
@@ -416,52 +476,83 @@ cols1 <- viridis(n = 7, direction = 1, option = "C")
 # Define colours
 cols2 <- viridis(n = 7, direction = 1, option = "D")
 
-mp1 <-  tm_shape(osm_tmp) + tm_rgb() +
+# First map: NO2
+mp1 <- tm_shape(osm_tmp) + 
+  tm_rgb() +
   tm_shape(msoa.spdf) + 
-  tm_fill(col = "no2", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols1, # colours
-          alpha = 0.8, # transparency 
-          title = expression('in'~mu*'g'/m^{3}), 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_polygons(
+    fill = "no2",
+    fill_alpha = 0.8,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 7,
+      values = cols1
+    ),
+    fill.legend = tm_legend(
+      title = expression('in'~mu*'g'/m^{3}),
+      hist = FALSE
+    )
+  ) +
   tm_shape(ulez.spdf) +
-  tm_borders(col = "red", lwd = 1, alpha = 1) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "NO2", 
-            main.title.position = "center",
-            main.title.size = 1.4,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+  tm_borders(
+    col = "red",
+    lwd = 1,
+    fill_alpha = 1
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "NO2",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.4
+  )
 
-mp2 <-  tm_shape(osm_tmp) + tm_rgb() +
+# Second map: % Black
+mp2 <- tm_shape(osm_tmp) + 
+  tm_rgb() +
   tm_shape(msoa.spdf) + 
-  tm_fill(col = "per_black", 
-          style = "fisher", # algorithm to def cut points
-          n = 7, # Number of requested cut points
-          palette = cols2, # colours
-          alpha = 0.8, # transparency 
-          title = "% white", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  #tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
+  tm_polygons(
+    fill = "per_black",
+    fill_alpha = 0.8,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 7,
+      values = cols2
+    ),
+    fill.legend = tm_legend(
+      title = "% black",
+      hist = FALSE
+    )
+  ) +
   tm_shape(ulez.spdf) +
-  tm_borders(col = "red", lwd = 1, alpha = 1) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Ethnic Black inhabitants", 
-            main.title.position = "center",
-            main.title.size = 1.4,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+  tm_borders(
+    col = "red",
+    lwd = 1,
+    fill_alpha = 1
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Ethnic Black inhabitants",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.4
+  )
 
+# Arrange side by side
 tmap_arrange(mp1, mp2, ncol = 2, nrow = 1)
 ```
 
@@ -567,88 +658,132 @@ cols <- viridis(n = 10, direction = 1, option = "B")
 cols2 <- viridis(n = 10, direction = 1, option = "E")
 
 
-mp1 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "dist_centre", 
-          style = "fisher", # algorithm to def cut points
-          n = 10, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "Distance", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Dist centre", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+library(tmap)
 
+# Map 1: Distance - Fisher
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "dist_centre",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 10,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = "Distance",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Dist centre",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
-mp2 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "dist_centre", 
-          style = "quantile", # algorithm to def cut points
-          n = 10, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "Distance", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Dist centre", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+# Map 2: Distance - Quantile
+mp2 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "dist_centre",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "quantile",
+      n = 10,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = "Distance",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Dist centre",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
+# Map 3: Pubs - Fisher
+mp3 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "pubs_count",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "fisher",
+      n = 10,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = "Count",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Pubs",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
-mp3 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "pubs_count", 
-          style = "fisher", # algorithm to def cut points
-          n = 10, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "Count", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Pubs", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
+# Map 4: Pubs - Quantile
+mp4 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "pubs_count",
+    fill_alpha = 1,
+    fill.scale = tm_scale_intervals(
+      style = "quantile",
+      n = 10,
+      values = cols
+    ),
+    fill.legend = tm_legend(
+      title = "Count",
+      hist = FALSE
+    )
+  ) +
+  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("right", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Pubs",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
 
-
-mp4 <-  tm_shape(msoa.spdf) + 
-  tm_fill(col = "pubs_count", 
-          style = "quantile", # algorithm to def cut points
-          n = 10, # Number of requested cut points
-          palette = cols, # colours
-          alpha = 1, # transparency 
-          title = "Count", 
-          legend.hist = FALSE # histogram next to map?
-          ) +
-  tm_borders(col = "white", lwd = 0.5, alpha = 0.5) +
-  tm_layout(frame = FALSE,
-            legend.frame = TRUE, legend.bg.color = TRUE,
-            legend.position = c("right", "bottom"),
-            legend.outside = FALSE,
-            main.title = "Pubs", 
-            main.title.position = "center",
-            main.title.size = 1.6,
-            legend.title.size = 0.8,
-            legend.text.size = 0.8)
 
 
 tmap_arrange(mp1, mp2, mp3, mp4, ncol = 2, nrow = 2)

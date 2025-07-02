@@ -1,6 +1,6 @@
 # Introduction {.unnumbered}
 
-This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis. @Ruttenauer.2024b provides a handbook chapter accompanying these workshop materials.
+This course material is designed for the 3-days GESIS workshop on geodata and spatial regression analysis. @Ruttenauer.2024a provides a handbook chapter accompanying these workshop materials.
 
 In recent years, more and more spatial data has become available, providing the possibility to combine otherwise unrelated data, such as social, economic, and environmental data. This also opens up the possibility of analysing spatial patterns and processes (e.g., spillover effects or diffusion).
 
@@ -10,7 +10,7 @@ The main objective of the course is the theoretical understanding and practical 
 
 The field has developed very quickly over the past few years, and *R* now provides a rich set of packages for various spatial data operations. For a more in-depth introduction into spatial data analysis in *R*, have a look into the materials references below.
 
-The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe) have provided a comprehensive [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2024). The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.
+The material introduces the use of geographical information to connect and analyze different spatial data sources very briefly. This introduction is limited to the fundamentals of using geographical information in *R*. [Stefan Jünger](https://stefanjuenger.github.io/) & [Dennis Abels](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/Dennis.Abel) have provided a comprehensive [GESIS workshop on geospatial techniques in R](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2025). The focus of this workshop will be on techniques for spatial data analysis, such as spatial regression models.
 
 ## Schedule {.unnumbered}
 
@@ -44,6 +44,8 @@ The material introduces the use of geographical information to connect and analy
 |               | Coffee break                        |
 | 15:45 - 17:15 | Other Models                        |
 
+
+
 ## Some useful packages {.unnumbered}
 
 By now, *R* provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods [see e.g. @Bivand.2021]. Important packages for fundamental spatial operations are:
@@ -70,12 +72,12 @@ By now, *R* provides a lot of functionalities for GIS applications and spatial e
 
 -   Relative intuitive introduction to spatial econometrics: @Ward.2008
 
--   Article-length introductions to spatial econometrics: @Elhorst.2012, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2024b, and @Ruttenauer.2022a
+-   Article-length introductions to spatial econometrics: @Elhorst.2012, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2024a, and @Ruttenauer.2022a
 
 ## Course materials {.unnumbered}
 
--   I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see [Stefan Jünger](https://stefanjuenger.github.io/) & [Anne-Kathrin Stroppe](https://www.gesis.org/institut/mitarbeitendenverzeichnis/person/Anne-Kathrin.Stroppe)'s [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2023). Nice materials on GIS, spatial operations and spatial data visualisation!
+-   I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see [Stefan Jünger](https://stefanjuenger.github.io/) & [Dennis Abels](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/Dennis.Abel)'s [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2025). Nice materials on GIS, spatial operations and spatial data visualisation!
 
 -   For those looking for a more in-depth introduction, I highly recommend Roger Bivand's course on Spatial Data Analysis: [Youtube recordings](https://www.youtube.com/watch?v=KkIbg50Pa0I&list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0), [Course Materials](https://rsbivand.github.io/ECS530_h19/)
 
--   I've learned most of what I know about spatial econometrics from [Scott J. Cook](http://www.scottjcook.net/) and his workshop on Spatial Econometrics at the [Essex Summer school](https://essexsummerschool.com/summer-school-facts/courses/ess-2023-course-list/).
+-   I've learned most of what I know about spatial econometrics from [Scott J. Cook](http://www.scottjcook.net/) and his workshop on Spatial Econometrics at the [Essex Summer school](https://essexsummerschool.com/).

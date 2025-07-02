@@ -22,7 +22,7 @@ $$
 ### Required packages
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", "GWmodel") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "ggplot2", "tmap", "viridis", "viridisLite", "GWmodel") # note: load spdep first, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -86,23 +86,27 @@ gwr.spdf <- st_make_valid(gwr.spdf)
 # Map
 tmap_mode("view")
 
-mp2 <- tm_shape(gwr.spdf) +
-  tm_fill(col = "log(POPDEN)", 
-          style = "cont", 
-          # n = 8,
-          title = "Coefficient", 
-          palette = viridis(100),
-          midpoint = TRUE, stretch.palette = TRUE) +
-  tm_borders(col = "grey85") +
-  tm_layout(legend.frame = TRUE, legend.bg.color = TRUE,
-            #legend.position = c("right", "bottom"),
-            legend.outside = TRUE,
-            main.title = "Coefficient of log population density", 
-            main.title.position = "center",
-            title.snap.to.legend = TRUE) 
+mp2 <- ggplot(data = gwr.spdf) +
+  geom_sf(aes(fill = `log(POPDEN)`), color = "grey92", size = 0.1) +
+  scale_fill_viridis_c(
+    name = "Coefficient",
+    option = "C",
+    direction = -1,
+    na.value = "grey90"
+  ) +
+  labs(title = "Coefficient of log population density") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "black"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
 
-mp2 
-
+mp2
 ```
 
 Just from looking at the map, there may be a connection with the undergrpund network - the effect of population density on house values seems to be stronger / more positive where underground connection is weaker?!

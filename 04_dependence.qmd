@@ -424,7 +424,17 @@ There are more ways of calculating these hotspot maps and more choices on the cu
 
 ## Example
 
-### Tate.2021 {.unnumbered}
+
+### @Koks.2015  {.unnumbered}
+
+![](fig/lisa0.jpg)
+
+_The upper left map in Fig. 5 shows that several neighborhoods with a high SVI are surrounded by areas consisting of a population with a high SVI as well, with a few exceptions of a low SVI ‘neighborhood’ being located in between high SVI groups. ... Comparing the upper left map (the aggregate SVI) with the other maps (the underlying factors), we see that that fiscal income, one-parent households and migrants have similar clustering patterns as the SVI. These clusters can again mainly be found in the cities of Rotterdam and Dordrecht._
+
+![](fig/lisa2.jpg)
+
+
+### @Tate.2021 {.unnumbered}
 
 _This study explores the geography of flood exposure and social vulnerability in the conterminous United States based on spatial analysis of fluvial and pluvial flood extent, land cover, and social vulnerability._
 

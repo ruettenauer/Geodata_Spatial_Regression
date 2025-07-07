@@ -1,0 +1,12 @@
+sf
+mapview
+areal
+spData
+spdep
+Matrix
+spatialreg
+tmap
+viridisLite
+ggplot2
+ggthemes
+gridExtra

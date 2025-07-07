@@ -11,3 +11,5 @@ lfe
 splm
 SDPDmod
 randomForest
+ggplot2
+viridis

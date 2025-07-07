@@ -21,23 +21,24 @@ This is a workshop on spatial data preparation and spatial data analysis.
 | 14:00 - 15:30 | Defining Spatial Relationships (W)        |
 |               | Coffee break                              |
 | 15:45 - 17:15 | Detecting Spatial Dependence              |
+|               | Lab Exercises in R                        |
 
 | Day 2         | Spatial Regression Models I           |
 |---------------|---------------------------------------|
-| 10:00 - 11:30 | Spatial Regression Models: Theory     |
+| 12:30 - 14:00 | Spatial Regression Models: Theory     |
 |               | Coffee break                          |
-| 11:45 - 13:00 | Estimating Spatial Regression Models  |
-|               | Lunch break                           |
-| 14:00 - 15:30 | Interpreting Results: Spatial Impacts |
+| 14:30 - 16:00 | Estimation & Lab Exercises in R       |
 |               | Coffee break                          |
-| 15:45 - 17:15 | Lab Exercises in R                    |
+| 16:30 - 18:00 | Interpreting Results: Spatial Impacts |
+|               |                                       |
+| 20:00         | Informal get-together (optional)      |
 
 | Day 3         | Spatial Regression Models II        |
 |---------------|-------------------------------------|
-| 10:00 - 11:30 | Comparing and Selecting Models      |
+| 09:30 - 11:00 | Lab Exercises in R                  |
 |               | Coffee break                        |
-| 11:45 - 13:00 | Spatiotemporal models               |
+| 11:15 - 12:45 | Comparing and Selecting Models      |
 |               | Lunch break                         |
-| 14:00 - 15:30 | Other Models: GWR & Binary Outcomes |
+| 13:45 - 15:15 | Lab Exercises in R                  |
 |               | Coffee break                        |
-| 15:45 - 17:15 | Lab Exercises in R                  |
+| 15:30 - 17:15 | Other Models                        |

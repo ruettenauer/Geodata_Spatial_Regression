@@ -10,3 +10,5 @@ robustbase
 sp
 Rcpp
 GWmodel
+ggplot2
+viridis

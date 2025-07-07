@@ -1,9 +1,9 @@
 project:
   type: book
   output-dir: docs
-# execute:
-#   cache: true  
-#   freeze: auto
+execute:
+  cache: true
+  freeze: auto
 
 book:
   title: "Geodata & Spatial Regression"
@@ -14,15 +14,17 @@ book:
     - index.qmd
     - 01_refresher.qmd
     - 02_spatial-data.qmd
-    - 03_weights.qmd
     - 03_exercise1.qmd
+    - 03_weights.qmd
     - 04_dependence.qmd
+    - 03_exercise1b.qmd
     - 05_regression-theory.qmd
     - 06_regression-estimation.qmd
     - 06_exercise2.qmd
     - 07_impacts.qmd
-    - 08_comparison.qmd
     - 08_exercise3.qmd
+    - 08_comparison.qmd
+    - 08_exercise3b.qmd
     - 09_spatiotemporal.qmd
     - 10_other.qmd
     - references.qmd

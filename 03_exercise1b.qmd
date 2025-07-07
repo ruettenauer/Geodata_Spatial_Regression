@@ -1,0 +1,82 @@
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+$$
+:::
+
+
+# Exercises Ib
+
+### Required packages {.unnumbered}
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "areal", "spdep", "spatialreg", "tmap", "viridisLite",
+          "ggplot2", "ggthemes", "gridExtra") # note: load spdep first, then spatialreg
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+
+```
+
+### Reload data from pervious session {.unnumbered}
+
+```{r}
+load("_data/msoa2_spatial.RData")
+```
+
+
+
+
+
+## General Exercises
+
+
+### 6) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
+
+
+
+### 7) Bonus (feel free to skip): Can you create a map containing the MSOA unit "City of London" (code is MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
+
+
+
+
+### 8) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
+
+
+
+
+### 9) Please calculate the queens neighbours and make a listw object that includes the second order neighbours (see `nblag()`). {.unnumbered}
+
+
+
+### 10) Please calculate the inverse distance weighted neighbours with a 5km cutoff point (create the listw object using `nb2listwdist()` and minmax normalisation.   {.unnumbered}
+
+
+
+### 11) Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.   {.unnumbered}
+
+
+
+### 12)  Produce a LISA cluster map for the characteristic you have chosen.   {.unnumbered}
+
+
+
+### 13) Generate a matrix from the queens neighbours listw object {.unnumbered}
+
+
+
+### 14) What do you get when you multiply a variable (data column) such as the home owner rate with your weights matrix? {.unnumbered}
+
+
+
+

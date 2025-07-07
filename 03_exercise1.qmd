@@ -15,8 +15,8 @@ $$
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite",
-          "ggplot2", "ggthemes") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "mapview", "areal", "spdep", "spatialreg", "tmap", "viridisLite",
+          "ggplot2", "ggthemes", "gridExtra") # note: load spdep first, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -40,95 +40,49 @@ load("_data/msoa2_spatial.RData")
 
 ### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} 
 
-```{r}
-# Import shape file layer
-ger.sdpf <- st_read(dsn = "_data/Kreisgrenzen_2020_mit_Einwohnerzahl",
-                    layer = "KRS_ew_20")
 
-# Plot via ggplot
-gp <- ggplot(ger.sdpf)+
-    geom_sf( color = "magenta", fill = NA)+
-    coord_sf(datum = NA)+
-    theme_map()
-gp
-```
 
 ### 2) What is the Coordinate reference system of this German shape file? {.unnumbered}
 
-```{r}
-st_crs(ger.sdpf)
-```
 
 
-### 3) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
 
-```{r}
-coords <- st_centroid(msoa.spdf)
-k10.nb <- knearneigh(coords, k = 10)
-```
-
-### 4) OPTIONAL: Can you create a map containing the MSOA unit "City of London" (code is MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
-
-```{r}
-i <- which(msoa.spdf$MSOA11CD == "E02000001")
-
-# Extract neigbours
-j <- k10.nb$nn[i,]
-
-mapview(list(msoa.spdf[i, ], msoa.spdf[j, ]), 
-        col.regions = c("red", "blue"))
-```
+### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).   {.unnumbered}
 
 
-### 5) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
+
+### 4) Below we will load some additional data on heat islands.   {.unnumbered}
+
+We will add some Data about [London's Urban Heat Island](https://data.london.gov.uk/dataset/london-s-urban-heat-island---average-summer/). It contains information about the mean temperature at midnight during the summer of 2011.
+
+This is a tif file that we need to read in with stars and then transform into sf.
 
 ```{r}
-coords <- st_centroid(msoa.spdf)
-k10.nb <- knearneigh(coords, k = 10)
+library(stars)
 
-### create nb object
-k10.nb <- knn2nb(k10.nb)
-summary(k10.nb)
+# Read geo_tif with stars
+urbclim <- read_stars("https://data.london.gov.uk/download/ae16d5af-5dce-49bc-b1e2-88bb41e8bfd0/f4e3a05d-fad7-4b56-8c42-ba2274f3bb3a/London_Tmin_midnight_2011.tif")
 
-### Create listw
-k10.listw <- nb2listw(k10.nb, style = "W")
+# urbclim <- read_stars("_data/London_Tmin_midnight_2011.tif")
+
+# Transfer to sf
+urbclim.spdf <- st_as_sf(urbclim)
+names(urbclim.spdf)[1] <- "Tmin_midnight"
 ```
 
+a) On which projection is the urbclim temperature data?
 
-### 6) Please calculate the queens neighbours and make a listw object that includes the second order neighbours (see `nblag()`). {.unnumbered}
+b) Can you please calculate the average night-time temperature for each MSOA using area weighted interpolation. Make sure that the objects are on the same projections / crs.
 
-```{r}
-# Queens neighbours
-queens.nb <- poly2nb(msoa.spdf, queen = TRUE, snap = 1)
-queens.listw <- nb2listw(queens.nb, style = "W")
-```
+c) Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g. using `grid.arrange()`) .
 
-```{r}
-# Generate nb with 2 orders of neighbours
-queens.lag <- nblag(queens.nb, maxlag = 2)
 
-# Use the second element to create a listw object of second order neighbours
-queens_second.listw <- nb2listw(queens.lag[[2]], style = "W")
-```
 
-### 7) Generate a matrix from the listw object {.unnumbered}
 
-```{r}
-queens.mat <- listw2mat(queens.listw)
-queens.mat[1:10, 1:10]
-```
+ 
+### 5) Is there a correlation between the share of non EU immigrants and average nighttime temperature?   {.unnumbered}
 
-### 8) What do you get when you multiply a variable (data column) such as the home owner rate with your weights matrix? {.unnumbered}
 
-```{r}
-# Summary of
-summary(msoa.spdf$per_owner)
 
-# Use matrix multiplication
-lag.per_owner <- queens.mat %*% msoa.spdf$per_owner
-
-# Summary of
-summary(as.numeric(lag.per_owner))
-```
 
 

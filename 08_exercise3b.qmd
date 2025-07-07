@@ -1,0 +1,271 @@
+::: {.content-hidden unless-format="html"}
+$$
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\plim}{\operatornamewithlimits{plim}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Exp}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand\given[1][]{\:#1\vert\:}
+\newcommand{\irow}[1]{%
+\begin{pmatrix}#1\end{pmatrix}
+}
+$$
+:::
+
+# Exercises IIIb
+
+### Required packages {.unnumbered}
+
+```{r, message = FALSE, warning = FALSE, results = 'hide'}
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "ggplot2", "tmap", "viridis", "viridisLite", 
+          "plm", "lfe", "splm", "SDPDmod")
+lapply(pkgs, require, character.only = TRUE)
+
+```
+
+### Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+
+```
+
+
+
+
+## Inkar data: the effect of regional characteristics on life expectancy
+
+Below, we read and transform some characteristics of the [INKAR data](https://www.inkar.de/) on the level of German counties.
+
+
+<!-- ```{r} -->
+<!-- di <- c("_data/") -->
+
+<!-- # Define the downloaded filed -->
+<!-- j <- c("inkar.csv") -->
+<!-- c <- 1 -->
+
+<!-- for(k in j){ -->
+<!--   header <- as.vector(t(read.table(paste0(di, k), nrows = 1, sep = ";")[1,])) -->
+<!--   # Clean header -->
+<!--   header <- stringi::stri_replace_all_fixed( -->
+<!--     header,  -->
+<!--     c("ä", "ö", "ü", "Ä", "Ö", "Ü"),  -->
+<!--     c("ae", "oe", "ue", "Ae", "Oe", "Ue"),  -->
+<!--     vectorize_all = FALSE -->
+<!--   ) -->
+<!--   header <- gsub(" ", "", header) -->
+<!--   header <- gsub("\\.", "", header) -->
+<!--   header <- iconv(header, "latin1", "ASCII", sub = "") -->
+
+<!--   # Combine with second row header (year) -->
+<!--   header2 <- as.vector(t(read.table(paste0(di, k), skip = 1, nrows = 1, sep = ";")[1,])) -->
+<!--   header3 <- paste(header, header2, sep = "_") -->
+<!--   header3 <- gsub("_NA", "", header3) -->
+
+<!--   nc <- length(header3) -->
+<!--   # Input and rename data -->
+<!--   data <- read.csv(paste0(di, k), skip = 2, header = FALSE, sep = ";",  -->
+<!--                    quote = "\"", dec = ",", stringsAsFactors = F, -->
+<!--                    colClasses = "character") -->
+<!--   names(data) <- header3 -->
+<!--   data1 <- data -->
+
+<!--   # Correct character vars (containing thousands separator) -->
+<!--   vars <- which(sapply(data1, is.character)) -->
+<!--   vars <- vars[-which(vars %in% c(1:3))] -->
+<!--   for(l in vars){ -->
+<!--     data1[,l] <- gsub("\\.", "", data1[,l]) -->
+<!--     data1[,l] <- gsub("\\,", ".", data1[,l]) -->
+<!--     data1[,l] <- as.numeric(data1[,l]) -->
+<!--   } -->
+
+
+<!--   # #Save -->
+<!--   # l <- paste("bearb", k, sep = "_") -->
+<!--   # write.table(data1, file = l, row.names = FALSE, sep = ";", dec = ".", na = ".") -->
+
+<!--   # #Reshape -->
+<!--   # helpvar1 <- unique(header[4:length(header)]) -->
+<!--   # helpvar2 <-  sort(unique(header2[!is.na(header2)])) -->
+<!--   # n_vars <- length(helpvar1) -->
+<!--   # n_times <- length(helpvar2) -->
+<!--   # helpvar1 <- sort(rep(helpvar1, times = n_times)) -->
+<!--   # helpvar2 <- rep(helpvar2, times = n_vars) -->
+<!--   # helpvar3 <- paste(helpvar1, helpvar2, sep = "_") -->
+<!--   # count <- ncol(data1)+1 -->
+<!--   # for(v in helpvar3) { -->
+<!--   #   if(v %in% names(data1)) {} -->
+<!--   #   else{ -->
+<!--   #     data1[,count] <- NA -->
+<!--   #     colnames(data1)[count] <- v -->
+<!--   #     count <- count+1 -->
+<!--   #   } -->
+<!--   # } -->
+<!--   # data1 <- data1[c(colnames(data1)[1:3], sort(helpvar3))] -->
+<!--   #  -->
+<!--   # data1 <- reshape(data1, direction = "long", varying = 4:ncol(data1),  -->
+<!--   #                  sep = "_") -->
+<!--   data.long <- tidyr::pivot_longer(data1,  -->
+<!--                                   cols = 4:ncol(data1), -->
+<!--                                   names_to = c(".value", "year"), -->
+<!--                                   names_pattern = "(.*)_(.*)") -->
+
+
+<!--   colnames(data.long) <- substr(colnames(data.long), 1, 30) -->
+
+<!--   if(c == 1){ -->
+<!--     inkar.df <- data.long -->
+<!--   }else{ -->
+<!--     inkar.df <- merge(inkar.df, data.long, all.x = TRUE, all.y = TRUE) -->
+<!--   } -->
+
+<!--   c <- c+1 -->
+
+<!-- } -->
+
+
+
+<!-- inkar.df$year <- as.numeric(inkar.df$year) -->
+
+<!-- names(inkar.df)[which(names(inkar.df) == "Pkw-Dichte")] <- "pkw_dichte" -->
+
+<!-- save(inkar.df, file = "_data/inkar.Rdata") -->
+
+<!-- ``` -->
+
+```{r}
+load("_data/inkar2.Rdata")
+```
+
+
+Variables are
+
+| Variable | Description |
+| ------------					   | ------------ |
+| "Kennziffer"                      | ID                                         |
+| "Raumeinheit"                     | Name                                       |
+| "Aggregat"                        | Level                                      |
+| "year"                            | Year                                       |
+| "poluation_density"               | Population Density       |
+| "median_income"                   | Median Household income (only for 2020)                   |
+| "gdp_in1000EUR"                   | Gross Domestic Product in 1000 euros                            |
+| "unemployment_rate"               | Unemployment rate                            |
+| "share_longterm_unemployed"       | Share of longterm unemployed (among unemployed)                               |
+| "share_working_indutry"           | Share of employees in undistrial sector                    |
+| "share_foreigners"                | Share of foreign nationals                              |
+| "share_college"                   | Share of school-finishers with college degree                              |
+| "recreational_space"              | Recreational space per inhabitant                           |
+| "car_density"                     | Density of cars                                 |
+| "life_expectancy"                 | Life expectancy       |
+
+
+## County shapes
+
+
+
+### 1) Please map the life expectancy across Germany {.unnumbered}
+
+a) Merge data with the shape file (as with conventional data)
+
+
+
+b) Create a map of life-expectancy
+
+
+
+### 2) Chose some variables that could predict life expectancy. See for instance the [following paper](https://doi.org/10.1073/pnas.2003719117). {.unnumbered}
+
+
+### 3) Generate a neighbours object (e.g. the 10 nearest neighbours). {.unnumbered}
+
+
+
+
+### 4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts. {.unnumbered}
+
+
+
+
+
+### 5) Calculate the spatial lagged variables for your covariates (e.g. use create_WX(), which needs a non-spatial df as input) . {.unnumbered}
+
+
+
+
+
+### 6) Can you run a spatial machine learning model? (for instance, using `randomForest`)? {.unnumbered}
+
+
+
+
+
+## Esimate an FE model with SLX specification {.unnumbered}
+
+
+a) Loop over years to generate WX
+
+
+
+
+b) Estimate a twoways FE SLX panel model
+
+
+
+c) Estimate a twoways FE SAR panel model (use `spml()`)
+
+
+
+d) Estimate the summary impacts.
+
+
+
+
+<!-- We use the `WDI` API package to retrieve data from the World Bank. -->
+
+<!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. -->
+
+<!-- You can search for indicators with `WDIsearch()`. -->
+<!-- ```{r warning=FALSE} -->
+<!-- library(WDI) -->
+
+<!-- # Search GDP per capita -->
+<!-- WDIsearch("CO2 intensity") -->
+
+<!-- # Political Stability -->
+<!-- WDIsearch("Political Stability") -->
+
+<!-- #  -->
+<!-- WDIsearch("democracy") -->
+<!-- # The Democracy indicator is an additive eleven-point scale (0-10) -->
+
+<!-- ``` -->
+
+<!-- ```{r, cache=TRUE} -->
+<!-- # Define countries, indicators to query, and time period -->
+<!-- wd.df <- WDI(country = "all",  -->
+<!--              indicator = c('population' = "SP.POP.TOTL",  -->
+<!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  -->
+<!--                            'co2_pc' = "EN.ATM.CO2E.PC", -->
+<!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", -->
+<!--                            'gini' = "SI.POV.GINI", -->
+<!--                            'political_stability' = "GV.POLI.ST.ES", -->
+<!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), -->
+<!--              extra = TRUE, -->
+<!--              start = 2010, end = 2019) -->
+
+<!-- # Save -->
+<!-- save(wd.df, file = "_data/WDI_data.RData") -->
+<!-- ``` -->
+
+
+<!-- ## Diffusion of political regimes -->
+
+<!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. -->
+
+
+
+

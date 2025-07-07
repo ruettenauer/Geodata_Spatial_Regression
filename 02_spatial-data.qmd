@@ -20,7 +20,7 @@ $$
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr",
+pkgs <- c("sf", "gstat", "mapview", "nngeo", "rnaturalearth", "dplyr", "areal",
           "nomisr", "osmdata", "OpenStreetMap", "tidyr", "texreg", "downlit", "xml2") 
 lapply(pkgs, require, character.only = TRUE)
 
@@ -169,26 +169,47 @@ cent.buf <- st_buffer(cent.sp,
                       dist = 1000) # dist in meters
 mapview(cent.buf)
 
-# Add area of each buffer (in this constant) 
-cent.buf$area <- as.numeric(st_area(cent.buf))
 
-# Calculate intersection of pollution grid and buffer
-int.df <- st_intersection(cent.buf, pol.spdf)
-int.df$int_area <- as.numeric(st_area(int.df)) # area of intersection
 
-# Area of intersection as share of buffer
-int.df$area_per <- int.df$int_area / int.df$area
+### New version (using areal package)
+# We use area-weighted interpolation from the areal package
+int.spdf <- aw_interpolate(
+  cent.buf,                         # interpolate to
+  tid = "MSOA11CD",                 # id of target
+  source = pol.spdf,                # the source to be interpolated from
+  sid = "ukgridcode",               # source id
+  weight = "sum",                   # function for interpolation
+  output = "sf",                    # output object
+  intensive = "no22011"             # variables to be interpolated
+)
+
+# # ### Old version ("by hand")
+# # Add area of each buffer (in this constant)
+# cent.buf$area <- as.numeric(st_area(cent.buf))
+# 
+# # Calculate intersection of pollution grid and buffer
+# int.df <- st_intersection(cent.buf, pol.spdf)
+# int.df$int_area <- as.numeric(st_area(int.df)) # area of intersection
+# 
+# # And we use the percent overlap areas as the weights to calculate a weighted mean.
+# 
+# # Area of intersection as share of buffer
+# int.df$area_per <- int.df$int_area / int.df$area
+# 
+# # Aggregate as weighted mean
+# int.df <- st_drop_geometry(int.df)
+# int.df$no2_weighted <- int.df$no22011 * int.df$area_per
+# int.df <- aggregate(list(no2 = int.df[, "no2_weighted"]), 
+#                     by = list(MSOA11CD = int.df$MSOA11CD),
+#                     sum)
 ```
 
-And we use the percent overlap areas as the weights to calculate a weighted mean.
+And we merge that back to the LSOA data.
 
 ```{r}
-# Aggregate as weighted mean
-int.df <- st_drop_geometry(int.df)
-int.df$no2_weighted <- int.df$no22011 * int.df$area_per
-int.df <- aggregate(list(no2 = int.df[, "no2_weighted"]), 
-                    by = list(MSOA11CD = int.df$MSOA11CD),
-                    sum)
+# Back to non-spatial df
+int.df <- st_drop_geometry(int.spdf)
+names(int.df)[2] <- "no2"
 
 # Merge back to spatial data.frame
 msoa.spdf <- merge(msoa.spdf, int.df, by = "MSOA11CD", all.x = TRUE)
@@ -197,7 +218,7 @@ mapview(msoa.spdf, zcol = "no2")
 
 ```
 
-Note: for buffer related methods, it often makes sense to use population weighted centroids instead of geographic centroids (see [here](https://geoportal.statistics.gov.uk/datasets/ons::middle-layer-super-output-areas-december-2011-population-weighted-centroids/about) for MSOA population weighted centroids). However, often this information is not available.
+Note: for buffer related methods, it often makes sense to use population weighted centroids instead of geographic centroids (see [here](https://geoportal.statistics.gov.uk/datasets/ons::middle-layer-super-output-areas-december-2011-ew-population-weighted-centroids/about) for MSOA population weighted centroids). However, often this information is not available.
 
 ### and more
 

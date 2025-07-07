@@ -8,3 +8,7 @@ tmap
 viridisLite
 ggplot2
 ggthemes
+areal
+gridExtra
+abind
+stars

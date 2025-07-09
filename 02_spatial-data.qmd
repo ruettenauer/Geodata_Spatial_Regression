@@ -1,3 +1,4 @@
+
 ::: {.content-hidden unless-format="html"}
 $$
 \newcommand{\tr}{\mathrm{tr}}
@@ -170,7 +171,6 @@ cent.buf <- st_buffer(cent.sp,
 mapview(cent.buf)
 
 
-
 ### New version (using areal package)
 # We use area-weighted interpolation from the areal package
 int.spdf <- aw_interpolate(
@@ -215,7 +215,6 @@ names(int.df)[2] <- "no2"
 msoa.spdf <- merge(msoa.spdf, int.df, by = "MSOA11CD", all.x = TRUE)
 
 mapview(msoa.spdf, zcol = "no2")
-
 ```
 
 Note: for buffer related methods, it often makes sense to use population weighted centroids instead of geographic centroids (see [here](https://geoportal.statistics.gov.uk/datasets/ons::middle-layer-super-output-areas-december-2011-ew-population-weighted-centroids/about) for MSOA population weighted centroids). However, often this information is not available.

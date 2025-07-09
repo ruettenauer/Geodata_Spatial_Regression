@@ -107,7 +107,7 @@ If you do not know the correct CRS, try starting with a standards CRS like [EPSG
 
 ### Why different projections?
 
-By now, (most) people agree that [the earth is not flat](https://r-spatial.org/r/2020/06/17/s2.html). So, to plot data on a 2D planar surface and to perform certain operations on a planar world, we need to make some re-projections. Depending on where we are, different re-projections of our data (globe in this case) might work better than others.
+By now, (most) people agree that [the earth is not flat](https://r-spatial.org/r/2020/06/17/s2.html). So, to plot data on a 2D planar surface and to perform certain operations on a planar world, we need to make some re-projections. This is actually difficult. See for example: [Why all maps are wrong](https://www.youtube.com/watch?v=kIID5FDi2JQ). Depending on where we are, different re-projections of our data (globe in this case) might work better than others.
 
 ```{r}
 world <- ne_countries(scale = "medium", returnclass = "sf")

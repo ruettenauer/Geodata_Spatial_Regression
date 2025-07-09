@@ -60,7 +60,7 @@ st_crs(ger.sdpf)
 ```
 
 
-### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).  {.unnumbered}
+### 3) Using the MSOA data in London from above: Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).  {.unnumbered}
 
 ```{r}
 gp1 <- ggplot(msoa.spdf)+

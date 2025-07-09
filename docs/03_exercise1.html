@@ -242,7 +242,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#what-is-the-coordinate-reference-system-of-this-german-shape-file" id="toc-what-is-the-coordinate-reference-system-of-this-german-shape-file" class="nav-link" data-scroll-target="#what-is-the-coordinate-reference-system-of-this-german-shape-file">2) What is the Coordinate reference system of this German shape file?</a></li>
   <li><a href="#please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu." id="toc-please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu." class="nav-link" data-scroll-target="#please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu.">3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).</a></li>
   <li><a href="#below-we-will-load-some-additional-data-on-heat-islands." id="toc-below-we-will-load-some-additional-data-on-heat-islands." class="nav-link" data-scroll-target="#below-we-will-load-some-additional-data-on-heat-islands.">4) Below we will load some additional data on heat islands.</a></li>
-  <li><a href="#is-there-a-correlation-between-the-share-of-non-eu-immigrants-and-average-nighttime-temperature" id="toc-is-there-a-correlation-between-the-share-of-non-eu-immigrants-and-average-nighttime-temperature" class="nav-link" data-scroll-target="#is-there-a-correlation-between-the-share-of-non-eu-immigrants-and-average-nighttime-temperature">5) Is there a correlation between the share of non EU immigrants and average nighttime temperature?</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -347,15 +346,81 @@ loaded via a namespace (and not attached):
 <span class="header-section-number">3.1</span> General Exercises</h2>
 <section id="can-you-import-the-spatial-administrative-units-of-germany-kreisgrenzen_2020_mit_einwohnerzahl-in-_data-folder-and-make-a-simple-plot-of-the-boundaries-.unnumbered" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="can-you-import-the-spatial-administrative-units-of-germany-kreisgrenzen_2020_mit_einwohnerzahl-in-_data-folder-and-make-a-simple-plot-of-the-boundaries-.unnumbered">
 <span class="header-section-number">3.1.1</span> 1) Can you import the spatial administrative units of Germany (“Kreisgrenzen_2020_mit_Einwohnerzahl” in _data folder) and make a simple plot of the boundaries? {.unnumbered}</h3>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-4_3ff2f6f7884e6f93a0d2c2c421114097">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Import shape file layer</span></span>
+<span><span class="va">ger.sdpf</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span>dsn <span class="op">=</span> <span class="st">"_data/Kreisgrenzen_2020_mit_Einwohnerzahl"</span>,</span>
+<span>                    layer <span class="op">=</span> <span class="st">"KRS_ew_20"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `KRS_ew_20' from data source 
+  `C:\work\Lehre\Geodata_Spatial_Regression\_data\Kreisgrenzen_2020_mit_Einwohnerzahl' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 401 features and 19 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 5.86625 ymin: 47.27012 xmax: 15.04182 ymax: 55.05878
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot via ggplot</span></span>
+<span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">ger.sdpf</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">geom_sf</span><span class="op">(</span> color <span class="op">=</span> <span class="st">"magenta"</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">coord_sf</span><span class="op">(</span>datum <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">gp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_exercise1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
 </section><section id="what-is-the-coordinate-reference-system-of-this-german-shape-file" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="what-is-the-coordinate-reference-system-of-this-german-shape-file">2) What is the Coordinate reference system of this German shape file?</h3>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-5_4119e9bbf355087889d402539da4aa7d">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">st_crs</span><span class="op">(</span><span class="va">ger.sdpf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: WGS 84 
+  wkt:
+GEOGCRS["WGS 84",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["latitude",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["longitude",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    ID["EPSG",4326]]</code></pre>
+</div>
+</div>
 </section><section id="please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu.">3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).</h3>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-6_1096cebd5ee40b4462090a8740603fdb">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gp1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">per_nonEU</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">scale_fill_viridis_c</span><span class="op">(</span>option <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">coord_sf</span><span class="op">(</span>datum <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.9</span>, <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in
+ggplot2 3.5.0.
+ℹ Please use the `legend.position.inside` argument of `theme()`
+  instead.</code></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gp1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_exercise1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
 </section><section id="below-we-will-load-some-additional-data-on-heat-islands." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="below-we-will-load-some-additional-data-on-heat-islands.">4) Below we will load some additional data on heat islands.</h3>
 <p>We will add some Data about <a href="https://data.london.gov.uk/dataset/london-s-urban-heat-island---average-summer/">London’s Urban Heat Island</a>. It contains information about the mean temperature at midnight during the summer of 2011.</p>
 <p>This is a tif file that we need to read in with stars and then transform into sf.</p>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-4_de8baf568431ae1756916d2fc40af58e">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/">stars</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Read geo_tif with stars</span></span>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-7_d0865febcbaef742804f9579916edfef">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/">stars</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: abind</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read geo_tif with stars</span></span>
 <span><span class="va">urbclim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/stars/reference/read_stars.html">read_stars</a></span><span class="op">(</span><span class="st">"https://data.london.gov.uk/download/ae16d5af-5dce-49bc-b1e2-88bb41e8bfd0/f4e3a05d-fad7-4b56-8c42-ba2274f3bb3a/London_Tmin_midnight_2011.tif"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># urbclim &lt;- read_stars("_data/London_Tmin_midnight_2011.tif")</span></span>
@@ -368,7 +433,86 @@ loaded via a namespace (and not attached):
 <li><p>On which projection is the urbclim temperature data?</p></li>
 <li><p>Can you please calculate the average night-time temperature for each MSOA using area weighted interpolation. Make sure that the objects are on the same projections / crs.</p></li>
 <li><p>Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g.&nbsp;using <code>grid.arrange()</code>) .</p></li>
-</ol></section><section id="is-there-a-correlation-between-the-share-of-non-eu-immigrants-and-average-nighttime-temperature" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="is-there-a-correlation-between-the-share-of-non-eu-immigrants-and-average-nighttime-temperature">5) Is there a correlation between the share of non EU immigrants and average nighttime temperature?</h3>
+</ol>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-8_dc341cab3902c9245498952c64645aef">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Check projection</span></span>
+<span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">urbclim.spdf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coordinate Reference System:
+  User input: unnamed 
+  wkt:
+PROJCRS["unnamed",
+    BASEGEOGCRS["Unknown datum based upon the GRS 1980 ellipsoid",
+        DATUM["Not specified (based on GRS 1980 ellipsoid)",
+            ELLIPSOID["GRS 1980",6378137,298.257222101004,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4019]],
+    CONVERSION["Lambert Azimuthal Equal Area",
+        METHOD["Lambert Azimuthal Equal Area",
+            ID["EPSG",9820]],
+        PARAMETER["Latitude of natural origin",52,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8801]],
+        PARAMETER["Longitude of natural origin",10,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8802]],
+        PARAMETER["False easting",4321000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8806]],
+        PARAMETER["False northing",3210000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8807]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]]]</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-9_9d5fd5bf6c60c80c593e312c47f410ae">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Add id</span></span>
+<span><span class="va">urbclim.spdf</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">urbclim.spdf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Bring on common crs</span></span>
+<span><span class="va">urbclim.spdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span><span class="va">urbclim.spdf</span>, crs <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use area weights interpolation to merge</span></span>
+<span><span class="va">msoa.spdf</span> <span class="op">&lt;-</span> <span class="fu">aw_interpolate</span><span class="op">(</span></span>
+<span>  <span class="va">msoa.spdf</span>,</span>
+<span>  tid <span class="op">=</span> <span class="st">"MSOA11CD"</span>,</span>
+<span>  source <span class="op">=</span> <span class="va">urbclim.spdf</span>,</span>
+<span>  sid <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>  weight <span class="op">=</span> <span class="st">"sum"</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"sf"</span>,</span>
+<span>  intensive <span class="op">=</span> <span class="st">"Tmin_midnight"</span>             </span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-10_aef78f0599a39e9cc74afe5061c365d6">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Make map of Temperature</span></span>
+<span><span class="va">gp2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">Tmin_midnight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">scale_fill_viridis_c</span><span class="op">(</span>option <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">coord_sf</span><span class="op">(</span>datum <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.9</span>, <span class="fl">.4</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot two ggplot maps next to each other</span></span>
+<span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu">grid.arrange</span><span class="op">(</span><span class="va">gp1</span>, <span class="va">gp2</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="03_exercise1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TableGrob (1 x 2) "arrange": 2 grobs
+  z     cells    name           grob
+1 1 (1-1,1-1) arrange gtable[layout]
+2 2 (1-1,2-2) arrange gtable[layout]</code></pre>
+</div>
+</div>
 
 
 <!-- -->
@@ -667,93 +811,149 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb6" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises I</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"areal"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"ggplot2"</span>, <span class="st">"ggthemes"</span>, <span class="st">"gridExtra"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## General Exercises</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} </span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) What is the Coordinate reference system of this German shape file? {.unnumbered}</span></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).   {.unnumbered}</span></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Below we will load some additional data on heat islands.   {.unnumbered}</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>We will add some Data about <span class="co">[</span><span class="ot">London's Urban Heat Island</span><span class="co">](https://data.london.gov.uk/dataset/london-s-urban-heat-island---average-summer/)</span>. It contains information about the mean temperature at midnight during the summer of 2011.</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>This is a tif file that we need to read in with stars and then transform into sf.</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Read geo_tif with stars</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>urbclim <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"https://data.london.gov.uk/download/ae16d5af-5dce-49bc-b1e2-88bb41e8bfd0/f4e3a05d-fad7-4b56-8c42-ba2274f3bb3a/London_Tmin_midnight_2011.tif"</span>)</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co"># urbclim &lt;- read_stars("_data/London_Tmin_midnight_2011.tif")</span></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer to sf</span></span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>urbclim.spdf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(urbclim)</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(urbclim.spdf)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"Tmin_midnight"</span></span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>a) On which projection is the urbclim temperature data?</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>b) Can you please calculate the average night-time temperature for each MSOA using area weighted interpolation. Make sure that the objects are on the same projections / crs.</span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>c) Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g. using <span class="in">`grid.arrange()`</span>) .</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5) Is there a correlation between the share of non EU immigrants and average nighttime temperature?   {.unnumbered}</span></span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb22" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises I</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"areal"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>,</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"ggplot2"</span>, <span class="st">"ggthemes"</span>, <span class="st">"gridExtra"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## General Exercises</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} </span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Import shape file layer</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>ger.sdpf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"_data/Kreisgrenzen_2020_mit_Einwohnerzahl"</span>,</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>                    <span class="at">layer =</span> <span class="st">"KRS_ew_20"</span>)</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot via ggplot</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>gp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ger.sdpf)<span class="sc">+</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>( <span class="at">color =</span> <span class="st">"magenta"</span>, <span class="at">fill =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_map</span>()</span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>gp</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) What is the Coordinate reference system of this German shape file? {.unnumbered}</span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(ger.sdpf)</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).  {.unnumbered}</span></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>gp1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(msoa.spdf)<span class="sc">+</span></span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> per_nonEU))<span class="sc">+</span></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"A"</span>)<span class="sc">+</span></span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_map</span>()<span class="sc">+</span></span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">9</span>, .<span class="dv">4</span>))</span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a>gp1</span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Below we will load some additional data on heat islands.   {.unnumbered}</span></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a>We will add some Data about <span class="co">[</span><span class="ot">London's Urban Heat Island</span><span class="co">](https://data.london.gov.uk/dataset/london-s-urban-heat-island---average-summer/)</span>. It contains information about the mean temperature at midnight during the summer of 2011.</span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>This is a tif file that we need to read in with stars and then transform into sf.</span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Read geo_tif with stars</span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a>urbclim <span class="ot">&lt;-</span> <span class="fu">read_stars</span>(<span class="st">"https://data.london.gov.uk/download/ae16d5af-5dce-49bc-b1e2-88bb41e8bfd0/f4e3a05d-fad7-4b56-8c42-ba2274f3bb3a/London_Tmin_midnight_2011.tif"</span>)</span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a><span class="co"># urbclim &lt;- read_stars("_data/London_Tmin_midnight_2011.tif")</span></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Transfer to sf</span></span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a>urbclim.spdf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(urbclim)</span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(urbclim.spdf)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"Tmin_midnight"</span></span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a>a) On which projection is the urbclim temperature data?</span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>b) Can you please calculate the average night-time temperature for each MSOA using area weighted interpolation. Make sure that the objects are on the same projections / crs.</span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>c) Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g. using <span class="in">`grid.arrange()`</span>) .</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Check projection</span></span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(urbclim.spdf)</span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a><span class="co"># Add id</span></span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a>urbclim.spdf<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">rownames</span>(urbclim.spdf)</span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Bring on common crs</span></span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a>urbclim.spdf <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(urbclim.spdf, <span class="at">crs =</span> <span class="fu">st_crs</span>(msoa.spdf))</span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Use area weights interpolation to merge</span></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a>msoa.spdf <span class="ot">&lt;-</span> <span class="fu">aw_interpolate</span>(</span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a>  msoa.spdf,</span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a>  <span class="at">tid =</span> <span class="st">"MSOA11CD"</span>,</span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> urbclim.spdf,</span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>  <span class="at">sid =</span> <span class="st">"id"</span>,</span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">weight =</span> <span class="st">"sum"</span>,</span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">output =</span> <span class="st">"sf"</span>,</span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a>  <span class="at">intensive =</span> <span class="st">"Tmin_midnight"</span>             </span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a><span class="co"># Make map of Temperature</span></span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a>gp2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(msoa.spdf)<span class="sc">+</span></span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Tmin_midnight))<span class="sc">+</span></span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"C"</span>)<span class="sc">+</span></span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">datum =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_map</span>()<span class="sc">+</span></span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">9</span>, .<span class="dv">4</span>))</span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot two ggplot maps next to each other</span></span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a>gp <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(gp1, gp2, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>gp</span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

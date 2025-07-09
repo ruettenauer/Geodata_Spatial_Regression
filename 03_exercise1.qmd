@@ -40,16 +40,37 @@ load("_data/msoa2_spatial.RData")
 
 ### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} 
 
+```{r}
+# Import shape file layer
+ger.sdpf <- st_read(dsn = "_data/Kreisgrenzen_2020_mit_Einwohnerzahl",
+                    layer = "KRS_ew_20")
 
+# Plot via ggplot
+gp <- ggplot(ger.sdpf)+
+    geom_sf( color = "magenta", fill = NA)+
+    coord_sf(datum = NA)+
+    theme_map()
+gp
+```
 
 ### 2) What is the Coordinate reference system of this German shape file? {.unnumbered}
 
+```{r}
+st_crs(ger.sdpf)
+```
 
 
+### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).  {.unnumbered}
 
-### 3) Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).   {.unnumbered}
-
-
+```{r}
+gp1 <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = per_nonEU))+
+    scale_fill_viridis_c(option = "A")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .4))
+gp1
+```
 
 ### 4) Below we will load some additional data on heat islands.   {.unnumbered}
 
@@ -77,12 +98,47 @@ b) Can you please calculate the average night-time temperature for each MSOA usi
 c) Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g. using `grid.arrange()`) .
 
 
+```{r}
+# Check projection
+st_crs(urbclim.spdf)
+```
 
 
- 
-### 5) Is there a correlation between the share of non EU immigrants and average nighttime temperature?   {.unnumbered}
+```{r}
+# Add id
+urbclim.spdf$id <- rownames(urbclim.spdf)
+
+# Bring on common crs
+urbclim.spdf <- st_transform(urbclim.spdf, crs = st_crs(msoa.spdf))
+
+# Use area weights interpolation to merge
+msoa.spdf <- aw_interpolate(
+  msoa.spdf,
+  tid = "MSOA11CD",
+  source = urbclim.spdf,
+  sid = "id",
+  weight = "sum",
+  output = "sf",
+  intensive = "Tmin_midnight"             
+)
+```
 
 
+
+
+```{r}
+# Make map of Temperature
+gp2 <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = Tmin_midnight))+
+    scale_fill_viridis_c(option = "C")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .4))
+
+# Plot two ggplot maps next to each other
+gp <- grid.arrange(gp1, gp2, nrow = 1)
+gp
+```
 
 
 

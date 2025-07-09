@@ -38,7 +38,7 @@ load("_data/msoa2_spatial.RData")
 
 ## General Exercises
 
-### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries? {.unnumbered} 
+### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" in _data folder) and make a simple plot of the boundaries?   {.unnumbered}
 
 ```{r}
 # Import shape file layer
@@ -141,4 +141,10 @@ gp
 ```
 
 
+### 4) What's the correlation between the share of non-Eu residents and the termperature.   {.unnumbered}
+
+```{r}
+mod1.lm <- lm(Tmin_midnight ~ per_nonEU, data = msoa.spdf)
+summary(mod1.lm)
+```
 

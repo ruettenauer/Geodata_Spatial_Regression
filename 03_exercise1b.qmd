@@ -43,40 +43,152 @@ load("_data/msoa2_spatial.RData")
 
 ### 6) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
 
+```{r}
+coords <- st_centroid(msoa.spdf)
+k10.nb <- knearneigh(coords, k = 10)
+```
 
+### 7) OPTIONAL: Can you create a map containing the MSOA unit "City of London" (code is MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
 
-### 7) Bonus (feel free to skip): Can you create a map containing the MSOA unit "City of London" (code is MSOA11CD = "E02000001") and its ten nearest neighbours? {.unnumbered}
+```{r}
+i <- which(msoa.spdf$MSOA11CD == "E02000001")
 
+# Extract neigbours
+j <- k10.nb$nn[i,]
 
+mapview(list(msoa.spdf[i, ], msoa.spdf[j, ]), 
+        col.regions = c("red", "blue"))
+```
 
 
 ### 8) Please use the msoa.spdf and calculate a neighbours weights matrix of the nearest 10 neighbours (see `spdep::knearneigh()`), and create a listw object using row normalization. {.unnumbered}
 
+```{r}
+coords <- st_centroid(msoa.spdf)
+k10.nb <- knearneigh(coords, k = 10)
 
+### create nb object
+k10.nb <- knn2nb(k10.nb)
+summary(k10.nb)
+
+### Create listw
+k10.listw <- nb2listw(k10.nb, style = "W")
+```
 
 
 ### 9) Please calculate the queens neighbours and make a listw object that includes the second order neighbours (see `nblag()`). {.unnumbered}
 
+```{r}
+# Queens neighbours
+queens.nb <- poly2nb(msoa.spdf, queen = TRUE, snap = 1)
+queens.listw <- nb2listw(queens.nb, style = "W")
+```
+
+```{r}
+# Generate nb with 2 orders of neighbours
+queens.lag <- nblag(queens.nb, maxlag = 2)
+
+# Use the second element to create a listw object of second order neighbours
+queens_second.listw <- nb2listw(queens.lag[[2]], style = "W")
+```
 
 
 ### 10) Please calculate the inverse distance weighted neighbours with a 5km cutoff point (create the listw object using `nb2listwdist()` and minmax normalisation.   {.unnumbered}
 
 
+```{r}
+### Centroids
+coords <- st_geometry(st_centroid(msoa.spdf))
+
+### Nearest neighbours within 5km
+km5.nb <- dnearneigh(coords, 0, 5000)
+
+### In verse distance weighted listw object
+km5.lw <- nb2listwdist(km5.nb,
+                       x = coords, # needed for idw
+                       type = "idw", # inverse distance weighting
+                       alpha = 1, # the decay parameter for distance weighting
+                       style = "minmax") # for eigenvalue normalization
+```
+
+
 
 ### 11) Chose another characteristics from the data (e.g. ethnic groups or house prices) and calculate global Moran's I for it.   {.unnumbered}
 
+```{r}
+# MOran test
+moran.test(msoa.spdf$per_white, listw = km5.lw)
+```
 
 
 ### 12)  Produce a LISA cluster map for the characteristic you have chosen.   {.unnumbered}
+
+```{r}
+loci2 <- localmoran(msoa.spdf$per_white, listw = km5.lw)
+
+# Calculate clusters
+msoa.spdf$lisa_cluster <- hotspot(loci2, 
+                                  "Pr(z != E(Ii))", 
+                                  cutoff = 0.05, 
+                                  quadrant.type = "mean",
+                                  p.adjust = "BY")
+
+# Map
+mp1 <- tm_shape(msoa.spdf) + 
+  tm_polygons(
+    fill = "lisa_cluster",
+    fill_alpha = 1,
+    fill.scale = tm_scale_categorical(
+      values = viridis(n = 4, direction = -1, option = "D"),
+      value.na = "grey92"
+    ),
+    fill.legend = tm_legend(
+      na.show = FALSE,
+      title = "Clusters"
+    )
+  ) +
+  tm_borders(col = "grey70", lwd = 0.5, fill_alpha = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = TRUE,
+    legend.bg.color = "white",
+    legend.position = c("left", "bottom"),
+    legend.outside = FALSE,
+    legend.title.size = 0.8,
+    legend.text.size = 0.8
+  ) +
+  tm_title_out(
+    text = "Percentage White \n LISA Clusters p(BY) < 0.05",
+    position = tm_pos_out("center", "top", pos.h = "center"),
+    size = 1.6
+  )
+
+mp1
+
+```
+
 
 
 
 ### 13) Generate a matrix from the queens neighbours listw object {.unnumbered}
 
+```{r}
+queens.mat <- listw2mat(queens.listw)
+queens.mat[1:10, 1:10]
+```
 
 
 ### 14) What do you get when you multiply a variable (data column) such as the home owner rate with your weights matrix? {.unnumbered}
 
+```{r}
+# Summary of
+summary(msoa.spdf$per_owner)
 
+# Use matrix multiplication
+lag.per_owner <- queens.mat %*% msoa.spdf$per_owner
+
+# Summary of
+summary(as.numeric(lag.per_owner))
+```
 
 

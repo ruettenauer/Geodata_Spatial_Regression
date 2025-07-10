@@ -671,31 +671,26 @@ Number of parameters estimated: 9 </code></pre>
 <td><code>errorsarlm(..., Durbin=FALSE)</code></td>
 </tr>
 <tr class="even">
-<td>SEM</td>
-<td>spatial error</td>
-<td><code>spautolm(..., family="SAR")</code></td>
-</tr>
-<tr class="odd">
 <td>SDEM</td>
 <td>spatial Durbin error</td>
 <td><code>errorsarlm(..., Durbin=TRUE)</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SLM</td>
 <td>spatial lag</td>
 <td><code>lagsarlm(..., Durbin=FALSE)</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>SDM</td>
 <td>spatial Durbin</td>
 <td><code>lagsarlm(..., Durbin=TRUE)</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SAC</td>
 <td>spatial autoregressive combined</td>
 <td><code>sacsarlm(..., Durbin=FALSE)</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>GNM</td>
 <td>general nested</td>
 <td><code>sacsarlm(..., Durbin=TRUE)</code></td>
@@ -1478,35 +1473,34 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-354"><a href="#cb13-354" aria-hidden="true" tabindex="-1"></a>| model | model name                      | maximum likelihood estimation function |</span>
 <span id="cb13-355"><a href="#cb13-355" aria-hidden="true" tabindex="-1"></a>|-------|---------------------------------|----------------------------------------|</span>
 <span id="cb13-356"><a href="#cb13-356" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`errorsarlm(..., Durbin=FALSE)`</span>   |</span>
-<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a>| SEM   | spatial error                   | <span class="in">`spautolm(..., family="SAR")`</span>     |</span>
-<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a>| SDEM  | spatial Durbin error            | <span class="in">`errorsarlm(..., Durbin=TRUE)`</span>    |</span>
-<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a>| SLM   | spatial lag                     | <span class="in">`lagsarlm(..., Durbin=FALSE)`</span>     |</span>
-<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a>| SDM   | spatial Durbin                  | <span class="in">`lagsarlm(..., Durbin=TRUE)`</span>      |</span>
-<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a>| SAC   | spatial autoregressive combined | <span class="in">`sacsarlm(..., Durbin=FALSE)`</span>     |</span>
-<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a>| GNM   | general nested                  | <span class="in">`sacsarlm(..., Durbin=TRUE)`</span>      |</span>
+<span id="cb13-357"><a href="#cb13-357" aria-hidden="true" tabindex="-1"></a>| SDEM  | spatial Durbin error            | <span class="in">`errorsarlm(..., Durbin=TRUE)`</span>    |</span>
+<span id="cb13-358"><a href="#cb13-358" aria-hidden="true" tabindex="-1"></a>| SLM   | spatial lag                     | <span class="in">`lagsarlm(..., Durbin=FALSE)`</span>     |</span>
+<span id="cb13-359"><a href="#cb13-359" aria-hidden="true" tabindex="-1"></a>| SDM   | spatial Durbin                  | <span class="in">`lagsarlm(..., Durbin=TRUE)`</span>      |</span>
+<span id="cb13-360"><a href="#cb13-360" aria-hidden="true" tabindex="-1"></a>| SAC   | spatial autoregressive combined | <span class="in">`sacsarlm(..., Durbin=FALSE)`</span>     |</span>
+<span id="cb13-361"><a href="#cb13-361" aria-hidden="true" tabindex="-1"></a>| GNM   | general nested                  | <span class="in">`sacsarlm(..., Durbin=TRUE)`</span>      |</span>
+<span id="cb13-362"><a href="#cb13-362" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-363"><a href="#cb13-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a>**ML SAR**</span>
-<span id="cb13-366"><a href="#cb13-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
-<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a>                        per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> queens.lw,</span>
-<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
-<span id="cb13-375"><a href="#cb13-375" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
-<span id="cb13-376"><a href="#cb13-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a>**ML SEM**</span>
-<span id="cb13-379"><a href="#cb13-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb13-383"><a href="#cb13-383" aria-hidden="true" tabindex="-1"></a>mod_1.sem <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span></span>
-<span id="cb13-384"><a href="#cb13-384" aria-hidden="true" tabindex="-1"></a>                          per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
-<span id="cb13-385"><a href="#cb13-385" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb13-386"><a href="#cb13-386" aria-hidden="true" tabindex="-1"></a>                        <span class="at">listw =</span> queens.lw,</span>
-<span id="cb13-387"><a href="#cb13-387" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDEM</span></span>
-<span id="cb13-388"><a href="#cb13-388" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sem)</span>
-<span id="cb13-389"><a href="#cb13-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-364"><a href="#cb13-364" aria-hidden="true" tabindex="-1"></a>**ML SAR**</span>
+<span id="cb13-365"><a href="#cb13-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-368"><a href="#cb13-368" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-369"><a href="#cb13-369" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span> </span>
+<span id="cb13-370"><a href="#cb13-370" aria-hidden="true" tabindex="-1"></a>                        per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
+<span id="cb13-371"><a href="#cb13-371" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb13-372"><a href="#cb13-372" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> queens.lw,</span>
+<span id="cb13-373"><a href="#cb13-373" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
+<span id="cb13-374"><a href="#cb13-374" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
+<span id="cb13-375"><a href="#cb13-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb13-376"><a href="#cb13-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-377"><a href="#cb13-377" aria-hidden="true" tabindex="-1"></a>**ML SEM**</span>
+<span id="cb13-378"><a href="#cb13-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-381"><a href="#cb13-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-382"><a href="#cb13-382" aria-hidden="true" tabindex="-1"></a>mod_1.sem <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(med_house_price) <span class="sc">~</span> <span class="fu">log</span>(no2) <span class="sc">+</span> <span class="fu">log</span>(POPDEN) <span class="sc">+</span></span>
+<span id="cb13-383"><a href="#cb13-383" aria-hidden="true" tabindex="-1"></a>                          per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other,  </span>
+<span id="cb13-384"><a href="#cb13-384" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb13-385"><a href="#cb13-385" aria-hidden="true" tabindex="-1"></a>                        <span class="at">listw =</span> queens.lw,</span>
+<span id="cb13-386"><a href="#cb13-386" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDEM</span></span>
+<span id="cb13-387"><a href="#cb13-387" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sem)</span>
+<span id="cb13-388"><a href="#cb13-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -346,7 +346,6 @@ Table from @Pebesma.2023:
 | model | model name                      | maximum likelihood estimation function |
 |-------|---------------------------------|----------------------------------------|
 | SEM   | spatial error                   | `errorsarlm(..., Durbin=FALSE)`   |
-| SEM   | spatial error                   | `spautolm(..., family="SAR")`     |
 | SDEM  | spatial Durbin error            | `errorsarlm(..., Durbin=TRUE)`    |
 | SLM   | spatial lag                     | `lagsarlm(..., Durbin=FALSE)`     |
 | SDM   | spatial Durbin                  | `lagsarlm(..., Durbin=TRUE)`      |

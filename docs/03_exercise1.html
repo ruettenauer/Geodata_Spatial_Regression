@@ -273,21 +273,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 \newcommand{\bm}[1]{\boldsymbol{\mathbf{#1}}}
 \]</span></p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-1_9c805d7fffa2c6e25bc6b189eee70e7c">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"areal"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>,</span>
 <span>          <span class="st">"ggplot2"</span>, <span class="st">"ggthemes"</span>, <span class="st">"gridExtra"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-2_4789bbabff243dc0e7ee9890bf77e54d">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -304,50 +304,66 @@ attached base packages:
 [7] base     
 
 other attached packages:
- [1] ggthemes_5.1.0    ggplot2_3.5.1     viridisLite_0.4.2
- [4] tmap_3.3-4        spatialreg_1.3-4  Matrix_1.7-0     
- [7] spdep_1.3-5       spData_2.3.1      mapview_2.11.2   
-[10] sf_1.0-16        
+ [1] gridExtra_2.3     ggthemes_5.1.0    ggplot2_3.5.2    
+ [4] viridisLite_0.4.2 tmap_4.1          spatialreg_1.3-6 
+ [7] Matrix_1.7-3      spdep_1.3-13      spData_2.3.4     
+[10] areal_0.1.8       mapview_2.11.2    sf_1.0-21        
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.2.1   dplyr_1.1.4        fastmap_1.2.0     
- [4] leaflet_2.2.2      TH.data_1.1-2      XML_3.99-0.16.1   
- [7] digest_0.6.35      lifecycle_1.0.4    LearnBayes_2.15.1 
-[10] survival_3.6-4     terra_1.7-78       magrittr_2.0.3    
-[13] compiler_4.4.1     rlang_1.1.4        tools_4.4.1       
-[16] utf8_1.2.4         knitr_1.47         htmlwidgets_1.6.4 
-[19] sp_2.1-4           classInt_0.4-10    RColorBrewer_1.1-3
-[22] multcomp_1.4-25    abind_1.4-5        KernSmooth_2.23-24
-[25] purrr_1.0.2        withr_3.0.0        leafsync_0.1.0    
-[28] grid_4.4.1         stats4_4.4.1       fansi_1.0.6       
-[31] e1071_1.7-14       leafem_0.2.3       colorspace_2.1-0  
-[34] scales_1.3.0       MASS_7.3-60.2      dichromat_2.0-0.1 
-[37] cli_3.6.2          mvtnorm_1.2-5      rmarkdown_2.27    
-[40] generics_0.1.3     rstudioapi_0.16.0  tmaptools_3.1-1   
-[43] DBI_1.2.3          proxy_0.4-27       stringr_1.5.1     
-[46] splines_4.4.1      stars_0.6-5        parallel_4.4.1    
-[49] s2_1.1.6           base64enc_0.1-3    vctrs_0.6.5       
-[52] boot_1.3-30        sandwich_3.1-0     jsonlite_1.8.8    
-[55] crosstalk_1.2.1    units_0.8-5        glue_1.7.0        
-[58] lwgeom_0.2-14      codetools_0.2-20   stringi_1.8.4     
-[61] gtable_0.3.5       deldir_2.0-4       raster_3.6-26     
-[64] munsell_0.5.1      tibble_3.2.1       pillar_1.9.0      
-[67] htmltools_0.5.8.1  satellite_1.0.5    R6_2.5.1          
-[70] wk_0.9.1           evaluate_0.24.0    lattice_0.22-6    
-[73] png_0.1-8          class_7.3-22       Rcpp_1.0.12       
-[76] coda_0.19-4.1      nlme_3.1-164       xfun_0.45         
-[79] zoo_1.8-12         pkgconfig_2.0.3   </code></pre>
+ [1] tidyselect_1.2.1        dplyr_1.1.4            
+ [3] farver_2.1.2            fastmap_1.2.0          
+ [5] leaflegend_1.2.1        leaflet_2.2.2          
+ [7] TH.data_1.1-3           XML_3.99-0.18          
+ [9] digest_0.6.37           lifecycle_1.0.4        
+[11] LearnBayes_2.15.1       survival_3.8-3         
+[13] terra_1.8-54            magrittr_2.0.3         
+[15] compiler_4.5.1          rlang_1.1.6            
+[17] tools_4.5.1             data.table_1.17.6      
+[19] knitr_1.50              htmlwidgets_1.6.4      
+[21] sp_2.2-0                classInt_0.4-11        
+[23] RColorBrewer_1.1-3      multcomp_1.4-28        
+[25] abind_1.4-8             KernSmooth_2.23-26     
+[27] purrr_1.0.4             withr_3.0.2            
+[29] leafsync_0.1.0          grid_4.5.1             
+[31] stats4_4.5.1            cols4all_0.8           
+[33] e1071_1.7-16            leafem_0.2.4           
+[35] colorspace_2.1-1        spacesXYZ_1.6-0        
+[37] scales_1.4.0            MASS_7.3-65            
+[39] dichromat_2.0-0.1       cli_3.6.5              
+[41] mvtnorm_1.3-3           rmarkdown_2.29         
+[43] generics_0.1.4          rstudioapi_0.17.1      
+[45] tmaptools_3.2           DBI_1.2.3              
+[47] proxy_0.4-27            stringr_1.5.1          
+[49] splines_4.5.1           stars_0.6-8            
+[51] parallel_4.5.1          s2_1.1.9               
+[53] base64enc_0.1-3         vctrs_0.6.5            
+[55] boot_1.3-31             sandwich_3.1-1         
+[57] jsonlite_2.0.0          crosstalk_1.2.1        
+[59] units_0.8-7             maptiles_0.10.0        
+[61] glue_1.8.0              lwgeom_0.2-14          
+[63] codetools_0.2-20        leaflet.providers_2.0.0
+[65] stringi_1.8.7           gtable_0.3.6           
+[67] deldir_2.0-4            raster_3.6-32          
+[69] tibble_3.3.0            logger_0.4.0           
+[71] pillar_1.10.2           htmltools_0.5.8.1      
+[73] satellite_1.0.5         R6_2.6.1               
+[75] wk_0.9.4                microbenchmark_1.5.0   
+[77] evaluate_1.0.4          lattice_0.22-7         
+[79] png_0.1-8               class_7.3-23           
+[81] Rcpp_1.0.14             coda_0.19-4.1          
+[83] nlme_3.1-168            xfun_0.52              
+[85] zoo_1.8-14              pkgconfig_2.0.3        </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-3_8e38850a660f8e72d41c70f4db6048de">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="general-exercises" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="general-exercises">
 <span class="header-section-number">3.1</span> General Exercises</h2>
 <section id="can-you-import-the-spatial-administrative-units-of-germany-kreisgrenzen_2020_mit_einwohnerzahl-in-_data-folder-and-make-a-simple-plot-of-the-boundaries-.unnumbered" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="can-you-import-the-spatial-administrative-units-of-germany-kreisgrenzen_2020_mit_einwohnerzahl-in-_data-folder-and-make-a-simple-plot-of-the-boundaries-.unnumbered">
 <span class="header-section-number">3.1.1</span> 1) Can you import the spatial administrative units of Germany (“Kreisgrenzen_2020_mit_Einwohnerzahl” in _data folder) and make a simple plot of the boundaries? {.unnumbered}</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-4_3ff2f6f7884e6f93a0d2c2c421114097">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Import shape file layer</span></span>
 <span><span class="va">ger.sdpf</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span>dsn <span class="op">=</span> <span class="st">"_data/Kreisgrenzen_2020_mit_Einwohnerzahl"</span>,</span>
 <span>                    layer <span class="op">=</span> <span class="st">"KRS_ew_20"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -372,7 +388,7 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </section><section id="what-is-the-coordinate-reference-system-of-this-german-shape-file" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="what-is-the-coordinate-reference-system-of-this-german-shape-file">2) What is the Coordinate reference system of this German shape file?</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-5_4119e9bbf355087889d402539da4aa7d">
+<div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">st_crs</span><span class="op">(</span><span class="va">ger.sdpf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Coordinate Reference System:
@@ -395,7 +411,7 @@ GEOGCRS["WGS 84",
 </div>
 </div>
 </section><section id="using-the-msoa-data-in-london-from-above-please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="using-the-msoa-data-in-london-from-above-please-draw-a-map-showing-the-distribution-of-share-of-non-eu-immigrants-per_noneu.">3) Using the MSOA data in London from above: Please draw a map showing the distribution of share of non-EU immigrants (per_nonEU).</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-6_1096cebd5ee40b4462090a8740603fdb">
+<div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gp1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">per_nonEU</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu">scale_fill_viridis_c</span><span class="op">(</span>option <span class="op">=</span> <span class="st">"A"</span><span class="op">)</span><span class="op">+</span></span>
@@ -416,7 +432,7 @@ ggplot2 3.5.0.
 </section><section id="below-we-will-load-some-additional-data-on-heat-islands." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="below-we-will-load-some-additional-data-on-heat-islands.">4) Below we will load some additional data on heat islands.</h3>
 <p>We will add some Data about <a href="https://data.london.gov.uk/dataset/london-s-urban-heat-island---average-summer/">London’s Urban Heat Island</a>. It contains information about the mean temperature at midnight during the summer of 2011.</p>
 <p>This is a tif file that we need to read in with stars and then transform into sf.</p>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-7_d0865febcbaef742804f9579916edfef">
+<div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/stars/">stars</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: abind</code></pre>
@@ -435,7 +451,7 @@ ggplot2 3.5.0.
 <li><p>Can you please calculate the average night-time temperature for each MSOA using area weighted interpolation. Make sure that the objects are on the same projections / crs.</p></li>
 <li><p>Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g.&nbsp;using <code>grid.arrange()</code>) .</p></li>
 </ol>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-8_dc341cab3902c9245498952c64645aef">
+<div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Check projection</span></span>
 <span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">urbclim.spdf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -474,7 +490,7 @@ PROJCRS["unnamed",
             LENGTHUNIT["metre",1]]]</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-9_9d5fd5bf6c60c80c593e312c47f410ae">
+<div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Add id</span></span>
 <span><span class="va">urbclim.spdf</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">urbclim.spdf</span><span class="op">)</span></span>
 <span></span>
@@ -492,7 +508,7 @@ PROJCRS["unnamed",
 <span>  intensive <span class="op">=</span> <span class="st">"Tmin_midnight"</span>             </span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-10_aef78f0599a39e9cc74afe5061c365d6">
+<div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Make map of Temperature</span></span>
 <span><span class="va">gp2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">Tmin_midnight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
@@ -515,7 +531,7 @@ PROJCRS["unnamed",
 </div>
 </div>
 </section><section id="whats-the-correlation-between-the-share-of-non-eu-residents-and-the-termperature." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="whats-the-correlation-between-the-share-of-non-eu-residents-and-the-termperature.">4) What’s the correlation between the share of non-Eu residents and the termperature.</h3>
-<div class="cell" data-hash="03_exercise1_cache/html/unnamed-chunk-11_d20eea22771e319114e8b6c726f6358f">
+<div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod1.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Tmin_midnight</span> <span class="op">~</span> <span class="va">per_nonEU</span>, data <span class="op">=</span> <span class="va">msoa.spdf</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod1.lm</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

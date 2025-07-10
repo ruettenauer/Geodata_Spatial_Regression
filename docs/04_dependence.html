@@ -307,20 +307,20 @@ div.csl-indent {
 }
 \]</span></p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-1_f0f22b0c8af05fef84c4e64a04b64b2f">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"gstat"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-2_821152ae17fa1571c1508a9a8ca6b0ab">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -337,39 +337,54 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] gstat_2.1-1       viridisLite_0.4.2 tmap_3.3-4       
-[4] spatialreg_1.3-4  Matrix_1.7-0      spdep_1.3-5      
-[7] spData_2.3.1      mapview_2.11.2    sf_1.0-16        
+[1] gstat_2.1-3       viridisLite_0.4.2 tmap_4.1         
+[4] spatialreg_1.3-6  Matrix_1.7-3      spdep_1.3-13     
+[7] spData_2.3.4      mapview_2.11.2    sf_1.0-21        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
- [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
- [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
-[10] sandwich_3.1-0     spacetime_1.3-1    proxy_0.4-27      
-[13] xts_0.14.0         KernSmooth_2.23-24 satellite_1.0.5   
-[16] RColorBrewer_1.1-3 leaflet_2.2.2      lifecycle_1.0.4   
-[19] FNN_1.1.4          compiler_4.4.1     deldir_2.0-4      
-[22] munsell_0.5.1      terra_1.7-78       codetools_0.2-20  
-[25] leafsync_0.1.0     stars_0.6-5        htmltools_0.5.8.1 
-[28] class_7.3-22       MASS_7.3-60.2      classInt_0.4-10   
-[31] lwgeom_0.2-14      wk_0.9.1           abind_1.4-5       
-[34] boot_1.3-30        multcomp_1.4-25    nlme_3.1-164      
-[37] digest_0.6.35      mvtnorm_1.2-5      splines_4.4.1     
-[40] fastmap_1.2.0      grid_4.4.1         colorspace_2.1-0  
-[43] cli_3.6.2          magrittr_2.0.3     base64enc_0.1-3   
-[46] dichromat_2.0-0.1  XML_3.99-0.16.1    survival_3.6-4    
-[49] leafem_0.2.3       TH.data_1.1-2      e1071_1.7-14      
-[52] scales_1.3.0       sp_2.1-4           rmarkdown_2.27    
-[55] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
-[58] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
-[61] s2_1.1.6           rlang_1.1.4        Rcpp_1.0.12       
-[64] glue_1.7.0         DBI_1.2.3          rstudioapi_0.16.0 
-[67] jsonlite_1.8.8     R6_2.5.1           intervals_0.15.4  
-[70] units_0.8-5       </code></pre>
+ [1] farver_2.1.2            fastmap_1.2.0          
+ [3] leaflegend_1.2.1        leaflet_2.2.2          
+ [5] TH.data_1.1-3           XML_3.99-0.18          
+ [7] digest_0.6.37           lifecycle_1.0.4        
+ [9] LearnBayes_2.15.1       survival_3.8-3         
+[11] terra_1.8-54            magrittr_2.0.3         
+[13] compiler_4.5.1          rlang_1.1.6            
+[15] tools_4.5.1             data.table_1.17.6      
+[17] knitr_1.50              FNN_1.1.4.1            
+[19] htmlwidgets_1.6.4       sp_2.2-0               
+[21] classInt_0.4-11         RColorBrewer_1.1-3     
+[23] multcomp_1.4-28         abind_1.4-8            
+[25] KernSmooth_2.23-26      leafsync_0.1.0         
+[27] grid_4.5.1              stats4_4.5.1           
+[29] xts_0.14.1              cols4all_0.8           
+[31] e1071_1.7-16            leafem_0.2.4           
+[33] colorspace_2.1-1        spacesXYZ_1.6-0        
+[35] scales_1.4.0            MASS_7.3-65            
+[37] dichromat_2.0-0.1       cli_3.6.5              
+[39] mvtnorm_1.3-3           rmarkdown_2.29         
+[41] intervals_0.15.5        rstudioapi_0.17.1      
+[43] tmaptools_3.2           DBI_1.2.3              
+[45] proxy_0.4-27            splines_4.5.1          
+[47] stars_0.6-8             parallel_4.5.1         
+[49] s2_1.1.9                base64enc_0.1-3        
+[51] boot_1.3-31             sandwich_3.1-1         
+[53] jsonlite_2.0.0          crosstalk_1.2.1        
+[55] units_0.8-7             maptiles_0.10.0        
+[57] glue_1.8.0              lwgeom_0.2-14          
+[59] codetools_0.2-20        leaflet.providers_2.0.0
+[61] deldir_2.0-4            raster_3.6-32          
+[63] logger_0.4.0            htmltools_0.5.8.1      
+[65] satellite_1.0.5         R6_2.6.1               
+[67] wk_0.9.4                microbenchmark_1.5.0   
+[69] evaluate_1.0.4          lattice_0.22-7         
+[71] png_0.1-8               class_7.3-23           
+[73] Rcpp_1.0.14             coda_0.19-4.1          
+[75] nlme_3.1-168            spacetime_1.3-3        
+[77] xfun_0.52               zoo_1.8-14             </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-3_2200a92467ed15249c79c0c05197731b">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="global-autocorrelation" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="global-autocorrelation">
@@ -382,7 +397,7 @@ loaded via a namespace (and not attached):
 <section id="visualization" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="visualization">
 <span class="header-section-number">5.1.1</span> Visualization</h3>
 <p>There is one very easy and intuitive way of detecting spatial autocorrelation: Just look at the map. We do so by using <code>tmap</code> for plotting the share of home owners.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-4_2c5939baa69d901e478a77af2ea7294b">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp1</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">tm_polygons</span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"per_owner"</span>,</span>
@@ -460,7 +475,7 @@ Question
 <li><p>Positive values: positive autocorrelation</p></li>
 </ul>
 <p>To calculate Moran’s I, we first need to define the relationship between units. As in the previous example, we define contiguity weights and distance-based weights.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-5_8d0406fe5149e4726fc161c6e469313e">
+<div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Contiguity (Queens) neighbours weights</span></span>
 <span><span class="va">queens.nb</span> <span class="op">&lt;-</span> <span class="fu">poly2nb</span><span class="op">(</span><span class="va">msoa.spdf</span>, </span>
 <span>                     queen <span class="op">=</span> <span class="cn">TRUE</span>, </span>
@@ -475,8 +490,12 @@ Question
 geometries</code></pre>
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dist_3.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">coords</span>, </span>
-<span>                        d1 <span class="op">=</span> <span class="fl">0</span>, d2 <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span>
-<span><span class="va">idw.lw</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">dist_3.nb</span>,</span>
+<span>                        d1 <span class="op">=</span> <span class="fl">0</span>, d2 <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in dnearneigh(coords, d1 = 0, d2 = 3000): neighbour object
+has 2 sub-graphs</code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">idw.lw</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">dist_3.nb</span>,</span>
 <span>                       x <span class="op">=</span> <span class="va">coords</span>, <span class="co"># needed for idw</span></span>
 <span>                       type <span class="op">=</span> <span class="st">"idw"</span>, <span class="co"># inverse distance weighting</span></span>
 <span>                       alpha <span class="op">=</span> <span class="fl">1</span>, <span class="co"># the decay parameter for distance weighting</span></span>
@@ -484,8 +503,8 @@ geometries</code></pre>
 </div>
 <p>Subsequently, we can calculate the average correlation between neighbouring units.</p>
 <p>For contiguity weights, we get:</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-6_cd0f7dd1eaac8f1206557b7e18866249">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Global Morans I test of housing values based on contiguity weights</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Global Morans I test of housing values based on contiguity weights</span></span>
 <span><span class="fu">moran.test</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, listw <span class="op">=</span> <span class="va">queens.lw</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -503,8 +522,8 @@ Moran I statistic       Expectation          Variance
 </div>
 </div>
 <p>And for inverse distance weighting, we get:</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-7_78e2e7dfca3aa54fe2a00098f33cd393">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Global Morans I test of housing values based on idw</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Global Morans I test of housing values based on idw</span></span>
 <span><span class="fu">moran.test</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, listw <span class="op">=</span> <span class="va">idw.lw</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -526,8 +545,8 @@ Moran I statistic       Expectation          Variance
 <span class="header-section-number">5.1.3</span> Residual-based Moran’s I</h3>
 <p>We can also use the same Moran’s I test to inspect spatial autocorrelation in residuals from an estimated linear model.</p>
 <p>Let’s start with an intercept only model.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-8_27d87edf64ac5f93183f2b94c32c1378">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">per_owner</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">msoa.spdf</span><span class="op">)</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">per_owner</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">msoa.spdf</span><span class="op">)</span></span>
 <span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">lm0</span>, listw <span class="op">=</span> <span class="va">queens.lw</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -547,8 +566,8 @@ Observed Moran I      Expectation         Variance
 </div>
 <p>This is exactly what we have received in the general case of Moran’s I.</p>
 <p>Now, lets add some predictors. For instance, the distance to the city centre, and the population density may be strongly related to the home ownership rates and explain parts of the spatial dependence.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-9_2e0b8f30833c944ce9e174a1c8dc335b">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Distance to city center</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Distance to city center</span></span>
 <span><span class="co"># Define centre</span></span>
 <span><span class="va">centre</span> <span class="op">&lt;-</span> <span class="fu">st_as_sf</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">0.128120855701165</span>, </span>
 <span>                              lat <span class="op">=</span> <span class="fl">51.50725909644806</span><span class="op">)</span>,</span>
@@ -590,8 +609,8 @@ Observed Moran I      Expectation         Variance
 <p>with the number of available pairs <span class="math inline">\(N(h_i)\)</span> in each distance interval <span class="math inline">\(h_i\)</span>. Basically, <em>it is the variance within each distance interval</em>.</p>
 <p>For more information, see for instance the <a href="https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html">Geospatial Data Science in R</a> by Zia Ahmed or <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
 <p>To calculate the empirical semi-vriogram, we can use the package <code>gstat</code> with the function <code>variogram()</code>.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-10_3f834fbdd0f9b68a29c0f79016ab3abe">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Variogram No2</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Variogram No2</span></span>
 <span><span class="va">v.no2</span> <span class="op">&lt;-</span> <span class="fu">variogram</span><span class="op">(</span><span class="va">no2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">msoa.spdf</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">v.no2</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.075</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">v.no2</span><span class="op">$</span><span class="va">dist</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>     ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">1.05</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">v.no2</span><span class="op">$</span><span class="va">gamma</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -605,14 +624,14 @@ Observed Moran I      Expectation         Variance
 <figure class="figure"><p><img src="fig/Semi_variogram.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Theoretical exponential semi-variogram model. Source: https://www.aspexit.com/variogram-and-spatial-autocorrelation</figcaption></figure>
 </div>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-11_6f07fc017ffaea463ff8c07fbdff1273">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Intial parameter set by eye esitmation</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Intial parameter set by eye esitmation</span></span>
 <span><span class="va">m.no2</span> <span class="op">&lt;-</span> <span class="fu">vgm</span><span class="op">(</span><span class="fl">60</span>, <span class="st">"Cir"</span>, <span class="fl">20000</span>, <span class="fl">0</span><span class="op">)</span>  <span class="co"># Sill, model, range, nugget</span></span>
 <span><span class="co"># least square fit</span></span>
 <span><span class="va">m.f.v.no2</span> <span class="op">&lt;-</span> <span class="fu">fit.variogram</span><span class="op">(</span><span class="va">v.no2</span>, <span class="va">m.no2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-12_24b9e69e95a06135288cb1899080b6b9">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#### Plot varigram and fitted model:</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#### Plot varigram and fitted model:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">v.no2</span>, pl <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>     model <span class="op">=</span> <span class="va">m.f.v.no2</span>,</span>
 <span>     col<span class="op">=</span><span class="st">"blue"</span>, </span>
@@ -639,16 +658,16 @@ Observed Moran I      Expectation         Variance
 <p>The Global Moran’s I statistic above summarizes the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often more helpful to inspect the spatial pattern in more detail.</p>
 <p>The most prominent measure is the Local Indicators of Spatial Association (LISA) <span class="citation" data-cites="Anselin.1995">(<a href="references.html#ref-Anselin.1995" role="doc-biblioref">Anselin 1995</a>)</span>. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the <a href="https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html">GeoData Materials</a> by Luc Anselin.</p>
 <p>For instance, we can use the Moran Plot to identify how single (pairs of) units contribute to the overall dependence.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-13_9d4deeb18f29e3165b83d4010d3e911b">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu">moran.plot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, <span class="va">queens.lw</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp</span> <span class="op">&lt;-</span> <span class="fu">moran.plot</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, <span class="va">queens.lw</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="04_dependence_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
 <p>In the lower left corner, we see units with a low-low share of home ownership: focal and neighbouring units have a low share of home owners. In the top right corner, by contrast, we see high-high units.</p>
 <p>And we can plot influence values on the Overall Moran statistic.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-14_4a7b1516346e21604b144d361dee1f88">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">hat_value</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="va">hat</span> </span>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">hat_value</span> <span class="op">&lt;-</span> <span class="va">mp</span><span class="op">$</span><span class="va">hat</span> </span>
 <span></span>
 <span><span class="va">mp1</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_polygons</span><span class="op">(</span></span>
@@ -687,8 +706,8 @@ Observed Moran I      Expectation         Variance
         \frac{z_i \sum_j w_{ij}z_j}
             {\sum_i (z_i)^2 / (n-1)}, \text{where }
 \]</span> We use the function <code>localmoran()</code> to calculate the local test statistic .</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-15_982be7e5c425ff87774384520d912815">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loci</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, listw <span class="op">=</span> <span class="va">queens.lw</span><span class="op">)</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loci</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">per_owner</span>, listw <span class="op">=</span> <span class="va">queens.lw</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">loci</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Ii          E.Ii      Var.Ii       Z.Ii Pr(z != E(Ii))
@@ -701,8 +720,8 @@ Observed Moran I      Expectation         Variance
 </div>
 </div>
 <p>It also has an attribute with the Moran plot quadrant of each observation.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-16_c7e960e53b4ce0a9a47651c859253fc9">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">loci</span>, <span class="st">"quadr"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">loci</span>, <span class="st">"quadr"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       mean    median     pysal
 1   Low-Low   Low-Low   Low-Low
@@ -714,16 +733,16 @@ Observed Moran I      Expectation         Variance
 </div>
 </div>
 <p>This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g.&nbsp;by Bonferroni adjustment <span class="citation" data-cites="Bivand.2018a">(<a href="references.html#ref-Bivand.2018a" role="doc-biblioref">Bivand and Wong 2018</a>)</span>.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-17_349736b915c1464cf6df8ea3e4bba1bb">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loci.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">loci</span><span class="op">)</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loci.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">loci</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">loci</span> <span class="op">&lt;-</span> <span class="va">loci.df</span><span class="op">$</span><span class="va">Ii</span></span>
 <span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">p_value</span> <span class="op">&lt;-</span> <span class="va">loci.df</span><span class="op">$</span><span class="va">PrzEIi</span></span>
 <span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">p_value_adj1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html">p.adjust</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">$</span><span class="va">PrzEIi</span>, <span class="st">"BY"</span><span class="op">)</span></span>
 <span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">p_value_adj2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html">p.adjust</a></span><span class="op">(</span><span class="va">loci.df</span><span class="op">$</span><span class="va">PrzEIi</span>, <span class="st">"bonferroni"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-18_cc7d3ec98c4fba78df4fe2cc1947fc8a">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp1</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span> <span class="op">+</span> </span>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mp1</span> <span class="op">&lt;-</span> <span class="fu">tm_shape</span><span class="op">(</span><span class="va">msoa.spdf</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">tm_polygons</span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"loci"</span>, <span class="st">"p_value"</span>, <span class="st">"p_value_adj1"</span>, <span class="st">"p_value_adj2"</span><span class="op">)</span>,</span>
 <span>    fill_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -760,8 +779,8 @@ compoments do not fit well, and are therefore rescaled.
 </div>
 </div>
 <p>Something you can often see are so called LISA hotspot maps. They are based on the same idea as the moran plot, and show cluster of high-high and low-low values. We can use the hotspot function to identify the clusters, with a cutoff for singificance and the adjustment for multiple testing.</p>
-<div class="cell" data-hash="04_dependence_cache/html/unnamed-chunk-19_212816fd93cd2da075a2228f6cb15bfa">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate clusters</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate clusters</span></span>
 <span><span class="va">msoa.spdf</span><span class="op">$</span><span class="va">lisa_cluster</span> <span class="op">&lt;-</span> <span class="fu">hotspot</span><span class="op">(</span><span class="va">loci</span>, </span>
 <span>                                  <span class="st">"Pr(z != E(Ii))"</span>, </span>
 <span>                                  cutoff <span class="op">=</span> <span class="fl">0.05</span>, </span>
@@ -1142,451 +1161,451 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb31" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="fu"># Detecting Spatial Dependence</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"gstat"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
-<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global Autocorrelation </span></span>
-<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a>If spatially close observations are more likely to exhibit similar values, we cannot handle observations as if they were independent.</span>
-<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>$$ </span>
-<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a>\Exp(\varepsilon_i\varepsilon_j)\neq \Exp(\varepsilon_i)\Exp(\varepsilon_j) = 0</span>
-<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>This violates a basic assumption of the conventional OLS model. We will talk more about whether that is good or bad (any guess?).</span>
-<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualization</span></span>
-<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a>There is one very easy and intuitive way of detecting spatial autocorrelation: Just look at the map. We do so by using <span class="in">`tmap`</span> for plotting the share of home owners.</span>
-<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-64"><a href="#cb31-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-65"><a href="#cb31-65" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span></span>
-<span id="cb31-66"><a href="#cb31-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb31-67"><a href="#cb31-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"per_owner"</span>,</span>
-<span id="cb31-68"><a href="#cb31-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
-<span id="cb31-69"><a href="#cb31-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<span id="cb31-70"><a href="#cb31-70" aria-hidden="true" tabindex="-1"></a>      <span class="at">style =</span> <span class="st">"fisher"</span>,</span>
-<span id="cb31-71"><a href="#cb31-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="dv">8</span>,</span>
-<span id="cb31-72"><a href="#cb31-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">8</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
-<span id="cb31-73"><a href="#cb31-73" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb31-74"><a href="#cb31-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(</span>
-<span id="cb31-75"><a href="#cb31-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Median"</span>,</span>
-<span id="cb31-76"><a href="#cb31-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">hist =</span> <span class="cn">TRUE</span></span>
-<span id="cb31-77"><a href="#cb31-77" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb31-78"><a href="#cb31-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.chart =</span> <span class="fu">tm_chart_histogram</span>()                 <span class="co"># add a histogram to the legend</span></span>
-<span id="cb31-79"><a href="#cb31-79" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-80"><a href="#cb31-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb31-81"><a href="#cb31-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb31-82"><a href="#cb31-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-83"><a href="#cb31-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
-<span id="cb31-84"><a href="#cb31-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-85"><a href="#cb31-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">title.snap.to.legend =</span> <span class="cn">TRUE</span></span>
-<span id="cb31-86"><a href="#cb31-86" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-87"><a href="#cb31-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
-<span id="cb31-88"><a href="#cb31-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Percent home owners"</span>,</span>
-<span id="cb31-89"><a href="#cb31-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
-<span id="cb31-90"><a href="#cb31-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
-<span id="cb31-91"><a href="#cb31-91" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-92"><a href="#cb31-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-93"><a href="#cb31-93" aria-hidden="true" tabindex="-1"></a>mp1</span>
-<span id="cb31-94"><a href="#cb31-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-95"><a href="#cb31-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-96"><a href="#cb31-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-97"><a href="#cb31-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-98"><a href="#cb31-98" aria-hidden="true" tabindex="-1"></a>We definitely see some clusters with spatial units having a low share of home owner (e.g. in the city center), and other clusters where home ownership is high (e.g. suburbs in the south and east, such as Bromley or Havering). </span>
-<span id="cb31-99"><a href="#cb31-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-100"><a href="#cb31-100" aria-hidden="true" tabindex="-1"></a>However, this is (to some degree) dependent on how we define cutoffs and coloring of the map: the Modifiable Areal Unit Problem <span class="co">[</span><span class="ot">@Wong.2009</span><span class="co">]</span>.</span>
-<span id="cb31-101"><a href="#cb31-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-102"><a href="#cb31-102" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb31-103"><a href="#cb31-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question</span></span>
-<span id="cb31-104"><a href="#cb31-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-105"><a href="#cb31-105" aria-hidden="true" tabindex="-1"></a>Which of the following three checkerboards has no (or the lowest) autocorrelation?</span>
-<span id="cb31-106"><a href="#cb31-106" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb31-107"><a href="#cb31-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-108"><a href="#cb31-108" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/segregation.png)</span></span>
-<span id="cb31-109"><a href="#cb31-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-110"><a href="#cb31-110" aria-hidden="true" tabindex="-1"></a>Would your answer be the same if we would aggregate the data to four larger areas / districts using the average within each of the four districts?</span>
-<span id="cb31-111"><a href="#cb31-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-112"><a href="#cb31-112" aria-hidden="true" tabindex="-1"></a><span class="fu">### Moran's I</span></span>
-<span id="cb31-113"><a href="#cb31-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-114"><a href="#cb31-114" aria-hidden="true" tabindex="-1"></a>The most common and well known statistic for spatial dependence or autocorrelation is Moran's I, which goes back to @Moran.1950 and @Cliff.1972. For more extensive materials on Moran's I see for instance @Kelejian.2017, Chapter 11.</span>
-<span id="cb31-115"><a href="#cb31-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-116"><a href="#cb31-116" aria-hidden="true" tabindex="-1"></a>To calculate Moran's I, we first define a neighbours weights matrix W.</span>
-<span id="cb31-117"><a href="#cb31-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-118"><a href="#cb31-118" aria-hidden="true" tabindex="-1"></a>Global Moran's I test statistic:</span>
-<span id="cb31-119"><a href="#cb31-119" aria-hidden="true" tabindex="-1"></a>$$      </span>
-<span id="cb31-120"><a href="#cb31-120" aria-hidden="true" tabindex="-1"></a>\bm I  = \frac{N}{S_0}  </span>
-<span id="cb31-121"><a href="#cb31-121" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i\sum_j w_{ij}(y_i-\bar{y})(y_j-\bar{y})}</span>
-<span id="cb31-122"><a href="#cb31-122" aria-hidden="true" tabindex="-1"></a>{\sum_i (y_i-\bar{y})^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}</span>
-<span id="cb31-123"><a href="#cb31-123" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-124"><a href="#cb31-124" aria-hidden="true" tabindex="-1"></a>It is often written with deviations $z$</span>
-<span id="cb31-125"><a href="#cb31-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-126"><a href="#cb31-126" aria-hidden="true" tabindex="-1"></a>$$      </span>
-<span id="cb31-127"><a href="#cb31-127" aria-hidden="true" tabindex="-1"></a>\bm I  = \frac{N}{S_0}  </span>
-<span id="cb31-128"><a href="#cb31-128" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i\sum_j w_{ij}(z_i)(z_j)}</span>
-<span id="cb31-129"><a href="#cb31-129" aria-hidden="true" tabindex="-1"></a>{\sum_i (z_i)^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}</span>
-<span id="cb31-130"><a href="#cb31-130" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-131"><a href="#cb31-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-132"><a href="#cb31-132" aria-hidden="true" tabindex="-1"></a>Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as: _Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$_. Basically, this measures correlation between neighbouring values.</span>
-<span id="cb31-133"><a href="#cb31-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-134"><a href="#cb31-134" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Negative values: negative autocorrelation</span>
-<span id="cb31-135"><a href="#cb31-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-136"><a href="#cb31-136" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Around zero: no autocorrelation</span>
-<span id="cb31-137"><a href="#cb31-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-138"><a href="#cb31-138" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Positive values: positive autocorrelation</span>
-<span id="cb31-139"><a href="#cb31-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-140"><a href="#cb31-140" aria-hidden="true" tabindex="-1"></a>To calculate Moran's I, we first need to define the relationship between units. As in the previous example, we define contiguity weights and distance-based weights.</span>
-<span id="cb31-141"><a href="#cb31-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-144"><a href="#cb31-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-145"><a href="#cb31-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Contiguity (Queens) neighbours weights</span></span>
-<span id="cb31-146"><a href="#cb31-146" aria-hidden="true" tabindex="-1"></a>queens.nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(msoa.spdf, </span>
-<span id="cb31-147"><a href="#cb31-147" aria-hidden="true" tabindex="-1"></a>                     <span class="at">queen =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb31-148"><a href="#cb31-148" aria-hidden="true" tabindex="-1"></a>                     <span class="at">snap =</span> <span class="dv">1</span>) <span class="co"># we consider points in 1m distance as 'touching'</span></span>
-<span id="cb31-149"><a href="#cb31-149" aria-hidden="true" tabindex="-1"></a>queens.lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(queens.nb,</span>
-<span id="cb31-150"><a href="#cb31-150" aria-hidden="true" tabindex="-1"></a>                      <span class="at">style =</span> <span class="st">"W"</span>)</span>
-<span id="cb31-151"><a href="#cb31-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-152"><a href="#cb31-152" aria-hidden="true" tabindex="-1"></a><span class="co"># Neighbours within 3km distance</span></span>
-<span id="cb31-153"><a href="#cb31-153" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_geometry</span>(<span class="fu">st_centroid</span>(msoa.spdf))</span>
-<span id="cb31-154"><a href="#cb31-154" aria-hidden="true" tabindex="-1"></a>dist_3.nb <span class="ot">&lt;-</span> <span class="fu">dnearneigh</span>(coords, </span>
-<span id="cb31-155"><a href="#cb31-155" aria-hidden="true" tabindex="-1"></a>                        <span class="at">d1 =</span> <span class="dv">0</span>, <span class="at">d2 =</span> <span class="dv">3000</span>)</span>
-<span id="cb31-156"><a href="#cb31-156" aria-hidden="true" tabindex="-1"></a>idw.lw <span class="ot">&lt;-</span> <span class="fu">nb2listwdist</span>(dist_3.nb,</span>
-<span id="cb31-157"><a href="#cb31-157" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x =</span> coords, <span class="co"># needed for idw</span></span>
-<span id="cb31-158"><a href="#cb31-158" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"idw"</span>, <span class="co"># inverse distance weighting</span></span>
-<span id="cb31-159"><a href="#cb31-159" aria-hidden="true" tabindex="-1"></a>                       <span class="at">alpha =</span> <span class="dv">1</span>, <span class="co"># the decay parameter for distance weighting</span></span>
-<span id="cb31-160"><a href="#cb31-160" aria-hidden="true" tabindex="-1"></a>                       <span class="at">style =</span> <span class="st">"minmax"</span>) <span class="co"># for eigenvalue normalization</span></span>
-<span id="cb31-161"><a href="#cb31-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-162"><a href="#cb31-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-163"><a href="#cb31-163" aria-hidden="true" tabindex="-1"></a>Subsequently, we can calculate the average correlation between neighbouring units.</span>
-<span id="cb31-164"><a href="#cb31-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-165"><a href="#cb31-165" aria-hidden="true" tabindex="-1"></a>For contiguity weights, we get:</span>
-<span id="cb31-168"><a href="#cb31-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-169"><a href="#cb31-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Morans I test of housing values based on contiguity weights</span></span>
-<span id="cb31-170"><a href="#cb31-170" aria-hidden="true" tabindex="-1"></a><span class="fu">moran.test</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb31-171"><a href="#cb31-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-172"><a href="#cb31-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-173"><a href="#cb31-173" aria-hidden="true" tabindex="-1"></a>And for inverse distance weighting, we get:</span>
-<span id="cb31-176"><a href="#cb31-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-177"><a href="#cb31-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Morans I test of housing values based on idw</span></span>
-<span id="cb31-178"><a href="#cb31-178" aria-hidden="true" tabindex="-1"></a><span class="fu">moran.test</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> idw.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb31-179"><a href="#cb31-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-180"><a href="#cb31-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-181"><a href="#cb31-181" aria-hidden="true" tabindex="-1"></a>Interpretation: In both cases, we have very strong autocorrelation between neighbouring/closer units (~.7). It barely matters which of the weights matrices we use. This autocorrelation is highly significant. we can thus reject the Null that units are independent of each other (at least at this spatial level and for the share of home owners).</span>
-<span id="cb31-182"><a href="#cb31-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-183"><a href="#cb31-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Residual-based Moran's I</span></span>
-<span id="cb31-184"><a href="#cb31-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-185"><a href="#cb31-185" aria-hidden="true" tabindex="-1"></a>We can also use the same Moran's I test to inspect spatial autocorrelation in residuals from an estimated linear model.</span>
-<span id="cb31-186"><a href="#cb31-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-187"><a href="#cb31-187" aria-hidden="true" tabindex="-1"></a>Let's start with an intercept only model.</span>
-<span id="cb31-188"><a href="#cb31-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-191"><a href="#cb31-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-192"><a href="#cb31-192" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(per_owner <span class="sc">~</span> <span class="dv">1</span>, msoa.spdf)</span>
-<span id="cb31-193"><a href="#cb31-193" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.morantest</span>(lm0, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb31-194"><a href="#cb31-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-195"><a href="#cb31-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-196"><a href="#cb31-196" aria-hidden="true" tabindex="-1"></a>This is exactly what we have received in the general case of Moran's I.</span>
-<span id="cb31-197"><a href="#cb31-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-198"><a href="#cb31-198" aria-hidden="true" tabindex="-1"></a>Now, lets add some predictors. For instance, the distance to the city centre, and the population density may be strongly related to the home ownership rates and explain parts of the spatial dependence. </span>
-<span id="cb31-199"><a href="#cb31-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-202"><a href="#cb31-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-203"><a href="#cb31-203" aria-hidden="true" tabindex="-1"></a><span class="do">### Distance to city center</span></span>
-<span id="cb31-204"><a href="#cb31-204" aria-hidden="true" tabindex="-1"></a><span class="co"># Define centre</span></span>
-<span id="cb31-205"><a href="#cb31-205" aria-hidden="true" tabindex="-1"></a>centre <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">lon =</span> <span class="sc">-</span><span class="fl">0.128120855701165</span>, </span>
-<span id="cb31-206"><a href="#cb31-206" aria-hidden="true" tabindex="-1"></a>                              <span class="at">lat =</span> <span class="fl">51.50725909644806</span>),</span>
-<span id="cb31-207"><a href="#cb31-207" aria-hidden="true" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>), </span>
-<span id="cb31-208"><a href="#cb31-208" aria-hidden="true" tabindex="-1"></a>                   <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb31-209"><a href="#cb31-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject</span></span>
-<span id="cb31-210"><a href="#cb31-210" aria-hidden="true" tabindex="-1"></a>centre <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(centre, <span class="at">crs =</span> <span class="fu">st_crs</span>(msoa.spdf))</span>
-<span id="cb31-211"><a href="#cb31-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate distance</span></span>
-<span id="cb31-212"><a href="#cb31-212" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>dist_centre <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(msoa.spdf, centre)) <span class="sc">/</span> <span class="dv">1000</span></span>
-<span id="cb31-213"><a href="#cb31-213" aria-hidden="true" tabindex="-1"></a><span class="co"># hist(msoa.spdf$dist_centre)</span></span>
-<span id="cb31-214"><a href="#cb31-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-215"><a href="#cb31-215" aria-hidden="true" tabindex="-1"></a><span class="do">### Run model with predictors</span></span>
-<span id="cb31-216"><a href="#cb31-216" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(per_owner <span class="sc">~</span> dist_centre <span class="sc">+</span> POPDEN, msoa.spdf)</span>
-<span id="cb31-217"><a href="#cb31-217" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.morantest</span>(lm1, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb31-218"><a href="#cb31-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-219"><a href="#cb31-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-220"><a href="#cb31-220" aria-hidden="true" tabindex="-1"></a>There is still considerable auto-correlation in the residuals. However, we have reduced it by a substantial amount with two very simple control variables.</span>
-<span id="cb31-221"><a href="#cb31-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-222"><a href="#cb31-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### Semivariogram</span></span>
-<span id="cb31-223"><a href="#cb31-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-224"><a href="#cb31-224" aria-hidden="true" tabindex="-1"></a>The sample variogram $\gamma(h)$ for distance intervals $h_i$ describes the average square difference between the points in this distance interval:</span>
-<span id="cb31-225"><a href="#cb31-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-226"><a href="#cb31-226" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-227"><a href="#cb31-227" aria-hidden="true" tabindex="-1"></a>\hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' &lt; h_{i,1}</span>
-<span id="cb31-228"><a href="#cb31-228" aria-hidden="true" tabindex="-1"></a>$$ </span>
-<span id="cb31-229"><a href="#cb31-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-230"><a href="#cb31-230" aria-hidden="true" tabindex="-1"></a>with the number of available pairs $N(h_i)$ in each distance interval $h_i$. Basically, _it is the variance within each distance interval_.</span>
-<span id="cb31-231"><a href="#cb31-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-232"><a href="#cb31-232" aria-hidden="true" tabindex="-1"></a>For more information, see for instance the <span class="co">[</span><span class="ot">Geospatial Data Science in R</span><span class="co">](https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html)</span> by Zia Ahmed or @Pebesma.2023.</span>
-<span id="cb31-233"><a href="#cb31-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-234"><a href="#cb31-234" aria-hidden="true" tabindex="-1"></a>To calculate the empirical semi-vriogram, we can use the package <span class="in">`gstat`</span> with the function <span class="in">`variogram()`</span>.</span>
-<span id="cb31-235"><a href="#cb31-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-238"><a href="#cb31-238" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-239"><a href="#cb31-239" aria-hidden="true" tabindex="-1"></a><span class="co"># Variogram No2</span></span>
-<span id="cb31-240"><a href="#cb31-240" aria-hidden="true" tabindex="-1"></a>v.no2 <span class="ot">&lt;-</span> <span class="fu">variogram</span>(no2 <span class="sc">~</span> <span class="dv">1</span>, msoa.spdf)</span>
-<span id="cb31-241"><a href="#cb31-241" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v.no2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.075</span> <span class="sc">*</span> <span class="fu">max</span>(v.no2<span class="sc">$</span>dist)),</span>
-<span id="cb31-242"><a href="#cb31-242" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="fl">1.05</span> <span class="sc">*</span> <span class="fu">max</span>(v.no2<span class="sc">$</span>gamma)))</span>
-<span id="cb31-243"><a href="#cb31-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-244"><a href="#cb31-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-245"><a href="#cb31-245" aria-hidden="true" tabindex="-1"></a>Above graphs shows that the variance within each distance interval gradually increases, up to a distance of ~ 18km, and then level off at a relative constant level. Lower variances within lower values of distances means that observations are more similar to each other the closer they are.</span>
-<span id="cb31-246"><a href="#cb31-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-247"><a href="#cb31-247" aria-hidden="true" tabindex="-1"></a>We can also try to fit a model that resembles the spatial structure. This becomes important when we want to perform spatial interpolation (e.g. to impute missings).</span>
-<span id="cb31-248"><a href="#cb31-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-249"><a href="#cb31-249" aria-hidden="true" tabindex="-1"></a><span class="al">![Theoretical exponential semi-variogram model. Source: https://www.aspexit.com/variogram-and-spatial-autocorrelation](fig/Semi_variogram.png)</span></span>
-<span id="cb31-250"><a href="#cb31-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-251"><a href="#cb31-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-254"><a href="#cb31-254" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-255"><a href="#cb31-255" aria-hidden="true" tabindex="-1"></a><span class="co"># Intial parameter set by eye esitmation</span></span>
-<span id="cb31-256"><a href="#cb31-256" aria-hidden="true" tabindex="-1"></a>m.no2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">60</span>, <span class="st">"Cir"</span>, <span class="dv">20000</span>, <span class="dv">0</span>)  <span class="co"># Sill, model, range, nugget</span></span>
-<span id="cb31-257"><a href="#cb31-257" aria-hidden="true" tabindex="-1"></a><span class="co"># least square fit</span></span>
-<span id="cb31-258"><a href="#cb31-258" aria-hidden="true" tabindex="-1"></a>m.f.v.no2 <span class="ot">&lt;-</span> <span class="fu">fit.variogram</span>(v.no2, m.no2)</span>
-<span id="cb31-259"><a href="#cb31-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-260"><a href="#cb31-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-261"><a href="#cb31-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-264"><a href="#cb31-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-265"><a href="#cb31-265" aria-hidden="true" tabindex="-1"></a><span class="do">#### Plot varigram and fitted model:</span></span>
-<span id="cb31-266"><a href="#cb31-266" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v.no2, <span class="at">pl =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb31-267"><a href="#cb31-267" aria-hidden="true" tabindex="-1"></a>     <span class="at">model =</span> m.f.v.no2,</span>
-<span id="cb31-268"><a href="#cb31-268" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"blue"</span>, </span>
-<span id="cb31-269"><a href="#cb31-269" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">0.9</span>, </span>
-<span id="cb31-270"><a href="#cb31-270" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.5</span>,</span>
-<span id="cb31-271"><a href="#cb31-271" aria-hidden="true" tabindex="-1"></a>     <span class="at">lty =</span> <span class="dv">1</span>,</span>
-<span id="cb31-272"><a href="#cb31-272" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb31-273"><a href="#cb31-273" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Variogram and Fitted Model"</span>,</span>
-<span id="cb31-274"><a href="#cb31-274" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distance (m)"</span>,</span>
-<span id="cb31-275"><a href="#cb31-275" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Semivariance"</span>)</span>
-<span id="cb31-276"><a href="#cb31-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-277"><a href="#cb31-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-278"><a href="#cb31-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
-<span id="cb31-279"><a href="#cb31-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-280"><a href="#cb31-280" aria-hidden="true" tabindex="-1"></a><span class="al">![Semivariogram of Air pollution and income deprivation in England on the LSOA level for 2019.](fig/Semivariogram_2019.png)</span></span>
-<span id="cb31-281"><a href="#cb31-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-282"><a href="#cb31-282" aria-hidden="true" tabindex="-1"></a>When looking at approx. 10 km distance: the variance in income deprivation is nearly as high when looking at areas within 10km as it would be when looking at areas within 100km distance. This indicates that income deprivation is very local and varies already within smaller areas such as within cities or district. Air pollution, in contrast, has a much lower variance within 10km distances than we would find when looking at the data within 100km distance. This indicates that air pollution has stronger large-scale spatial patterns. When moving locally (e.g. within 10km) to a random location, it would be more difficult to improve in air pollution than it would be to improve in income deprivation.</span>
-<span id="cb31-283"><a href="#cb31-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-284"><a href="#cb31-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-285"><a href="#cb31-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Local Autocorrelation</span></span>
-<span id="cb31-286"><a href="#cb31-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-287"><a href="#cb31-287" aria-hidden="true" tabindex="-1"></a>The Global Moran's I statistic above summarizes the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often more helpful to inspect the spatial pattern in more detail.</span>
-<span id="cb31-288"><a href="#cb31-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-289"><a href="#cb31-289" aria-hidden="true" tabindex="-1"></a>The most prominent measure is the Local Indicators of Spatial Association (LISA) <span class="co">[</span><span class="ot">@Anselin.1995</span><span class="co">]</span>. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the <span class="co">[</span><span class="ot">GeoData Materials</span><span class="co">](https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html)</span> by Luc Anselin.</span>
-<span id="cb31-290"><a href="#cb31-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-291"><a href="#cb31-291" aria-hidden="true" tabindex="-1"></a>For instance, we can use the Moran Plot to identify how single (pairs of) units contribute to the overall dependence.</span>
-<span id="cb31-292"><a href="#cb31-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-293"><a href="#cb31-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-296"><a href="#cb31-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-297"><a href="#cb31-297" aria-hidden="true" tabindex="-1"></a>mp <span class="ot">&lt;-</span> <span class="fu">moran.plot</span>(msoa.spdf<span class="sc">$</span>per_owner, queens.lw)</span>
-<span id="cb31-298"><a href="#cb31-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-299"><a href="#cb31-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-300"><a href="#cb31-300" aria-hidden="true" tabindex="-1"></a>In the lower left corner, we see units with a low-low share of home ownership: focal and neighbouring units have a low share of home owners. In the top right corner, by contrast, we see high-high units.</span>
-<span id="cb31-301"><a href="#cb31-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-302"><a href="#cb31-302" aria-hidden="true" tabindex="-1"></a>And we can plot influence values on the Overall Moran statistic.</span>
-<span id="cb31-303"><a href="#cb31-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-306"><a href="#cb31-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-307"><a href="#cb31-307" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>hat_value <span class="ot">&lt;-</span> mp<span class="sc">$</span>hat </span>
-<span id="cb31-308"><a href="#cb31-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-309"><a href="#cb31-309" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
-<span id="cb31-310"><a href="#cb31-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb31-311"><a href="#cb31-311" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"hat_value"</span>,</span>
-<span id="cb31-312"><a href="#cb31-312" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
-<span id="cb31-313"><a href="#cb31-313" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<span id="cb31-314"><a href="#cb31-314" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
-<span id="cb31-315"><a href="#cb31-315" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb31-316"><a href="#cb31-316" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-317"><a href="#cb31-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb31-318"><a href="#cb31-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb31-319"><a href="#cb31-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-320"><a href="#cb31-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-321"><a href="#cb31-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
-<span id="cb31-322"><a href="#cb31-322" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"bottom"</span>),</span>
-<span id="cb31-323"><a href="#cb31-323" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-324"><a href="#cb31-324" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb31-325"><a href="#cb31-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span></span>
-<span id="cb31-326"><a href="#cb31-326" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-327"><a href="#cb31-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
-<span id="cb31-328"><a href="#cb31-328" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Influence"</span>,</span>
-<span id="cb31-329"><a href="#cb31-329" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
-<span id="cb31-330"><a href="#cb31-330" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
-<span id="cb31-331"><a href="#cb31-331" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-332"><a href="#cb31-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-333"><a href="#cb31-333" aria-hidden="true" tabindex="-1"></a>mp1</span>
-<span id="cb31-334"><a href="#cb31-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-335"><a href="#cb31-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-336"><a href="#cb31-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-337"><a href="#cb31-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-338"><a href="#cb31-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Local Moran's I</span></span>
-<span id="cb31-339"><a href="#cb31-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-340"><a href="#cb31-340" aria-hidden="true" tabindex="-1"></a>Local Moran's I is a local version of the overall Moran's I to identify local clusters and local spatial outliers <span class="co">[</span><span class="ot">@Anselin.1995</span><span class="co">]</span>. The Local Moran's I is just a local version which is calculated for each location:</span>
-<span id="cb31-341"><a href="#cb31-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-342"><a href="#cb31-342" aria-hidden="true" tabindex="-1"></a>$$      </span>
-<span id="cb31-343"><a href="#cb31-343" aria-hidden="true" tabindex="-1"></a>        \bm I_i  =  </span>
-<span id="cb31-344"><a href="#cb31-344" aria-hidden="true" tabindex="-1"></a>        \frac{z_i \sum_j w_{ij}z_j}</span>
-<span id="cb31-345"><a href="#cb31-345" aria-hidden="true" tabindex="-1"></a>            {\sum_i (z_i)^2 / (n-1)}, \text{where }</span>
-<span id="cb31-346"><a href="#cb31-346" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb31-347"><a href="#cb31-347" aria-hidden="true" tabindex="-1"></a>We use the function <span class="in">`localmoran()`</span> to calculate the local test statistic .</span>
-<span id="cb31-348"><a href="#cb31-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-351"><a href="#cb31-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-352"><a href="#cb31-352" aria-hidden="true" tabindex="-1"></a>loci <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> queens.lw)</span>
-<span id="cb31-353"><a href="#cb31-353" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loci)</span>
-<span id="cb31-354"><a href="#cb31-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-355"><a href="#cb31-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-356"><a href="#cb31-356" aria-hidden="true" tabindex="-1"></a>It also has an attribute with the Moran plot quadrant of each observation.</span>
-<span id="cb31-357"><a href="#cb31-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-360"><a href="#cb31-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-361"><a href="#cb31-361" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">attr</span>(loci, <span class="st">"quadr"</span>))</span>
-<span id="cb31-362"><a href="#cb31-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-363"><a href="#cb31-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-364"><a href="#cb31-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-365"><a href="#cb31-365" aria-hidden="true" tabindex="-1"></a>This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g. by Bonferroni adjustment <span class="co">[</span><span class="ot">@Bivand.2018a</span><span class="co">]</span>.</span>
-<span id="cb31-366"><a href="#cb31-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-369"><a href="#cb31-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-370"><a href="#cb31-370" aria-hidden="true" tabindex="-1"></a>loci.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(loci)</span>
-<span id="cb31-371"><a href="#cb31-371" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(loci.df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, <span class="fu">names</span>(loci.df))</span>
-<span id="cb31-372"><a href="#cb31-372" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>loci <span class="ot">&lt;-</span> loci.df<span class="sc">$</span>Ii</span>
-<span id="cb31-373"><a href="#cb31-373" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value <span class="ot">&lt;-</span> loci.df<span class="sc">$</span>PrzEIi</span>
-<span id="cb31-374"><a href="#cb31-374" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value_adj1 <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(loci.df<span class="sc">$</span>PrzEIi, <span class="st">"BY"</span>)</span>
-<span id="cb31-375"><a href="#cb31-375" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value_adj2 <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(loci.df<span class="sc">$</span>PrzEIi, <span class="st">"bonferroni"</span>)</span>
-<span id="cb31-376"><a href="#cb31-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-377"><a href="#cb31-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-378"><a href="#cb31-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-381"><a href="#cb31-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-382"><a href="#cb31-382" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
-<span id="cb31-383"><a href="#cb31-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb31-384"><a href="#cb31-384" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"loci"</span>, <span class="st">"p_value"</span>, <span class="st">"p_value_adj1"</span>, <span class="st">"p_value_adj2"</span>),</span>
-<span id="cb31-385"><a href="#cb31-385" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
-<span id="cb31-386"><a href="#cb31-386" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
-<span id="cb31-387"><a href="#cb31-387" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
-<span id="cb31-388"><a href="#cb31-388" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb31-389"><a href="#cb31-389" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-390"><a href="#cb31-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb31-391"><a href="#cb31-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb31-392"><a href="#cb31-392" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-393"><a href="#cb31-393" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-394"><a href="#cb31-394" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
-<span id="cb31-395"><a href="#cb31-395" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
-<span id="cb31-396"><a href="#cb31-396" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-397"><a href="#cb31-397" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb31-398"><a href="#cb31-398" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb31-399"><a href="#cb31-399" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.labels =</span> <span class="fu">c</span>(<span class="st">"Morans I"</span>, <span class="st">"P value"</span>, <span class="st">"p value BY"</span>, <span class="st">"p value Bonferroni"</span>)</span>
-<span id="cb31-400"><a href="#cb31-400" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-401"><a href="#cb31-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
-<span id="cb31-402"><a href="#cb31-402" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Local Morans I"</span>,</span>
-<span id="cb31-403"><a href="#cb31-403" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
-<span id="cb31-404"><a href="#cb31-404" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
-<span id="cb31-405"><a href="#cb31-405" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-406"><a href="#cb31-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-407"><a href="#cb31-407" aria-hidden="true" tabindex="-1"></a>mp1</span>
-<span id="cb31-408"><a href="#cb31-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-409"><a href="#cb31-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-410"><a href="#cb31-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-411"><a href="#cb31-411" aria-hidden="true" tabindex="-1"></a>Something you can often see are so called LISA hotspot maps. They are based on the same idea as the moran plot, and show cluster of high-high and low-low values. We can use the hotspot function to identify the clusters, with a cutoff for singificance and the adjustment for multiple testing.</span>
-<span id="cb31-412"><a href="#cb31-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-415"><a href="#cb31-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb31-416"><a href="#cb31-416" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate clusters</span></span>
-<span id="cb31-417"><a href="#cb31-417" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>lisa_cluster <span class="ot">&lt;-</span> <span class="fu">hotspot</span>(loci, </span>
-<span id="cb31-418"><a href="#cb31-418" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Pr(z != E(Ii))"</span>, </span>
-<span id="cb31-419"><a href="#cb31-419" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">cutoff =</span> <span class="fl">0.05</span>, </span>
-<span id="cb31-420"><a href="#cb31-420" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">quadrant.type =</span> <span class="st">"mean"</span>,</span>
-<span id="cb31-421"><a href="#cb31-421" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">p.adjust =</span> <span class="st">"BY"</span>)</span>
-<span id="cb31-422"><a href="#cb31-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-423"><a href="#cb31-423" aria-hidden="true" tabindex="-1"></a><span class="co"># Map</span></span>
-<span id="cb31-424"><a href="#cb31-424" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
-<span id="cb31-425"><a href="#cb31-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
-<span id="cb31-426"><a href="#cb31-426" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"lisa_cluster"</span>,</span>
-<span id="cb31-427"><a href="#cb31-427" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
-<span id="cb31-428"><a href="#cb31-428" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
-<span id="cb31-429"><a href="#cb31-429" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"D"</span>),</span>
-<span id="cb31-430"><a href="#cb31-430" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.na =</span> <span class="st">"grey92"</span></span>
-<span id="cb31-431"><a href="#cb31-431" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb31-432"><a href="#cb31-432" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(</span>
-<span id="cb31-433"><a href="#cb31-433" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.show =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-434"><a href="#cb31-434" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Clusters"</span></span>
-<span id="cb31-435"><a href="#cb31-435" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb31-436"><a href="#cb31-436" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-437"><a href="#cb31-437" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"grey70"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb31-438"><a href="#cb31-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
-<span id="cb31-439"><a href="#cb31-439" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-440"><a href="#cb31-440" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-441"><a href="#cb31-441" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
-<span id="cb31-442"><a href="#cb31-442" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
-<span id="cb31-443"><a href="#cb31-443" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb31-444"><a href="#cb31-444" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
-<span id="cb31-445"><a href="#cb31-445" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span></span>
-<span id="cb31-446"><a href="#cb31-446" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb31-447"><a href="#cb31-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
-<span id="cb31-448"><a href="#cb31-448" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Home Ownership </span><span class="sc">\n</span><span class="st"> LISA Clusters p(BY) &lt; 0.05"</span>,</span>
-<span id="cb31-449"><a href="#cb31-449" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
-<span id="cb31-450"><a href="#cb31-450" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
-<span id="cb31-451"><a href="#cb31-451" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb31-452"><a href="#cb31-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-453"><a href="#cb31-453" aria-hidden="true" tabindex="-1"></a>mp1</span>
-<span id="cb31-454"><a href="#cb31-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-455"><a href="#cb31-455" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb31-456"><a href="#cb31-456" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-457"><a href="#cb31-457" aria-hidden="true" tabindex="-1"></a>Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. @Pebesma.2023 suggest to speak of *interesting clusters*. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.</span>
-<span id="cb31-458"><a href="#cb31-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-459"><a href="#cb31-459" aria-hidden="true" tabindex="-1"></a>There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see <span class="co">[</span><span class="ot">Chapter 15</span><span class="co">](https://r-spatial.org/book/15-Measures.html)</span> of @Pebesma.2023.</span>
-<span id="cb31-460"><a href="#cb31-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-461"><a href="#cb31-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example</span></span>
-<span id="cb31-462"><a href="#cb31-462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-463"><a href="#cb31-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-464"><a href="#cb31-464" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Koks.2015  {.unnumbered}</span></span>
-<span id="cb31-465"><a href="#cb31-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-466"><a href="#cb31-466" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/lisa0.jpg)</span></span>
-<span id="cb31-467"><a href="#cb31-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-468"><a href="#cb31-468" aria-hidden="true" tabindex="-1"></a>_The upper left map in Fig. 5 shows that several neighborhoods with a high SVI are surrounded by areas consisting of a population with a high SVI as well, with a few exceptions of a low SVI ‘neighborhood’ being located in between high SVI groups. ... Comparing the upper left map (the aggregate SVI) with the other maps (the underlying factors), we see that that fiscal income, one-parent households and migrants have similar clustering patterns as the SVI. These clusters can again mainly be found in the cities of Rotterdam and Dordrecht._</span>
-<span id="cb31-469"><a href="#cb31-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-470"><a href="#cb31-470" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/lisa2.jpg)</span></span>
-<span id="cb31-471"><a href="#cb31-471" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-472"><a href="#cb31-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-473"><a href="#cb31-473" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Tate.2021 {.unnumbered}</span></span>
-<span id="cb31-474"><a href="#cb31-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-475"><a href="#cb31-475" aria-hidden="true" tabindex="-1"></a>_This study explores the geography of flood exposure and social vulnerability in the conterminous United States based on spatial analysis of fluvial and pluvial flood extent, land cover, and social vulnerability._</span>
-<span id="cb31-476"><a href="#cb31-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-477"><a href="#cb31-477" aria-hidden="true" tabindex="-1"></a>_Mobile homes and racial minorities are most overrepresented in hotspots compared to elsewhere. The results identify priority locations where interventions can mitigate both physical and social aspects of flood vulnerability._</span>
-<span id="cb31-478"><a href="#cb31-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-479"><a href="#cb31-479" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Tate.png)</span></span>
-<span id="cb31-480"><a href="#cb31-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-481"><a href="#cb31-481" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb33" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="fu"># Detecting Spatial Dependence</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span>, <span class="st">"gstat"</span>) <span class="co"># note: load spdep first, then spatialreg</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global Autocorrelation </span></span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>If spatially close observations are more likely to exhibit similar values, we cannot handle observations as if they were independent.</span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>\Exp(\varepsilon_i\varepsilon_j)\neq \Exp(\varepsilon_i)\Exp(\varepsilon_j) = 0</span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a>This violates a basic assumption of the conventional OLS model. We will talk more about whether that is good or bad (any guess?).</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualization</span></span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>There is one very easy and intuitive way of detecting spatial autocorrelation: Just look at the map. We do so by using <span class="in">`tmap`</span> for plotting the share of home owners.</span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span></span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"per_owner"</span>,</span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>      <span class="at">style =</span> <span class="st">"fisher"</span>,</span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">n =</span> <span class="dv">8</span>,</span>
+<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">8</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(</span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Median"</span>,</span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">hist =</span> <span class="cn">TRUE</span></span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.chart =</span> <span class="fu">tm_chart_histogram</span>()                 <span class="co"># add a histogram to the legend</span></span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
+<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-85"><a href="#cb33-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">title.snap.to.legend =</span> <span class="cn">TRUE</span></span>
+<span id="cb33-86"><a href="#cb33-86" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
+<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Percent home owners"</span>,</span>
+<span id="cb33-89"><a href="#cb33-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
+<span id="cb33-90"><a href="#cb33-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
+<span id="cb33-91"><a href="#cb33-91" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-92"><a href="#cb33-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-93"><a href="#cb33-93" aria-hidden="true" tabindex="-1"></a>mp1</span>
+<span id="cb33-94"><a href="#cb33-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-95"><a href="#cb33-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-96"><a href="#cb33-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-97"><a href="#cb33-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-98"><a href="#cb33-98" aria-hidden="true" tabindex="-1"></a>We definitely see some clusters with spatial units having a low share of home owner (e.g. in the city center), and other clusters where home ownership is high (e.g. suburbs in the south and east, such as Bromley or Havering). </span>
+<span id="cb33-99"><a href="#cb33-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-100"><a href="#cb33-100" aria-hidden="true" tabindex="-1"></a>However, this is (to some degree) dependent on how we define cutoffs and coloring of the map: the Modifiable Areal Unit Problem <span class="co">[</span><span class="ot">@Wong.2009</span><span class="co">]</span>.</span>
+<span id="cb33-101"><a href="#cb33-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-102"><a href="#cb33-102" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb33-103"><a href="#cb33-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question</span></span>
+<span id="cb33-104"><a href="#cb33-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-105"><a href="#cb33-105" aria-hidden="true" tabindex="-1"></a>Which of the following three checkerboards has no (or the lowest) autocorrelation?</span>
+<span id="cb33-106"><a href="#cb33-106" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb33-107"><a href="#cb33-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/segregation.png)</span></span>
+<span id="cb33-109"><a href="#cb33-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-110"><a href="#cb33-110" aria-hidden="true" tabindex="-1"></a>Would your answer be the same if we would aggregate the data to four larger areas / districts using the average within each of the four districts?</span>
+<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a><span class="fu">### Moran's I</span></span>
+<span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a>The most common and well known statistic for spatial dependence or autocorrelation is Moran's I, which goes back to @Moran.1950 and @Cliff.1972. For more extensive materials on Moran's I see for instance @Kelejian.2017, Chapter 11.</span>
+<span id="cb33-115"><a href="#cb33-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-116"><a href="#cb33-116" aria-hidden="true" tabindex="-1"></a>To calculate Moran's I, we first define a neighbours weights matrix W.</span>
+<span id="cb33-117"><a href="#cb33-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-118"><a href="#cb33-118" aria-hidden="true" tabindex="-1"></a>Global Moran's I test statistic:</span>
+<span id="cb33-119"><a href="#cb33-119" aria-hidden="true" tabindex="-1"></a>$$      </span>
+<span id="cb33-120"><a href="#cb33-120" aria-hidden="true" tabindex="-1"></a>\bm I  = \frac{N}{S_0}  </span>
+<span id="cb33-121"><a href="#cb33-121" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i\sum_j w_{ij}(y_i-\bar{y})(y_j-\bar{y})}</span>
+<span id="cb33-122"><a href="#cb33-122" aria-hidden="true" tabindex="-1"></a>{\sum_i (y_i-\bar{y})^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}</span>
+<span id="cb33-123"><a href="#cb33-123" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-124"><a href="#cb33-124" aria-hidden="true" tabindex="-1"></a>It is often written with deviations $z$</span>
+<span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a>$$      </span>
+<span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a>\bm I  = \frac{N}{S_0}  </span>
+<span id="cb33-128"><a href="#cb33-128" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i\sum_j w_{ij}(z_i)(z_j)}</span>
+<span id="cb33-129"><a href="#cb33-129" aria-hidden="true" tabindex="-1"></a>{\sum_i (z_i)^2}, \text{where } S_0 = \sum_{i=1}^N\sum_{j=1}^N w_{ij}</span>
+<span id="cb33-130"><a href="#cb33-130" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-131"><a href="#cb33-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-132"><a href="#cb33-132" aria-hidden="true" tabindex="-1"></a>Note that in the case of row-standardized weights, $S_0 = N$. The $I$ can be interpreted as: _Relation of the deviation from the mean value between unit $i$ and neighbours of unit $i$_. Basically, this measures correlation between neighbouring values.</span>
+<span id="cb33-133"><a href="#cb33-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-134"><a href="#cb33-134" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Negative values: negative autocorrelation</span>
+<span id="cb33-135"><a href="#cb33-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-136"><a href="#cb33-136" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Around zero: no autocorrelation</span>
+<span id="cb33-137"><a href="#cb33-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-138"><a href="#cb33-138" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Positive values: positive autocorrelation</span>
+<span id="cb33-139"><a href="#cb33-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-140"><a href="#cb33-140" aria-hidden="true" tabindex="-1"></a>To calculate Moran's I, we first need to define the relationship between units. As in the previous example, we define contiguity weights and distance-based weights.</span>
+<span id="cb33-141"><a href="#cb33-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-144"><a href="#cb33-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-145"><a href="#cb33-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Contiguity (Queens) neighbours weights</span></span>
+<span id="cb33-146"><a href="#cb33-146" aria-hidden="true" tabindex="-1"></a>queens.nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(msoa.spdf, </span>
+<span id="cb33-147"><a href="#cb33-147" aria-hidden="true" tabindex="-1"></a>                     <span class="at">queen =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb33-148"><a href="#cb33-148" aria-hidden="true" tabindex="-1"></a>                     <span class="at">snap =</span> <span class="dv">1</span>) <span class="co"># we consider points in 1m distance as 'touching'</span></span>
+<span id="cb33-149"><a href="#cb33-149" aria-hidden="true" tabindex="-1"></a>queens.lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(queens.nb,</span>
+<span id="cb33-150"><a href="#cb33-150" aria-hidden="true" tabindex="-1"></a>                      <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb33-151"><a href="#cb33-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-152"><a href="#cb33-152" aria-hidden="true" tabindex="-1"></a><span class="co"># Neighbours within 3km distance</span></span>
+<span id="cb33-153"><a href="#cb33-153" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_geometry</span>(<span class="fu">st_centroid</span>(msoa.spdf))</span>
+<span id="cb33-154"><a href="#cb33-154" aria-hidden="true" tabindex="-1"></a>dist_3.nb <span class="ot">&lt;-</span> <span class="fu">dnearneigh</span>(coords, </span>
+<span id="cb33-155"><a href="#cb33-155" aria-hidden="true" tabindex="-1"></a>                        <span class="at">d1 =</span> <span class="dv">0</span>, <span class="at">d2 =</span> <span class="dv">3000</span>)</span>
+<span id="cb33-156"><a href="#cb33-156" aria-hidden="true" tabindex="-1"></a>idw.lw <span class="ot">&lt;-</span> <span class="fu">nb2listwdist</span>(dist_3.nb,</span>
+<span id="cb33-157"><a href="#cb33-157" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x =</span> coords, <span class="co"># needed for idw</span></span>
+<span id="cb33-158"><a href="#cb33-158" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"idw"</span>, <span class="co"># inverse distance weighting</span></span>
+<span id="cb33-159"><a href="#cb33-159" aria-hidden="true" tabindex="-1"></a>                       <span class="at">alpha =</span> <span class="dv">1</span>, <span class="co"># the decay parameter for distance weighting</span></span>
+<span id="cb33-160"><a href="#cb33-160" aria-hidden="true" tabindex="-1"></a>                       <span class="at">style =</span> <span class="st">"minmax"</span>) <span class="co"># for eigenvalue normalization</span></span>
+<span id="cb33-161"><a href="#cb33-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-162"><a href="#cb33-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-163"><a href="#cb33-163" aria-hidden="true" tabindex="-1"></a>Subsequently, we can calculate the average correlation between neighbouring units.</span>
+<span id="cb33-164"><a href="#cb33-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-165"><a href="#cb33-165" aria-hidden="true" tabindex="-1"></a>For contiguity weights, we get:</span>
+<span id="cb33-168"><a href="#cb33-168" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-169"><a href="#cb33-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Morans I test of housing values based on contiguity weights</span></span>
+<span id="cb33-170"><a href="#cb33-170" aria-hidden="true" tabindex="-1"></a><span class="fu">moran.test</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb33-171"><a href="#cb33-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-172"><a href="#cb33-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-173"><a href="#cb33-173" aria-hidden="true" tabindex="-1"></a>And for inverse distance weighting, we get:</span>
+<span id="cb33-176"><a href="#cb33-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-177"><a href="#cb33-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Morans I test of housing values based on idw</span></span>
+<span id="cb33-178"><a href="#cb33-178" aria-hidden="true" tabindex="-1"></a><span class="fu">moran.test</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> idw.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb33-179"><a href="#cb33-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-180"><a href="#cb33-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-181"><a href="#cb33-181" aria-hidden="true" tabindex="-1"></a>Interpretation: In both cases, we have very strong autocorrelation between neighbouring/closer units (~.7). It barely matters which of the weights matrices we use. This autocorrelation is highly significant. we can thus reject the Null that units are independent of each other (at least at this spatial level and for the share of home owners).</span>
+<span id="cb33-182"><a href="#cb33-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-183"><a href="#cb33-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Residual-based Moran's I</span></span>
+<span id="cb33-184"><a href="#cb33-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-185"><a href="#cb33-185" aria-hidden="true" tabindex="-1"></a>We can also use the same Moran's I test to inspect spatial autocorrelation in residuals from an estimated linear model.</span>
+<span id="cb33-186"><a href="#cb33-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-187"><a href="#cb33-187" aria-hidden="true" tabindex="-1"></a>Let's start with an intercept only model.</span>
+<span id="cb33-188"><a href="#cb33-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-191"><a href="#cb33-191" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-192"><a href="#cb33-192" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(per_owner <span class="sc">~</span> <span class="dv">1</span>, msoa.spdf)</span>
+<span id="cb33-193"><a href="#cb33-193" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.morantest</span>(lm0, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb33-194"><a href="#cb33-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-195"><a href="#cb33-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-196"><a href="#cb33-196" aria-hidden="true" tabindex="-1"></a>This is exactly what we have received in the general case of Moran's I.</span>
+<span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a>Now, lets add some predictors. For instance, the distance to the city centre, and the population density may be strongly related to the home ownership rates and explain parts of the spatial dependence. </span>
+<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-203"><a href="#cb33-203" aria-hidden="true" tabindex="-1"></a><span class="do">### Distance to city center</span></span>
+<span id="cb33-204"><a href="#cb33-204" aria-hidden="true" tabindex="-1"></a><span class="co"># Define centre</span></span>
+<span id="cb33-205"><a href="#cb33-205" aria-hidden="true" tabindex="-1"></a>centre <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">lon =</span> <span class="sc">-</span><span class="fl">0.128120855701165</span>, </span>
+<span id="cb33-206"><a href="#cb33-206" aria-hidden="true" tabindex="-1"></a>                              <span class="at">lat =</span> <span class="fl">51.50725909644806</span>),</span>
+<span id="cb33-207"><a href="#cb33-207" aria-hidden="true" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"lon"</span>, <span class="st">"lat"</span>), </span>
+<span id="cb33-208"><a href="#cb33-208" aria-hidden="true" tabindex="-1"></a>                   <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb33-209"><a href="#cb33-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject</span></span>
+<span id="cb33-210"><a href="#cb33-210" aria-hidden="true" tabindex="-1"></a>centre <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(centre, <span class="at">crs =</span> <span class="fu">st_crs</span>(msoa.spdf))</span>
+<span id="cb33-211"><a href="#cb33-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate distance</span></span>
+<span id="cb33-212"><a href="#cb33-212" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>dist_centre <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(msoa.spdf, centre)) <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb33-213"><a href="#cb33-213" aria-hidden="true" tabindex="-1"></a><span class="co"># hist(msoa.spdf$dist_centre)</span></span>
+<span id="cb33-214"><a href="#cb33-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-215"><a href="#cb33-215" aria-hidden="true" tabindex="-1"></a><span class="do">### Run model with predictors</span></span>
+<span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(per_owner <span class="sc">~</span> dist_centre <span class="sc">+</span> POPDEN, msoa.spdf)</span>
+<span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.morantest</span>(lm1, <span class="at">listw =</span> queens.lw, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a>There is still considerable auto-correlation in the residuals. However, we have reduced it by a substantial amount with two very simple control variables.</span>
+<span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### Semivariogram</span></span>
+<span id="cb33-223"><a href="#cb33-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-224"><a href="#cb33-224" aria-hidden="true" tabindex="-1"></a>The sample variogram $\gamma(h)$ for distance intervals $h_i$ describes the average square difference between the points in this distance interval:</span>
+<span id="cb33-225"><a href="#cb33-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-226"><a href="#cb33-226" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-227"><a href="#cb33-227" aria-hidden="true" tabindex="-1"></a>\hat{\gamma}(h_i) = \frac{1}{2N(h_i)}\sum_{j=1}^{N(h_i)}(z(s_i)-z(s_i+h'))^2, \ \ h_{i,0} \le h' &lt; h_{i,1}</span>
+<span id="cb33-228"><a href="#cb33-228" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb33-229"><a href="#cb33-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-230"><a href="#cb33-230" aria-hidden="true" tabindex="-1"></a>with the number of available pairs $N(h_i)$ in each distance interval $h_i$. Basically, _it is the variance within each distance interval_.</span>
+<span id="cb33-231"><a href="#cb33-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-232"><a href="#cb33-232" aria-hidden="true" tabindex="-1"></a>For more information, see for instance the <span class="co">[</span><span class="ot">Geospatial Data Science in R</span><span class="co">](https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html)</span> by Zia Ahmed or @Pebesma.2023.</span>
+<span id="cb33-233"><a href="#cb33-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-234"><a href="#cb33-234" aria-hidden="true" tabindex="-1"></a>To calculate the empirical semi-vriogram, we can use the package <span class="in">`gstat`</span> with the function <span class="in">`variogram()`</span>.</span>
+<span id="cb33-235"><a href="#cb33-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-238"><a href="#cb33-238" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-239"><a href="#cb33-239" aria-hidden="true" tabindex="-1"></a><span class="co"># Variogram No2</span></span>
+<span id="cb33-240"><a href="#cb33-240" aria-hidden="true" tabindex="-1"></a>v.no2 <span class="ot">&lt;-</span> <span class="fu">variogram</span>(no2 <span class="sc">~</span> <span class="dv">1</span>, msoa.spdf)</span>
+<span id="cb33-241"><a href="#cb33-241" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v.no2, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.075</span> <span class="sc">*</span> <span class="fu">max</span>(v.no2<span class="sc">$</span>dist)),</span>
+<span id="cb33-242"><a href="#cb33-242" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="fl">1.05</span> <span class="sc">*</span> <span class="fu">max</span>(v.no2<span class="sc">$</span>gamma)))</span>
+<span id="cb33-243"><a href="#cb33-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-244"><a href="#cb33-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-245"><a href="#cb33-245" aria-hidden="true" tabindex="-1"></a>Above graphs shows that the variance within each distance interval gradually increases, up to a distance of ~ 18km, and then level off at a relative constant level. Lower variances within lower values of distances means that observations are more similar to each other the closer they are.</span>
+<span id="cb33-246"><a href="#cb33-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-247"><a href="#cb33-247" aria-hidden="true" tabindex="-1"></a>We can also try to fit a model that resembles the spatial structure. This becomes important when we want to perform spatial interpolation (e.g. to impute missings).</span>
+<span id="cb33-248"><a href="#cb33-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-249"><a href="#cb33-249" aria-hidden="true" tabindex="-1"></a><span class="al">![Theoretical exponential semi-variogram model. Source: https://www.aspexit.com/variogram-and-spatial-autocorrelation](fig/Semi_variogram.png)</span></span>
+<span id="cb33-250"><a href="#cb33-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-251"><a href="#cb33-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-254"><a href="#cb33-254" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-255"><a href="#cb33-255" aria-hidden="true" tabindex="-1"></a><span class="co"># Intial parameter set by eye esitmation</span></span>
+<span id="cb33-256"><a href="#cb33-256" aria-hidden="true" tabindex="-1"></a>m.no2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">60</span>, <span class="st">"Cir"</span>, <span class="dv">20000</span>, <span class="dv">0</span>)  <span class="co"># Sill, model, range, nugget</span></span>
+<span id="cb33-257"><a href="#cb33-257" aria-hidden="true" tabindex="-1"></a><span class="co"># least square fit</span></span>
+<span id="cb33-258"><a href="#cb33-258" aria-hidden="true" tabindex="-1"></a>m.f.v.no2 <span class="ot">&lt;-</span> <span class="fu">fit.variogram</span>(v.no2, m.no2)</span>
+<span id="cb33-259"><a href="#cb33-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-260"><a href="#cb33-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-261"><a href="#cb33-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-264"><a href="#cb33-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-265"><a href="#cb33-265" aria-hidden="true" tabindex="-1"></a><span class="do">#### Plot varigram and fitted model:</span></span>
+<span id="cb33-266"><a href="#cb33-266" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v.no2, <span class="at">pl =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb33-267"><a href="#cb33-267" aria-hidden="true" tabindex="-1"></a>     <span class="at">model =</span> m.f.v.no2,</span>
+<span id="cb33-268"><a href="#cb33-268" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">"blue"</span>, </span>
+<span id="cb33-269"><a href="#cb33-269" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">0.9</span>, </span>
+<span id="cb33-270"><a href="#cb33-270" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.5</span>,</span>
+<span id="cb33-271"><a href="#cb33-271" aria-hidden="true" tabindex="-1"></a>     <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb33-272"><a href="#cb33-272" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb33-273"><a href="#cb33-273" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Variogram and Fitted Model"</span>,</span>
+<span id="cb33-274"><a href="#cb33-274" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distance (m)"</span>,</span>
+<span id="cb33-275"><a href="#cb33-275" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Semivariance"</span>)</span>
+<span id="cb33-276"><a href="#cb33-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-277"><a href="#cb33-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-278"><a href="#cb33-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb33-279"><a href="#cb33-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-280"><a href="#cb33-280" aria-hidden="true" tabindex="-1"></a><span class="al">![Semivariogram of Air pollution and income deprivation in England on the LSOA level for 2019.](fig/Semivariogram_2019.png)</span></span>
+<span id="cb33-281"><a href="#cb33-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-282"><a href="#cb33-282" aria-hidden="true" tabindex="-1"></a>When looking at approx. 10 km distance: the variance in income deprivation is nearly as high when looking at areas within 10km as it would be when looking at areas within 100km distance. This indicates that income deprivation is very local and varies already within smaller areas such as within cities or district. Air pollution, in contrast, has a much lower variance within 10km distances than we would find when looking at the data within 100km distance. This indicates that air pollution has stronger large-scale spatial patterns. When moving locally (e.g. within 10km) to a random location, it would be more difficult to improve in air pollution than it would be to improve in income deprivation.</span>
+<span id="cb33-283"><a href="#cb33-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-284"><a href="#cb33-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-285"><a href="#cb33-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Local Autocorrelation</span></span>
+<span id="cb33-286"><a href="#cb33-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-287"><a href="#cb33-287" aria-hidden="true" tabindex="-1"></a>The Global Moran's I statistic above summarizes the spatial pattern by a single value. Although this is helpful to get a feeling of the strength of the general spatial association, it is often more helpful to inspect the spatial pattern in more detail.</span>
+<span id="cb33-288"><a href="#cb33-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-289"><a href="#cb33-289" aria-hidden="true" tabindex="-1"></a>The most prominent measure is the Local Indicators of Spatial Association (LISA) <span class="co">[</span><span class="ot">@Anselin.1995</span><span class="co">]</span>. LISA measures assess the importance and significance of a satistic at different spatial locations. For more information see for instance the <span class="co">[</span><span class="ot">GeoData Materials</span><span class="co">](https://geodacenter.github.io/workbook/6a_local_auto/lab6a.html)</span> by Luc Anselin.</span>
+<span id="cb33-290"><a href="#cb33-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-291"><a href="#cb33-291" aria-hidden="true" tabindex="-1"></a>For instance, we can use the Moran Plot to identify how single (pairs of) units contribute to the overall dependence.</span>
+<span id="cb33-292"><a href="#cb33-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-293"><a href="#cb33-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-296"><a href="#cb33-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-297"><a href="#cb33-297" aria-hidden="true" tabindex="-1"></a>mp <span class="ot">&lt;-</span> <span class="fu">moran.plot</span>(msoa.spdf<span class="sc">$</span>per_owner, queens.lw)</span>
+<span id="cb33-298"><a href="#cb33-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-299"><a href="#cb33-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-300"><a href="#cb33-300" aria-hidden="true" tabindex="-1"></a>In the lower left corner, we see units with a low-low share of home ownership: focal and neighbouring units have a low share of home owners. In the top right corner, by contrast, we see high-high units.</span>
+<span id="cb33-301"><a href="#cb33-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-302"><a href="#cb33-302" aria-hidden="true" tabindex="-1"></a>And we can plot influence values on the Overall Moran statistic.</span>
+<span id="cb33-303"><a href="#cb33-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-306"><a href="#cb33-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-307"><a href="#cb33-307" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>hat_value <span class="ot">&lt;-</span> mp<span class="sc">$</span>hat </span>
+<span id="cb33-308"><a href="#cb33-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-309"><a href="#cb33-309" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
+<span id="cb33-310"><a href="#cb33-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb33-311"><a href="#cb33-311" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"hat_value"</span>,</span>
+<span id="cb33-312"><a href="#cb33-312" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb33-313"><a href="#cb33-313" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
+<span id="cb33-314"><a href="#cb33-314" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
+<span id="cb33-315"><a href="#cb33-315" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-316"><a href="#cb33-316" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-317"><a href="#cb33-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-318"><a href="#cb33-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb33-319"><a href="#cb33-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-320"><a href="#cb33-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-321"><a href="#cb33-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
+<span id="cb33-322"><a href="#cb33-322" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"right"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb33-323"><a href="#cb33-323" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-324"><a href="#cb33-324" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb33-325"><a href="#cb33-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span></span>
+<span id="cb33-326"><a href="#cb33-326" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-327"><a href="#cb33-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
+<span id="cb33-328"><a href="#cb33-328" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Influence"</span>,</span>
+<span id="cb33-329"><a href="#cb33-329" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
+<span id="cb33-330"><a href="#cb33-330" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
+<span id="cb33-331"><a href="#cb33-331" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-332"><a href="#cb33-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-333"><a href="#cb33-333" aria-hidden="true" tabindex="-1"></a>mp1</span>
+<span id="cb33-334"><a href="#cb33-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-335"><a href="#cb33-335" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-336"><a href="#cb33-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-337"><a href="#cb33-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-338"><a href="#cb33-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## Local Moran's I</span></span>
+<span id="cb33-339"><a href="#cb33-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-340"><a href="#cb33-340" aria-hidden="true" tabindex="-1"></a>Local Moran's I is a local version of the overall Moran's I to identify local clusters and local spatial outliers <span class="co">[</span><span class="ot">@Anselin.1995</span><span class="co">]</span>. The Local Moran's I is just a local version which is calculated for each location:</span>
+<span id="cb33-341"><a href="#cb33-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-342"><a href="#cb33-342" aria-hidden="true" tabindex="-1"></a>$$      </span>
+<span id="cb33-343"><a href="#cb33-343" aria-hidden="true" tabindex="-1"></a>        \bm I_i  =  </span>
+<span id="cb33-344"><a href="#cb33-344" aria-hidden="true" tabindex="-1"></a>        \frac{z_i \sum_j w_{ij}z_j}</span>
+<span id="cb33-345"><a href="#cb33-345" aria-hidden="true" tabindex="-1"></a>            {\sum_i (z_i)^2 / (n-1)}, \text{where }</span>
+<span id="cb33-346"><a href="#cb33-346" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb33-347"><a href="#cb33-347" aria-hidden="true" tabindex="-1"></a>We use the function <span class="in">`localmoran()`</span> to calculate the local test statistic .</span>
+<span id="cb33-348"><a href="#cb33-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-351"><a href="#cb33-351" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-352"><a href="#cb33-352" aria-hidden="true" tabindex="-1"></a>loci <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(msoa.spdf<span class="sc">$</span>per_owner, <span class="at">listw =</span> queens.lw)</span>
+<span id="cb33-353"><a href="#cb33-353" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(loci)</span>
+<span id="cb33-354"><a href="#cb33-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-355"><a href="#cb33-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-356"><a href="#cb33-356" aria-hidden="true" tabindex="-1"></a>It also has an attribute with the Moran plot quadrant of each observation.</span>
+<span id="cb33-357"><a href="#cb33-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-360"><a href="#cb33-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-361"><a href="#cb33-361" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">attr</span>(loci, <span class="st">"quadr"</span>))</span>
+<span id="cb33-362"><a href="#cb33-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-363"><a href="#cb33-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-364"><a href="#cb33-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-365"><a href="#cb33-365" aria-hidden="true" tabindex="-1"></a>This returns a data.frame with local moran statisic, the expectation of local moran statistic, its variance, and a p value for the satistical significance of each unit. Note that we obviously have a problem of multiple comparisons here and thus may want to correct the significance level, e.g. by Bonferroni adjustment <span class="co">[</span><span class="ot">@Bivand.2018a</span><span class="co">]</span>.</span>
+<span id="cb33-366"><a href="#cb33-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-369"><a href="#cb33-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-370"><a href="#cb33-370" aria-hidden="true" tabindex="-1"></a>loci.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(loci)</span>
+<span id="cb33-371"><a href="#cb33-371" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(loci.df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, <span class="fu">names</span>(loci.df))</span>
+<span id="cb33-372"><a href="#cb33-372" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>loci <span class="ot">&lt;-</span> loci.df<span class="sc">$</span>Ii</span>
+<span id="cb33-373"><a href="#cb33-373" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value <span class="ot">&lt;-</span> loci.df<span class="sc">$</span>PrzEIi</span>
+<span id="cb33-374"><a href="#cb33-374" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value_adj1 <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(loci.df<span class="sc">$</span>PrzEIi, <span class="st">"BY"</span>)</span>
+<span id="cb33-375"><a href="#cb33-375" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>p_value_adj2 <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(loci.df<span class="sc">$</span>PrzEIi, <span class="st">"bonferroni"</span>)</span>
+<span id="cb33-376"><a href="#cb33-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-377"><a href="#cb33-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-378"><a href="#cb33-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-381"><a href="#cb33-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-382"><a href="#cb33-382" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
+<span id="cb33-383"><a href="#cb33-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb33-384"><a href="#cb33-384" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"loci"</span>, <span class="st">"p_value"</span>, <span class="st">"p_value_adj1"</span>, <span class="st">"p_value_adj2"</span>),</span>
+<span id="cb33-385"><a href="#cb33-385" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb33-386"><a href="#cb33-386" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(</span>
+<span id="cb33-387"><a href="#cb33-387" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"C"</span>)</span>
+<span id="cb33-388"><a href="#cb33-388" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-389"><a href="#cb33-389" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-390"><a href="#cb33-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"white"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-391"><a href="#cb33-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb33-392"><a href="#cb33-392" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-393"><a href="#cb33-393" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-394"><a href="#cb33-394" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
+<span id="cb33-395"><a href="#cb33-395" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb33-396"><a href="#cb33-396" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-397"><a href="#cb33-397" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb33-398"><a href="#cb33-398" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb33-399"><a href="#cb33-399" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.labels =</span> <span class="fu">c</span>(<span class="st">"Morans I"</span>, <span class="st">"P value"</span>, <span class="st">"p value BY"</span>, <span class="st">"p value Bonferroni"</span>)</span>
+<span id="cb33-400"><a href="#cb33-400" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-401"><a href="#cb33-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
+<span id="cb33-402"><a href="#cb33-402" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Local Morans I"</span>,</span>
+<span id="cb33-403"><a href="#cb33-403" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
+<span id="cb33-404"><a href="#cb33-404" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
+<span id="cb33-405"><a href="#cb33-405" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-406"><a href="#cb33-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-407"><a href="#cb33-407" aria-hidden="true" tabindex="-1"></a>mp1</span>
+<span id="cb33-408"><a href="#cb33-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-409"><a href="#cb33-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-410"><a href="#cb33-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-411"><a href="#cb33-411" aria-hidden="true" tabindex="-1"></a>Something you can often see are so called LISA hotspot maps. They are based on the same idea as the moran plot, and show cluster of high-high and low-low values. We can use the hotspot function to identify the clusters, with a cutoff for singificance and the adjustment for multiple testing.</span>
+<span id="cb33-412"><a href="#cb33-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-415"><a href="#cb33-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-416"><a href="#cb33-416" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate clusters</span></span>
+<span id="cb33-417"><a href="#cb33-417" aria-hidden="true" tabindex="-1"></a>msoa.spdf<span class="sc">$</span>lisa_cluster <span class="ot">&lt;-</span> <span class="fu">hotspot</span>(loci, </span>
+<span id="cb33-418"><a href="#cb33-418" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Pr(z != E(Ii))"</span>, </span>
+<span id="cb33-419"><a href="#cb33-419" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">cutoff =</span> <span class="fl">0.05</span>, </span>
+<span id="cb33-420"><a href="#cb33-420" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">quadrant.type =</span> <span class="st">"mean"</span>,</span>
+<span id="cb33-421"><a href="#cb33-421" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">p.adjust =</span> <span class="st">"BY"</span>)</span>
+<span id="cb33-422"><a href="#cb33-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-423"><a href="#cb33-423" aria-hidden="true" tabindex="-1"></a><span class="co"># Map</span></span>
+<span id="cb33-424"><a href="#cb33-424" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(msoa.spdf) <span class="sc">+</span> </span>
+<span id="cb33-425"><a href="#cb33-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(</span>
+<span id="cb33-426"><a href="#cb33-426" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"lisa_cluster"</span>,</span>
+<span id="cb33-427"><a href="#cb33-427" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb33-428"><a href="#cb33-428" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
+<span id="cb33-429"><a href="#cb33-429" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"D"</span>),</span>
+<span id="cb33-430"><a href="#cb33-430" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.na =</span> <span class="st">"grey92"</span></span>
+<span id="cb33-431"><a href="#cb33-431" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb33-432"><a href="#cb33-432" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(</span>
+<span id="cb33-433"><a href="#cb33-433" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.show =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-434"><a href="#cb33-434" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Clusters"</span></span>
+<span id="cb33-435"><a href="#cb33-435" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-436"><a href="#cb33-436" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-437"><a href="#cb33-437" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"grey70"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">fill_alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-438"><a href="#cb33-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb33-439"><a href="#cb33-439" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-440"><a href="#cb33-440" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.frame =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb33-441"><a href="#cb33-441" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.bg.color =</span> <span class="st">"white"</span>,</span>
+<span id="cb33-442"><a href="#cb33-442" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb33-443"><a href="#cb33-443" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb33-444"><a href="#cb33-444" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb33-445"><a href="#cb33-445" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.8</span></span>
+<span id="cb33-446"><a href="#cb33-446" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-447"><a href="#cb33-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title_out</span>(</span>
+<span id="cb33-448"><a href="#cb33-448" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Home Ownership </span><span class="sc">\n</span><span class="st"> LISA Clusters p(BY) &lt; 0.05"</span>,</span>
+<span id="cb33-449"><a href="#cb33-449" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(<span class="st">"center"</span>, <span class="st">"top"</span>, <span class="at">pos.h =</span> <span class="st">"center"</span>),</span>
+<span id="cb33-450"><a href="#cb33-450" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">1.6</span></span>
+<span id="cb33-451"><a href="#cb33-451" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-452"><a href="#cb33-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-453"><a href="#cb33-453" aria-hidden="true" tabindex="-1"></a>mp1</span>
+<span id="cb33-454"><a href="#cb33-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-455"><a href="#cb33-455" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-456"><a href="#cb33-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-457"><a href="#cb33-457" aria-hidden="true" tabindex="-1"></a>Note that it is not suggested to interpret those cluster as singificant in the strict statistical sense. @Pebesma.2023 suggest to speak of *interesting clusters*. After all, this is an explorative approach. Nevertheless, it can help to identify spatial patterns and clusters.</span>
+<span id="cb33-458"><a href="#cb33-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-459"><a href="#cb33-459" aria-hidden="true" tabindex="-1"></a>There are more ways of calculating these hotspot maps and more choices on the cutoffs and calculation of the statistical significance. For more materials see <span class="co">[</span><span class="ot">Chapter 15</span><span class="co">](https://r-spatial.org/book/15-Measures.html)</span> of @Pebesma.2023.</span>
+<span id="cb33-460"><a href="#cb33-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-461"><a href="#cb33-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example</span></span>
+<span id="cb33-462"><a href="#cb33-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-463"><a href="#cb33-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-464"><a href="#cb33-464" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Koks.2015  {.unnumbered}</span></span>
+<span id="cb33-465"><a href="#cb33-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-466"><a href="#cb33-466" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/lisa0.jpg)</span></span>
+<span id="cb33-467"><a href="#cb33-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-468"><a href="#cb33-468" aria-hidden="true" tabindex="-1"></a>_The upper left map in Fig. 5 shows that several neighborhoods with a high SVI are surrounded by areas consisting of a population with a high SVI as well, with a few exceptions of a low SVI ‘neighborhood’ being located in between high SVI groups. ... Comparing the upper left map (the aggregate SVI) with the other maps (the underlying factors), we see that that fiscal income, one-parent households and migrants have similar clustering patterns as the SVI. These clusters can again mainly be found in the cities of Rotterdam and Dordrecht._</span>
+<span id="cb33-469"><a href="#cb33-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-470"><a href="#cb33-470" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/lisa2.jpg)</span></span>
+<span id="cb33-471"><a href="#cb33-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-472"><a href="#cb33-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-473"><a href="#cb33-473" aria-hidden="true" tabindex="-1"></a><span class="fu">### @Tate.2021 {.unnumbered}</span></span>
+<span id="cb33-474"><a href="#cb33-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-475"><a href="#cb33-475" aria-hidden="true" tabindex="-1"></a>_This study explores the geography of flood exposure and social vulnerability in the conterminous United States based on spatial analysis of fluvial and pluvial flood extent, land cover, and social vulnerability._</span>
+<span id="cb33-476"><a href="#cb33-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-477"><a href="#cb33-477" aria-hidden="true" tabindex="-1"></a>_Mobile homes and racial minorities are most overrepresented in hotspots compared to elsewhere. The results identify priority locations where interventions can mitigate both physical and social aspects of flood vulnerability._</span>
+<span id="cb33-478"><a href="#cb33-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-479"><a href="#cb33-479" aria-hidden="true" tabindex="-1"></a><span class="al">![](fig/Tate.png)</span></span>
+<span id="cb33-480"><a href="#cb33-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-481"><a href="#cb33-481" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

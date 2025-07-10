@@ -299,20 +299,20 @@ div.csl-indent {
 \]</span></p>
 <p>This section is strongly based on <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>, despite being much less detailed then the original.</p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-1_78d933c94ee823e5ae8822531af125e6">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-2_5081ecafae847d9d0931aa33e02a77da">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -329,37 +329,52 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-4        spatialreg_1.3-4 
-[4] Matrix_1.7-0      spdep_1.3-5       spData_2.3.1     
-[7] mapview_2.11.2    sf_1.0-16        
+[1] viridisLite_0.4.2 tmap_4.1          spatialreg_1.3-6 
+[4] Matrix_1.7-3      spdep_1.3-13      spData_2.3.4     
+[7] mapview_2.11.2    sf_1.0-21        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
- [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
- [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
-[10] sandwich_3.1-0     proxy_0.4-27       KernSmooth_2.23-24
-[13] satellite_1.0.5    RColorBrewer_1.1-3 leaflet_2.2.2     
-[16] lifecycle_1.0.4    compiler_4.4.1     deldir_2.0-4      
-[19] munsell_0.5.1      terra_1.7-78       codetools_0.2-20  
-[22] leafsync_0.1.0     stars_0.6-5        htmltools_0.5.8.1 
-[25] class_7.3-22       MASS_7.3-60.2      classInt_0.4-10   
-[28] lwgeom_0.2-14      wk_0.9.1           abind_1.4-5       
-[31] boot_1.3-30        multcomp_1.4-25    nlme_3.1-164      
-[34] digest_0.6.35      mvtnorm_1.2-5      splines_4.4.1     
-[37] fastmap_1.2.0      grid_4.4.1         colorspace_2.1-0  
-[40] cli_3.6.2          magrittr_2.0.3     base64enc_0.1-3   
-[43] dichromat_2.0-0.1  XML_3.99-0.16.1    survival_3.6-4    
-[46] leafem_0.2.3       TH.data_1.1-2      e1071_1.7-14      
-[49] scales_1.3.0       sp_2.1-4           rmarkdown_2.27    
-[52] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
-[55] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
-[58] s2_1.1.6           rlang_1.1.4        Rcpp_1.0.12       
-[61] glue_1.7.0         DBI_1.2.3          rstudioapi_0.16.0 
-[64] jsonlite_1.8.8     R6_2.5.1           units_0.8-5       </code></pre>
+ [1] xfun_0.52               raster_3.6-32          
+ [3] htmlwidgets_1.6.4       lattice_0.22-7         
+ [5] leaflet.providers_2.0.0 tools_4.5.1            
+ [7] crosstalk_1.2.1         LearnBayes_2.15.1      
+ [9] parallel_4.5.1          stats4_4.5.1           
+[11] sandwich_3.1-1          proxy_0.4-27           
+[13] KernSmooth_2.23-26      data.table_1.17.6      
+[15] satellite_1.0.5         RColorBrewer_1.1-3     
+[17] leaflet_2.2.2           lifecycle_1.0.4        
+[19] compiler_4.5.1          farver_2.1.2           
+[21] deldir_2.0-4            microbenchmark_1.5.0   
+[23] terra_1.8-54            leafsync_0.1.0         
+[25] codetools_0.2-20        leaflegend_1.2.1       
+[27] stars_0.6-8             htmltools_0.5.8.1      
+[29] class_7.3-23            MASS_7.3-65            
+[31] classInt_0.4-11         lwgeom_0.2-14          
+[33] wk_0.9.4                boot_1.3-31            
+[35] abind_1.4-8             multcomp_1.4-28        
+[37] nlme_3.1-168            digest_0.6.37          
+[39] mvtnorm_1.3-3           splines_4.5.1          
+[41] fastmap_1.2.0           grid_4.5.1             
+[43] colorspace_2.1-1        cli_3.6.5              
+[45] logger_0.4.0            magrittr_2.0.3         
+[47] maptiles_0.10.0         base64enc_0.1-3        
+[49] XML_3.99-0.18           dichromat_2.0-0.1      
+[51] cols4all_0.8            survival_3.8-3         
+[53] leafem_0.2.4            TH.data_1.1-3          
+[55] e1071_1.7-16            scales_1.4.0           
+[57] sp_2.2-0                rmarkdown_2.29         
+[59] zoo_1.8-14              png_0.1-8              
+[61] coda_0.19-4.1           evaluate_1.0.4         
+[63] knitr_1.50              tmaptools_3.2          
+[65] s2_1.1.9                rlang_1.1.6            
+[67] Rcpp_1.0.14             glue_1.8.0             
+[69] DBI_1.2.3               rstudioapi_0.17.1      
+[71] jsonlite_2.0.0          R6_2.6.1               
+[73] spacesXYZ_1.6-0         units_0.8-7            </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-3_2e5f7a5f656e79455486ca737d9d3b36">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that most of the spatial model specifications can not be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results <span class="citation" data-cites="Anselin.1998 Franzese.2007">(<a href="references.html#ref-Anselin.1998" role="doc-biblioref">Anselin and Bera 1998</a>; <a href="references.html#ref-Franzese.2007" role="doc-biblioref">Franzese and Hays 2007</a>)</span>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood <span class="citation" data-cites="Anselin.1988 Lee.2004 Ord.1975">(<a href="references.html#ref-Anselin.1988" role="doc-biblioref">Anselin 1988</a>; <a href="references.html#ref-Lee.2004" role="doc-biblioref">Lee 2004</a>; <a href="references.html#ref-Ord.1975" role="doc-biblioref">Ord 1975</a>)</span> or instrumental variable approaches using generalized methods of moments <span class="citation" data-cites="Drukker.2013 Kelejian.1998 Kelejian.2010">(<a href="references.html#ref-Drukker.2013" role="doc-biblioref">Drukker, Egger, and Prucha 2013</a>; <a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>, <a href="references.html#ref-Kelejian.2010" role="doc-biblioref">2010</a>)</span>, in which the endogenous lagged variables can be instrumented by <span class="math inline">\(q\)</span> higher order lags of the exogenous regressors <span class="math inline">\(({\bm X}, {\bm W \bm X}, {\bm W^2 \bm X},..., {\bm W^q \bm X})\)</span> <span class="citation" data-cites="Kelejian.1998">(<a href="references.html#ref-Kelejian.1998" role="doc-biblioref">Kelejian and Prucha 1998</a>)</span>.</p>
@@ -428,7 +443,7 @@ Warning
 \bm H =\left[\bm X, \bm W\left(\sum_{l = 1}^{\infty}\rho^{l}\bm W^l\right)\bm X \bm\beta\right].
 \]</span></p>
 <p>We can estimate this using the pacakge <code>spatialreg</code> with the function <code>stsls()</code>,</p>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-5_cd3a8f0988934da2d14a701ecad0ea9b">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sls</span> <span class="op">&lt;-</span> <span class="fu">stsls</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>                     <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
 <span>                   data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
@@ -458,7 +473,9 @@ per_asian   -0.00205426     0.00045905 -4.4750 7.640e-06
 per_black   -0.01166456     0.00128557 -9.0734 &lt; 2.2e-16
 per_other   -0.00280423     0.00332302 -0.8439 0.3987377
 
-Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
+Residual variance (sigma squared): 0.035213, (sigma: 0.18765)
+Anselin-Kelejian (1997) test for residual autocorrelation
+test value: 0.03858, p-value: 0.84428</code></pre>
 </div>
 </div>
 </section><section id="generalized-method-of-moments" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="generalized-method-of-moments">
@@ -500,7 +517,7 @@ Residual variance (sigma squared): 0.035213, (sigma: 0.18765)</code></pre>
 \]</span></p>
 <p>For more, see for instance <span class="citation" data-cites="Kelejian.2017">Kelejian and Piras (<a href="references.html#ref-Kelejian.2017" role="doc-biblioref">2017</a>)</span>, chapter 2.2.4 or <span class="citation" data-cites="Sarrias.2023">Sarrias (<a href="references.html#ref-Sarrias.2023" role="doc-biblioref">2023</a>)</span>.</p>
 <p>We can calculate the estimator using <code>GMerrorsar()</code> from <code>spatialreg</code>.</p>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-6_e77fa5edb038def06c4ba4bb3f03436b">
+<div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.gmm</span> <span class="op">&lt;-</span> <span class="fu">GMerrorsar</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>                     <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
 <span>                   data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
@@ -686,7 +703,7 @@ Number of parameters estimated: 9 </code></pre>
 </tbody>
 </table>
 <p><strong>ML SAR</strong></p>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-7_ad0bbba988ef6aba2564d4204e3709fe">
+<div class="cell">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sar</span> <span class="op">&lt;-</span> <span class="fu">lagsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>                        <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
 <span>                      data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
@@ -730,7 +747,7 @@ test value: 8.609, p-value: 0.0033451</code></pre>
 </div>
 </div>
 <p><strong>ML SEM</strong></p>
-<div class="cell" data-hash="06_regression-estimation_cache/html/unnamed-chunk-8_16b0d429eb9caf21acb658e7bad8f869">
+<div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sem</span> <span class="op">&lt;-</span> <span class="fu">errorsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span></span>
 <span>                          <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span>,  </span>
 <span>                        data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>

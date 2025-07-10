@@ -307,20 +307,20 @@ div.csl-indent {
 }
 \]</span></p>
 <section id="required-packages" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="required-packages">Required packages</h3>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-1_e72449df2585dd488a628978bf27114e">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"tmap"</span>, <span class="st">"viridisLite"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="session-info">Session info</h3>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-2_428bbb2b51d88789dcdb683acdcbe1cc">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -337,37 +337,53 @@ attached base packages:
 [7] base     
 
 other attached packages:
-[1] viridisLite_0.4.2 tmap_3.3-4        spatialreg_1.3-4 
-[4] Matrix_1.7-0      spdep_1.3-5       spData_2.3.1     
-[7] mapview_2.11.2    sf_1.0-16        
+[1] viridisLite_0.4.2 tmap_4.1          spatialreg_1.3-6 
+[4] Matrix_1.7-3      spdep_1.3-13      spData_2.3.4     
+[7] mapview_2.11.2    sf_1.0-21        
 
 loaded via a namespace (and not attached):
- [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
- [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
- [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
-[10] sandwich_3.1-0     proxy_0.4-27       KernSmooth_2.23-24
-[13] satellite_1.0.5    RColorBrewer_1.1-3 leaflet_2.2.2     
-[16] lifecycle_1.0.4    compiler_4.4.1     deldir_2.0-4      
-[19] munsell_0.5.1      terra_1.7-78       codetools_0.2-20  
-[22] leafsync_0.1.0     stars_0.6-5        htmltools_0.5.8.1 
-[25] class_7.3-22       MASS_7.3-60.2      classInt_0.4-10   
-[28] lwgeom_0.2-14      wk_0.9.1           abind_1.4-5       
-[31] boot_1.3-30        multcomp_1.4-25    nlme_3.1-164      
-[34] digest_0.6.35      mvtnorm_1.2-5      splines_4.4.1     
-[37] fastmap_1.2.0      grid_4.4.1         colorspace_2.1-0  
-[40] cli_3.6.2          magrittr_2.0.3     base64enc_0.1-3   
-[43] dichromat_2.0-0.1  XML_3.99-0.16.1    survival_3.6-4    
-[46] leafem_0.2.3       TH.data_1.1-2      e1071_1.7-14      
-[49] scales_1.3.0       sp_2.1-4           rmarkdown_2.27    
-[52] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
-[55] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
-[58] s2_1.1.6           rlang_1.1.4        Rcpp_1.0.12       
-[61] glue_1.7.0         DBI_1.2.3          rstudioapi_0.16.0 
-[64] jsonlite_1.8.8     R6_2.5.1           units_0.8-5       </code></pre>
+ [1] xfun_0.52               raster_3.6-32          
+ [3] htmlwidgets_1.6.4       lattice_0.22-7         
+ [5] leaflet.providers_2.0.0 tools_4.5.1            
+ [7] crosstalk_1.2.1         LearnBayes_2.15.1      
+ [9] parallel_4.5.1          stats4_4.5.1           
+[11] sandwich_3.1-1          proxy_0.4-27           
+[13] KernSmooth_2.23-26      data.table_1.17.6      
+[15] satellite_1.0.5         RColorBrewer_1.1-3     
+[17] leaflet_2.2.2           lifecycle_1.0.4        
+[19] compiler_4.5.1          farver_2.1.2           
+[21] deldir_2.0-4            microbenchmark_1.5.0   
+[23] terra_1.8-54            leafsync_0.1.0         
+[25] codetools_0.2-20        leaflegend_1.2.1       
+[27] stars_0.6-8             htmltools_0.5.8.1      
+[29] class_7.3-23            yaml_2.3.10            
+[31] MASS_7.3-65             classInt_0.4-11        
+[33] lwgeom_0.2-14           wk_0.9.4               
+[35] boot_1.3-31             abind_1.4-8            
+[37] multcomp_1.4-28         nlme_3.1-168           
+[39] digest_0.6.37           mvtnorm_1.3-3          
+[41] splines_4.5.1           fastmap_1.2.0          
+[43] grid_4.5.1              colorspace_2.1-1       
+[45] cli_3.6.5               logger_0.4.0           
+[47] magrittr_2.0.3          maptiles_0.10.0        
+[49] base64enc_0.1-3         XML_3.99-0.18          
+[51] dichromat_2.0-0.1       cols4all_0.8           
+[53] survival_3.8-3          leafem_0.2.4           
+[55] TH.data_1.1-3           e1071_1.7-16           
+[57] scales_1.4.0            sp_2.2-0               
+[59] rmarkdown_2.29          zoo_1.8-14             
+[61] png_0.1-8               coda_0.19-4.1          
+[63] evaluate_1.0.4          knitr_1.50             
+[65] tmaptools_3.2           s2_1.1.9               
+[67] rlang_1.1.6             Rcpp_1.0.14            
+[69] glue_1.8.0              DBI_1.2.3              
+[71] rstudioapi_0.17.1       jsonlite_2.0.0         
+[73] R6_2.6.1                spacesXYZ_1.6-0        
+[75] units_0.8-7            </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="reload-data-from-pervious-session">Reload data from pervious session</h3>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-3_b93f42018da168da33fc6e1d69a3ceb9">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we have seen, a variety of spatial model specifications exist that can be used to account for the spatial structure of the data. Thus, selecting the correct model specification remains a crucial task in applied research. For some helpful literature on the issue of model selection see <span class="citation" data-cites="Anselin.2024">Anselin, Serenini, and Amaral (<a href="references.html#ref-Anselin.2024" role="doc-biblioref">2024</a>)</span>, <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span>, <span class="citation" data-cites="Ruttenauer.2022a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2022a" role="doc-biblioref">2022</a>)</span></p>
@@ -410,7 +426,7 @@ loaded via a namespace (and not attached):
 \end{split}     
 \]</span> where <span class="math inline">\(\tr(\bm A)\)</span> is the sum of the main diagonal of any square matrix <span class="math inline">\(\bm A\)</span>.</p>
 <p>To perform the test, we first need to run a conventional OLS model. We take yesterdays example.</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-4_9ef3c6f6d334695781f4111877c7da57">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Load data</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span>
@@ -435,7 +451,7 @@ loaded via a namespace (and not attached):
 <span><span class="co"># listw object with row-normalization</span></span>
 <span><span class="va">dist_15.lw</span> <span class="op">&lt;-</span> <span class="fu">nb2listw</span><span class="op">(</span><span class="va">dist_15.nb</span>, style <span class="op">=</span> <span class="st">"W"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-5_d2c534ece940ce79320d4deb471d0f53">
+<div class="cell">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">~</span> <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span></span>
 <span>                      <span class="op">+</span> <span class="va">per_nonUK_EU</span> <span class="op">+</span> <span class="va">per_nonEU</span>  <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span>,  </span>
 <span>                      data <span class="op">=</span> <span class="va">msoa.spdf</span><span class="op">)</span></span>
@@ -469,7 +485,7 @@ F-statistic: 223.6 on 7 and 975 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Subsequently, we run the robust LM test for Lag dependence:</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-6_90af3a0b4acb7aae344cdfa384c9a467">
+<div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test.lag</span> <span class="op">&lt;-</span> <span class="fu">lm.RStests</span><span class="op">(</span><span class="va">mod_1.lm</span>, </span>
 <span>                       listw <span class="op">=</span> <span class="va">dist_15.lw</span>, </span>
 <span>                       test <span class="op">=</span> <span class="st">"adjRSlag"</span><span class="op">)</span></span>
@@ -490,7 +506,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>For the robust LM test on spatial error dependence, we run:</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-7_8afb7bc96318c1cf79bead01084a6481">
+<div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test.err</span> <span class="op">&lt;-</span> <span class="fu">lm.RStests</span><span class="op">(</span><span class="va">mod_1.lm</span>, </span>
 <span>                       listw <span class="op">=</span> <span class="va">dist_15.lw</span>, </span>
 <span>                       test <span class="op">=</span> <span class="st">"adjRSerr"</span><span class="op">)</span></span>
@@ -511,7 +527,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>In fact, you can compare them all at once:</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-8_377325d51505ed6a91b192f53787bca1">
+<div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test.all</span> <span class="op">&lt;-</span> <span class="fu">lm.RStests</span><span class="op">(</span><span class="va">mod_1.lm</span>, </span>
 <span>                       listw <span class="op">=</span> <span class="va">dist_15.lw</span>, </span>
 <span>                       test <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
@@ -676,7 +692,7 @@ Potential solution?
 <span class="header-section-number">12.6</span> Example: House prices in London</h2>
 <p>The example is taken from <span class="citation" data-cites="Ruttenauer.2024b">Rüttenauer (<a href="references.html#ref-Ruttenauer.2024b" role="doc-biblioref">2024</a>)</span>.</p>
 <p>As an example to compare the different spatial model specifications, we estimate the effect of local characteristics such as green space and public transport connectivity on the median house price. The relation between environmental characteristics and housing choice and prices has been investigated in several studies <span class="citation" data-cites="Anselin.2008 Kley.2021 Liebe.2023">(<a href="references.html#ref-Anselin.2008" role="doc-biblioref">Anselin and Lozano-Gracia 2008</a>; <a href="references.html#ref-Kley.2021" role="doc-biblioref">Kley and Dovbishchuk 2021</a>; <a href="references.html#ref-Liebe.2023" role="doc-biblioref">Liebe, van Cranenburgh, and Chorus 2023</a>)</span>. The data for the current example was retrieved from the London Datastore<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, the 2011 Census<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and OpenStreetMaps and combined at the Middle Layer Super Output Areas (MSOA). There are 983 MSOAs in London with an average population size of around 8,000 residents. The script for compiling and preparing the data can be found in the Supplementary Materials. All data preparation and analysis were performed with the statistical software R. For a comprehensive overview of spatial software see <span class="citation" data-cites="Bivand.2021">Bivand, Millo, and Piras (<a href="references.html#ref-Bivand.2021" role="doc-biblioref">2021</a>)</span> or <span class="citation" data-cites="Pebesma.2023">Pebesma and Bivand (<a href="references.html#ref-Pebesma.2023" role="doc-biblioref">2023</a>)</span>.</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-9_31c4b32aaaab3e755ab61356c787caed">
+<div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the packages</span></span>
 <span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"texreg"</span>, </span>
 <span>          <span class="st">"ggplot2"</span>, <span class="st">"ggthemes"</span>, <span class="st">"rmapshaper"</span>, <span class="st">"viridis"</span>, <span class="st">"gridExtra"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
@@ -692,7 +708,7 @@ Potential solution?
 <span><span class="va">queens.lw</span> <span class="op">&lt;-</span> <span class="fu">nb2listw</span><span class="op">(</span><span class="va">queens.nb</span>,</span>
 <span>                      style <span class="op">=</span> <span class="st">"W"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-10_c9ec36960e6af2fe7ac11869048a39cd">
+<div class="cell">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Plot house prices</span></span>
 <span></span>
 <span><span class="co"># Get some larger scale boundaries</span></span>
@@ -728,7 +744,7 @@ Potential solution?
 <span>  <span class="fu">theme</span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Public transport access"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-11_a4efe8e6ca15fab891dfc6fe5d033abf">
+<div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/cairo.html">cairo_ps</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"fig/"</span>, <span class="st">"Maps.eps"</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">4</span>, </span>
 <span>          bg <span class="op">=</span> <span class="st">"white"</span>, family <span class="op">=</span> <span class="st">"Times New Roman"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
@@ -750,7 +766,7 @@ Potential solution?
 </div>
 <p>Figure <a href="#fig-map">Figure&nbsp;<span>12.1</span></a> shows an unclassified choropleth map of house prices and public transport access across London, both log-scaled for mapping. As we would expect, both indicators follow a relatively strong spatial of positive autocorrelation: house prices first decrease with increasing distance to the centre, and then seem to increase again in suburban areas. Moreover, there seems to be a pattern of higher prices towards the west and particularly high prices around Hyde Park. Public transport accessibility steadily decreases with distance to the city centre. Spatial regression models thus seem to be important here for two reasons: a) observations are not independent of each other but follow clear spatial patterns, and b) surrounding / adjacent urban characteristics likely play a role for housing demand and prices in the focal unit as well.</p>
 <p>In Table 1, we regress the median house price in 2011 on the area (in km^2) covered by green space according to OpenStreetMaps, an index of public transport access (ranging from 0-low accessibility to 100-high accessibility), and several population characteristics from the 2011 census such as population density, the percent of non-UK residents and the percent of social housing. Reported are results form (1) non-spatial OLS, (2) Spatial Autoregressive (SAR), (3) Spatial Error Model (SEM), (4) Spatial Lag of X (SLX), (5) Spatial Durbin Model (SDM), (6) and Spatial Durbin Error Model (SDEM). All variables were standardized before estimation, and we thus interpret coefficients in standard deviations. Note that we do not estimate results for Spatial Autoregressive Combined (SAC) models because of its severe drawbacks for applied research <span class="citation" data-cites="LeSage.2014">(<a href="references.html#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>.</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-12_9434725592ea705a67453e2ea0ff07a1">
+<div class="cell">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Specifcy variables and formula</span></span>
 <span><span class="va">fm</span> <span class="op">&lt;-</span> <span class="va">med_house_price</span> <span class="op">~</span> <span class="va">park_kmsq</span> <span class="op">+</span> <span class="va">pt_access_index</span> <span class="op">+</span> <span class="va">POPDEN</span> <span class="op">+</span> <span class="va">per_nonUK</span> <span class="op">+</span> <span class="va">per_social</span></span>
 <span></span>
@@ -761,7 +777,7 @@ Potential solution?
 <span>  <span class="va">msoa_sd.spdf</span><span class="op">[</span>, <span class="va">v</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">msoa_sd.spdf</span><span class="op">[</span>, <span class="va">v</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-13_fdb023bc0ef7dd6d4f443d05c040c437">
+<div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate the models</span></span>
 <span><span class="va">mod_1.ols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">fm</span>, data <span class="op">=</span> <span class="va">msoa_sd.spdf</span><span class="op">)</span></span>
 <span></span>
@@ -835,7 +851,7 @@ Potential solution?
 <span><span class="co">#                          'AIC' = aic.l), </span></span>
 <span><span class="co">#   reorder.gof = c(1, 3:6, 2))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-14_9f047aebe00f1847af9099a7c699b894">
+<div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">wordreg</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mod_1.ols</span>, <span class="va">mod_1.sar</span>, <span class="va">mod_1.sem</span>, <span class="va">mod_1.slx.lm</span>, <span class="va">mod_1.sdm</span>, <span class="va">mod_1.sdem</span><span class="op">)</span>,</span>
 <span>        file <span class="op">=</span> <span class="st">"fig/Regression.doc"</span>,</span>
 <span>          custom.coef.map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">'(Intercept)'</span> <span class="op">=</span>  <span class="st">'(Intercept)'</span>,</span>
@@ -894,7 +910,7 @@ Potential solution?
 <span>                         <span class="st">'AIC'</span> <span class="op">=</span> <span class="va">aic.l</span><span class="op">)</span>, </span>
 <span>  reorder.gof <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="tbl-results" class="cell tbl-parent quarto-layout-panel anchored" data-tbl-cap="Regression Coefficients Dependent variable: Median house prices." data-hash="08_comparison_cache/html/tbl-results_fa2ab95c8705f2e66c427c654b43ac6e">
+<div id="tbl-results" class="cell tbl-parent quarto-layout-panel anchored" data-tbl-cap="Regression Coefficients Dependent variable: Median house prices.">
 <div class="panel-caption table-caption">
 <p><strong>?(caption)</strong></p>
 </div>
@@ -5243,7 +5259,7 @@ AIC
 </div>
 <p>Compared to results from conventional non-spatial models, Table 1 comes with several additions: First, variables starting with a “W” (or “lag”) indicate the spatially lagged variable or in the case of row-normalized weights matrices the average value of the respective variable across the local neighbours. Moreover, there are two auto-regressive parameters: “rho” for the estimated auto-correlation in the dependent variable and “lambda” for the estimated auto-correlation in the error term. In case of the SAR, a highly significant <span class="math inline">\(\hat\rho\)</span> coefficient of 0.786 indicates strong positive spatial auto-correlation in the median house price: the house price in adjacent areas positively impacts the focal house prices. A <span class="math inline">\(\hat\lambda\)</span> of 0.89 in the SEM however indicates that there is very strong spatial auto-correlation among the (remaining) error variance. The likelihood ratio test in the goodness-of-fit statistics are highly significant in both cases, rejecting the NULL of no spatial auto-autocorrelation.</p>
 <p>Given the strong positive auto-correlation in the dependent variable in SAR and SDM, we cannot directly interpret the coefficients as marginal effects. Similar to auto-regressive temporal models, we need to account for the spatial multiplier effect. For SEM, SLX and SDEM, we could directly interpret the coefficients of Table 1. However, we plot the impacts of all five models in Figure <a href="#fig-coefs">Figure&nbsp;<span>12.2</span></a> for reasons of comparison. Note that SEM only has direct and no indirect impacts.</p>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-15_72dca2f1db161dc47d300b5a50a54779">
+<div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get direct and indirect impacts</span></span>
 <span><span class="va">mod.l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mod_1.sar</span>, <span class="va">mod_1.slx</span>, <span class="va">mod_1.sdm</span>, <span class="va">mod_1.sdem</span><span class="op">)</span></span>
 <span><span class="va">imp.l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"list"</span>, length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">mod.l</span><span class="op">)</span><span class="op">)</span></span>
@@ -5296,7 +5312,7 @@ AIC
 <span></span>
 <span><span class="va">imp.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">imp.res</span>, <span class="va">sem.df</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-16_2b2c13a8d8e3d997240d56f71d922e99">
+<div class="cell">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Plot the effects</span></span>
 <span></span>
 <span><span class="co"># Coef Labels</span></span>
@@ -5360,7 +5376,7 @@ AIC
 <span>  <span class="fu">guides</span><span class="op">(</span>colour <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>linetype <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>, reverse <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
 <span>                          shape <span class="op">=</span> <span class="fu">guide_legend</span><span class="op">(</span>reverse <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="08_comparison_cache/html/unnamed-chunk-17_2bb5b0b498380c96bac0ee4766a59e00">
+<div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/cairo.html">cairo_ps</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"fig/"</span>, <span class="st">"Coefplot.eps"</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">6</span>, </span>
 <span>          bg <span class="op">=</span> <span class="st">"white"</span>, family <span class="op">=</span> <span class="st">"Times New Roman"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>

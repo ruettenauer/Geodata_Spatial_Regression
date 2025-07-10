@@ -298,21 +298,21 @@ div.csl-indent {
 \]</span></p>
 <section id="required-packages" class="level3" data-number="15.0.1"><h3 data-number="15.0.1" class="anchored" data-anchor-id="required-packages">
 <span class="header-section-number">15.0.1</span> Required packages</h3>
-<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-1_6d9b6476a5332bd0c72b031131a46d73">
+<div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tmap"</span>, <span class="st">"viridis"</span>, <span class="st">"viridisLite"</span>, <span class="st">"GWmodel"</span><span class="op">)</span> <span class="co"># note: load spdep first, then spatialreg</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pkgs</span>, <span class="va">require</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="session-info" class="level3" data-number="15.0.2"><h3 data-number="15.0.2" class="anchored" data-anchor-id="session-info">
 <span class="header-section-number">15.0.2</span> Session info</h3>
-<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-2_28378d05999073dc74eba3aa8ef1282c">
+<div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14 ucrt)
+<pre><code>R version 4.5.1 (2025-06-13 ucrt)
 Platform: x86_64-w64-mingw32/x64
 Running under: Windows 11 x64 (build 22631)
 
 Matrix products: default
-
+  LAPACK version 3.12.1
 
 locale:
 [1] LC_COLLATE=English_United Kingdom.utf8 
@@ -329,40 +329,62 @@ attached base packages:
 [7] base     
 
 other attached packages:
- [1] GWmodel_2.3-2     Rcpp_1.0.12       sp_2.1-4         
- [4] robustbase_0.99-2 viridisLite_0.4.2 tmap_3.3-4       
- [7] spatialreg_1.3-4  Matrix_1.7-0      spdep_1.3-5      
-[10] spData_2.3.1      mapview_2.11.2    sf_1.0-16        
+ [1] GWmodel_2.4-1       Rcpp_1.0.14         sp_2.2-0           
+ [4] robustbase_0.99-4-1 viridis_0.6.5       viridisLite_0.4.2  
+ [7] tmap_4.1            ggplot2_3.5.2       spatialreg_1.3-6   
+[10] Matrix_1.7-3        spdep_1.3-13        spData_2.3.4       
+[13] mapview_2.11.2      sf_1.0-21          
 
 loaded via a namespace (and not attached):
- [1] xfun_0.45          raster_3.6-26      htmlwidgets_1.6.4 
- [4] lattice_0.22-6     tools_4.4.1        crosstalk_1.2.1   
- [7] LearnBayes_2.15.1  parallel_4.4.1     stats4_4.4.1      
-[10] sandwich_3.1-0     spacetime_1.3-1    proxy_0.4-27      
-[13] DEoptimR_1.1-3     xts_0.14.0         KernSmooth_2.23-24
-[16] satellite_1.0.5    RColorBrewer_1.1-3 leaflet_2.2.2     
-[19] lifecycle_1.0.4    FNN_1.1.4          compiler_4.4.1    
-[22] deldir_2.0-4       munsell_0.5.1      terra_1.7-78      
-[25] codetools_0.2-20   leafsync_0.1.0     stars_0.6-5       
-[28] htmltools_0.5.8.1  class_7.3-22       MASS_7.3-60.2     
-[31] classInt_0.4-10    lwgeom_0.2-14      wk_0.9.1          
-[34] abind_1.4-5        boot_1.3-30        multcomp_1.4-25   
-[37] nlme_3.1-164       digest_0.6.35      mvtnorm_1.2-5     
-[40] splines_4.4.1      fastmap_1.2.0      grid_4.4.1        
-[43] colorspace_2.1-0   cli_3.6.2          magrittr_2.0.3    
-[46] base64enc_0.1-3    dichromat_2.0-0.1  XML_3.99-0.16.1   
-[49] survival_3.6-4     leafem_0.2.3       TH.data_1.1-2     
-[52] e1071_1.7-14       scales_1.3.0       rmarkdown_2.27    
-[55] zoo_1.8-12         png_0.1-8          coda_0.19-4.1     
-[58] evaluate_0.24.0    knitr_1.47         tmaptools_3.1-1   
-[61] s2_1.1.6           rlang_1.1.4        glue_1.7.0        
-[64] DBI_1.2.3          rstudioapi_0.16.0  jsonlite_1.8.8    
-[67] R6_2.5.1           intervals_0.15.4   units_0.8-5       </code></pre>
+ [1] tidyselect_1.2.1        dplyr_1.1.4            
+ [3] farver_2.1.2            fastmap_1.2.0          
+ [5] leaflegend_1.2.1        leaflet_2.2.2          
+ [7] TH.data_1.1-3           XML_3.99-0.18          
+ [9] digest_0.6.37           lifecycle_1.0.4        
+[11] LearnBayes_2.15.1       survival_3.8-3         
+[13] terra_1.8-54            magrittr_2.0.3         
+[15] compiler_4.5.1          rlang_1.1.6            
+[17] tools_4.5.1             data.table_1.17.6      
+[19] FNN_1.1.4.1             knitr_1.50             
+[21] htmlwidgets_1.6.4       classInt_0.4-11        
+[23] RColorBrewer_1.1-3      multcomp_1.4-28        
+[25] abind_1.4-8             KernSmooth_2.23-26     
+[27] withr_3.0.2             leafsync_0.1.0         
+[29] grid_4.5.1              stats4_4.5.1           
+[31] xts_0.14.1              cols4all_0.8           
+[33] e1071_1.7-16            leafem_0.2.4           
+[35] colorspace_2.1-1        spacesXYZ_1.6-0        
+[37] scales_1.4.0            MASS_7.3-65            
+[39] dichromat_2.0-0.1       cli_3.6.5              
+[41] mvtnorm_1.3-3           rmarkdown_2.29         
+[43] intervals_0.15.5        generics_0.1.4         
+[45] rstudioapi_0.17.1       tmaptools_3.2          
+[47] DBI_1.2.3               proxy_0.4-27           
+[49] stars_0.6-8             splines_4.5.1          
+[51] parallel_4.5.1          s2_1.1.9               
+[53] base64enc_0.1-3         vctrs_0.6.5            
+[55] boot_1.3-31             sandwich_3.1-1         
+[57] jsonlite_2.0.0          crosstalk_1.2.1        
+[59] maptiles_0.10.0         units_0.8-7            
+[61] lwgeom_0.2-14           glue_1.8.0             
+[63] DEoptimR_1.1-3-1        leaflet.providers_2.0.0
+[65] codetools_0.2-20        gtable_0.3.6           
+[67] deldir_2.0-4            raster_3.6-32          
+[69] tibble_3.3.0            logger_0.4.0           
+[71] pillar_1.10.2           htmltools_0.5.8.1      
+[73] satellite_1.0.5         R6_2.6.1               
+[75] wk_0.9.4                microbenchmark_1.5.0   
+[77] evaluate_1.0.4          lattice_0.22-7         
+[79] png_0.1-8               class_7.3-23           
+[81] spacetime_1.3-3         gridExtra_2.3          
+[83] coda_0.19-4.1           nlme_3.1-168           
+[85] xfun_0.52               zoo_1.8-14             
+[87] pkgconfig_2.0.3        </code></pre>
 </div>
 </div>
 </section><section id="reload-data-from-pervious-session" class="level3" data-number="15.0.3"><h3 data-number="15.0.3" class="anchored" data-anchor-id="reload-data-from-pervious-session">
 <span class="header-section-number">15.0.3</span> Reload data from pervious session</h3>
-<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-3_b43bf38c3b1366d58f0eb4b9e83c7776">
+<div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"_data/msoa2_spatial.RData"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="geographically-weighted-regression" class="level2" data-number="15.1"><h2 data-number="15.1" class="anchored" data-anchor-id="geographically-weighted-regression">
@@ -375,7 +397,7 @@ loaded via a namespace (and not attached):
 \end{split}
 \]</span></p>
 <p>The <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\({\bm M}_l\)</span> defines the weights at each local point <span class="math inline">\(l\)</span>, assigning higher weights to closer units. The local weights are determined by a kernel density function with a pre-determined bandwidth <span class="math inline">\(b\)</span> around each point (either a fixed distance or an adaptive k nearest neighbours bandwidth). Models are estimated via <code>gwr.basic()</code> or <code>gwr.robust()</code> of the <code>GWmodel</code> package.</p>
-<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-4_a2f8661d1304625458bf635916e3f013">
+<div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Search for the optimal bandwidth </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">hv_1.bw</span> <span class="op">&lt;-</span> <span class="fu">bw.gwr</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">med_house_price</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span> <span class="op">+</span> <span class="va">pubs_count</span> ,</span>
@@ -415,7 +437,7 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
 <pre><code>   ***********************************************************************
    *                       Package   GWmodel                             *
    ***********************************************************************
-   Program starts at: 2024-06-29 17:44:07.836814 
+   Program starts at: 2025-07-09 22:01:00.438997 
    Call:
    gwr.basic(formula = formula, data = data, bw = bw, kernel = kernel, 
     adaptive = adaptive, p = p, theta = theta, longlat = longlat, 
@@ -483,11 +505,11 @@ Adaptive bandwidth: 25 CV score: 52.5378 </code></pre>
    Adjusted R-square value:  0.7050051 
 
    ***********************************************************************
-   Program stops at: 2024-06-29 17:44:15.354337 </code></pre>
+   Program stops at: 2025-07-09 22:01:07.154311 </code></pre>
 </div>
 </div>
 <p>The results give a range of coefficients for different locations. Let’s map those individual coefficients.</p>
-<div class="cell" data-hash="10_other_cache/html/unnamed-chunk-5_78ce47b24a1467ad957ca116b9c72341">
+<div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Spatial object</span></span>
 <span><span class="va">gwr.spdf</span> <span class="op">&lt;-</span> <span class="fu">st_as_sf</span><span class="op">(</span><span class="va">hv_1.gwr</span><span class="op">$</span><span class="va">SDF</span><span class="op">)</span></span>
 <span><span class="va">gwr.spdf</span> <span class="op">&lt;-</span> <span class="fu">st_make_valid</span><span class="op">(</span><span class="va">gwr.spdf</span><span class="op">)</span></span>

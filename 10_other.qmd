@@ -200,20 +200,19 @@ Estimation methods for Spatial-SAR Probit / Logit
 	
 Note that it can be hard to interpret the results. As in the linear case, it is necessary to compute the impacts. However, the `marginal' effects may vary with values of the independent variables and the location [@Lacombe.2018].
 
+
 ### Suggestion
 
-	In case you are not familiar with the econometric estimation methods and spatial regression models, don't use non-linear models with AR term. 
-	
-	If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (set high ndraw and burn-in, e.g. 7500 and 2500).
+If necessary, I would recommend using `spatialprobit` relying on Bayesian MCMC (set high ndraw and burn-in, e.g. 7500 and 2500).
+
+There is an alternative package `ProbitSpatial` relying on maximisation of the approximate likelihood function. I haven't used the package but it's supposed to be computationally efficient for large data.
 
 
 - So far, no `best practice' guide
 
 - No systematic comparison of estimation methods
 
-- In R: Only `spatialprobit` provides impact measures?
-
-- Hard to interpret results
+- Also SAR Probit/Logit need impact estimates. `spatialprobit` and `ProbitSpatial` provide fucntions for impact measures
 
 Work-around: If the specification is theoretical plausible, using SLX probit / logit might be a practical solution! 
 

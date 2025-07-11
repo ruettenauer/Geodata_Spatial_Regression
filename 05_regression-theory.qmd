@@ -42,7 +42,7 @@ load("_data/msoa2_spatial.RData")
 
 There are various techniques to model spatial dependence and spatial processes [@LeSage.2009]. Here, we will just cover a few of the most common techniques / econometric models. One advantage of the most basic spatial model (SLX) is that this method can easily be incorporated in a variety of other methodologies, such as machine learning approaches.
 
-For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions. @Ruttenauer.2024b is a handbook chapter based on the materials of this workshop.
+For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions. @Ruttenauer.2024a is a handbook chapter based on the materials of this workshop.
 
 
 ## Why do we need spatial regression models

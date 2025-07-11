@@ -246,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest" id="toc-can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest" class="nav-link" data-scroll-target="#can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest">6) Can you run a spatial machine learning model? (for instance, using <code>randomForest</code>)?</a></li>
   </ul>
 </li>
-  <li><a href="#esimate-an-fe-model-with-slx-specification" id="toc-esimate-an-fe-model-with-slx-specification" class="nav-link" data-scroll-target="#esimate-an-fe-model-with-slx-specification">Esimate an FE model with SLX specification</a></li>
+  <li><a href="#esimate-an-fe-model-with-slx-specification" id="toc-esimate-an-fe-model-with-slx-specification" class="nav-link" data-scroll-target="#esimate-an-fe-model-with-slx-specification"><span class="header-section-number">13.3</span> Esimate an FE model with SLX specification</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -529,23 +529,426 @@ loaded via a namespace (and not attached):
 </tbody>
 </table></section><section id="county-shapes" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="county-shapes">
 <span class="header-section-number">13.2</span> County shapes</h2>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kreise.spdf</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span>dsn <span class="op">=</span> <span class="st">"_data/vg5000_ebenen_1231"</span>,</span>
+<span>                       layer <span class="op">=</span> <span class="st">"VG5000_KRS"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `VG5000_KRS' from data source 
+  `C:\work\Lehre\Geodata_Spatial_Regression\_data\vg5000_ebenen_1231' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 400 features and 24 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 280353.1 ymin: 5235878 xmax: 921261.6 ymax: 6101302
+Projected CRS: ETRS89 / UTM zone 32N</code></pre>
+</div>
+</div>
 <section id="please-map-the-life-expectancy-across-germany" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="please-map-the-life-expectancy-across-germany">1) Please map the life expectancy across Germany</h3>
 <ol type="a">
-<li><p>Merge data with the shape file (as with conventional data)</p></li>
-<li><p>Create a map of life-expectancy</p></li>
-</ol></section><section id="chose-some-variables-that-could-predict-life-expectancy.-see-for-instance-the-following-paper." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="chose-some-variables-that-could-predict-life-expectancy.-see-for-instance-the-following-paper.">2) Chose some variables that could predict life expectancy. See for instance the <a href="https://doi.org/10.1073/pnas.2003719117">following paper</a>.</h3>
-</section><section id="generate-a-neighbours-object-e.g.-the-10-nearest-neighbours." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="generate-a-neighbours-object-e.g.-the-10-nearest-neighbours.">3) Generate a neighbours object (e.g.&nbsp;the 10 nearest neighbours).</h3>
-</section><section id="estimate-a-cross-sectional-spatial-model-for-the-year-2020-and-calculate-the-impacts." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="estimate-a-cross-sectional-spatial-model-for-the-year-2020-and-calculate-the-impacts.">4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts.</h3>
-</section><section id="calculate-the-spatial-lagged-variables-for-your-covariates-e.g.-use-create_wx-which-needs-a-non-spatial-df-as-input-." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="calculate-the-spatial-lagged-variables-for-your-covariates-e.g.-use-create_wx-which-needs-a-non-spatial-df-as-input-.">5) Calculate the spatial lagged variables for your covariates (e.g.&nbsp;use create_WX(), which needs a non-spatial df as input) .</h3>
-</section><section id="can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest">6) Can you run a spatial machine learning model? (for instance, using <code>randomForest</code>)?</h3>
-</section></section><section id="esimate-an-fe-model-with-slx-specification" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="esimate-an-fe-model-with-slx-specification">Esimate an FE model with SLX specification</h2>
-<ol type="a">
-<li><p>Loop over years to generate WX</p></li>
-<li><p>Estimate a twoways FE SLX panel model</p></li>
-<li><p>Estimate a twoways FE SAR panel model (use <code>spml()</code>)</p></li>
-<li><p>Estimate the summary impacts.</p></li>
+<li>Merge data with the shape file (as with conventional data)</li>
 </ol>
-<!-- We use the `WDI` API package to retrieve data from the World Bank. --><!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. --><!-- You can search for indicators with `WDIsearch()`. --><!-- ```{r warning=FALSE} --><!-- library(WDI) --><!-- # Search GDP per capita --><!-- WDIsearch("CO2 intensity") --><!-- # Political Stability --><!-- WDIsearch("Political Stability") --><!-- #  --><!-- WDIsearch("democracy") --><!-- # The Democracy indicator is an additive eleven-point scale (0-10) --><!-- ``` --><!-- ```{r, cache=TRUE} --><!-- # Define countries, indicators to query, and time period --><!-- wd.df <- WDI(country = "all",  --><!--              indicator = c('population' = "SP.POP.TOTL",  --><!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  --><!--                            'co2_pc' = "EN.ATM.CO2E.PC", --><!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", --><!--                            'gini' = "SI.POV.GINI", --><!--                            'political_stability' = "GV.POLI.ST.ES", --><!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), --><!--              extra = TRUE, --><!--              start = 2010, end = 2019) --><!-- # Save --><!-- save(wd.df, file = "_data/WDI_data.RData") --><!-- ``` --><!-- ## Diffusion of political regimes --><!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. -->
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Merge</span></span>
+<span><span class="va">inkar_2020.spdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">kreise.spdf</span>, <span class="va">inkar.df</span><span class="op">[</span><span class="va">inkar.df</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2020</span>, <span class="op">]</span>, </span>
+<span>                         by.x <span class="op">=</span> <span class="st">"AGS"</span>, by.y <span class="op">=</span> <span class="st">"Kennziffer"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="a">
+<li>Create a map of life-expectancy</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu">viridis</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, option <span class="op">=</span> <span class="st">"G"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mp1</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">inkar_2020.spdf</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_sf</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">life_expectancy</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"white"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_gradientn</span><span class="op">(</span></span>
+<span>    colours <span class="op">=</span> <span class="va">cols</span>,  <span class="co"># your custom palette</span></span>
+<span>    name <span class="op">=</span> <span class="st">"in years"</span>,</span>
+<span>    na.value <span class="op">=</span> <span class="st">"grey90"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Life expectancy"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span></span>
+<span>    plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span>,</span>
+<span>    legend.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>    legend.text <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
+<span>    legend.background <span class="op">=</span> <span class="fu">element_rect</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>,</span>
+<span>    axis.text <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    axis.ticks <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">mp1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="08_exercise3b_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</section><section id="chose-some-variables-that-could-predict-life-expectancy.-see-for-instance-the-following-paper." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="chose-some-variables-that-could-predict-life-expectancy.-see-for-instance-the-following-paper.">2) Chose some variables that could predict life expectancy. See for instance the <a href="https://doi.org/10.1073/pnas.2003719117">following paper</a>.</h3>
+</section><section id="generate-a-neighbours-object-e.g.-the-10-nearest-neighbours." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="generate-a-neighbours-object-e.g.-the-10-nearest-neighbours.">3) Generate a neighbours object (e.g.&nbsp;the 10 nearest neighbours).</h3>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># nb &lt;- poly2nb(kreise.spdf, row.names = "ags", queen = TRUE)</span></span>
+<span><span class="va">knn</span> <span class="op">&lt;-</span> <span class="fu">knearneigh</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="va">kreise.spdf</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: st_centroid assumes attributes are constant over
+geometries</code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu">knn2nb</span><span class="op">(</span><span class="va">knn</span>, row.names <span class="op">=</span> <span class="va">kreise.spdf</span><span class="op">$</span><span class="va">ags</span><span class="op">)</span></span>
+<span><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu">nb2listw</span><span class="op">(</span><span class="va">nb</span>, style <span class="op">=</span> <span class="st">"W"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="estimate-a-cross-sectional-spatial-model-for-the-year-2020-and-calculate-the-impacts." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="estimate-a-cross-sectional-spatial-model-for-the-year-2020-and-calculate-the-impacts.">4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts.</h3>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Use a spatial Durbin Error model</span></span>
+<span></span>
+<span><span class="co"># Spec formula</span></span>
+<span><span class="va">fm</span> <span class="op">&lt;-</span> <span class="va">life_expectancy</span> <span class="op">~</span> <span class="va">median_income</span> <span class="op">+</span> <span class="va">unemployment_rate</span> <span class="op">+</span> <span class="va">share_college</span> <span class="op">+</span> <span class="va">car_density</span></span>
+<span></span>
+<span><span class="co"># Estimate error model with Durbin = TRUE </span></span>
+<span><span class="va">mod_1.durb</span> <span class="op">&lt;-</span> <span class="fu">errorsarlm</span><span class="op">(</span><span class="va">fm</span>,  </span>
+<span>                      data <span class="op">=</span> <span class="va">inkar_2020.spdf</span>, </span>
+<span>                      listw <span class="op">=</span> <span class="va">listw</span>,</span>
+<span>                      Durbin <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durb</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+errorsarlm(formula = fm, data = inkar_2020.spdf, listw = listw, 
+    Durbin = TRUE)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-1.343984 -0.349567  0.013307  0.333106  1.819014 
+
+Type: error 
+Coefficients: (asymptotic standard errors) 
+                         Estimate  Std. Error  z value  Pr(&gt;|z|)
+(Intercept)            8.4970e+01  1.4366e+00  59.1456 &lt; 2.2e-16
+median_income          5.4013e-04  8.2285e-05   6.5641 5.233e-11
+unemployment_rate     -3.8970e-01  2.0095e-02 -19.3923 &lt; 2.2e-16
+share_college          6.7806e-03  3.2502e-03   2.0862  0.036956
+car_density           -3.2042e-03  4.9774e-04  -6.4376 1.214e-10
+lag.median_income      4.9282e-04  1.8112e-04   2.7209  0.006511
+lag.unemployment_rate -3.4685e-02  4.5454e-02  -0.7631  0.445418
+lag.share_college     -1.7065e-03  7.0324e-03  -0.2427  0.808270
+lag.car_density       -5.2210e-03  1.7541e-03  -2.9765  0.002915
+
+Lambda: 0.57895, LR test value: 48.146, p-value: 3.9563e-12
+Asymptotic standard error: 0.069523
+    z-value: 8.3275, p-value: &lt; 2.22e-16
+Wald statistic: 69.347, p-value: &lt; 2.22e-16
+
+Log likelihood: -305.6855 for error model
+ML residual variance (sigma squared): 0.26001, (sigma: 0.50991)
+Number of observations: 400 
+Number of parameters estimated: 11 
+AIC: 633.37, (AIC for lm: 679.52)</code></pre>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate impacts (which is unnecessary in this case)</span></span>
+<span><span class="va">mod_1.durb.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.durb</span>, listw <span class="op">=</span> <span class="va">listw</span>, R <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durb.imp</span>, zstats <span class="op">=</span> <span class="cn">TRUE</span>, short <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (SDEM, glht, n):
+                         Direct      Indirect        Total
+median_income      0.0005401284  0.0004928188  0.001032947
+unemployment_rate -0.3896967422 -0.0346850810 -0.424381823
+share_college      0.0067806262 -0.0017064694  0.005074157
+car_density       -0.0032042374 -0.0052209850 -0.008425222
+========================================================
+Standard errors:
+                        Direct     Indirect        Total
+median_income     0.0000822846 0.0001811243 0.0001813217
+unemployment_rate 0.0200953892 0.0454542641 0.0455757529
+share_college     0.0032501555 0.0070323979 0.0069550103
+car_density       0.0004977411 0.0017540570 0.0018942566
+========================================================
+Z-values:
+                      Direct   Indirect      Total
+median_income       6.564150  2.7208866  5.6967654
+unemployment_rate -19.392346 -0.7630765 -9.3115702
+share_college       2.086247 -0.2426583  0.7295686
+car_density        -6.437558 -2.9765197 -4.4477726
+
+p-values:
+                  Direct     Indirect  Total     
+median_income     5.2331e-11 0.0065107 1.2210e-08
+unemployment_rate &lt; 2.22e-16 0.4454178 &lt; 2.22e-16
+share_college     0.036956   0.8082701 0.46565   
+car_density       1.2141e-10 0.0029154 8.6765e-06</code></pre>
+</div>
+</div>
+</section><section id="calculate-the-spatial-lagged-variables-for-your-covariates-e.g.-use-create_wx-which-needs-a-non-spatial-df-as-input-." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="calculate-the-spatial-lagged-variables-for-your-covariates-e.g.-use-create_wx-which-needs-a-non-spatial-df-as-input-.">5) Calculate the spatial lagged variables for your covariates (e.g.&nbsp;use create_WX(), which needs a non-spatial df as input) .</h3>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract covariate names</span></span>
+<span><span class="va">covars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/terms.html">terms</a></span><span class="op">(</span><span class="va">fm</span><span class="op">)</span>,<span class="st">"term.labels"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">w_vars</span> <span class="op">&lt;-</span> <span class="fu">create_WX</span><span class="op">(</span><span class="fu">st_drop_geometry</span><span class="op">(</span><span class="va">inkar_2020.spdf</span><span class="op">)</span><span class="op">[</span>, <span class="va">covars</span><span class="op">]</span>,</span>
+<span>                    listw <span class="op">=</span> <span class="va">listw</span>,</span>
+<span>                    prefix <span class="op">=</span> <span class="st">"w"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">inkar_2020.spdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">inkar_2020.spdf</span>, <span class="va">w_vars</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="can-you-run-a-spatial-machine-learning-model-for-instance-using-randomforest">6) Can you run a spatial machine learning model? (for instance, using <code>randomForest</code>)?</h3>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.berkeley.edu/~breiman/RandomForests/">randomForest</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>randomForest 4.7-1.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type rfNews() to see new features/changes/bug fixes.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'randomForest'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    margin</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Train</span></span>
+<span><span class="va">rf.mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">life_expectancy</span> <span class="op">~</span> <span class="va">median_income</span> <span class="op">+</span> <span class="va">unemployment_rate</span> <span class="op">+</span> <span class="va">share_college</span> <span class="op">+</span> <span class="va">car_density</span> <span class="op">+</span></span>
+<span>                         <span class="va">w.median_income</span> <span class="op">+</span> <span class="va">w.unemployment_rate</span> <span class="op">+</span> <span class="va">w.share_college</span> <span class="op">+</span> <span class="va">w.car_density</span>,</span>
+<span>                       data <span class="op">=</span> <span class="fu">st_drop_geometry</span><span class="op">(</span><span class="va">inkar_2020.spdf</span><span class="op">)</span>, </span>
+<span>                       ntree <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                       importance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Inspect the mechanics of the model</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/importance.html">importance</a></span><span class="op">(</span><span class="va">rf.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     %IncMSE IncNodePurity
+median_income       34.75666      42.52646
+unemployment_rate   63.14242     115.57741
+share_college       23.35678      26.94967
+car_density         24.99543      32.93691
+w.median_income     37.47421      59.05119
+w.unemployment_rate 26.15403      50.37353
+w.share_college     15.82100      24.06899
+w.car_density       22.98736      31.02092</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/varImpPlot.html">varImpPlot</a></span><span class="op">(</span><span class="va">rf.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="08_exercise3b_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>You could even go further and use higher order neighbours (e.g.&nbsp;<code>nblag(queens.nb, maxlag = 3)</code>) to check the importance of direct neighbours and the neighbours neighbours and so on …</p>
+</section></section><section id="esimate-an-fe-model-with-slx-specification" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="esimate-an-fe-model-with-slx-specification">
+<span class="header-section-number">13.3</span> Esimate an FE model with SLX specification</h2>
+<ol type="a">
+<li>Loops over years to generate WX</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># We use gdp instead of median income (which is only available in recent year)</span></span>
+<span><span class="va">fm</span> <span class="op">&lt;-</span> <span class="va">life_expectancy</span> <span class="op">~</span> <span class="va">gdp_in1000EUR</span> <span class="op">+</span> <span class="va">unemployment_rate</span> <span class="op">+</span> <span class="va">share_college</span> <span class="op">+</span> <span class="va">car_density</span></span>
+<span></span>
+<span><span class="co"># All years where we have a balanced sample</span></span>
+<span><span class="va">years</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">inkar.df</span><span class="op">$</span><span class="va">year</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">inkar.df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/allnames.html">all.vars</a></span><span class="op">(</span><span class="va">fm</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># All variables we want ot lag</span></span>
+<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/allnames.html">all.vars</a></span><span class="op">(</span><span class="va">fm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create listw with the correct rownames (ID = Kennziffer)</span></span>
+<span><span class="va">kreise.spdf</span><span class="op">$</span><span class="va">Kennziffer</span> <span class="op">&lt;-</span> <span class="va">kreise.spdf</span><span class="op">$</span><span class="va">ags</span></span>
+<span><span class="va">knn</span> <span class="op">&lt;-</span> <span class="fu">knearneigh</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="va">kreise.spdf</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu">knn2nb</span><span class="op">(</span><span class="va">knn</span>, row.names <span class="op">=</span> <span class="va">kreise.spdf</span><span class="op">$</span><span class="va">Kennziffer</span><span class="op">)</span></span>
+<span><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu">nb2listw</span><span class="op">(</span><span class="va">nb</span>, style <span class="op">=</span> <span class="st">"W"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">y</span> <span class="kw">in</span> <span class="va">years</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co"># Select singe year</span></span>
+<span>  <span class="va">tmp</span> <span class="op">&lt;-</span> <span class="va">inkar.df</span><span class="op">[</span><span class="va">inkar.df</span><span class="op">$</span><span class="va">year</span> <span class="op">==</span> <span class="va">y</span> ,<span class="op">]</span></span>
+<span>  <span class="co"># Select variables and make df</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">st_drop_geometry</span><span class="op">(</span><span class="va">tmp</span><span class="op">[</span>, <span class="va">vars</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="co"># Add ID as rownames (we retreive them again later)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tmp</span><span class="op">$</span><span class="va">Kennziffer</span></span>
+<span>  <span class="co"># Perform lag transformation (rownames contian ids)</span></span>
+<span>  <span class="va">w.tmp</span> <span class="op">&lt;-</span> <span class="fu">create_WX</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>                    listw <span class="op">=</span> <span class="va">listw</span>,</span>
+<span>                    prefix <span class="op">=</span> <span class="st">"w"</span>,</span>
+<span>                    zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># NAs will get zero</span></span>
+<span>  <span class="va">w.tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">w.tmp</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># add indices back</span></span>
+<span>  <span class="va">w.tmp</span><span class="op">$</span><span class="va">Kennziffer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">w.tmp</span><span class="op">)</span></span>
+<span>  <span class="va">w.tmp</span><span class="op">$</span><span class="va">year</span> <span class="op">&lt;-</span> <span class="va">y</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">y</span> <span class="op">==</span> <span class="va">years</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">w.inkar.df</span> <span class="op">&lt;-</span> <span class="va">w.tmp</span></span>
+<span>  <span class="op">}</span><span class="kw">else</span><span class="op">{</span></span>
+<span>    <span class="va">w.inkar.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">w.inkar.df</span>, <span class="va">w.tmp</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">w.inkar.df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      w.life_expectancy w.gdp_in1000EUR w.unemployment_rate
+01001            77.386         3866035              10.257
+01002            77.355         3812976              10.394
+01003            77.237        10728945              11.666
+01004            77.458         4586244               9.999
+01051            77.291         4270208              10.007
+01053            77.119        11012351              11.878
+      w.share_college w.car_density Kennziffer year
+01001          18.558       518.092      01001 1998
+01002          20.389       516.400      01002 1998
+01003          23.075       497.344      01003 1998
+01004          20.798       516.580      01004 1998
+01051          18.957       520.985      01051 1998
+01053          23.625       501.522      01053 1998</code></pre>
+</div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Merge back </span></span>
+<span></span>
+<span><span class="va">inkar.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">inkar.df</span>, <span class="va">w.inkar.df</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Kennziffer"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="a">
+<li>Estimate a twoways FE SLX panel model</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">slx.fe</span> <span class="op">&lt;-</span> <span class="fu">felm</span><span class="op">(</span><span class="va">life_expectancy</span> <span class="op">~</span> <span class="va">gdp_in1000EUR</span> <span class="op">+</span> <span class="va">unemployment_rate</span> <span class="op">+</span> <span class="va">share_college</span> <span class="op">+</span> <span class="va">car_density</span> <span class="op">+</span></span>
+<span>                 <span class="va">w.gdp_in1000EUR</span> <span class="op">+</span> <span class="va">w.unemployment_rate</span> <span class="op">+</span> <span class="va">w.share_college</span> <span class="op">+</span> <span class="va">w.car_density</span></span>
+<span>                <span class="op">|</span> <span class="va">Kennziffer</span> <span class="op">+</span> <span class="va">year</span> <span class="op">|</span> <span class="fl">0</span> <span class="op">|</span> <span class="va">Kennziffer</span>,</span>
+<span>              data <span class="op">=</span> <span class="va">inkar.df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slx.fe</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+   felm(formula = life_expectancy ~ gdp_in1000EUR + unemployment_rate +      share_college + car_density + w.gdp_in1000EUR + w.unemployment_rate +      w.share_college + w.car_density | Kennziffer + year | 0 |      Kennziffer, data = inkar.df) 
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.62945 -0.17351  0.00156  0.17930  1.58230 
+
+Coefficients:
+                      Estimate Cluster s.e. t value Pr(&gt;|t|)   
+gdp_in1000EUR        1.370e-08    4.323e-09   3.170  0.00164 **
+unemployment_rate    4.875e-04    1.127e-02   0.043  0.96553   
+share_college        2.565e-03    1.818e-03   1.411  0.15909   
+car_density          4.277e-04    3.351e-04   1.276  0.20254   
+w.gdp_in1000EUR      3.397e-08    1.107e-08   3.069  0.00230 **
+w.unemployment_rate -2.848e-02    1.239e-02  -2.299  0.02203 * 
+w.share_college     -4.753e-04    2.506e-03  -0.190  0.84966   
+w.car_density        1.038e-03    8.283e-04   1.254  0.21072   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2957 on 8770 degrees of freedom
+Multiple R-squared(full model): 0.9602   Adjusted R-squared: 0.9582 
+Multiple R-squared(proj model): 0.02528   Adjusted R-squared: -0.0224 
+F-statistic(full model, *iid*):492.7 on 429 and 8770 DF, p-value: &lt; 2.2e-16 
+F-statistic(proj model): 4.508 on 8 and 399 DF, p-value: 2.929e-05 </code></pre>
+</div>
+</div>
+<ol start="3" type="a">
+<li>Estimate a twoways FE SAR panel model (use <code>spml()</code>)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">### Estimate model</span></span>
+<span><span class="va">sar.fe</span> <span class="op">&lt;-</span> <span class="fu">spml</span><span class="op">(</span><span class="va">life_expectancy</span> <span class="op">~</span> <span class="va">gdp_in1000EUR</span> <span class="op">+</span> <span class="va">unemployment_rate</span> <span class="op">+</span> <span class="va">share_college</span> <span class="op">+</span> <span class="va">car_density</span>, </span>
+<span>               data <span class="op">=</span> <span class="va">inkar.df</span>, </span>
+<span>               index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Kennziffer"</span>, <span class="st">"year"</span><span class="op">)</span>, </span>
+<span>               listw <span class="op">=</span> <span class="va">listw</span>, </span>
+<span>               model<span class="op">=</span> <span class="st">"within"</span>,</span>
+<span>               effect<span class="op">=</span> <span class="st">"twoways"</span>,</span>
+<span>               lag <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>               spatial.error <span class="op">=</span> <span class="st">"none"</span></span>
+<span>               <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sar.fe</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spatial panel fixed effects lag model
+ 
+
+Call:
+spml(formula = life_expectancy ~ gdp_in1000EUR + unemployment_rate + 
+    share_college + car_density, data = inkar.df, index = c("Kennziffer", 
+    "year"), listw = listw, model = "within", effect = "twoways", 
+    lag = TRUE, spatial.error = "none")
+
+Residuals:
+       Min.     1st Qu.      Median     3rd Qu.        Max. 
+-1.56935018 -0.16490692  0.00062493  0.16729792  1.38374052 
+
+Spatial autoregressive coefficient:
+       Estimate Std. Error t-value  Pr(&gt;|t|)    
+lambda  0.47997    0.01653  29.037 &lt; 2.2e-16 ***
+
+Coefficients:
+                     Estimate  Std. Error t-value  Pr(&gt;|t|)    
+gdp_in1000EUR      1.2031e-08  1.4786e-09  8.1369 4.056e-16 ***
+unemployment_rate -1.0767e-02  2.0558e-03 -5.2375 1.627e-07 ***
+share_college      1.8501e-03  7.0611e-04  2.6202  0.008788 ** 
+car_density        3.4915e-04  1.1950e-04  2.9218  0.003480 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ol start="4" type="a">
+<li>Estimate the summary impacts.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sar.fe.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">sar.fe</span>, listw <span class="op">=</span> <span class="va">listw</span>, time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">years</span><span class="op">)</span>, R <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sar.fe.imp</span>, zstats <span class="op">=</span> <span class="cn">TRUE</span>, short <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (lag, trace):
+                         Direct      Indirect         Total
+gdp_in1000EUR      1.236588e-08  1.076990e-08  2.313578e-08
+unemployment_rate -1.106695e-02 -9.638614e-03 -2.070556e-02
+share_college      1.901619e-03  1.656190e-03  3.557809e-03
+car_density        3.588594e-04  3.125439e-04  6.714033e-04
+========================================================
+Simulation results ( variance matrix):
+========================================================
+Simulated standard errors
+                        Direct     Indirect        Total
+gdp_in1000EUR     1.587679e-09 1.579667e-09 3.087932e-09
+unemployment_rate 2.075012e-03 1.933938e-03 3.952901e-03
+share_college     6.767517e-04 5.980693e-04 1.269948e-03
+car_density       1.251264e-04 1.120048e-04 2.360721e-04
+
+Simulated z-values:
+                     Direct  Indirect     Total
+gdp_in1000EUR      7.823969  6.861401  7.532768
+unemployment_rate -5.388480 -5.045440 -5.297055
+share_college      2.794674  2.758762  2.788486
+car_density        2.904305  2.831952  2.883006
+
+Simulated p-values:
+                  Direct     Indirect   Total     
+gdp_in1000EUR     5.1070e-15 6.8188e-12 4.9738e-14
+unemployment_rate 7.1056e-08 4.5248e-07 1.1769e-07
+share_college     0.0051952  0.0058021  0.0052955 
+car_density       0.0036807  0.0046265  0.0039390 </code></pre>
+</div>
+</div>
+<!-- We use the `WDI` API package to retrieve data from the World Bank. -->
+<!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. -->
+<!-- You can search for indicators with `WDIsearch()`. -->
+<!-- ```{r warning=FALSE} -->
+<!-- library(WDI) -->
+<!-- # Search GDP per capita -->
+<!-- WDIsearch("CO2 intensity") -->
+<!-- # Political Stability -->
+<!-- WDIsearch("Political Stability") -->
+<!-- #  -->
+<!-- WDIsearch("democracy") -->
+<!-- # The Democracy indicator is an additive eleven-point scale (0-10) -->
+<!-- ``` -->
+<!-- ```{r, cache=TRUE} -->
+<!-- # Define countries, indicators to query, and time period -->
+<!-- wd.df <- WDI(country = "all",  -->
+<!--              indicator = c('population' = "SP.POP.TOTL",  -->
+<!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  -->
+<!--                            'co2_pc' = "EN.ATM.CO2E.PC", -->
+<!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", -->
+<!--                            'gini' = "SI.POV.GINI", -->
+<!--                            'political_stability' = "GV.POLI.ST.ES", -->
+<!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), -->
+<!--              extra = TRUE, -->
+<!--              start = 2010, end = 2019) -->
+<!-- # Save -->
+<!-- save(wd.df, file = "_data/WDI_data.RData") -->
+<!-- ``` -->
+<!-- ## Diffusion of political regimes -->
+<!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. -->
+
 
 <!-- -->
 
@@ -843,276 +1246,425 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises IIIb</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tmap"</span>, <span class="st">"viridis"</span>, <span class="st">"viridisLite"</span>, </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"lfe"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inkar data: the effect of regional characteristics on life expectancy</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>Below, we read and transform some characteristics of the <span class="co">[</span><span class="ot">INKAR data</span><span class="co">](https://www.inkar.de/)</span> on the level of German counties.</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- di &lt;- c("_data/") --&gt;</span></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define the downloaded filed --&gt;</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- j &lt;- c("inkar.csv") --&gt;</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- c &lt;- 1 --&gt;</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for(k in j){ --&gt;</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- as.vector(t(read.table(paste0(di, k), nrows = 1, sep = ";")[1,])) --&gt;</span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Clean header --&gt;</span></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- stringi::stri_replace_all_fixed( --&gt;</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     header,  --&gt;</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c("ä", "ö", "ü", "Ä", "Ö", "Ü"),  --&gt;</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c("ae", "oe", "ue", "Ae", "Oe", "Ue"),  --&gt;</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     vectorize_all = FALSE --&gt;</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   ) --&gt;</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- gsub(" ", "", header) --&gt;</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- gsub("\\.", "", header) --&gt;</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- iconv(header, "latin1", "ASCII", sub = "") --&gt;</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Combine with second row header (year) --&gt;</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header2 &lt;- as.vector(t(read.table(paste0(di, k), skip = 1, nrows = 1, sep = ";")[1,])) --&gt;</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header3 &lt;- paste(header, header2, sep = "_") --&gt;</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header3 &lt;- gsub("_NA", "", header3) --&gt;</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   nc &lt;- length(header3) --&gt;</span></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Input and rename data --&gt;</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data &lt;- read.csv(paste0(di, k), skip = 2, header = FALSE, sep = ";",  --&gt;</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                    quote = "\"", dec = ",", stringsAsFactors = F, --&gt;</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                    colClasses = "character") --&gt;</span></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   names(data) &lt;- header3 --&gt;</span></span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data1 &lt;- data --&gt;</span></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Correct character vars (containing thousands separator) --&gt;</span></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   vars &lt;- which(sapply(data1, is.character)) --&gt;</span></span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   vars &lt;- vars[-which(vars %in% c(1:3))] --&gt;</span></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   for(l in vars){ --&gt;</span></span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- gsub("\\.", "", data1[,l]) --&gt;</span></span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- gsub("\\,", ".", data1[,l]) --&gt;</span></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- as.numeric(data1[,l]) --&gt;</span></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   } --&gt;</span></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # #Save --&gt;</span></span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # l &lt;- paste("bearb", k, sep = "_") --&gt;</span></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # write.table(data1, file = l, row.names = FALSE, sep = ";", dec = ".", na = ".") --&gt;</span></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # #Reshape --&gt;</span></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar1 &lt;- unique(header[4:length(header)]) --&gt;</span></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar2 &lt;-  sort(unique(header2[!is.na(header2)])) --&gt;</span></span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # n_vars &lt;- length(helpvar1) --&gt;</span></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # n_times &lt;- length(helpvar2) --&gt;</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar1 &lt;- sort(rep(helpvar1, times = n_times)) --&gt;</span></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar2 &lt;- rep(helpvar2, times = n_vars) --&gt;</span></span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar3 &lt;- paste(helpvar1, helpvar2, sep = "_") --&gt;</span></span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # count &lt;- ncol(data1)+1 --&gt;</span></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # for(v in helpvar3) { --&gt;</span></span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   if(v %in% names(data1)) {} --&gt;</span></span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   else{ --&gt;</span></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     data1[,count] &lt;- NA --&gt;</span></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     colnames(data1)[count] &lt;- v --&gt;</span></span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     count &lt;- count+1 --&gt;</span></span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   } --&gt;</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # } --&gt;</span></span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # data1 &lt;- data1[c(colnames(data1)[1:3], sort(helpvar3))] --&gt;</span></span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #  --&gt;</span></span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # data1 &lt;- reshape(data1, direction = "long", varying = 4:ncol(data1),  --&gt;</span></span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #                  sep = "_") --&gt;</span></span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data.long &lt;- tidyr::pivot_longer(data1,  --&gt;</span></span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   cols = 4:ncol(data1), --&gt;</span></span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   names_to = c(".value", "year"), --&gt;</span></span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   names_pattern = "(.*)_(.*)") --&gt;</span></span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   colnames(data.long) &lt;- substr(colnames(data.long), 1, 30) --&gt;</span></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   if(c == 1){ --&gt;</span></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     inkar.df &lt;- data.long --&gt;</span></span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   }else{ --&gt;</span></span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     inkar.df &lt;- merge(inkar.df, data.long, all.x = TRUE, all.y = TRUE) --&gt;</span></span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   } --&gt;</span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   c &lt;- c+1 --&gt;</span></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- } --&gt;</span></span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- inkar.df$year &lt;- as.numeric(inkar.df$year) --&gt;</span></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- names(inkar.df)[which(names(inkar.df) == "Pkw-Dichte")] &lt;- "pkw_dichte" --&gt;</span></span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(inkar.df, file = "_data/inkar.Rdata") --&gt;</span></span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/inkar2.Rdata"</span>)</span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>Variables are</span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>| Variable | Description |</span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>| ------------                     | ------------ |</span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>| "Kennziffer"                      | ID                                         |</span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>| "Raumeinheit"                     | Name                                       |</span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>| "Aggregat"                        | Level                                      |</span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>| "year"                            | Year                                       |</span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>| "poluation_density"               | Population Density       |</span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>| "median_income"                   | Median Household income (only for 2020)                   |</span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>| "gdp_in1000EUR"                   | Gross Domestic Product in 1000 euros                            |</span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>| "unemployment_rate"               | Unemployment rate                            |</span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>| "share_longterm_unemployed"       | Share of longterm unemployed (among unemployed)                               |</span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>| "share_working_indutry"           | Share of employees in undistrial sector                    |</span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>| "share_foreigners"                | Share of foreign nationals                              |</span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>| "share_college"                   | Share of school-finishers with college degree                              |</span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>| "recreational_space"              | Recreational space per inhabitant                           |</span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>| "car_density"                     | Density of cars                                 |</span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>| "life_expectancy"                 | Life expectancy       |</span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## County shapes</span></span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Please map the life expectancy across Germany {.unnumbered}</span></span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>a) Merge data with the shape file (as with conventional data)</span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>b) Create a map of life-expectancy</span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) Chose some variables that could predict life expectancy. See for instance the [following paper](https://doi.org/10.1073/pnas.2003719117). {.unnumbered}</span></span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Generate a neighbours object (e.g. the 10 nearest neighbours). {.unnumbered}</span></span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts. {.unnumbered}</span></span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5) Calculate the spatial lagged variables for your covariates (e.g. use create_WX(), which needs a non-spatial df as input) . {.unnumbered}</span></span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### 6) Can you run a spatial machine learning model? (for instance, using `randomForest`)? {.unnumbered}</span></span>
-<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Esimate an FE model with SLX specification {.unnumbered}</span></span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>a) Loop over years to generate WX</span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>b) Estimate a twoways FE SLX panel model</span>
-<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>c) Estimate a twoways FE SAR panel model (use <span class="in">`spml()`</span>)</span>
-<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a>d) Estimate the summary impacts.</span>
-<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- We use the `WDI` API package to retrieve data from the World Bank. --&gt;</span></span>
-<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. --&gt;</span></span>
-<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can search for indicators with `WDIsearch()`. --&gt;</span></span>
-<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r warning=FALSE} --&gt;</span></span>
-<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(WDI) --&gt;</span></span>
-<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Search GDP per capita --&gt;</span></span>
-<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("CO2 intensity") --&gt;</span></span>
-<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Political Stability --&gt;</span></span>
-<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("Political Stability") --&gt;</span></span>
-<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #  --&gt;</span></span>
-<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("democracy") --&gt;</span></span>
-<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # The Democracy indicator is an additive eleven-point scale (0-10) --&gt;</span></span>
-<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
-<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r, cache=TRUE} --&gt;</span></span>
-<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define countries, indicators to query, and time period --&gt;</span></span>
-<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- wd.df &lt;- WDI(country = "all",  --&gt;</span></span>
-<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              indicator = c('population' = "SP.POP.TOTL",  --&gt;</span></span>
-<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  --&gt;</span></span>
-<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_pc' = "EN.ATM.CO2E.PC", --&gt;</span></span>
-<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", --&gt;</span></span>
-<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gini' = "SI.POV.GINI", --&gt;</span></span>
-<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'political_stability' = "GV.POLI.ST.ES", --&gt;</span></span>
-<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), --&gt;</span></span>
-<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              extra = TRUE, --&gt;</span></span>
-<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              start = 2010, end = 2019) --&gt;</span></span>
-<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Save --&gt;</span></span>
-<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(wd.df, file = "_data/WDI_data.RData") --&gt;</span></span>
-<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
-<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Diffusion of political regimes --&gt;</span></span>
-<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. --&gt;</span></span>
-<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb34" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises IIIb</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tmap"</span>, <span class="st">"viridis"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"lfe"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inkar data: the effect of regional characteristics on life expectancy</span></span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>Below, we read and transform some characteristics of the <span class="co">[</span><span class="ot">INKAR data</span><span class="co">](https://www.inkar.de/)</span> on the level of German counties.</span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- di &lt;- c("_data/") --&gt;</span></span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define the downloaded filed --&gt;</span></span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- j &lt;- c("inkar.csv") --&gt;</span></span>
+<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- c &lt;- 1 --&gt;</span></span>
+<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for(k in j){ --&gt;</span></span>
+<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- as.vector(t(read.table(paste0(di, k), nrows = 1, sep = ";")[1,])) --&gt;</span></span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Clean header --&gt;</span></span>
+<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- stringi::stri_replace_all_fixed( --&gt;</span></span>
+<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     header,  --&gt;</span></span>
+<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c("ä", "ö", "ü", "Ä", "Ö", "Ü"),  --&gt;</span></span>
+<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c("ae", "oe", "ue", "Ae", "Oe", "Ue"),  --&gt;</span></span>
+<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     vectorize_all = FALSE --&gt;</span></span>
+<span id="cb34-61"><a href="#cb34-61" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   ) --&gt;</span></span>
+<span id="cb34-62"><a href="#cb34-62" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- gsub(" ", "", header) --&gt;</span></span>
+<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- gsub("\\.", "", header) --&gt;</span></span>
+<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header &lt;- iconv(header, "latin1", "ASCII", sub = "") --&gt;</span></span>
+<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Combine with second row header (year) --&gt;</span></span>
+<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header2 &lt;- as.vector(t(read.table(paste0(di, k), skip = 1, nrows = 1, sep = ";")[1,])) --&gt;</span></span>
+<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header3 &lt;- paste(header, header2, sep = "_") --&gt;</span></span>
+<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   header3 &lt;- gsub("_NA", "", header3) --&gt;</span></span>
+<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   nc &lt;- length(header3) --&gt;</span></span>
+<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Input and rename data --&gt;</span></span>
+<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data &lt;- read.csv(paste0(di, k), skip = 2, header = FALSE, sep = ";",  --&gt;</span></span>
+<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                    quote = "\"", dec = ",", stringsAsFactors = F, --&gt;</span></span>
+<span id="cb34-75"><a href="#cb34-75" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                    colClasses = "character") --&gt;</span></span>
+<span id="cb34-76"><a href="#cb34-76" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   names(data) &lt;- header3 --&gt;</span></span>
+<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data1 &lt;- data --&gt;</span></span>
+<span id="cb34-78"><a href="#cb34-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-79"><a href="#cb34-79" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # Correct character vars (containing thousands separator) --&gt;</span></span>
+<span id="cb34-80"><a href="#cb34-80" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   vars &lt;- which(sapply(data1, is.character)) --&gt;</span></span>
+<span id="cb34-81"><a href="#cb34-81" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   vars &lt;- vars[-which(vars %in% c(1:3))] --&gt;</span></span>
+<span id="cb34-82"><a href="#cb34-82" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   for(l in vars){ --&gt;</span></span>
+<span id="cb34-83"><a href="#cb34-83" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- gsub("\\.", "", data1[,l]) --&gt;</span></span>
+<span id="cb34-84"><a href="#cb34-84" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- gsub("\\,", ".", data1[,l]) --&gt;</span></span>
+<span id="cb34-85"><a href="#cb34-85" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     data1[,l] &lt;- as.numeric(data1[,l]) --&gt;</span></span>
+<span id="cb34-86"><a href="#cb34-86" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   } --&gt;</span></span>
+<span id="cb34-87"><a href="#cb34-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-88"><a href="#cb34-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-89"><a href="#cb34-89" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # #Save --&gt;</span></span>
+<span id="cb34-90"><a href="#cb34-90" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # l &lt;- paste("bearb", k, sep = "_") --&gt;</span></span>
+<span id="cb34-91"><a href="#cb34-91" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # write.table(data1, file = l, row.names = FALSE, sep = ";", dec = ".", na = ".") --&gt;</span></span>
+<span id="cb34-92"><a href="#cb34-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-93"><a href="#cb34-93" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # #Reshape --&gt;</span></span>
+<span id="cb34-94"><a href="#cb34-94" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar1 &lt;- unique(header[4:length(header)]) --&gt;</span></span>
+<span id="cb34-95"><a href="#cb34-95" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar2 &lt;-  sort(unique(header2[!is.na(header2)])) --&gt;</span></span>
+<span id="cb34-96"><a href="#cb34-96" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # n_vars &lt;- length(helpvar1) --&gt;</span></span>
+<span id="cb34-97"><a href="#cb34-97" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # n_times &lt;- length(helpvar2) --&gt;</span></span>
+<span id="cb34-98"><a href="#cb34-98" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar1 &lt;- sort(rep(helpvar1, times = n_times)) --&gt;</span></span>
+<span id="cb34-99"><a href="#cb34-99" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar2 &lt;- rep(helpvar2, times = n_vars) --&gt;</span></span>
+<span id="cb34-100"><a href="#cb34-100" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # helpvar3 &lt;- paste(helpvar1, helpvar2, sep = "_") --&gt;</span></span>
+<span id="cb34-101"><a href="#cb34-101" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # count &lt;- ncol(data1)+1 --&gt;</span></span>
+<span id="cb34-102"><a href="#cb34-102" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # for(v in helpvar3) { --&gt;</span></span>
+<span id="cb34-103"><a href="#cb34-103" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   if(v %in% names(data1)) {} --&gt;</span></span>
+<span id="cb34-104"><a href="#cb34-104" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   else{ --&gt;</span></span>
+<span id="cb34-105"><a href="#cb34-105" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     data1[,count] &lt;- NA --&gt;</span></span>
+<span id="cb34-106"><a href="#cb34-106" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     colnames(data1)[count] &lt;- v --&gt;</span></span>
+<span id="cb34-107"><a href="#cb34-107" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #     count &lt;- count+1 --&gt;</span></span>
+<span id="cb34-108"><a href="#cb34-108" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #   } --&gt;</span></span>
+<span id="cb34-109"><a href="#cb34-109" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # } --&gt;</span></span>
+<span id="cb34-110"><a href="#cb34-110" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # data1 &lt;- data1[c(colnames(data1)[1:3], sort(helpvar3))] --&gt;</span></span>
+<span id="cb34-111"><a href="#cb34-111" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #  --&gt;</span></span>
+<span id="cb34-112"><a href="#cb34-112" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # data1 &lt;- reshape(data1, direction = "long", varying = 4:ncol(data1),  --&gt;</span></span>
+<span id="cb34-113"><a href="#cb34-113" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   #                  sep = "_") --&gt;</span></span>
+<span id="cb34-114"><a href="#cb34-114" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   data.long &lt;- tidyr::pivot_longer(data1,  --&gt;</span></span>
+<span id="cb34-115"><a href="#cb34-115" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   cols = 4:ncol(data1), --&gt;</span></span>
+<span id="cb34-116"><a href="#cb34-116" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   names_to = c(".value", "year"), --&gt;</span></span>
+<span id="cb34-117"><a href="#cb34-117" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                                   names_pattern = "(.*)_(.*)") --&gt;</span></span>
+<span id="cb34-118"><a href="#cb34-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-119"><a href="#cb34-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-120"><a href="#cb34-120" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   colnames(data.long) &lt;- substr(colnames(data.long), 1, 30) --&gt;</span></span>
+<span id="cb34-121"><a href="#cb34-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-122"><a href="#cb34-122" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   if(c == 1){ --&gt;</span></span>
+<span id="cb34-123"><a href="#cb34-123" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     inkar.df &lt;- data.long --&gt;</span></span>
+<span id="cb34-124"><a href="#cb34-124" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   }else{ --&gt;</span></span>
+<span id="cb34-125"><a href="#cb34-125" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     inkar.df &lt;- merge(inkar.df, data.long, all.x = TRUE, all.y = TRUE) --&gt;</span></span>
+<span id="cb34-126"><a href="#cb34-126" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   } --&gt;</span></span>
+<span id="cb34-127"><a href="#cb34-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-128"><a href="#cb34-128" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   c &lt;- c+1 --&gt;</span></span>
+<span id="cb34-129"><a href="#cb34-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-130"><a href="#cb34-130" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- } --&gt;</span></span>
+<span id="cb34-131"><a href="#cb34-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-132"><a href="#cb34-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-133"><a href="#cb34-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-134"><a href="#cb34-134" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- inkar.df$year &lt;- as.numeric(inkar.df$year) --&gt;</span></span>
+<span id="cb34-135"><a href="#cb34-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-136"><a href="#cb34-136" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- names(inkar.df)[which(names(inkar.df) == "Pkw-Dichte")] &lt;- "pkw_dichte" --&gt;</span></span>
+<span id="cb34-137"><a href="#cb34-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-138"><a href="#cb34-138" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(inkar.df, file = "_data/inkar.Rdata") --&gt;</span></span>
+<span id="cb34-139"><a href="#cb34-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-140"><a href="#cb34-140" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb34-141"><a href="#cb34-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-144"><a href="#cb34-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-145"><a href="#cb34-145" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/inkar2.Rdata"</span>)</span>
+<span id="cb34-146"><a href="#cb34-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-147"><a href="#cb34-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-148"><a href="#cb34-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-149"><a href="#cb34-149" aria-hidden="true" tabindex="-1"></a>Variables are</span>
+<span id="cb34-150"><a href="#cb34-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-151"><a href="#cb34-151" aria-hidden="true" tabindex="-1"></a>| Variable | Description |</span>
+<span id="cb34-152"><a href="#cb34-152" aria-hidden="true" tabindex="-1"></a>| ------------                     | ------------ |</span>
+<span id="cb34-153"><a href="#cb34-153" aria-hidden="true" tabindex="-1"></a>| "Kennziffer"                      | ID                                         |</span>
+<span id="cb34-154"><a href="#cb34-154" aria-hidden="true" tabindex="-1"></a>| "Raumeinheit"                     | Name                                       |</span>
+<span id="cb34-155"><a href="#cb34-155" aria-hidden="true" tabindex="-1"></a>| "Aggregat"                        | Level                                      |</span>
+<span id="cb34-156"><a href="#cb34-156" aria-hidden="true" tabindex="-1"></a>| "year"                            | Year                                       |</span>
+<span id="cb34-157"><a href="#cb34-157" aria-hidden="true" tabindex="-1"></a>| "poluation_density"               | Population Density       |</span>
+<span id="cb34-158"><a href="#cb34-158" aria-hidden="true" tabindex="-1"></a>| "median_income"                   | Median Household income (only for 2020)                   |</span>
+<span id="cb34-159"><a href="#cb34-159" aria-hidden="true" tabindex="-1"></a>| "gdp_in1000EUR"                   | Gross Domestic Product in 1000 euros                            |</span>
+<span id="cb34-160"><a href="#cb34-160" aria-hidden="true" tabindex="-1"></a>| "unemployment_rate"               | Unemployment rate                            |</span>
+<span id="cb34-161"><a href="#cb34-161" aria-hidden="true" tabindex="-1"></a>| "share_longterm_unemployed"       | Share of longterm unemployed (among unemployed)                               |</span>
+<span id="cb34-162"><a href="#cb34-162" aria-hidden="true" tabindex="-1"></a>| "share_working_indutry"           | Share of employees in undistrial sector                    |</span>
+<span id="cb34-163"><a href="#cb34-163" aria-hidden="true" tabindex="-1"></a>| "share_foreigners"                | Share of foreign nationals                              |</span>
+<span id="cb34-164"><a href="#cb34-164" aria-hidden="true" tabindex="-1"></a>| "share_college"                   | Share of school-finishers with college degree                              |</span>
+<span id="cb34-165"><a href="#cb34-165" aria-hidden="true" tabindex="-1"></a>| "recreational_space"              | Recreational space per inhabitant                           |</span>
+<span id="cb34-166"><a href="#cb34-166" aria-hidden="true" tabindex="-1"></a>| "car_density"                     | Density of cars                                 |</span>
+<span id="cb34-167"><a href="#cb34-167" aria-hidden="true" tabindex="-1"></a>| "life_expectancy"                 | Life expectancy       |</span>
+<span id="cb34-168"><a href="#cb34-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-169"><a href="#cb34-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-170"><a href="#cb34-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## County shapes</span></span>
+<span id="cb34-171"><a href="#cb34-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-174"><a href="#cb34-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-175"><a href="#cb34-175" aria-hidden="true" tabindex="-1"></a>kreise.spdf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="at">dsn =</span> <span class="st">"_data/vg5000_ebenen_1231"</span>,</span>
+<span id="cb34-176"><a href="#cb34-176" aria-hidden="true" tabindex="-1"></a>                       <span class="at">layer =</span> <span class="st">"VG5000_KRS"</span>)</span>
+<span id="cb34-177"><a href="#cb34-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-178"><a href="#cb34-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-179"><a href="#cb34-179" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Please map the life expectancy across Germany {.unnumbered}</span></span>
+<span id="cb34-180"><a href="#cb34-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-181"><a href="#cb34-181" aria-hidden="true" tabindex="-1"></a>a) Merge data with the shape file (as with conventional data)</span>
+<span id="cb34-182"><a href="#cb34-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-185"><a href="#cb34-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-186"><a href="#cb34-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb34-187"><a href="#cb34-187" aria-hidden="true" tabindex="-1"></a>inkar_2020.spdf <span class="ot">&lt;-</span> <span class="fu">merge</span>(kreise.spdf, inkar.df[inkar.df<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2020</span>, ], </span>
+<span id="cb34-188"><a href="#cb34-188" aria-hidden="true" tabindex="-1"></a>                         <span class="at">by.x =</span> <span class="st">"AGS"</span>, <span class="at">by.y =</span> <span class="st">"Kennziffer"</span>)</span>
+<span id="cb34-189"><a href="#cb34-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-190"><a href="#cb34-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-191"><a href="#cb34-191" aria-hidden="true" tabindex="-1"></a>b) Create a map of life-expectancy</span>
+<span id="cb34-192"><a href="#cb34-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-195"><a href="#cb34-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-196"><a href="#cb34-196" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">viridis</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">option =</span> <span class="st">"G"</span>)</span>
+<span id="cb34-197"><a href="#cb34-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-198"><a href="#cb34-198" aria-hidden="true" tabindex="-1"></a>mp1 <span class="ot">&lt;-</span>  <span class="fu">ggplot</span>(<span class="at">data =</span> inkar_2020.spdf) <span class="sc">+</span></span>
+<span id="cb34-199"><a href="#cb34-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> life_expectancy), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb34-200"><a href="#cb34-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb34-201"><a href="#cb34-201" aria-hidden="true" tabindex="-1"></a>    <span class="at">colours =</span> cols,  <span class="co"># your custom palette</span></span>
+<span id="cb34-202"><a href="#cb34-202" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"in years"</span>,</span>
+<span id="cb34-203"><a href="#cb34-203" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"grey90"</span></span>
+<span id="cb34-204"><a href="#cb34-204" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-205"><a href="#cb34-205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Life expectancy"</span>) <span class="sc">+</span></span>
+<span id="cb34-206"><a href="#cb34-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb34-207"><a href="#cb34-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb34-208"><a href="#cb34-208" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb34-209"><a href="#cb34-209" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb34-210"><a href="#cb34-210" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb34-211"><a href="#cb34-211" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb34-212"><a href="#cb34-212" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb34-213"><a href="#cb34-213" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb34-214"><a href="#cb34-214" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb34-215"><a href="#cb34-215" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-216"><a href="#cb34-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-217"><a href="#cb34-217" aria-hidden="true" tabindex="-1"></a>mp1</span>
+<span id="cb34-218"><a href="#cb34-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-219"><a href="#cb34-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-220"><a href="#cb34-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-221"><a href="#cb34-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) Chose some variables that could predict life expectancy. See for instance the [following paper](https://doi.org/10.1073/pnas.2003719117). {.unnumbered}</span></span>
+<span id="cb34-222"><a href="#cb34-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-223"><a href="#cb34-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-224"><a href="#cb34-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Generate a neighbours object (e.g. the 10 nearest neighbours). {.unnumbered}</span></span>
+<span id="cb34-225"><a href="#cb34-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-228"><a href="#cb34-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-229"><a href="#cb34-229" aria-hidden="true" tabindex="-1"></a><span class="co"># nb &lt;- poly2nb(kreise.spdf, row.names = "ags", queen = TRUE)</span></span>
+<span id="cb34-230"><a href="#cb34-230" aria-hidden="true" tabindex="-1"></a>knn <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(<span class="fu">st_centroid</span>(kreise.spdf), <span class="at">k =</span> <span class="dv">10</span>)</span>
+<span id="cb34-231"><a href="#cb34-231" aria-hidden="true" tabindex="-1"></a>nb <span class="ot">&lt;-</span> <span class="fu">knn2nb</span>(knn, <span class="at">row.names =</span> kreise.spdf<span class="sc">$</span>ags)</span>
+<span id="cb34-232"><a href="#cb34-232" aria-hidden="true" tabindex="-1"></a>listw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb34-233"><a href="#cb34-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-234"><a href="#cb34-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-235"><a href="#cb34-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-236"><a href="#cb34-236" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts. {.unnumbered}</span></span>
+<span id="cb34-237"><a href="#cb34-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-238"><a href="#cb34-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-241"><a href="#cb34-241" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-242"><a href="#cb34-242" aria-hidden="true" tabindex="-1"></a><span class="do">### Use a spatial Durbin Error model</span></span>
+<span id="cb34-243"><a href="#cb34-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-244"><a href="#cb34-244" aria-hidden="true" tabindex="-1"></a><span class="co"># Spec formula</span></span>
+<span id="cb34-245"><a href="#cb34-245" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> life_expectancy <span class="sc">~</span> median_income <span class="sc">+</span> unemployment_rate <span class="sc">+</span> share_college <span class="sc">+</span> car_density</span>
+<span id="cb34-246"><a href="#cb34-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-247"><a href="#cb34-247" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate error model with Durbin = TRUE </span></span>
+<span id="cb34-248"><a href="#cb34-248" aria-hidden="true" tabindex="-1"></a>mod_1.durb <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(fm,  </span>
+<span id="cb34-249"><a href="#cb34-249" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> inkar_2020.spdf, </span>
+<span id="cb34-250"><a href="#cb34-250" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> listw,</span>
+<span id="cb34-251"><a href="#cb34-251" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-252"><a href="#cb34-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-253"><a href="#cb34-253" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durb)</span>
+<span id="cb34-254"><a href="#cb34-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-255"><a href="#cb34-255" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate impacts (which is unnecessary in this case)</span></span>
+<span id="cb34-256"><a href="#cb34-256" aria-hidden="true" tabindex="-1"></a>mod_1.durb.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.durb, <span class="at">listw =</span> listw, <span class="at">R =</span> <span class="dv">300</span>)</span>
+<span id="cb34-257"><a href="#cb34-257" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durb.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-258"><a href="#cb34-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-259"><a href="#cb34-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-260"><a href="#cb34-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-261"><a href="#cb34-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-262"><a href="#cb34-262" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5) Calculate the spatial lagged variables for your covariates (e.g. use create_WX(), which needs a non-spatial df as input) . {.unnumbered}</span></span>
+<span id="cb34-263"><a href="#cb34-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-264"><a href="#cb34-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-267"><a href="#cb34-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-268"><a href="#cb34-268" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract covariate names</span></span>
+<span id="cb34-269"><a href="#cb34-269" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> <span class="fu">attr</span>(<span class="fu">terms</span>(fm),<span class="st">"term.labels"</span>)</span>
+<span id="cb34-270"><a href="#cb34-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-271"><a href="#cb34-271" aria-hidden="true" tabindex="-1"></a>w_vars <span class="ot">&lt;-</span> <span class="fu">create_WX</span>(<span class="fu">st_drop_geometry</span>(inkar_2020.spdf)[, covars],</span>
+<span id="cb34-272"><a href="#cb34-272" aria-hidden="true" tabindex="-1"></a>                    <span class="at">listw =</span> listw,</span>
+<span id="cb34-273"><a href="#cb34-273" aria-hidden="true" tabindex="-1"></a>                    <span class="at">prefix =</span> <span class="st">"w"</span>)</span>
+<span id="cb34-274"><a href="#cb34-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-275"><a href="#cb34-275" aria-hidden="true" tabindex="-1"></a>inkar_2020.spdf <span class="ot">&lt;-</span> <span class="fu">cbind</span>(inkar_2020.spdf, w_vars)</span>
+<span id="cb34-276"><a href="#cb34-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-277"><a href="#cb34-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-278"><a href="#cb34-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-279"><a href="#cb34-279" aria-hidden="true" tabindex="-1"></a><span class="fu">### 6) Can you run a spatial machine learning model? (for instance, using `randomForest`)? {.unnumbered}</span></span>
+<span id="cb34-280"><a href="#cb34-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-283"><a href="#cb34-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-284"><a href="#cb34-284" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb34-285"><a href="#cb34-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-286"><a href="#cb34-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Train</span></span>
+<span id="cb34-287"><a href="#cb34-287" aria-hidden="true" tabindex="-1"></a>rf.mod <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(life_expectancy <span class="sc">~</span> median_income <span class="sc">+</span> unemployment_rate <span class="sc">+</span> share_college <span class="sc">+</span> car_density <span class="sc">+</span></span>
+<span id="cb34-288"><a href="#cb34-288" aria-hidden="true" tabindex="-1"></a>                         w.median_income <span class="sc">+</span> w.unemployment_rate <span class="sc">+</span> w.share_college <span class="sc">+</span> w.car_density,</span>
+<span id="cb34-289"><a href="#cb34-289" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> <span class="fu">st_drop_geometry</span>(inkar_2020.spdf), </span>
+<span id="cb34-290"><a href="#cb34-290" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ntree =</span> <span class="dv">1000</span>,</span>
+<span id="cb34-291"><a href="#cb34-291" aria-hidden="true" tabindex="-1"></a>                       <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-292"><a href="#cb34-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-293"><a href="#cb34-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the mechanics of the model</span></span>
+<span id="cb34-294"><a href="#cb34-294" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf.mod)</span>
+<span id="cb34-295"><a href="#cb34-295" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf.mod)</span>
+<span id="cb34-296"><a href="#cb34-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-297"><a href="#cb34-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-298"><a href="#cb34-298" aria-hidden="true" tabindex="-1"></a>You could even go further and use higher order neighbours (e.g. <span class="in">`nblag(queens.nb, maxlag = 3)`</span>) to check the importance of direct neighbours and the neighbours neighbours and so on ...</span>
+<span id="cb34-299"><a href="#cb34-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-300"><a href="#cb34-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-301"><a href="#cb34-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-302"><a href="#cb34-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-303"><a href="#cb34-303" aria-hidden="true" tabindex="-1"></a><span class="fu">## Esimate an FE model with SLX specification </span></span>
+<span id="cb34-304"><a href="#cb34-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-305"><a href="#cb34-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-306"><a href="#cb34-306" aria-hidden="true" tabindex="-1"></a>a) Loops over years to generate WX</span>
+<span id="cb34-307"><a href="#cb34-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-310"><a href="#cb34-310" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-311"><a href="#cb34-311" aria-hidden="true" tabindex="-1"></a><span class="co"># We use gdp instead of median income (which is only available in recent year)</span></span>
+<span id="cb34-312"><a href="#cb34-312" aria-hidden="true" tabindex="-1"></a>fm <span class="ot">&lt;-</span> life_expectancy <span class="sc">~</span> gdp_in1000EUR <span class="sc">+</span> unemployment_rate <span class="sc">+</span> share_college <span class="sc">+</span> car_density</span>
+<span id="cb34-313"><a href="#cb34-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-314"><a href="#cb34-314" aria-hidden="true" tabindex="-1"></a><span class="co"># All years where we have a balanced sample</span></span>
+<span id="cb34-315"><a href="#cb34-315" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">unique</span>(inkar.df<span class="sc">$</span>year[<span class="fu">which</span>(<span class="fu">complete.cases</span>(inkar.df[, <span class="fu">all.vars</span>(fm)]))])</span>
+<span id="cb34-316"><a href="#cb34-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-317"><a href="#cb34-317" aria-hidden="true" tabindex="-1"></a><span class="co"># All variables we want ot lag</span></span>
+<span id="cb34-318"><a href="#cb34-318" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">all.vars</span>(fm)</span>
+<span id="cb34-319"><a href="#cb34-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-320"><a href="#cb34-320" aria-hidden="true" tabindex="-1"></a><span class="co"># create listw with the correct rownames (ID = Kennziffer)</span></span>
+<span id="cb34-321"><a href="#cb34-321" aria-hidden="true" tabindex="-1"></a>kreise.spdf<span class="sc">$</span>Kennziffer <span class="ot">&lt;-</span> kreise.spdf<span class="sc">$</span>ags</span>
+<span id="cb34-322"><a href="#cb34-322" aria-hidden="true" tabindex="-1"></a>knn <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(<span class="fu">st_centroid</span>(kreise.spdf), <span class="at">k =</span> <span class="dv">10</span>)</span>
+<span id="cb34-323"><a href="#cb34-323" aria-hidden="true" tabindex="-1"></a>nb <span class="ot">&lt;-</span> <span class="fu">knn2nb</span>(knn, <span class="at">row.names =</span> kreise.spdf<span class="sc">$</span>Kennziffer)</span>
+<span id="cb34-324"><a href="#cb34-324" aria-hidden="true" tabindex="-1"></a>listw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb34-325"><a href="#cb34-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-326"><a href="#cb34-326" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(y <span class="cf">in</span> years){</span>
+<span id="cb34-327"><a href="#cb34-327" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select singe year</span></span>
+<span id="cb34-328"><a href="#cb34-328" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> inkar.df[inkar.df<span class="sc">$</span>year <span class="sc">==</span> y ,]</span>
+<span id="cb34-329"><a href="#cb34-329" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select variables and make df</span></span>
+<span id="cb34-330"><a href="#cb34-330" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(tmp[, vars])</span>
+<span id="cb34-331"><a href="#cb34-331" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add ID as rownames (we retreive them again later)</span></span>
+<span id="cb34-332"><a href="#cb34-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(x) <span class="ot">&lt;-</span> tmp<span class="sc">$</span>Kennziffer</span>
+<span id="cb34-333"><a href="#cb34-333" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform lag transformation (rownames contian ids)</span></span>
+<span id="cb34-334"><a href="#cb34-334" aria-hidden="true" tabindex="-1"></a>  w.tmp <span class="ot">&lt;-</span> <span class="fu">create_WX</span>(<span class="fu">as.matrix</span>(x),</span>
+<span id="cb34-335"><a href="#cb34-335" aria-hidden="true" tabindex="-1"></a>                    <span class="at">listw =</span> listw,</span>
+<span id="cb34-336"><a href="#cb34-336" aria-hidden="true" tabindex="-1"></a>                    <span class="at">prefix =</span> <span class="st">"w"</span>,</span>
+<span id="cb34-337"><a href="#cb34-337" aria-hidden="true" tabindex="-1"></a>                    <span class="at">zero.policy =</span> <span class="cn">TRUE</span>) <span class="co"># NAs will get zero</span></span>
+<span id="cb34-338"><a href="#cb34-338" aria-hidden="true" tabindex="-1"></a>  w.tmp <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(w.tmp)</span>
+<span id="cb34-339"><a href="#cb34-339" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-340"><a href="#cb34-340" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add indices back</span></span>
+<span id="cb34-341"><a href="#cb34-341" aria-hidden="true" tabindex="-1"></a>  w.tmp<span class="sc">$</span>Kennziffer <span class="ot">&lt;-</span> <span class="fu">row.names</span>(w.tmp)</span>
+<span id="cb34-342"><a href="#cb34-342" aria-hidden="true" tabindex="-1"></a>  w.tmp<span class="sc">$</span>year <span class="ot">&lt;-</span> y</span>
+<span id="cb34-343"><a href="#cb34-343" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-344"><a href="#cb34-344" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(y <span class="sc">==</span> years[<span class="dv">1</span>]){</span>
+<span id="cb34-345"><a href="#cb34-345" aria-hidden="true" tabindex="-1"></a>    w.inkar.df <span class="ot">&lt;-</span> w.tmp</span>
+<span id="cb34-346"><a href="#cb34-346" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb34-347"><a href="#cb34-347" aria-hidden="true" tabindex="-1"></a>    w.inkar.df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(w.inkar.df, w.tmp)</span>
+<span id="cb34-348"><a href="#cb34-348" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-349"><a href="#cb34-349" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-350"><a href="#cb34-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-351"><a href="#cb34-351" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(w.inkar.df)</span>
+<span id="cb34-352"><a href="#cb34-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-353"><a href="#cb34-353" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge back </span></span>
+<span id="cb34-354"><a href="#cb34-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-355"><a href="#cb34-355" aria-hidden="true" tabindex="-1"></a>inkar.df <span class="ot">&lt;-</span> <span class="fu">merge</span>(inkar.df, w.inkar.df, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Kennziffer"</span>, <span class="st">"year"</span>))</span>
+<span id="cb34-356"><a href="#cb34-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-357"><a href="#cb34-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-358"><a href="#cb34-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-359"><a href="#cb34-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-360"><a href="#cb34-360" aria-hidden="true" tabindex="-1"></a>b) Estimate a twoways FE SLX panel model</span>
+<span id="cb34-361"><a href="#cb34-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-364"><a href="#cb34-364" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-365"><a href="#cb34-365" aria-hidden="true" tabindex="-1"></a>slx.fe <span class="ot">&lt;-</span> <span class="fu">felm</span>(life_expectancy <span class="sc">~</span> gdp_in1000EUR <span class="sc">+</span> unemployment_rate <span class="sc">+</span> share_college <span class="sc">+</span> car_density <span class="sc">+</span></span>
+<span id="cb34-366"><a href="#cb34-366" aria-hidden="true" tabindex="-1"></a>                 w.gdp_in1000EUR <span class="sc">+</span> w.unemployment_rate <span class="sc">+</span> w.share_college <span class="sc">+</span> w.car_density</span>
+<span id="cb34-367"><a href="#cb34-367" aria-hidden="true" tabindex="-1"></a>                <span class="sc">|</span> Kennziffer <span class="sc">+</span> year <span class="sc">|</span> <span class="dv">0</span> <span class="sc">|</span> Kennziffer,</span>
+<span id="cb34-368"><a href="#cb34-368" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> inkar.df)</span>
+<span id="cb34-369"><a href="#cb34-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-370"><a href="#cb34-370" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(slx.fe)</span>
+<span id="cb34-371"><a href="#cb34-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-372"><a href="#cb34-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-373"><a href="#cb34-373" aria-hidden="true" tabindex="-1"></a>c) Estimate a twoways FE SAR panel model (use <span class="in">`spml()`</span>)</span>
+<span id="cb34-374"><a href="#cb34-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-377"><a href="#cb34-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-378"><a href="#cb34-378" aria-hidden="true" tabindex="-1"></a><span class="do">### Estimate model</span></span>
+<span id="cb34-379"><a href="#cb34-379" aria-hidden="true" tabindex="-1"></a>sar.fe <span class="ot">&lt;-</span> <span class="fu">spml</span>(life_expectancy <span class="sc">~</span> gdp_in1000EUR <span class="sc">+</span> unemployment_rate <span class="sc">+</span> share_college <span class="sc">+</span> car_density, </span>
+<span id="cb34-380"><a href="#cb34-380" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> inkar.df, </span>
+<span id="cb34-381"><a href="#cb34-381" aria-hidden="true" tabindex="-1"></a>               <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"Kennziffer"</span>, <span class="st">"year"</span>), </span>
+<span id="cb34-382"><a href="#cb34-382" aria-hidden="true" tabindex="-1"></a>               <span class="at">listw =</span> listw, </span>
+<span id="cb34-383"><a href="#cb34-383" aria-hidden="true" tabindex="-1"></a>               <span class="at">model=</span> <span class="st">"within"</span>,</span>
+<span id="cb34-384"><a href="#cb34-384" aria-hidden="true" tabindex="-1"></a>               <span class="at">effect=</span> <span class="st">"twoways"</span>,</span>
+<span id="cb34-385"><a href="#cb34-385" aria-hidden="true" tabindex="-1"></a>               <span class="at">lag =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb34-386"><a href="#cb34-386" aria-hidden="true" tabindex="-1"></a>               <span class="at">spatial.error =</span> <span class="st">"none"</span></span>
+<span id="cb34-387"><a href="#cb34-387" aria-hidden="true" tabindex="-1"></a>               )</span>
+<span id="cb34-388"><a href="#cb34-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-389"><a href="#cb34-389" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sar.fe)</span>
+<span id="cb34-390"><a href="#cb34-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-391"><a href="#cb34-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-392"><a href="#cb34-392" aria-hidden="true" tabindex="-1"></a>d) Estimate the summary impacts.</span>
+<span id="cb34-393"><a href="#cb34-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-396"><a href="#cb34-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-397"><a href="#cb34-397" aria-hidden="true" tabindex="-1"></a>sar.fe.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(sar.fe, <span class="at">listw =</span> listw, <span class="at">time =</span> <span class="fu">length</span>(years), <span class="at">R =</span> <span class="dv">200</span>)</span>
+<span id="cb34-398"><a href="#cb34-398" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sar.fe.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-399"><a href="#cb34-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-400"><a href="#cb34-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-401"><a href="#cb34-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-402"><a href="#cb34-402" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- We use the `WDI` API package to retrieve data from the World Bank. --&gt;</span></span>
+<span id="cb34-403"><a href="#cb34-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-404"><a href="#cb34-404" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can open the [World Bank Data browser](https://databank.worldbank.org/home.aspx) to go though the data. --&gt;</span></span>
+<span id="cb34-405"><a href="#cb34-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-406"><a href="#cb34-406" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You can search for indicators with `WDIsearch()`. --&gt;</span></span>
+<span id="cb34-407"><a href="#cb34-407" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r warning=FALSE} --&gt;</span></span>
+<span id="cb34-408"><a href="#cb34-408" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(WDI) --&gt;</span></span>
+<span id="cb34-409"><a href="#cb34-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-410"><a href="#cb34-410" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Search GDP per capita --&gt;</span></span>
+<span id="cb34-411"><a href="#cb34-411" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("CO2 intensity") --&gt;</span></span>
+<span id="cb34-412"><a href="#cb34-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-413"><a href="#cb34-413" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Political Stability --&gt;</span></span>
+<span id="cb34-414"><a href="#cb34-414" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("Political Stability") --&gt;</span></span>
+<span id="cb34-415"><a href="#cb34-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-416"><a href="#cb34-416" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #  --&gt;</span></span>
+<span id="cb34-417"><a href="#cb34-417" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- WDIsearch("democracy") --&gt;</span></span>
+<span id="cb34-418"><a href="#cb34-418" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # The Democracy indicator is an additive eleven-point scale (0-10) --&gt;</span></span>
+<span id="cb34-419"><a href="#cb34-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-420"><a href="#cb34-420" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb34-421"><a href="#cb34-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-422"><a href="#cb34-422" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r, cache=TRUE} --&gt;</span></span>
+<span id="cb34-423"><a href="#cb34-423" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Define countries, indicators to query, and time period --&gt;</span></span>
+<span id="cb34-424"><a href="#cb34-424" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- wd.df &lt;- WDI(country = "all",  --&gt;</span></span>
+<span id="cb34-425"><a href="#cb34-425" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              indicator = c('population' = "SP.POP.TOTL",  --&gt;</span></span>
+<span id="cb34-426"><a href="#cb34-426" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gdp_pc' = "NY.GDP.PCAP.KD",  --&gt;</span></span>
+<span id="cb34-427"><a href="#cb34-427" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_pc' = "EN.ATM.CO2E.PC", --&gt;</span></span>
+<span id="cb34-428"><a href="#cb34-428" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'co2_intesity' = "EN.ATM.CO2E.EG.ZS", --&gt;</span></span>
+<span id="cb34-429"><a href="#cb34-429" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'gini' = "SI.POV.GINI", --&gt;</span></span>
+<span id="cb34-430"><a href="#cb34-430" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'political_stability' = "GV.POLI.ST.ES", --&gt;</span></span>
+<span id="cb34-431"><a href="#cb34-431" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                            'inst_democr' = "UPP.INS.DEMO.XQ"), --&gt;</span></span>
+<span id="cb34-432"><a href="#cb34-432" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              extra = TRUE, --&gt;</span></span>
+<span id="cb34-433"><a href="#cb34-433" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--              start = 2010, end = 2019) --&gt;</span></span>
+<span id="cb34-434"><a href="#cb34-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-435"><a href="#cb34-435" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Save --&gt;</span></span>
+<span id="cb34-436"><a href="#cb34-436" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- save(wd.df, file = "_data/WDI_data.RData") --&gt;</span></span>
+<span id="cb34-437"><a href="#cb34-437" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb34-438"><a href="#cb34-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-439"><a href="#cb34-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-440"><a href="#cb34-440" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Diffusion of political regimes --&gt;</span></span>
+<span id="cb34-441"><a href="#cb34-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-442"><a href="#cb34-442" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- See for instance @Gleditsch.2006 for an example for the diffusion of democratization. --&gt;</span></span>
+<span id="cb34-443"><a href="#cb34-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-444"><a href="#cb34-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-445"><a href="#cb34-445" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

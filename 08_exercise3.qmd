@@ -83,29 +83,81 @@ summary(mod_1.sar)
 
 The multiplier matrix is given by $({\bm I_N}-\rho {\bm W})^{-1}$.
 
+```{r}
+W <- listw2mat(dist_15.lw)
+I <- diag(dim(W)[1])
 
+rho <- unname(mod_1.sar$rho)
+
+M <- solve(I - rho*W)
+
+M[1:10, 1:10]
+```
 
 
 ### 2) Create an N x N effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8? {.unnumbered}
 
 
+```{r}
+# For beta 1
 
+beta <- mod_1.sar$coefficients
+
+effM <- beta["per_nonEU"] * M
+
+effM[1:10, 1:10]
+
+# "Effect" of unit 6 on unit 10
+effM[10, 6]
+
+# "Effect" of unit 5 on unit 8
+effM[8, 5]
+```
 
 
 ### 3) Calculate and interpret the summary impact measures of the SAR model. {.unnumbered}
 
 
-
+```{r}
+mod_1.sar.imp <- impacts(mod_1.sar, listw = dist_15.lw, R = 300)
+summary(mod_1.sar.imp)
+```
 
 
 ### 4) Is SAR the right model choice or would you rather estimate a different model? Please run a Durbin model and caculate its impact summary measures {.unnumbered}
 
 
+```{r}
+# Spatial Dubrbin model
+mod_1.durb <- lagsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = TRUE)
 
+summary(mod_1.durb)
+
+# Impact measures of the Durbin Error model
+mod_1.durb.imp <- impacts(mod_1.durb, listw = dist_15.lw, R = 300)
+summary(mod_1.durb.imp, zstats = TRUE, short = TRUE)
+```
 
 
 ### 5) Please repeat with a Durbin Error model. Why are the impacts here identical to the coefficients? {.unnumbered}
 
+```{r}
+# Spatial Dubrbin model
+mod_1.durbe <- errorsarlm(log(no2) ~ per_mixed + per_asian + per_black + per_other
+                      + per_nonUK_EU + per_nonEU + log(POPDEN),  
+                      data = msoa.spdf, 
+                      listw = dist_15.lw,
+                      Durbin = TRUE)
 
+summary(mod_1.durbe)
+
+# Impact measures of the Durbin model
+mod_1.durbe.imp <- impacts(mod_1.durbe, listw = dist_15.lw, R = 300)
+summary(mod_1.durbe.imp, zstats = TRUE, short = TRUE)
+```
 
 

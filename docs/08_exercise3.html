@@ -484,10 +484,389 @@ test value: 108.97, p-value: &lt; 2.22e-16</code></pre>
 </div>
 <section id="please-calculate-the-true-multiplier-matrix-of-this-sar-model." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="please-calculate-the-true-multiplier-matrix-of-this-sar-model.">1) Please calculate the true multiplier matrix of this SAR model.</h3>
 <p>The multiplier matrix is given by <span class="math inline">\(({\bm I_N}-\rho {\bm W})^{-1}\)</span>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu">listw2mat</span><span class="op">(</span><span class="va">dist_15.lw</span><span class="op">)</span></span>
+<span><span class="va">I</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">W</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="va">mod_1.sar</span><span class="op">$</span><span class="va">rho</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span><span class="op">*</span><span class="va">W</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">M</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             1           2           3           4           5
+1  1.164650997 0.002433319 0.004089559 0.004034508 0.006545994
+2  0.010706605 1.407336301 0.643881932 0.370049927 0.464794934
+3  0.011246286 0.402426207 1.474021599 0.429011868 0.641526285
+4  0.008875918 0.185024963 0.343209495 1.684533322 0.614086824
+5  0.012000989 0.193664556 0.427684190 0.511739020 1.560840834
+6  0.010741524 0.192552594 0.452940016 0.631452476 0.672787841
+7  0.012779708 0.141953871 0.299247377 0.418234186 0.616895800
+8  0.014769006 0.125781189 0.253122442 0.295553039 0.500919513
+9  0.011708131 0.147549264 0.309080773 0.568442619 0.629156269
+10 0.009937859 0.152900148 0.306652041 0.727001926 0.553973310
+             6           7          8           9          10
+1  0.004882511 0.005808958 0.00872714 0.005854065 0.003613767
+2  0.385105188 0.283907742 0.32703109 0.324608380 0.244640237
+3  0.566175019 0.374059222 0.41132397 0.424986063 0.306652041
+4  0.631452476 0.418234186 0.38421895 0.625286881 0.581601541
+5  0.560656534 0.514079833 0.54266281 0.576726580 0.369315540
+6  1.571175245 0.558170218 0.46513922 0.661184961 0.543820047
+7  0.558170218 1.475511568 0.58520461 0.614170880 0.463886540
+8  0.357799398 0.450157392 1.46638195 0.474994894 0.272339890
+9  0.601077237 0.558337164 0.56135760 1.581077095 0.517983092
+10 0.679775059 0.579858175 0.44255232 0.712226751 1.560083138</code></pre>
+</div>
+</div>
 </section><section id="create-an-n-x-n-effects-matrix-for-the-effect-of-the-non-eu-citizens.-what-is-the-effect-of-unit-6-on-unit-10-why-is-this-larger-than-the-effect-of-unit-5-on-unit-8" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="create-an-n-x-n-effects-matrix-for-the-effect-of-the-non-eu-citizens.-what-is-the-effect-of-unit-6-on-unit-10-why-is-this-larger-than-the-effect-of-unit-5-on-unit-8">2) Create an N x N effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8?</h3>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># For beta 1</span></span>
+<span></span>
+<span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="va">mod_1.sar</span><span class="op">$</span><span class="va">coefficients</span></span>
+<span></span>
+<span><span class="va">effM</span> <span class="op">&lt;-</span> <span class="va">beta</span><span class="op">[</span><span class="st">"per_nonEU"</span><span class="op">]</span> <span class="op">*</span> <span class="va">M</span></span>
+<span></span>
+<span><span class="va">effM</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              1            2            3            4            5
+1  2.149995e-03 4.492010e-06 7.549498e-06 7.447872e-06 1.208418e-05
+2  1.976484e-05 2.598002e-03 1.188633e-03 6.831278e-04 8.580311e-04
+3  2.076112e-05 7.428958e-04 2.721106e-03 7.919740e-04 1.184285e-03
+4  1.638532e-05 3.415639e-04 6.335792e-04 3.109720e-03 1.133630e-03
+5  2.215433e-05 3.575129e-04 7.895231e-04 9.446918e-04 2.881378e-03
+6  1.982931e-05 3.554602e-04 8.361464e-04 1.165688e-03 1.241995e-03
+7  2.359188e-05 2.620528e-04 5.524233e-04 7.720780e-04 1.138816e-03
+8  2.726421e-05 2.321974e-04 4.672747e-04 5.456034e-04 9.247186e-04
+9  2.161370e-05 2.723822e-04 5.705762e-04 1.049369e-03 1.161449e-03
+10 1.834571e-05 2.822601e-04 5.660926e-04 1.342076e-03 1.022658e-03
+              6            7            8            9           10
+1  9.013321e-06 1.072358e-05 1.611067e-05 1.080685e-05 6.671166e-06
+2  7.109204e-04 5.241057e-04 6.037132e-04 5.992408e-04 4.516162e-04
+3  1.045183e-03 6.905291e-04 7.593214e-04 7.845422e-04 5.660926e-04
+4  1.165688e-03 7.720780e-04 7.092844e-04 1.154306e-03 1.073661e-03
+5  1.034996e-03 9.490131e-04 1.001778e-03 1.064662e-03 6.817721e-04
+6  2.900456e-03 1.030406e-03 8.586666e-04 1.220575e-03 1.003915e-03
+7  1.030406e-03 2.723857e-03 1.080312e-03 1.133785e-03 8.563541e-04
+8  6.605128e-04 8.310095e-04 2.707003e-03 8.768606e-04 5.027509e-04
+9  1.109614e-03 1.030714e-03 1.036290e-03 2.918735e-03 9.562187e-04
+10 1.254893e-03 1.070443e-03 8.169703e-04 1.314801e-03 2.879979e-03</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># "Effect" of unit 6 on unit 10</span></span>
+<span><span class="va">effM</span><span class="op">[</span><span class="fl">10</span>, <span class="fl">6</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001254893</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># "Effect" of unit 5 on unit 8</span></span>
+<span><span class="va">effM</span><span class="op">[</span><span class="fl">8</span>, <span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0009247186</code></pre>
+</div>
+</div>
 </section><section id="calculate-and-interpret-the-summary-impact-measures-of-the-sar-model." class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="calculate-and-interpret-the-summary-impact-measures-of-the-sar-model.">3) Calculate and interpret the summary impact measures of the SAR model.</h3>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_1.sar.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.sar</span>, listw <span class="op">=</span> <span class="va">dist_15.lw</span>, R <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.sar.imp</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (lag, exact):
+                    Direct     Indirect        Total
+per_mixed     0.0004939013  0.010385844  0.010879745
+per_asian    -0.0001224192 -0.002574253 -0.002696672
+per_black    -0.0006142789 -0.012917166 -0.013531445
+per_other     0.0028294759  0.059498722  0.062328198
+per_nonUK_EU  0.0012791011  0.026897166  0.028176267
+per_nonEU     0.0026523198  0.055773451  0.058425770
+log(POPDEN)   0.0267960076  0.563471199  0.590267206
+========================================================
+Simulation results ( variance matrix):
+Direct:
+
+Iterations = 1:300
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 300 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                   Mean        SD  Naive SE Time-series SE
+per_mixed     0.0002486 0.0021058 1.216e-04      1.216e-04
+per_asian    -0.0001269 0.0001690 9.757e-06      9.757e-06
+per_black    -0.0005798 0.0003358 1.939e-05      1.939e-05
+per_other     0.0028304 0.0010569 6.102e-05      6.102e-05
+per_nonUK_EU  0.0012968 0.0005937 3.428e-05      4.293e-05
+per_nonEU     0.0026199 0.0005318 3.070e-05      3.070e-05
+log(POPDEN)   0.0269194 0.0040144 2.318e-04      1.964e-04
+
+2. Quantiles for each variable:
+
+                   2.5%        25%        50%        75%     97.5%
+per_mixed    -0.0035676 -0.0012558  0.0002514  1.575e-03 4.557e-03
+per_asian    -0.0004611 -0.0002414 -0.0001326  6.229e-07 1.819e-04
+per_black    -0.0012714 -0.0007841 -0.0005789 -3.773e-04 4.764e-05
+per_other     0.0008949  0.0020923  0.0028131  3.573e-03 4.827e-03
+per_nonUK_EU  0.0001124  0.0009413  0.0013044  1.689e-03 2.357e-03
+per_nonEU     0.0016652  0.0022318  0.0026438  2.973e-03 3.628e-03
+log(POPDEN)   0.0195263  0.0241101  0.0269257  2.977e-02 3.468e-02
+
+========================================================
+Indirect:
+
+Iterations = 1:300
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 300 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                  Mean       SD  Naive SE Time-series SE
+per_mixed     0.004796 0.046546 0.0026873      0.0026873
+per_asian    -0.002900 0.003948 0.0002280      0.0002280
+per_black    -0.012495 0.007939 0.0004584      0.0004584
+per_other     0.061172 0.026628 0.0015374      0.0013875
+per_nonUK_EU  0.027199 0.012686 0.0007324      0.0008867
+per_nonEU     0.056822 0.017231 0.0009949      0.0009949
+log(POPDEN)   0.578126 0.136396 0.0078748      0.0078748
+
+2. Quantiles for each variable:
+
+                 2.5%       25%       50%        75%     97.5%
+per_mixed    -0.08488 -0.024875  0.005501  3.455e-02 0.0937317
+per_asian    -0.01175 -0.005314 -0.002759  1.083e-05 0.0040938
+per_black    -0.03300 -0.016696 -0.011484 -7.420e-03 0.0008929
+per_other     0.01757  0.042181  0.058731  7.771e-02 0.1184441
+per_nonUK_EU  0.00296  0.019040  0.026861  3.389e-02 0.0543996
+per_nonEU     0.03049  0.043929  0.054255  6.726e-02 0.0964651
+log(POPDEN)   0.37959  0.487980  0.560213  6.341e-01 0.9001215
+
+========================================================
+Total:
+
+Iterations = 1:300
+Thinning interval = 1 
+Number of chains = 1 
+Sample size per chain = 300 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                  Mean       SD  Naive SE Time-series SE
+per_mixed     0.005045 0.048616 0.0028068      0.0028068
+per_asian    -0.003027 0.004112 0.0002374      0.0002374
+per_black    -0.013075 0.008256 0.0004767      0.0004767
+per_other     0.064002 0.027571 0.0015918      0.0014391
+per_nonUK_EU  0.028496 0.013232 0.0007640      0.0009283
+per_nonEU     0.059441 0.017651 0.0010191      0.0010191
+log(POPDEN)   0.605045 0.138667 0.0080059      0.0080059
+
+2. Quantiles for each variable:
+
+                  2.5%       25%       50%        75%     97.5%
+per_mixed    -0.087909 -0.026259  0.005754  3.641e-02 0.0982034
+per_asian    -0.012175 -0.005533 -0.002916  1.146e-05 0.0042613
+per_black    -0.034131 -0.017471 -0.012054 -7.761e-03 0.0009405
+per_other     0.018483  0.044354  0.061395  8.160e-02 0.1225811
+per_nonUK_EU  0.003073  0.019965  0.028144  3.542e-02 0.0570618
+per_nonEU     0.032534  0.046216  0.057101  6.978e-02 0.0997941
+log(POPDEN)   0.398127  0.512673  0.585564  6.621e-01 0.9296397</code></pre>
+</div>
+</div>
 </section><section id="is-sar-the-right-model-choice-or-would-you-rather-estimate-a-different-model-please-run-a-durbin-model-and-caculate-its-impact-summary-measures" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="is-sar-the-right-model-choice-or-would-you-rather-estimate-a-different-model-please-run-a-durbin-model-and-caculate-its-impact-summary-measures">4) Is SAR the right model choice or would you rather estimate a different model? Please run a Durbin model and caculate its impact summary measures</h3>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Spatial Dubrbin model</span></span>
+<span><span class="va">mod_1.durb</span> <span class="op">&lt;-</span> <span class="fu">lagsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">~</span> <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span></span>
+<span>                      <span class="op">+</span> <span class="va">per_nonUK_EU</span> <span class="op">+</span> <span class="va">per_nonEU</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span>,  </span>
+<span>                      data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                      listw <span class="op">=</span> <span class="va">dist_15.lw</span>,</span>
+<span>                      Durbin <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durb</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lagsarlm(formula = log(no2) ~ per_mixed + per_asian + per_black + 
+    per_other + per_nonUK_EU + per_nonEU + log(POPDEN), data = msoa.spdf, 
+    listw = dist_15.lw, Durbin = TRUE)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.1854009 -0.0263818 -0.0020816  0.0229647  0.3321974 
+
+Type: mixed 
+Coefficients: (asymptotic standard errors) 
+                    Estimate  Std. Error z value  Pr(&gt;|z|)
+(Intercept)      -0.00409824  0.01983728 -0.2066   0.83633
+per_mixed         0.00434535  0.00218712  1.9868   0.04695
+per_asian        -0.00028620  0.00023959 -1.1945   0.23227
+per_black        -0.00056734  0.00034455 -1.6466   0.09964
+per_other         0.00222708  0.00112918  1.9723   0.04857
+per_nonUK_EU      0.00085417  0.00059478  1.4361   0.15097
+per_nonEU         0.00095220  0.00052681  1.8075   0.07069
+log(POPDEN)       0.02649122  0.00320358  8.2693 2.220e-16
+lag.per_mixed    -0.00475294  0.00315799 -1.5051   0.13231
+lag.per_asian     0.00024092  0.00028983  0.8312   0.40584
+lag.per_black     0.00025812  0.00054125  0.4769   0.63344
+lag.per_other    -0.00074506  0.00176141 -0.4230   0.67230
+lag.per_nonUK_EU  0.00094549  0.00100320  0.9425   0.34595
+lag.per_nonEU     0.00130970  0.00078547  1.6674   0.09544
+lag.log(POPDEN)  -0.02526415  0.00588517 -4.2928 1.764e-05
+
+Rho: 0.98286, LR test value: 1536.9, p-value: &lt; 2.22e-16
+Asymptotic standard error: 0.0051804
+    z-value: 189.73, p-value: &lt; 2.22e-16
+Wald statistic: 35997, p-value: &lt; 2.22e-16
+
+Log likelihood: 1576.566 for mixed model
+ML residual variance (sigma squared): 0.001969, (sigma: 0.044374)
+Number of observations: 983 
+Number of parameters estimated: 17 
+AIC: -3119.1, (AIC for lm: -1584.3)
+LM test for residual autocorrelation
+test value: 103.97, p-value: &lt; 2.22e-16</code></pre>
+</div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Impact measures of the Durbin Error model</span></span>
+<span><span class="va">mod_1.durb.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.durb</span>, listw <span class="op">=</span> <span class="va">dist_15.lw</span>, R <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durb.imp</span>, zstats <span class="op">=</span> <span class="cn">TRUE</span>, short <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (mixed, exact):
+                    Direct     Indirect        Total
+per_mixed     0.0040597904 -0.027843988 -0.023784197
+per_asian    -0.0003101210 -0.002332322 -0.002642443
+per_black    -0.0007447486 -0.017299184 -0.018043932
+per_other     0.0030823781  0.083398408  0.086480787
+per_nonUK_EU  0.0019115634  0.103104372  0.105015935
+per_nonEU     0.0022824096  0.129706442  0.131988851
+log(POPDEN)   0.0269491699  0.044653927  0.071603096
+========================================================
+Simulation results ( variance matrix):
+========================================================
+Simulated standard errors
+                   Direct   Indirect      Total
+per_mixed    0.0023364885 0.17893265 0.18004192
+per_asian    0.0002501810 0.01124240 0.01131278
+per_black    0.0003948744 0.02882327 0.02899744
+per_other    0.0012806877 0.09512727 0.09579507
+per_nonUK_EU 0.0006883132 0.07902556 0.07940778
+per_nonEU    0.0006687092 0.07489999 0.07523084
+log(POPDEN)  0.0045728138 0.36425392 0.36749918
+
+Simulated z-values:
+                Direct    Indirect      Total
+per_mixed     1.708178 -0.20727164 -0.1838268
+per_asian    -1.317834 -0.24676604 -0.2743745
+per_black    -1.840621 -0.61827219 -0.6396234
+per_other     2.432182  0.86539287  0.8918761
+per_nonUK_EU  2.825126  1.52288922  1.5400475
+per_nonEU     3.514830  1.96578522  1.9883824
+log(POPDEN)   5.895921  0.09272554  0.1652700
+
+Simulated p-values:
+             Direct     Indirect Total   
+per_mixed    0.08760338 0.835798 0.854149
+per_asian    0.18755936 0.805089 0.783797
+per_black    0.06567711 0.536396 0.522417
+per_other    0.01500817 0.386823 0.372459
+per_nonUK_EU 0.00472620 0.127786 0.123549
+per_nonEU    0.00044004 0.049323 0.046769
+log(POPDEN)  3.726e-09  0.926122 0.868731</code></pre>
+</div>
+</div>
 </section><section id="please-repeat-with-a-durbin-error-model.-why-are-the-impacts-here-identical-to-the-coefficients" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="please-repeat-with-a-durbin-error-model.-why-are-the-impacts-here-identical-to-the-coefficients">5) Please repeat with a Durbin Error model. Why are the impacts here identical to the coefficients?</h3>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Spatial Dubrbin model</span></span>
+<span><span class="va">mod_1.durbe</span> <span class="op">&lt;-</span> <span class="fu">errorsarlm</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">no2</span><span class="op">)</span> <span class="op">~</span> <span class="va">per_mixed</span> <span class="op">+</span> <span class="va">per_asian</span> <span class="op">+</span> <span class="va">per_black</span> <span class="op">+</span> <span class="va">per_other</span></span>
+<span>                      <span class="op">+</span> <span class="va">per_nonUK_EU</span> <span class="op">+</span> <span class="va">per_nonEU</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">POPDEN</span><span class="op">)</span>,  </span>
+<span>                      data <span class="op">=</span> <span class="va">msoa.spdf</span>, </span>
+<span>                      listw <span class="op">=</span> <span class="va">dist_15.lw</span>,</span>
+<span>                      Durbin <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durbe</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+errorsarlm(formula = log(no2) ~ per_mixed + per_asian + per_black + 
+    per_other + per_nonUK_EU + per_nonEU + log(POPDEN), data = msoa.spdf, 
+    listw = dist_15.lw, Durbin = TRUE)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.1839285 -0.0254426 -0.0027042  0.0216084  0.2944840 
+
+Type: error 
+Coefficients: (asymptotic standard errors) 
+                    Estimate  Std. Error z value  Pr(&gt;|z|)
+(Intercept)       2.64939215  0.24748370 10.7053 &lt; 2.2e-16
+per_mixed         0.00553333  0.00223688  2.4737  0.013373
+per_asian        -0.00017156  0.00024183 -0.7094  0.478062
+per_black        -0.00057947  0.00034426 -1.6832  0.092334
+per_other         0.00203392  0.00112534  1.8074  0.070701
+per_nonUK_EU      0.00086254  0.00058902  1.4644  0.143091
+per_nonEU         0.00135822  0.00053480  2.5397  0.011096
+log(POPDEN)       0.02716824  0.00354239  7.6695 1.732e-14
+lag.per_mixed     0.00107140  0.00819322  0.1308  0.895960
+lag.per_asian    -0.00060616  0.00070080 -0.8649  0.387069
+lag.per_black    -0.00191733  0.00130997 -1.4636  0.143291
+lag.per_other     0.01014125  0.00496979  2.0406  0.041293
+lag.per_nonUK_EU  0.00925620  0.00217624  4.2533 2.106e-05
+lag.per_nonEU     0.00563564  0.00185541  3.0374  0.002386
+lag.log(POPDEN)  -0.01370891  0.01128957 -1.2143  0.224634
+
+Lambda: 0.99424, LR test value: 1527.8, p-value: &lt; 2.22e-16
+Asymptotic standard error: 0.0024921
+    z-value: 398.96, p-value: &lt; 2.22e-16
+Wald statistic: 159170, p-value: &lt; 2.22e-16
+
+Log likelihood: 1572.051 for error model
+ML residual variance (sigma squared): 0.0019546, (sigma: 0.044211)
+Number of observations: 983 
+Number of parameters estimated: 17 
+AIC: -3110.1, (AIC for lm: -1584.3)</code></pre>
+</div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Impact measures of the Durbin model</span></span>
+<span><span class="va">mod_1.durbe.imp</span> <span class="op">&lt;-</span> <span class="fu">impacts</span><span class="op">(</span><span class="va">mod_1.durbe</span>, listw <span class="op">=</span> <span class="va">dist_15.lw</span>, R <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mod_1.durbe.imp</span>, zstats <span class="op">=</span> <span class="cn">TRUE</span>, short <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Impact measures (SDEM, glht, n):
+                    Direct      Indirect         Total
+per_mixed     0.0055333298  0.0010713981  0.0066047279
+per_asian    -0.0001715584 -0.0006061567 -0.0007777151
+per_black    -0.0005794704 -0.0019173261 -0.0024967965
+per_other     0.0020339226  0.0101412504  0.0121751729
+per_nonUK_EU  0.0008625423  0.0092561971  0.0101187394
+per_nonEU     0.0013582217  0.0056356426  0.0069938643
+log(POPDEN)   0.0271682392 -0.0137089088  0.0134593305
+========================================================
+Standard errors:
+                   Direct     Indirect        Total
+per_mixed    0.0022368774 0.0081932151 0.0089412446
+per_asian    0.0002418282 0.0007008041 0.0007540247
+per_black    0.0003442649 0.0013099673 0.0013639632
+per_other    0.0011253352 0.0049697880 0.0051074709
+per_nonUK_EU 0.0005890159 0.0021762395 0.0022231333
+per_nonEU    0.0005348024 0.0018554128 0.0020196122
+log(POPDEN)  0.0035423870 0.0112895670 0.0132006518
+========================================================
+Z-values:
+                 Direct   Indirect     Total
+per_mixed     2.4736849  0.1307665  0.738681
+per_asian    -0.7094226 -0.8649446 -1.031419
+per_black    -1.6832108 -1.4636442 -1.830545
+per_other     1.8073926  2.0405801  2.383797
+per_nonUK_EU  1.4643785  4.2532989  4.551567
+per_nonEU     2.5396703  3.0374063  3.462974
+log(POPDEN)   7.6694724 -1.2142989  1.019596
+
+p-values:
+             Direct     Indirect   Total     
+per_mixed    0.013373   0.8959600  0.46010070
+per_asian    0.478062   0.3870692  0.30234457
+per_black    0.092334   0.1432912  0.06716843
+per_other    0.070701   0.0412926  0.01713506
+per_nonUK_EU 0.143091   2.1064e-05 5.3248e-06
+per_nonEU    0.011096   0.0023862  0.00053424
+log(POPDEN)  1.7319e-14 0.2246336  0.30792015</code></pre>
+</div>
+</div>
 
 
 <!-- -->
@@ -786,116 +1165,168 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb16" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises III</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tmap"</span>, <span class="st">"viridis"</span>, <span class="st">"viridisLite"</span>, </span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"lfe"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Environmental inequality (continued)</span></span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>Let's use the same neighbours weights definition as before:</span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(msoa.spdf)</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Neighbours within 3km distance</span></span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>dist_15.nb <span class="ot">&lt;-</span> <span class="fu">dnearneigh</span>(coords, <span class="at">d1 =</span> <span class="dv">0</span>, <span class="at">d2 =</span> <span class="dv">2500</span>)</span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dist_15.nb)</span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a><span class="co"># There are some empty neighbour sets. Lets impute those with the nearest neighbour.</span></span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>k2.nb <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(coords, <span class="at">k =</span> <span class="dv">1</span>)</span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace zero</span></span>
-<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>nolink_ids <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">card</span>(dist_15.nb) <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>dist_15.nb[<span class="fu">card</span>(dist_15.nb) <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> k2.nb<span class="sc">$</span>nn[nolink_ids, ]</span>
-<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dist_15.nb)</span>
-<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="co"># listw object with row-normalization</span></span>
-<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>dist_15.lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(dist_15.nb, <span class="at">style =</span> <span class="st">"W"</span>)</span>
-<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>and estiamte the spatial SAR model: </span>
-<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(no2) <span class="sc">~</span> per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other</span>
-<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a>                      <span class="sc">+</span> per_nonUK_EU <span class="sc">+</span> per_nonEU  <span class="sc">+</span> <span class="fu">log</span>(POPDEN),  </span>
-<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
-<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> dist_15.lw,</span>
-<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
-<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
-<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Please calculate the true multiplier matrix of this SAR model. {.unnumbered}</span></span>
-<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>The multiplier matrix is given by $({\bm I_N}-\rho {\bm W})^{-1}$.</span>
-<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) Create an N x N effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8? {.unnumbered}</span></span>
-<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-103"><a href="#cb16-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Calculate and interpret the summary impact measures of the SAR model. {.unnumbered}</span></span>
-<span id="cb16-104"><a href="#cb16-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-105"><a href="#cb16-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-106"><a href="#cb16-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-107"><a href="#cb16-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-108"><a href="#cb16-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-109"><a href="#cb16-109" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Is SAR the right model choice or would you rather estimate a different model? Please run a Durbin model and caculate its impact summary measures {.unnumbered}</span></span>
-<span id="cb16-110"><a href="#cb16-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-111"><a href="#cb16-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-112"><a href="#cb16-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-113"><a href="#cb16-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-114"><a href="#cb16-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-115"><a href="#cb16-115" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5) Please repeat with a Durbin Error model. Why are the impacts here identical to the coefficients? {.unnumbered}</span></span>
-<span id="cb16-116"><a href="#cb16-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-117"><a href="#cb16-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-118"><a href="#cb16-118" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb34" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>::: {.content-hidden unless-format="html"}</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>\newcommand{\tr}{\mathrm{tr}}</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>\newcommand{\rank}{\mathrm{rank}}</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>\newcommand{\plim}{\operatornamewithlimits{plim}}</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>\newcommand{\diag}{\mathrm{diag}}</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>\newcommand{\bm}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{\boldsymbol{\mathbf{#1}}}</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>\newcommand{\Var}{\mathrm{Var}}</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>\newcommand{\Exp}{\mathrm{E}}</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>\newcommand{\Cov}{\mathrm{Cov}}</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>\newcommand\given<span class="co">[</span><span class="ot">1</span><span class="co">][]</span>{\:#1\vert\:}</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>\newcommand{\irow}<span class="co">[</span><span class="ot">1</span><span class="co">]</span>{%</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>\begin{pmatrix}#1\end{pmatrix}</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="fu"># Exercises III</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Required packages {.unnumbered}</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message = FALSE, warning = FALSE, results = 'hide'}</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sf"</span>, <span class="st">"mapview"</span>, <span class="st">"spdep"</span>, <span class="st">"spatialreg"</span>, <span class="st">"ggplot2"</span>, <span class="st">"tmap"</span>, <span class="st">"viridis"</span>, <span class="st">"viridisLite"</span>, </span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>          <span class="st">"plm"</span>, <span class="st">"lfe"</span>, <span class="st">"splm"</span>, <span class="st">"SDPDmod"</span>)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(pkgs, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Session info {.unnumbered}</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reload data from pervious session {.unnumbered}</span></span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"_data/msoa2_spatial.RData"</span>)</span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Environmental inequality (continued)</span></span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a>Let's use the same neighbours weights definition as before:</span>
+<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(msoa.spdf)</span>
+<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Neighbours within 3km distance</span></span>
+<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a>dist_15.nb <span class="ot">&lt;-</span> <span class="fu">dnearneigh</span>(coords, <span class="at">d1 =</span> <span class="dv">0</span>, <span class="at">d2 =</span> <span class="dv">2500</span>)</span>
+<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-61"><a href="#cb34-61" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dist_15.nb)</span>
+<span id="cb34-62"><a href="#cb34-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a><span class="co"># There are some empty neighbour sets. Lets impute those with the nearest neighbour.</span></span>
+<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a>k2.nb <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(coords, <span class="at">k =</span> <span class="dv">1</span>)</span>
+<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace zero</span></span>
+<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a>nolink_ids <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">card</span>(dist_15.nb) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a>dist_15.nb[<span class="fu">card</span>(dist_15.nb) <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> k2.nb<span class="sc">$</span>nn[nolink_ids, ]</span>
+<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dist_15.nb)</span>
+<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a><span class="co"># listw object with row-normalization</span></span>
+<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a>dist_15.lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(dist_15.nb, <span class="at">style =</span> <span class="st">"W"</span>)</span>
+<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-75"><a href="#cb34-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-76"><a href="#cb34-76" aria-hidden="true" tabindex="-1"></a>and estiamte the spatial SAR model: </span>
+<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-80"><a href="#cb34-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-81"><a href="#cb34-81" aria-hidden="true" tabindex="-1"></a>mod_1.sar <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(no2) <span class="sc">~</span> per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other</span>
+<span id="cb34-82"><a href="#cb34-82" aria-hidden="true" tabindex="-1"></a>                      <span class="sc">+</span> per_nonUK_EU <span class="sc">+</span> per_nonEU  <span class="sc">+</span> <span class="fu">log</span>(POPDEN),  </span>
+<span id="cb34-83"><a href="#cb34-83" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb34-84"><a href="#cb34-84" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> dist_15.lw,</span>
+<span id="cb34-85"><a href="#cb34-85" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">FALSE</span>) <span class="co"># we could here extend to SDM</span></span>
+<span id="cb34-86"><a href="#cb34-86" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar)</span>
+<span id="cb34-87"><a href="#cb34-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-88"><a href="#cb34-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-89"><a href="#cb34-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-90"><a href="#cb34-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1) Please calculate the true multiplier matrix of this SAR model. {.unnumbered}</span></span>
+<span id="cb34-91"><a href="#cb34-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-92"><a href="#cb34-92" aria-hidden="true" tabindex="-1"></a>The multiplier matrix is given by $({\bm I_N}-\rho {\bm W})^{-1}$.</span>
+<span id="cb34-93"><a href="#cb34-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-96"><a href="#cb34-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-97"><a href="#cb34-97" aria-hidden="true" tabindex="-1"></a>W <span class="ot">&lt;-</span> <span class="fu">listw2mat</span>(dist_15.lw)</span>
+<span id="cb34-98"><a href="#cb34-98" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">dim</span>(W)[<span class="dv">1</span>])</span>
+<span id="cb34-99"><a href="#cb34-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-100"><a href="#cb34-100" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fu">unname</span>(mod_1.sar<span class="sc">$</span>rho)</span>
+<span id="cb34-101"><a href="#cb34-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-102"><a href="#cb34-102" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">solve</span>(I <span class="sc">-</span> rho<span class="sc">*</span>W)</span>
+<span id="cb34-103"><a href="#cb34-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-104"><a href="#cb34-104" aria-hidden="true" tabindex="-1"></a>M[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb34-105"><a href="#cb34-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-106"><a href="#cb34-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-107"><a href="#cb34-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-108"><a href="#cb34-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2) Create an N x N effects matrix for the effect of the non-EU citizens. What is the effect of unit 6 on unit 10? Why is this larger than the effect of unit 5 on unit 8? {.unnumbered}</span></span>
+<span id="cb34-109"><a href="#cb34-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-110"><a href="#cb34-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-113"><a href="#cb34-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-114"><a href="#cb34-114" aria-hidden="true" tabindex="-1"></a><span class="co"># For beta 1</span></span>
+<span id="cb34-115"><a href="#cb34-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-116"><a href="#cb34-116" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> mod_1.sar<span class="sc">$</span>coefficients</span>
+<span id="cb34-117"><a href="#cb34-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-118"><a href="#cb34-118" aria-hidden="true" tabindex="-1"></a>effM <span class="ot">&lt;-</span> beta[<span class="st">"per_nonEU"</span>] <span class="sc">*</span> M</span>
+<span id="cb34-119"><a href="#cb34-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-120"><a href="#cb34-120" aria-hidden="true" tabindex="-1"></a>effM[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb34-121"><a href="#cb34-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-122"><a href="#cb34-122" aria-hidden="true" tabindex="-1"></a><span class="co"># "Effect" of unit 6 on unit 10</span></span>
+<span id="cb34-123"><a href="#cb34-123" aria-hidden="true" tabindex="-1"></a>effM[<span class="dv">10</span>, <span class="dv">6</span>]</span>
+<span id="cb34-124"><a href="#cb34-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-125"><a href="#cb34-125" aria-hidden="true" tabindex="-1"></a><span class="co"># "Effect" of unit 5 on unit 8</span></span>
+<span id="cb34-126"><a href="#cb34-126" aria-hidden="true" tabindex="-1"></a>effM[<span class="dv">8</span>, <span class="dv">5</span>]</span>
+<span id="cb34-127"><a href="#cb34-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-128"><a href="#cb34-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-129"><a href="#cb34-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-130"><a href="#cb34-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3) Calculate and interpret the summary impact measures of the SAR model. {.unnumbered}</span></span>
+<span id="cb34-131"><a href="#cb34-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-132"><a href="#cb34-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-135"><a href="#cb34-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-136"><a href="#cb34-136" aria-hidden="true" tabindex="-1"></a>mod_1.sar.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.sar, <span class="at">listw =</span> dist_15.lw, <span class="at">R =</span> <span class="dv">300</span>)</span>
+<span id="cb34-137"><a href="#cb34-137" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.sar.imp)</span>
+<span id="cb34-138"><a href="#cb34-138" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-139"><a href="#cb34-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-140"><a href="#cb34-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-141"><a href="#cb34-141" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4) Is SAR the right model choice or would you rather estimate a different model? Please run a Durbin model and caculate its impact summary measures {.unnumbered}</span></span>
+<span id="cb34-142"><a href="#cb34-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-143"><a href="#cb34-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-146"><a href="#cb34-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-147"><a href="#cb34-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial Dubrbin model</span></span>
+<span id="cb34-148"><a href="#cb34-148" aria-hidden="true" tabindex="-1"></a>mod_1.durb <span class="ot">&lt;-</span> <span class="fu">lagsarlm</span>(<span class="fu">log</span>(no2) <span class="sc">~</span> per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other</span>
+<span id="cb34-149"><a href="#cb34-149" aria-hidden="true" tabindex="-1"></a>                      <span class="sc">+</span> per_nonUK_EU <span class="sc">+</span> per_nonEU <span class="sc">+</span> <span class="fu">log</span>(POPDEN),  </span>
+<span id="cb34-150"><a href="#cb34-150" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb34-151"><a href="#cb34-151" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> dist_15.lw,</span>
+<span id="cb34-152"><a href="#cb34-152" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-153"><a href="#cb34-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-154"><a href="#cb34-154" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durb)</span>
+<span id="cb34-155"><a href="#cb34-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-156"><a href="#cb34-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Impact measures of the Durbin Error model</span></span>
+<span id="cb34-157"><a href="#cb34-157" aria-hidden="true" tabindex="-1"></a>mod_1.durb.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.durb, <span class="at">listw =</span> dist_15.lw, <span class="at">R =</span> <span class="dv">300</span>)</span>
+<span id="cb34-158"><a href="#cb34-158" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durb.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-159"><a href="#cb34-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-160"><a href="#cb34-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-161"><a href="#cb34-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-162"><a href="#cb34-162" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5) Please repeat with a Durbin Error model. Why are the impacts here identical to the coefficients? {.unnumbered}</span></span>
+<span id="cb34-163"><a href="#cb34-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-166"><a href="#cb34-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-167"><a href="#cb34-167" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial Dubrbin model</span></span>
+<span id="cb34-168"><a href="#cb34-168" aria-hidden="true" tabindex="-1"></a>mod_1.durbe <span class="ot">&lt;-</span> <span class="fu">errorsarlm</span>(<span class="fu">log</span>(no2) <span class="sc">~</span> per_mixed <span class="sc">+</span> per_asian <span class="sc">+</span> per_black <span class="sc">+</span> per_other</span>
+<span id="cb34-169"><a href="#cb34-169" aria-hidden="true" tabindex="-1"></a>                      <span class="sc">+</span> per_nonUK_EU <span class="sc">+</span> per_nonEU <span class="sc">+</span> <span class="fu">log</span>(POPDEN),  </span>
+<span id="cb34-170"><a href="#cb34-170" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> msoa.spdf, </span>
+<span id="cb34-171"><a href="#cb34-171" aria-hidden="true" tabindex="-1"></a>                      <span class="at">listw =</span> dist_15.lw,</span>
+<span id="cb34-172"><a href="#cb34-172" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Durbin =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-173"><a href="#cb34-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-174"><a href="#cb34-174" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durbe)</span>
+<span id="cb34-175"><a href="#cb34-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-176"><a href="#cb34-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Impact measures of the Durbin model</span></span>
+<span id="cb34-177"><a href="#cb34-177" aria-hidden="true" tabindex="-1"></a>mod_1.durbe.imp <span class="ot">&lt;-</span> <span class="fu">impacts</span>(mod_1.durbe, <span class="at">listw =</span> dist_15.lw, <span class="at">R =</span> <span class="dv">300</span>)</span>
+<span id="cb34-178"><a href="#cb34-178" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_1.durbe.imp, <span class="at">zstats =</span> <span class="cn">TRUE</span>, <span class="at">short =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-179"><a href="#cb34-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-180"><a href="#cb34-180" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

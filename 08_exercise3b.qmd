@@ -165,63 +165,214 @@ Variables are
 
 ## County shapes
 
-
+```{r}
+kreise.spdf <- st_read(dsn = "_data/vg5000_ebenen_1231",
+                       layer = "VG5000_KRS")
+```
 
 ### 1) Please map the life expectancy across Germany {.unnumbered}
 
 a) Merge data with the shape file (as with conventional data)
 
-
+```{r}
+# Merge
+inkar_2020.spdf <- merge(kreise.spdf, inkar.df[inkar.df$year == 2020, ], 
+                         by.x = "AGS", by.y = "Kennziffer")
+```
 
 b) Create a map of life-expectancy
 
+```{r}
+cols <- viridis(n = 100, direction = -1, option = "G")
 
+mp1 <-  ggplot(data = inkar_2020.spdf) +
+  geom_sf(aes(fill = life_expectancy), color = "white", size = 0.5) +
+  scale_fill_gradientn(
+    colours = cols,  # your custom palette
+    name = "in years",
+    na.value = "grey90"
+  ) +
+  labs(title = "Life expectancy") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    legend.background = element_rect(fill = "white", color = "black"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+mp1
+
+```
 
 ### 2) Chose some variables that could predict life expectancy. See for instance the [following paper](https://doi.org/10.1073/pnas.2003719117). {.unnumbered}
 
 
 ### 3) Generate a neighbours object (e.g. the 10 nearest neighbours). {.unnumbered}
 
-
+```{r}
+# nb <- poly2nb(kreise.spdf, row.names = "ags", queen = TRUE)
+knn <- knearneigh(st_centroid(kreise.spdf), k = 10)
+nb <- knn2nb(knn, row.names = kreise.spdf$ags)
+listw <- nb2listw(nb, style = "W")
+```
 
 
 ### 4) Estimate a cross-sectional spatial model for the year 2020 and calculate the impacts. {.unnumbered}
 
 
+```{r}
 
+### Use a spatial Durbin Error model
+
+# Spec formula
+fm <- life_expectancy ~ median_income + unemployment_rate + share_college + car_density
+
+# Estimate error model with Durbin = TRUE 
+mod_1.durb <- errorsarlm(fm,  
+                      data = inkar_2020.spdf, 
+                      listw = listw,
+                      Durbin = TRUE)
+
+summary(mod_1.durb)
+
+# Calculate impacts (which is unnecessary in this case)
+mod_1.durb.imp <- impacts(mod_1.durb, listw = listw, R = 300)
+summary(mod_1.durb.imp, zstats = TRUE, short = TRUE)
+
+```
 
 
 ### 5) Calculate the spatial lagged variables for your covariates (e.g. use create_WX(), which needs a non-spatial df as input) . {.unnumbered}
 
 
+```{r}
+# Extract covariate names
+covars <- attr(terms(fm),"term.labels")
 
+w_vars <- create_WX(st_drop_geometry(inkar_2020.spdf)[, covars],
+                    listw = listw,
+                    prefix = "w")
+
+inkar_2020.spdf <- cbind(inkar_2020.spdf, w_vars)
+```
 
 
 ### 6) Can you run a spatial machine learning model? (for instance, using `randomForest`)? {.unnumbered}
 
+```{r}
+library(randomForest)
+
+# Train
+rf.mod <- randomForest(life_expectancy ~ median_income + unemployment_rate + share_college + car_density +
+                         w.median_income + w.unemployment_rate + w.share_college + w.car_density,
+                       data = st_drop_geometry(inkar_2020.spdf), 
+                       ntree = 1000,
+                       importance = TRUE)
+
+# Inspect the mechanics of the model
+importance(rf.mod)
+varImpPlot(rf.mod)
+```
+
+You could even go further and use higher order neighbours (e.g. `nblag(queens.nb, maxlag = 3)`) to check the importance of direct neighbours and the neighbours neighbours and so on ...
 
 
 
 
-## Esimate an FE model with SLX specification {.unnumbered}
+## Esimate an FE model with SLX specification 
 
 
-a) Loop over years to generate WX
+a) Loops over years to generate WX
 
+```{r}
 
+# We use gdp instead of median income (which is only available in recent year)
+fm <- life_expectancy ~ gdp_in1000EUR + unemployment_rate + share_college + car_density
+
+# All years where we have a balanced sample
+years <- unique(inkar.df$year[which(complete.cases(inkar.df[, all.vars(fm)]))])
+
+# All variables we want ot lag
+vars <- all.vars(fm)
+
+# create listw with the correct rownames (ID = Kennziffer)
+kreise.spdf$Kennziffer <- kreise.spdf$ags
+knn <- knearneigh(st_centroid(kreise.spdf), k = 10)
+nb <- knn2nb(knn, row.names = kreise.spdf$Kennziffer)
+listw <- nb2listw(nb, style = "W")
+
+for(y in years){
+  # Select singe year
+  tmp <- inkar.df[inkar.df$year == y ,]
+  # Select variables and make df
+  x <- st_drop_geometry(tmp[, vars])
+  # Add ID as rownames (we retreive them again later)
+  rownames(x) <- tmp$Kennziffer
+  # Perform lag transformation (rownames contian ids)
+  w.tmp <- create_WX(as.matrix(x),
+                    listw = listw,
+                    prefix = "w",
+                    zero.policy = TRUE) # NAs will get zero
+  w.tmp <- as.data.frame(w.tmp)
+  
+  # add indices back
+  w.tmp$Kennziffer <- row.names(w.tmp)
+  w.tmp$year <- y
+  
+  if(y == years[1]){
+    w.inkar.df <- w.tmp
+  }else{
+    w.inkar.df <- rbind(w.inkar.df, w.tmp)
+  }
+}
+
+head(w.inkar.df)
+
+# Merge back 
+
+inkar.df <- merge(inkar.df, w.inkar.df, by = c("Kennziffer", "year"))
+
+```
 
 
 b) Estimate a twoways FE SLX panel model
 
+```{r}
+slx.fe <- felm(life_expectancy ~ gdp_in1000EUR + unemployment_rate + share_college + car_density +
+                 w.gdp_in1000EUR + w.unemployment_rate + w.share_college + w.car_density
+                | Kennziffer + year | 0 | Kennziffer,
+              data = inkar.df)
 
+summary(slx.fe)
+```
 
 c) Estimate a twoways FE SAR panel model (use `spml()`)
 
+```{r}
+### Estimate model
+sar.fe <- spml(life_expectancy ~ gdp_in1000EUR + unemployment_rate + share_college + car_density, 
+               data = inkar.df, 
+               index = c("Kennziffer", "year"), 
+               listw = listw, 
+               model= "within",
+               effect= "twoways",
+               lag = TRUE, 
+               spatial.error = "none"
+               )
 
+summary(sar.fe)
+```
 
 d) Estimate the summary impacts.
 
-
+```{r}
+sar.fe.imp <- impacts(sar.fe, listw = listw, time = length(years), R = 200)
+summary(sar.fe.imp, zstats = TRUE, short = TRUE)
+```
 
 
 <!-- We use the `WDI` API package to retrieve data from the World Bank. -->

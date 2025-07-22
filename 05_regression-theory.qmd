@@ -45,91 +45,7 @@ There are various techniques to model spatial dependence and spatial processes [
 For more in-depth materials see @LeSage.2009 and @Kelejian.2017. @Franzese.2007, @HalleckVega.2015, @LeSage.2014, @Ruttenauer.2022a, and @Wimpy.2021 provide article-length introductions. @Ruttenauer.2024a is a handbook chapter based on the materials of this workshop.
 
 
-## Why do we need spatial regression models
 
-### Non-spatial OLS
-
-Let us start with a linear model, where $\bm y$ is the outcome or dependent variable ($N \times 1$), $\bm X$ are various exogenous covariates ($N \times k$), and $\bm \varepsilon$ ($N \times 1$) is the error term. We are usually interested in the coefficient vector $\bm \beta$ ($k \times 1$) and its insecurity estimates.
-
-$$
-{\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}
-$$
-The work-horse for estimating $\bm \beta$ in the social science is the OLS estimator [@Wooldridge.2010].
-
-$$
-\hat{\beta}=({\bm X}^\intercal{\bm X})^{-1}{\bm X}^\intercal{\bm y}.
-$$
-
-
-
-::: {.callout-important}
-### OLS assumptions I
-
-1. $\Exp(\epsilon_i|\bm X_i) = 0$: for every value of $X$, the average / expectation of the error term $\bm \varepsilon$ equals zero -- put differently: the error term is independent of $X$,
-
-2. the observations of the sample are independent and identically distributed (i.i.d),
- 
-3. the fourth moments of the variables $\bm X_i$ and $Y_i$ are positive and definite -- put differently: extreme values / outliers are very very rare,
-
-4. $\text{rank}(\bm X) = K$: the matrix $\bm X$ has full rank -- put differently: no perfect multicollinearity between the covariates,
-:::
-
-::: {.callout-important}
-### OLS assumptions II
-
-5. $\Var(\varepsilon|x) = \sigma^2$: the error terms $\varepsilon$ are homoskedastic / have the same variance given any value of the explanatory variable, 
-
-6. $\varepsilon \sim \mathcal{N}(0, \sigma^2)$: the error terms $\varepsilon$ are normally distributed (conditional on the explanatory variables $X_i$).
-
-:::
-
-::: {.callout-tip}
-### Question
-
-Which of the six assumptions above may be violated by spatial dependence?
-
-:::
-
-![](fig/assumptions.jpg)
-
-### Problem of ignoring spatial dependence
-
-Does spatial dependence influence the results / coefficient estimates of non-spatial regression models, or in other words: is ignoring spatial dependence harmful?
-
-I've heard different answers, ranging from "It only affects the standard errors" to "it always introduces bias". As so often, the true (or best?) answer is somewhere in the middle: *it depends* [@Betz.2020; @Cook.2020; @Pace.2010; @Ruttenauer.2022a].
-
-The easiest way to think of it is analogous to the omit variable bias [@Betz.2020; @Cook.2020]:
-
-$$
-plim~\hat{\beta}_{OLS}= \beta  + \gamma \frac{\Cov(\bm x, \bm z)}{\Var(\bm x)},
-$$
-
-where $z$ is some omit variable, and $\gamma$ is the conditional effect of $\bm z$ on $\bm y$. Now imagine that the neighbouring values of the dependent variable $\bm W \bm y$ are autocorrelated to focal unit which we denote with $\rho > 0$, and that the covariance between the focal unit's exogenous covariates and $\bm W \bm y$ is not zero. Then we will have an omitted variable bias due to spatial dependence:
-
-$$
-plim~\hat{\beta}_{OLS}= \beta  + \rho \frac{\Cov(\bm x, \bm W \bm y)}{\Var(\bm x)} \neq \beta,
-$$
-
-For completeness, the entire bias is a bit more complicated [@Pace.2010; @Ruttenauer.2022a] and looks like:
-
-$$
-plim~\hat{\beta}=\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho))_{ij}}
-{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\beta \\
-+\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho){\bm W})_{ij}}
-{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\theta,
-$$
-where $\circ$ denotes the Hadamard product, ${\bm M}(\delta)=({\bm I}_N-\delta{\bm W})^{-1}$, and ${\bm M}(\rho)=({\bm I}_N-\rho{\bm W})^{-1}$.
-
-<p><center>*(Don't worry, no need to learn by hard!!)*</center></p>
-
-
-Essentially, the non-spatial OLS estimator $\beta_{OLS}$ is biased in the presence of either [@Pace.2010; @Ruttenauer.2022a]:
-
-- Spatial autocorrelation in the dependent variable ($\rho\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This bias increases with $\rho$, $\delta$, and $\beta$.
-
-- Local spatial spillover effects ($\theta\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This is analogous to the omitted variable bias resulting from the omission of ${\bm W} {\bm x}$. It increases with $\theta$ and $\delta$, but additionally with $\rho$ if $\theta\neq0$ and $\delta\neq0$.
-
-- An omitted variable and $\mathrm{E}({\bm \varepsilon}|{\bm x})\neq0$. This non-spatial omitted variable bias $\gamma$ is amplified by spatial dependence in the disturbances ($\lambda$) and spatial autocorrelation in the dependent variable ($\rho$), but also increases with positive values of $\delta$ if either $\rho\neq 0$ or $\lambda\neq 0$. Obviously, it also increases with $\gamma$.
 
 
 
@@ -524,6 +440,100 @@ And this SDM can be interpreted like a combination of SAR and SLX.
 First, there's still substantial auto-correlation in $\bm y$, and this has become even stronger as compared to SAR.
 
 Second, we can interpret the direction of the effect, but we *cannot interpret the coefficient as marginal effects*.
+
+
+
+
+
+
+## Appendix: Why spatial regression may be necessary
+
+### Non-spatial OLS
+
+Let us start with a linear model, where $\bm y$ is the outcome or dependent variable ($N \times 1$), $\bm X$ are various exogenous covariates ($N \times k$), and $\bm \varepsilon$ ($N \times 1$) is the error term. We are usually interested in the coefficient vector $\bm \beta$ ($k \times 1$) and its insecurity estimates.
+
+$$
+{\bm y}={\bm X}{\bm \beta}+ {\bm \varepsilon}
+$$
+The work-horse for estimating $\bm \beta$ in the social science is the OLS estimator [@Wooldridge.2010].
+
+$$
+\hat{\beta}=({\bm X}^\intercal{\bm X})^{-1}{\bm X}^\intercal{\bm y}.
+$$
+
+
+
+::: {.callout-important}
+### OLS assumptions I
+
+1. $\Exp(\epsilon_i|\bm X_i) = 0$: for every value of $X$, the average / expectation of the error term $\bm \varepsilon$ equals zero -- put differently: the error term is independent of $X$,
+
+2. the observations of the sample are independent and identically distributed (i.i.d),
+ 
+3. the fourth moments of the variables $\bm X_i$ and $Y_i$ are positive and definite -- put differently: extreme values / outliers are very very rare,
+
+4. $\text{rank}(\bm X) = K$: the matrix $\bm X$ has full rank -- put differently: no perfect multicollinearity between the covariates,
+:::
+
+::: {.callout-important}
+### OLS assumptions II
+
+5. $\Var(\varepsilon|x) = \sigma^2$: the error terms $\varepsilon$ are homoskedastic / have the same variance given any value of the explanatory variable, 
+
+6. $\varepsilon \sim \mathcal{N}(0, \sigma^2)$: the error terms $\varepsilon$ are normally distributed (conditional on the explanatory variables $X_i$).
+
+:::
+
+::: {.callout-tip}
+### Question
+
+Which of the six assumptions above may be violated by spatial dependence?
+
+:::
+
+![](fig/assumptions.jpg)
+
+### Problem of ignoring spatial dependence
+
+Does spatial dependence influence the results / coefficient estimates of non-spatial regression models, or in other words: is ignoring spatial dependence harmful?
+
+I've heard different answers, ranging from "It only affects the standard errors" to "it always introduces bias". As so often, the true (or best?) answer is somewhere in the middle: *it depends* [@Betz.2020; @Cook.2020; @Pace.2010; @Ruttenauer.2022a].
+
+The easiest way to think of it is analogous to the omit variable bias [@Betz.2020; @Cook.2020]:
+
+$$
+plim~\hat{\beta}_{OLS}= \beta  + \gamma \frac{\Cov(\bm x, \bm z)}{\Var(\bm x)},
+$$
+
+where $z$ is some omit variable, and $\gamma$ is the conditional effect of $\bm z$ on $\bm y$. Now imagine that the neighbouring values of the dependent variable $\bm W \bm y$ are autocorrelated to focal unit which we denote with $\rho > 0$, and that the covariance between the focal unit's exogenous covariates and $\bm W \bm y$ is not zero. Then we will have an omitted variable bias due to spatial dependence:
+
+$$
+plim~\hat{\beta}_{OLS}= \beta  + \rho \frac{\Cov(\bm x, \bm W \bm y)}{\Var(\bm x)} \neq \beta,
+$$
+
+For completeness, the entire bias is a bit more complicated [@Pace.2010; @Ruttenauer.2022a] and looks like:
+
+$$
+plim~\hat{\beta}=\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho))_{ij}}
+{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\beta \\
++\frac{\sum_{ij}({\bm M}(\delta){\bm M}(\delta)^\intercal\circ{\bm M}(\rho){\bm W})_{ij}}
+{\tr({\bm M}(\delta){\bm M}(\delta)^\intercal)}\theta,
+$$
+where $\circ$ denotes the Hadamard product, ${\bm M}(\delta)=({\bm I}_N-\delta{\bm W})^{-1}$, and ${\bm M}(\rho)=({\bm I}_N-\rho{\bm W})^{-1}$.
+
+<p><center>*(Don't worry, no need to learn by hard!!)*</center></p>
+
+
+Essentially, the non-spatial OLS estimator $\beta_{OLS}$ is biased in the presence of either [@Pace.2010; @Ruttenauer.2022a]:
+
+- Spatial autocorrelation in the dependent variable ($\rho\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This bias increases with $\rho$, $\delta$, and $\beta$.
+
+- Local spatial spillover effects ($\theta\neq0$) and spatial autocorrelation in the covariate ($\delta\neq0$). This is analogous to the omitted variable bias resulting from the omission of ${\bm W} {\bm x}$. It increases with $\theta$ and $\delta$, but additionally with $\rho$ if $\theta\neq0$ and $\delta\neq0$.
+
+- An omitted variable and $\mathrm{E}({\bm \varepsilon}|{\bm x})\neq0$. This non-spatial omitted variable bias $\gamma$ is amplified by spatial dependence in the disturbances ($\lambda$) and spatial autocorrelation in the dependent variable ($\rho$), but also increases with positive values of $\delta$ if either $\rho\neq 0$ or $\lambda\neq 0$. Obviously, it also increases with $\gamma$.
+
+
+
 
 <!-- ## Examples -->
 

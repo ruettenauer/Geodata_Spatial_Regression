@@ -20,7 +20,8 @@ $$
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", 
+          "ggplot2", "viridis", "viridisLite") # note: load spdep first, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -343,6 +344,78 @@ sub.lw <- nb2listwdist(knn.nb,
 W_sub <- listw2mat(sub.lw)
 formatC(W_sub, format = "f", digits = 6)
 ```
+
+
+
+## Using this method for ego-hoods
+
+Sometimes, we want to add information of the local context to individual-level data (e.g. survey data). We can use the weights matrix above to generate new variables containing summary information about some characteristics of our neighbours, such as the average house price value of our direct neighbour, or the average share of migrants within 3km of the focal unit.
+
+For a practical examples, see for instance @Haussmann.2024: we test the impact of individual deprivation and neighbourhood deprivation on the likelihood of voting for Brexit. We find that more deprived people are more likely to favour Brexit. Moreover, the effect of individual deprivation is stronger in richer areas - being deprived is more frustrating if you see a lot of well-off people living around you.
+
+Obviously, a crucial question is the the size of the area / the units that we include in creating such a variable. Likely, we could also take into account multiple definition and then do a robustness check with varying distances [@Haussmann.2024]. 
+
+See below for an example of such an ego-hood with a 2km buffer, and 5 km buffer. Here, we use `dnearneigh()` to identify all units that are within 2km - 5km distance to the focal unit. The pink crossed mark the units identified by the weights, and the circles show the distance buffers around the focal unit.
+
+```{r}
+
+# Id of the focal unit (somewhere around Archway)
+focal <- "E02000555"
+
+# Define the centoid of this MSOA
+focal.cent <- st_centroid(msoa.spdf[which(msoa.spdf$MSOA11CD == focal), ])
+
+# Create three buffers
+buf1 <- st_buffer(focal.cent, 2000)
+buf2 <- st_buffer(focal.cent, 5000)
+buf3 <- st_buffer(focal.cent, 7000)
+
+### Neighbours within 2km to 5km distance
+dist_2_5.nb <- dnearneigh(coords, d1 = 2000, d2 = 5000)
+
+# Extract the neighbours of unit MSOA11CD
+i <- which(msoa.spdf$MSOA11CD == focal)
+neighbours <-unlist(dist_2_5.nb[i])
+
+# Define the subsets for plotting
+london_filtered1 <- msoa.spdf[buf3, ]
+london_filtered2 <- msoa.spdf[buf2, ]
+cover <- st_intersection(london_filtered2, buf2)
+
+# Get centroids of all units
+cent.sp <- st_centroid(msoa.spdf)
+
+
+### Plot the buffers and add the neighbours as cross 
+mp1_l <- 
+  ggplot() +
+  geom_sf(data = london_filtered1, aes(fill = per_nonUK), color = NA, alpha = 0.3) +
+  geom_sf(data = cover, aes(fill = per_nonUK), color = NA, alpha = 0.8) +
+  geom_sf(data = msoa.spdf[i,], fill = NA, color = "black", linewidth = 1.2) +
+  geom_sf(data = buf1, fill = NA, color = "red", linewidth = 1.2) +
+  geom_sf(data = buf2, fill = NA, color = "orange", linewidth = 1.2) +
+  geom_sf(data = cent.sp[neighbours,], shape = 4, color = "deeppink") +
+  scale_fill_viridis_c(
+    option = "G",
+    direction = -1,
+    name = "Percent non-UK"
+  ) +
+  labs(title = "Share of non UK born") +
+  theme_minimal() +
+  theme(
+    legend.position = c(0.8, 0.2),
+    plot.title = element_text(hjust = 0.5, size = 18),
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 10),
+    legend.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank()
+  )
+  
+mp1_l  
+```
+
 
 
 ## Islands / missings

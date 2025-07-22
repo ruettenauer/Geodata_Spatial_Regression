@@ -30,8 +30,8 @@ lapply(pkgs, require, character.only = TRUE)
 For mapping
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("tmap", "tmaptools", "viridisLite", 
-          "ggplot2", "ggthemes", "rmapshaper", "cowplot") 
+pkgs <- c("tmap", "tmaptools", "viridis", "viridisLite", 
+          "ggplot2", "ggthemes", "rmapshaper", "cowplot", "gridExtra") 
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -300,11 +300,101 @@ A large advantage of spatial data is that different data sources can be connecte
 
 Many packages and functions can be used to plot maps of spatial data. For instance, ggplot as a function to plot spatial data using `geom_sf()`. I am personally a fan of `tmap`, which makes many steps easier (but sometimes is less flexible).
 
-A great tool for choosing coulour is for instance [Colorbrewer](https://colorbrewer2.org/). `viridisLite` provides another great resource to chose colours.
+A great tool for choosing coulour is for instance [Colorbrewer](https://colorbrewer2.org/). `viridis` provides another great resource to chose colours.
+
+
+
+### ggplot
+
+Many of you will be familiar with ggplot. Obviously, you can also create very nice maps with ggplot and the `geom_sf()` layer. Particularly for continuous scales which you don't want to cut into bins, ggplot is probably the best choice. The options `coord_sf(datum = NA)` and `theme_map()` help to improve the layout (e.g. omitting the scales and the ticks).
+
+
+```{r}
+gp <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = no2))+
+    scale_fill_viridis_c(option = "B")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .6))
+gp
+```
+
+As always with ggplot, we can add different layers of data on top of each other. Below, we combine different layers of `geom_sf()`.
+
+```{r}
+# Get some larger scale boundaries
+borough.spdf <- st_read(
+  dsn = paste0("_data", "/statistical-gis-boundaries-london/ESRI"),
+  layer = "London_Borough_Excluding_MHW" # Note: no file ending
+)
+
+# transform to only inner lines
+borough_inner <- ms_innerlines(borough.spdf)
+
+# Plot with inner lines
+gp <- ggplot(msoa.spdf) +
+  geom_sf(aes(fill = no2), color = NA) +
+  scale_fill_viridis_c(option = "A") +
+  geom_sf(data = borough_inner, color = "gray92") +
+  geom_sf(
+    data = ulez.spdf,
+    color = "red",
+    fill = NA,
+    linewidth = 1.5
+  ) +
+  coord_sf(datum = NA) +
+  theme_map() +
+  labs(fill = "NO2 in mg/m3", title = "Air pollution") +
+  theme(legend.position = c(.7, .3),
+        plot.title = element_text(hjust = 0.5, size = 18),
+        legend.background = element_rect(fill = "white", color = NA))
+gp
+```
+
+
+And we can combine single maps, e.g. with the gridExtra package and the `grid.arrange()` function. We use exactly the same function, and only change the colouring option in `scale_fill_viridis_c()` which is the viridis colour option for continuous scales.
+
+```{r}
+# Plot with inner lines
+gp2 <- ggplot(msoa.spdf) +
+  geom_sf(aes(fill = med_house_price/1000), color = NA) +
+  scale_fill_viridis_c(option = "D") +
+  geom_sf(data = borough_inner, color = "gray92") +
+  geom_sf(
+    data = ulez.spdf,
+    color = "red",
+    fill = NA,
+    linewidth = 1.5
+  ) +
+  coord_sf(datum = NA) +
+  theme_map() +
+  labs(fill = "Median/1000", title = "House price") +
+  theme(legend.position = c(.7, .3),
+        plot.title = element_text(hjust = 0.5, size = 18),
+        legend.background = element_rect(fill = "white", color = NA))
+
+gpc <- grid.arrange(gp, gp2, ncol = 2, nrow = 1)
+
+plot(gpc)
+```
+
+And we can use the standard functions to export a png is good resolution.
+
+
+```{r}
+png(file =  "fig/London_combined.png", 
+    width = 13, height = 6, units = "in",
+    res = 300, bg = "white")
+plot(gpc)
+dev.off()
+```
+
 
 ### Tmaps
 
-For instance, lets plot the NO2 estimates using tmap + `tm_fill()` (there are lots of alternatives like `tm_shape`, `tm_points()`, `tm_dots()`).
+Another nice package for data visualisation is tmp. It's particularly nice, if you want to cut the colour into different brackets / bins. The `tm_scale_intervals()` function provides very helpful algorithms to cut the variable range into different bins for colouring.
+
+For instance, lets plot the NO2 estimates using tmap + `tm_polygon()` and the fisher algorithm for the colour intervals.
 
 ```{r}
 
@@ -587,39 +677,6 @@ tmap_arrange(mp1, mp2, ncol = 2, nrow = 1)
 dev.off()
 ```
 
-### ggplot
-
-```{r}
-gp <- ggplot(msoa.spdf)+
-    geom_sf(aes(fill = no2))+
-    scale_fill_viridis_c(option = "B")+
-    coord_sf(datum = NA)+
-    theme_map()+
-    theme(legend.position = c(.9, .6))
-gp
-```
-
-```{r}
-# Get some larger scale boundaries
-borough.spdf <- st_read(dsn = paste0("_data", "/statistical-gis-boundaries-london/ESRI"),
-                     layer = "London_Borough_Excluding_MHW" # Note: no file ending
-                     )
-
-# transform to only inner lines
-borough_inner <- ms_innerlines(borough.spdf)
-
-# Plot with inner lines
-gp <- ggplot(msoa.spdf)+
-    geom_sf(aes(fill = no2), color = NA)+
-    scale_fill_viridis_c(option = "A")+
-    geom_sf(data = borough_inner, color = "gray92")+
-    geom_sf(data = ulez.spdf, color = "red", fill = NA)+
-    coord_sf(datum = NA)+
-    theme_map()+
-    labs(fill = "NO2")+
-    theme(legend.position = c(.9, .6))
-gp
-```
 
 
 ## Exercises

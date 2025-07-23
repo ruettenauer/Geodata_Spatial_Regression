@@ -717,14 +717,14 @@ Attaching package: 'randomForest'</code></pre>
 <span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/importance.html">importance</a></span><span class="op">(</span><span class="va">rf.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     %IncMSE IncNodePurity
-median_income       32.74571      41.23382
-unemployment_rate   65.53177     115.44396
-share_college       21.48453      25.87007
-car_density         26.00376      33.91590
-w.median_income     37.20484      59.40647
-w.unemployment_rate 26.14944      49.53904
-w.share_college     16.28268      24.01804
-w.car_density       22.14259      31.81550</code></pre>
+median_income       35.99193      41.90251
+unemployment_rate   64.50404     116.50827
+share_college       21.93312      25.95366
+car_density         26.18594      34.63128
+w.median_income     37.48379      57.70317
+w.unemployment_rate 25.71146      51.10285
+w.share_college     15.77575      23.50311
+w.car_density       23.76701      30.99385</code></pre>
 </div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/varImpPlot.html">varImpPlot</a></span><span class="op">(</span><span class="va">rf.mod</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -900,24 +900,24 @@ Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
                         Direct     Indirect        Total
-gdp_in1000EUR     1.594309e-09 1.569190e-09 3.084286e-09
-unemployment_rate 2.074438e-03 1.962273e-03 3.986153e-03
-share_college     6.378737e-04 5.670016e-04 1.198756e-03
-car_density       1.174002e-04 1.051936e-04 2.215221e-04
+gdp_in1000EUR     1.550550e-09 1.525020e-09 2.988603e-09
+unemployment_rate 2.113314e-03 1.952071e-03 4.013038e-03
+share_college     7.485008e-04 6.728437e-04 1.415553e-03
+car_density       1.219987e-04 1.096958e-04 2.305254e-04
 
 Simulated z-values:
                      Direct  Indirect     Total
-gdp_in1000EUR      7.786658  6.881824  7.526291
-unemployment_rate -5.290188 -4.868401 -5.149652
-share_college      3.050705  2.985043  3.035220
-car_density        3.072231  2.984596  3.045479
+gdp_in1000EUR      7.928605  7.044344  7.708105
+unemployment_rate -5.197097 -4.918324 -5.129286
+share_college      2.607705  2.536358  2.584462
+car_density        3.046470  2.960024  3.020785
 
 Simulated p-values:
                   Direct     Indirect   Total     
-gdp_in1000EUR     6.8834e-15 5.9091e-12 5.2180e-14
-unemployment_rate 1.2219e-07 1.1250e-06 2.6097e-07
-share_college     0.0022830  0.0028354  0.0024036 
-car_density       0.0021247  0.0028395  0.0023231 </code></pre>
+gdp_in1000EUR     2.2204e-15 1.8634e-12 1.2879e-14
+unemployment_rate 2.0242e-07 8.7288e-07 2.9084e-07
+share_college     0.0091151  0.0112012  0.0097531 
+car_density       0.0023155  0.0030761  0.0025212 </code></pre>
 </div>
 </div>
 <!-- We use the `WDI` API package to retrieve data from the World Bank. -->

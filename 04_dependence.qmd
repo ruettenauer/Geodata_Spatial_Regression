@@ -22,7 +22,7 @@ $$
 ### Required packages {.unnumbered}
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "tmap", "viridisLite", "gstat") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "gstat", "mapview", "spdep", "tmap", "viridisLite") # note: load gstat first, then spdep
 lapply(pkgs, require, character.only = TRUE)
 
 ```
@@ -215,11 +215,11 @@ with the number of available pairs $N(h_i)$ in each distance interval $h_i$. Bas
 
 For more information, see for instance the [Geospatial Data Science in R](https://zia207.github.io/geospatial-r-github.io/semivariogram-modeling.html) by Zia Ahmed or @Pebesma.2023.
 
-To calculate the empirical semi-vriogram, we can use the package `gstat` with the function `variogram()`.
+To calculate the empirical semi-variogram, we can use the package `gstat` with the function `variogram()`.
 
 ```{r}
 # Variogram No2
-v.no2 <- variogram(no2 ~ 1, msoa.spdf)
+v.no2 <- gstat::variogram(no2 ~ 1, msoa.spdf)
 plot(v.no2, xlim = c(0, 1.075 * max(v.no2$dist)),
      ylim = c(-10, 1.05 * max(v.no2$gamma)))
 ```
@@ -235,7 +235,7 @@ We can also try to fit a model that resembles the spatial structure. This become
 # Intial parameter set by eye esitmation
 m.no2 <- vgm(60, "Cir", 20000, 0)  # Sill, model, range, nugget
 # least square fit
-m.f.v.no2 <- fit.variogram(v.no2, m.no2)
+m.f.v.no2 <- gstat::fit.variogram(v.no2, m.no2)
 ```
 
 

@@ -6,3 +6,6 @@
 /.quarto/
 /solutions/
 /_freeze/
+.positai
+
+**/*.quarto_ipynb

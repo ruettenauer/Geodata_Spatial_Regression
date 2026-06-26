@@ -27,29 +27,31 @@ The material introduces the use of geographical information to connect and analy
 
 | Day 2         | Spatial Regression Models I           |
 |---------------|---------------------------------------|
-| 12:30 - 14:00 | Spatial Regression Models: Theory     |
+| 09:30 - 11:00 | Spatial Regression Models: Theory     |
 |               | Coffee break                          |
-| 14:30 - 16:00 | Estimation & Lab Exercises in R       |
+| 11:15 - 12:30 | Estimation & Lab Exercises in R       |
+|               | Lunch break                           |
+| 13:30 - 15:00 | Interpreting Results: Spatial Impacts |
 |               | Coffee break                          |
-| 16:30 - 18:00 | Interpreting Results: Spatial Impacts |
-|               |                                       |
-| 20:00         | Informal get-together (optional)      |
+| 15:30 - 17:00 | Lab Exercises in R                    |
+| 18:30         | Informal get-together (optional)      |
+
+
 
 | Day 3         | Spatial Regression Models II        |
 |---------------|-------------------------------------|
-| 09:30 - 11:00 | Lab Exercises in R                  |
+| 09:30 - 11:00 | Comparing and Selecting Models      |
 |               | Coffee break                        |
-| 11:15 - 12:45 | Comparing and Selecting Models      |
+| 11:15 - 12:45 | Lab Exercises in R                  |
 |               | Lunch break                         |
-| 13:45 - 15:15 | Lab Exercises in R                  |
-|               | Coffee break                        |
-| 15:30 - 17:15 | Other Models                        |
+| 13:45 - 15:15 | Other Models                        |
+
 
 
 
 ## Some useful packages {.unnumbered}
 
-By now, *R* provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods [see e.g. @Bivand.2021]. Important packages for fundamental spatial operations are:
+*R* provides a lot of functionalities for GIS applications and spatial econometrics, and further extensions. There are lots of packages providing a huge variety of spatial functionalities and methods [see e.g. @Bivand.2021]. Important packages for fundamental spatial operations are:
 
 -   Spatial data workhorses: [sf](https://cran.r-project.org/web/packages/sf/index.html) [@Pebesma.2018] and [terra](https://cran.r-project.org/web/packages/terra/index.html)
 
@@ -77,8 +79,8 @@ By now, *R* provides a lot of functionalities for GIS applications and spatial e
 
 ## Course materials {.unnumbered}
 
--   I highly recommend the great Introduction to Geospatial Techniques for Social Scientists in R including, see [Stefan Jünger](https://stefanjuenger.github.io/) & [Dennis Abels](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/Dennis.Abel)'s [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2025). Nice materials on GIS, spatial operations and spatial data visualisation!
+-   I highly recommend the great ntroduction to Geospatial Techniques for Social Scientists in R by [Stefan Jünger](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/stefan.juenger), [Anne-Kathrin Stroppe](https://annestroppe.github.io/) & [Dennis Abels](https://www.gesis.org/institut/ueber-uns/mitarbeitendenverzeichnis/person/Dennis.Abel). Nice materials on GIS, spatial operations and spatial data visualization, all online here: [GESIS workshop materials](https://github.com/StefanJuenger/gesis-workshop-geospatial-techniques-R-2026). 
 
--   For those looking for a more in-depth introduction, I highly recommend Roger Bivand's course on Spatial Data Analysis: [Youtube recordings](https://www.youtube.com/watch?v=KkIbg50Pa0I&list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0), [Course Materials](https://rsbivand.github.io/ECS530_h19/)
+-   For those looking for an in-depth introduction to spatial data analysis, I highly recommend Roger Bivand's course on Spatial Data Analysis: [Youtube recordings](https://www.youtube.com/watch?v=KkIbg50Pa0I&list=PLXUoTpMa_9s10NVk4dBQljNOaOXAOhcE0), [Course Materials](https://rsbivand.github.io/ECS530_h19/)
 
 -   I've learned most of what I know about spatial econometrics from [Scott J. Cook](http://www.scottjcook.net/) and his workshop on Spatial Econometrics at the [Essex Summer school](https://essexsummerschool.com/).

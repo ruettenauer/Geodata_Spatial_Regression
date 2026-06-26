@@ -162,7 +162,9 @@ summary(msoa.spdf$dist_pubs)
 
 We may also want the average pollution within 1 km radius around each MSOA centroid. Note that it is usually better to use a ego-centric method where you calculate the average within a distance rather than using the characteristic of the intersecting cells only [@Lee.2008; @Mohai.2007].
 
-Therefore, we first create a buffer with `st_buffer()` around each midpoint and subsequently use `st_intersetion()` to calculate the overlap.
+To do this, we first create a 1 km buffer around each centroid using st_buffer(). Obviously, you could also use the existing polygons (e.g. each LSOA shape) rather than such a buffer around the mid/point. We then use area-weighted interpolation from the areal package to estimate average pollution values within each buffer. This approach accounts for the proportion of each pollution grid cell that overlaps with the buffer area and provides a more streamlined alternative to manually calculating intersections and weighted averages.
+
+In the commented section below, you also see an older version that uses `st_intersetion()` to calculate the overlap manually.
 
 ```{r}
 # Create buffer (1km radius)

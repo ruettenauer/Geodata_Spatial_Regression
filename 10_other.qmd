@@ -22,7 +22,7 @@ $$
 ### Required packages
 
 ```{r, message = FALSE, warning = FALSE, results = 'hide'}
-pkgs <- c("sf", "mapview", "spdep", "spatialreg", "ggplot2", "tmap", "viridis", "viridisLite", "GWmodel") # note: load spdep first, then spatialreg
+pkgs <- c("sf", "GWmodel", "mapview", "spdep", "spatialreg", "ggplot2", "tmap", "viridis", "viridisLite") # note: load GWmodel fist, then spdep, then spatialreg
 lapply(pkgs, require, character.only = TRUE)
 
 ```

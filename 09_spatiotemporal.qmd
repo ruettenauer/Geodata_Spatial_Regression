@@ -253,6 +253,9 @@ Again, we have to use an additional step to get impacts for SAR-like models.
 # Number of years
 T <- length(unique(Produc$year))
 
+# Assign attribute
+attr(sarre.mod, "have_factor_preds") <- FALSE
+
 # impacts
 sarre.mod.imp <- impacts(sarre.mod,
                          listw = usalw,

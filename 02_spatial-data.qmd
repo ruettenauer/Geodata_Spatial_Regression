@@ -685,185 +685,24 @@ dev.off()
 
 1) What is the difference between a spatial "sf" object and a conventional "data.frame"? What's the purpose of the function `st_drop_geometry()`?
 
-It's the same. A spatial "sf" object just has an additional column containing the spatial coordinates.
 
 2) Using msoa.spdf, please create a spatial data frame that contains only the MSOA areas that are within the ulez zone.
 
-```{r}
-sub4.spdf <- msoa.spdf[ulez.spdf, ]
-```
+
 
 
 3) Please create a map for London (or only the msoa-ulez subset) which shows the share of Asian residents (or any other ethnic group).
 
-```{r}
-gp <- ggplot(msoa.spdf)+
-    geom_sf(aes(fill = per_asian))+
-    scale_fill_viridis_c(option = "E")+
-    coord_sf(datum = NA)+
-    theme_map()+
-    theme(legend.position = c(.9, .6))
-gp
-```
 
 
 4) Please calculate the distance of each MSOA to the London city centre 
-  a) use google maps to get lon and lat, 
+  a) use google maps to get lon and lat of the city centre (roughly), 
   b) use `st_as_sf()` to create the spatial point
   c) use `st_distance()` to calculate the distance
   
-```{r}
-### Distance to city center
-# Define centre
-centre <- st_as_sf(data.frame(lon = -0.128120855701165, 
-                              lat = 51.50725909644806),
-                   coords = c("lon", "lat"), 
-                   crs = 4326)
-# Reproject
-centre <- st_transform(centre, crs = st_crs(msoa.spdf))
-# Calculate distance
-msoa.spdf$dist_centre <- as.numeric(st_distance(msoa.spdf, centre)) / 1000
-# hist(msoa.spdf$dist_centre)
-```
+
   
   
 5) Can you create a plot with the distance to the city centre and pub counts next to each other?  
 
 
-```{r}
-
-# Define colours
-cols <- viridis(n = 10, direction = 1, option = "B")
-cols2 <- viridis(n = 10, direction = 1, option = "E")
-
-
-library(tmap)
-
-# Map 1: Distance - Fisher
-mp1 <- tm_shape(msoa.spdf) + 
-  tm_polygons(
-    fill = "dist_centre",
-    fill_alpha = 1,
-    fill.scale = tm_scale_intervals(
-      style = "fisher",
-      n = 10,
-      values = cols
-    ),
-    fill.legend = tm_legend(
-      title = "Distance",
-      hist = FALSE
-    )
-  ) +
-  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
-  tm_layout(
-    frame = FALSE,
-    legend.frame = TRUE,
-    legend.bg.color = "white",
-    legend.position = c("right", "bottom"),
-    legend.outside = FALSE,
-    legend.title.size = 0.8,
-    legend.text.size = 0.8
-  ) +
-  tm_title_out(
-    text = "Dist centre",
-    position = tm_pos_out("center", "top", pos.h = "center"),
-    size = 1.6
-  )
-
-# Map 2: Distance - Quantile
-mp2 <- tm_shape(msoa.spdf) + 
-  tm_polygons(
-    fill = "dist_centre",
-    fill_alpha = 1,
-    fill.scale = tm_scale_intervals(
-      style = "quantile",
-      n = 10,
-      values = cols
-    ),
-    fill.legend = tm_legend(
-      title = "Distance",
-      hist = FALSE
-    )
-  ) +
-  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
-  tm_layout(
-    frame = FALSE,
-    legend.frame = TRUE,
-    legend.bg.color = "white",
-    legend.position = c("right", "bottom"),
-    legend.outside = FALSE,
-    legend.title.size = 0.8,
-    legend.text.size = 0.8
-  ) +
-  tm_title_out(
-    text = "Dist centre",
-    position = tm_pos_out("center", "top", pos.h = "center"),
-    size = 1.6
-  )
-
-# Map 3: Pubs - Fisher
-mp3 <- tm_shape(msoa.spdf) + 
-  tm_polygons(
-    fill = "pubs_count",
-    fill_alpha = 1,
-    fill.scale = tm_scale_intervals(
-      style = "fisher",
-      n = 10,
-      values = cols
-    ),
-    fill.legend = tm_legend(
-      title = "Count",
-      hist = FALSE
-    )
-  ) +
-  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
-  tm_layout(
-    frame = FALSE,
-    legend.frame = TRUE,
-    legend.bg.color = "white",
-    legend.position = c("right", "bottom"),
-    legend.outside = FALSE,
-    legend.title.size = 0.8,
-    legend.text.size = 0.8
-  ) +
-  tm_title_out(
-    text = "Pubs",
-    position = tm_pos_out("center", "top", pos.h = "center"),
-    size = 1.6
-  )
-
-# Map 4: Pubs - Quantile
-mp4 <- tm_shape(msoa.spdf) + 
-  tm_polygons(
-    fill = "pubs_count",
-    fill_alpha = 1,
-    fill.scale = tm_scale_intervals(
-      style = "quantile",
-      n = 10,
-      values = cols
-    ),
-    fill.legend = tm_legend(
-      title = "Count",
-      hist = FALSE
-    )
-  ) +
-  tm_borders(col = "white", lwd = 0.5, fill_alpha = 0.5) +
-  tm_layout(
-    frame = FALSE,
-    legend.frame = TRUE,
-    legend.bg.color = "white",
-    legend.position = c("right", "bottom"),
-    legend.outside = FALSE,
-    legend.title.size = 0.8,
-    legend.text.size = 0.8
-  ) +
-  tm_title_out(
-    text = "Pubs",
-    position = tm_pos_out("center", "top", pos.h = "center"),
-    size = 1.6
-  )
-
-
-
-tmap_arrange(mp1, mp2, mp3, mp4, ncol = 2, nrow = 2)
-```

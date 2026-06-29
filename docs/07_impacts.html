@@ -436,7 +436,7 @@ Warning
 </div>
 </div>
 <p>At first glance, the specifications presented above seem relatively similar in the way of modelling spatial effects. <strong>Yet, they differ in very important aspects</strong>.</p>
-<p>First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume <strong>global</strong> spatial dependence, the second two assume <strong>local</strong> spatial dependence <span class="citation" data-cites="Anselin.2003 HalleckVega.2015 LeSage.2009">(<a href="#ref-Anselin.2003" role="doc-biblioref">Anselin 2003</a>; <a href="#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>; <a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>.</p>
+<p>First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume <strong>global</strong> spatial dependence, the second two assume <strong>local</strong> spatial dependence <span class="citation" data-cites="Anselin.2003 HalleckVega.2015 LeSage.2009">(<a href="references.html#ref-Anselin.2003" role="doc-biblioref">Anselin 2003</a>; <a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>; <a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>.</p>
 <p>Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model, the reduced form is given by:</p>
 <p><span class="math display">\[
 \begin{split}
@@ -613,7 +613,7 @@ Warning
 <!-- for SAR, SAC, and SDM even the direct impacts differ from the point estimates. This results from the fact that an endogenous term of the dependent variable ${\bm W}{\bm y}$ contains feedback loops through the system of neighbours \citep{Betz.2019,Franzese.2007.0,HalleckVega.2015.0}. A change of $x_{i}$ in the focal unit $i$ influences the focal unit $i$ itself, but also the neighbouring unit $j$, which in turn influences the focal unit $i$ in a feedback loop. This feedback loop is part of the direct impact. -->
 </section><section id="global-and-local-spillovers" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="global-and-local-spillovers">
 <span class="header-section-number">10.2</span> Global and local spillovers</h2>
-<p>The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent <strong>global spillover effects</strong>, the latter three represent <strong>local spillover effects</strong> <span class="citation" data-cites="Anselin.2003 LeSage.2009 LeSage.2014">(<a href="#ref-Anselin.2003" role="doc-biblioref">Anselin 2003</a>; <a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>; <a href="#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>.</p>
+<p>The kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent <strong>global spillover effects</strong>, the latter three represent <strong>local spillover effects</strong> <span class="citation" data-cites="Anselin.2003 LeSage.2009 LeSage.2014">(<a href="references.html#ref-Anselin.2003" role="doc-biblioref">Anselin 2003</a>; <a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>; <a href="references.html#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>.</p>
 <section id="local-spillovers" class="level3" data-number="10.2.1"><h3 data-number="10.2.1" class="anchored" data-anchor-id="local-spillovers">
 <span class="header-section-number">10.2.1</span> Local spillovers</h3>
 <p>In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of <span class="math inline">\({\bm x}_k\)</span> in the spatially weighted neighbouring observations on the dependent variable of the focal unit: the weighted average among neighbours; when using a row-normalised contiguity weights matrix, <span class="math inline">\({\bm W} {\bm x}_k\)</span> is the mean value of <span class="math inline">\({\bm x}_k\)</span> in the neighbouring units.</p>
@@ -697,10 +697,10 @@ Warning
 \]</span></p>
 <p>All diagonal elements of <span class="math inline">\(\mathrm{diag}({\bm W})=w_{ii}=0\)</span>. However, diagonal elements of higher order neighbours are not zero <span class="math inline">\(\mathrm{diag}({\bm W}^2)=\mathrm{diag}({\bm W}{\bm W})\neq0\)</span>.</p>
 <p>Intuitively, <span class="math inline">\(\rho{\bm W}\)</span> only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas <span class="math inline">\(\rho^2{\bm W}^2\)</span> contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, <span class="math inline">\(({\bm I_N}-\rho {\bm W})^{-1}\beta_k\)</span> includes <span style="color:red">feedback effects</span> from <span class="math inline">\(\rho^2{\bm W}^2\)</span> on (they are part of the direct impacts according to the summary measures below). This is way the <span style="color:red">diagonal above</span> <span class="math inline">\(\geq 1\)</span>.</p>
-<p>In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects <span class="citation" data-cites="LeSage.2014">(<a href="#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by <span class="math inline">\({\bm W}\)</span> (the average over all neighbours in case of a row-normalised weights matrix).</p>
+<p>In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects <span class="citation" data-cites="LeSage.2014">(<a href="references.html#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by <span class="math inline">\({\bm W}\)</span> (the average over all neighbours in case of a row-normalised weights matrix).</p>
 <p>For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g.&nbsp;in walking distance) is relevant for estimating the house prices.</p>
 <p>In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term.</p>
-<p>Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. <span class="citation" data-cites="Anselin.2003">Anselin (<a href="#ref-Anselin.2003" role="doc-biblioref">2003</a>)</span> proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in <span class="math inline">\({\bm x}_k\)</span> <span class="citation" data-cites="LeSage.2014">(<a href="#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>.</p>
+<p>Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. <span class="citation" data-cites="Anselin.2003">Anselin (<a href="references.html#ref-Anselin.2003" role="doc-biblioref">2003</a>)</span> proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in <span class="math inline">\({\bm x}_k\)</span> <span class="citation" data-cites="LeSage.2014">(<a href="references.html#ref-LeSage.2014" role="doc-biblioref">LeSage 2014</a>)</span>.</p>
 </section></section><section id="summary-impact-measures" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="summary-impact-measures">
 <span class="header-section-number">10.3</span> Summary impact measures</h2>
 <p>Note that the derivative in SAR, SAC, and SDM is a <span class="math inline">\(N \times N\)</span> matrix, returning individual effects of each unit on each other unit, differentiated in <em>direct, indirect, and total impacts</em>.</p>
@@ -731,10 +731,10 @@ Warning
 <p>All variation in the effects matrix <span class="math inline">\((\bm I_N - \rho \bm W)^{-1}\)</span> comes from the relationship in <span class="math inline">\(\bm W\)</span> which we have given a-priori!</p>
 </div>
 </div>
-<p>Since reporting the individual partial effects is usually not of interest, <span class="citation" data-cites="LeSage.2009">LeSage and Pace (<a href="#ref-LeSage.2009" role="doc-biblioref">2009</a>)</span> proposed to average over these effect matrices. While the average diagonal elements of the effects matrix <span class="math inline">\((\bm I_N - \rho \bm W)^{-1}\)</span> represent the so called direct impacts of variable <span class="math inline">\({\bm x}_k\)</span>, the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects).</p>
+<p>Since reporting the individual partial effects is usually not of interest, <span class="citation" data-cites="LeSage.2009">LeSage and Pace (<a href="references.html#ref-LeSage.2009" role="doc-biblioref">2009</a>)</span> proposed to average over these effect matrices. While the average diagonal elements of the effects matrix <span class="math inline">\((\bm I_N - \rho \bm W)^{-1}\)</span> represent the so called direct impacts of variable <span class="math inline">\({\bm x}_k\)</span>, the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects).</p>
 <p><span style="color:red">direct impacts</span> refer to an average effect of a unit change in <span class="math inline">\(x_i\)</span> on <span class="math inline">\(y_i\)</span>, and <span style="color:blue">the indirect (spillover) impacts</span> indicate how a change in <span class="math inline">\(x_i\)</span>, on average, influences all neighbouring units <span class="math inline">\(y_j\)</span>.</p>
-<p>Though previous literature <span class="citation" data-cites="HalleckVega.2015 LeSage.2009">(<a href="#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>; <a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span> has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial `multiplier’ component if we specify an endogenous lagged depended variable, as a change in <span class="math inline">\(\bm x_i\)</span> influences <span class="math inline">\(\bm y_i\)</span>, which influences <span class="math inline">\(\bm y_j\)</span>, which in turn influences <span class="math inline">\(\bm y_i\)</span>.</p>
-<p>Usually, one should use summary measures to report effects in spatial models <span class="citation" data-cites="LeSage.2009">(<a href="#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>. <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span> provide a nice summary of the impacts for each model:</p>
+<p>Though previous literature <span class="citation" data-cites="HalleckVega.2015 LeSage.2009">(<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">Halleck Vega and Elhorst 2015</a>; <a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span> has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial `multiplier’ component if we specify an endogenous lagged depended variable, as a change in <span class="math inline">\(\bm x_i\)</span> influences <span class="math inline">\(\bm y_i\)</span>, which influences <span class="math inline">\(\bm y_j\)</span>, which in turn influences <span class="math inline">\(\bm y_i\)</span>.</p>
+<p>Usually, one should use summary measures to report effects in spatial models <span class="citation" data-cites="LeSage.2009">(<a href="references.html#ref-LeSage.2009" role="doc-biblioref">LeSage and Pace 2009</a>)</span>. <span class="citation" data-cites="HalleckVega.2015">Halleck Vega and Elhorst (<a href="references.html#ref-HalleckVega.2015" role="doc-biblioref">2015</a>)</span> provide a nice summary of the impacts for each model:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -831,31 +831,31 @@ per_other dy/dx   -0.001820705 -0.003067212 -0.004887917
 Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
-                        Direct     Indirect       Total
-log(no2) dy/dx    0.0472349165 0.0971584712 0.132347029
-log(POPDEN) dy/dx 0.0132178155 0.0256025133 0.037955380
-per_mixed dy/dx   0.0061843504 0.0110115198 0.016964006
-per_asian dy/dx   0.0004546804 0.0008470937 0.001256175
-per_black dy/dx   0.0010175510 0.0023304010 0.002810306
-per_other dy/dx   0.0032852685 0.0055750866 0.008847043
+                        Direct    Indirect       Total
+log(no2) dy/dx    0.0451328333 0.093099003 0.123731104
+log(POPDEN) dy/dx 0.0143881014 0.027322169 0.040753752
+per_mixed dy/dx   0.0064593894 0.012062399 0.018271096
+per_asian dy/dx   0.0005208998 0.000841307 0.001316153
+per_black dy/dx   0.0010766624 0.002350591 0.002806216
+per_other dy/dx   0.0031756689 0.005571385 0.008731575
 
 Simulated z-values:
                        Direct    Indirect       Total
-log(no2) dy/dx      9.5035927   7.8321648   9.1415922
-log(POPDEN) dy/dx  -4.8038113  -4.2197380  -4.5193010
-per_mixed dy/dx     3.3288373   3.1731866   3.2733013
-per_asian dy/dx    -5.7236494  -5.2068141  -5.5828917
-per_black dy/dx   -13.9807983 -10.3432689 -13.6391345
-per_other dy/dx    -0.4952323  -0.5066758  -0.5031887
+log(no2) dy/dx      9.8027643   8.0648235   9.6439256
+log(POPDEN) dy/dx  -4.3733845  -3.9221720  -4.1735284
+per_mixed dy/dx     3.3222102   3.0347977   3.1780465
+per_asian dy/dx    -4.8204809  -5.0430168  -5.1314058
+per_black dy/dx   -13.2621793 -10.3057942 -13.7208257
+per_other dy/dx    -0.5547604  -0.5590523  -0.5584823
 
 Simulated p-values:
                   Direct     Indirect   Total     
-log(no2) dy/dx    &lt; 2.22e-16 4.8850e-15 &lt; 2.22e-16
-log(POPDEN) dy/dx 1.5567e-06 2.4459e-05 6.2044e-06
-per_mixed dy/dx   0.00087209 0.0015078  0.001063  
-per_asian dy/dx   1.0426e-08 1.9211e-07 2.3655e-08
+log(no2) dy/dx    &lt; 2.22e-16 6.6613e-16 &lt; 2.22e-16
+log(POPDEN) dy/dx 1.2233e-05 8.7754e-05 2.9992e-05
+per_mixed dy/dx   0.00089307 0.002407   0.0014827 
+per_asian dy/dx   1.4321e-06 4.5825e-07 2.8759e-07
 per_black dy/dx   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other dy/dx   0.62043618 0.6123823  0.614832  </code></pre>
+per_other dy/dx   0.57905858 0.576126   0.5765151 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Alternative with traces (better for large W)</span></span>
 <span><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="va">queens.lw</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span>
@@ -879,31 +879,31 @@ per_other dy/dx   -0.001820704 -0.003067183 -0.004887888
 Simulation results ( variance matrix):
 ========================================================
 Simulated standard errors
-                        Direct    Indirect       Total
-log(no2) dy/dx    0.0503926761 0.107267705 0.145510680
-log(POPDEN) dy/dx 0.0142043152 0.027414357 0.040623523
-per_mixed dy/dx   0.0065615810 0.011800703 0.018097226
-per_asian dy/dx   0.0004898375 0.000852274 0.001295516
-per_black dy/dx   0.0010220416 0.002346679 0.002773884
-per_other dy/dx   0.0033788645 0.005852772 0.009208180
+                       Direct    Indirect       Total
+log(no2) dy/dx    0.048180800 0.097463310 0.133794381
+log(POPDEN) dy/dx 0.013944317 0.026321979 0.039418162
+per_mixed dy/dx   0.006428432 0.011442290 0.017620206
+per_asian dy/dx   0.000497751 0.000861474 0.001316499
+per_black dy/dx   0.001021325 0.002298389 0.002740763
+per_other dy/dx   0.003570147 0.006217094 0.009772246
 
 Simulated z-values:
-                       Direct    Indirect       Total
-log(no2) dy/dx      8.8894035   7.0255052   8.2576114
-log(POPDEN) dy/dx  -4.4821805  -3.9173561  -4.2108141
-per_mixed dy/dx     3.3203780   3.1106300   3.2322385
-per_asian dy/dx    -5.2273913  -5.0405436  -5.2924846
-per_black dy/dx   -14.0477837 -10.2810202 -13.8735687
-per_other dy/dx    -0.5538255  -0.5573935  -0.5575041
+                       Direct   Indirect       Total
+log(no2) dy/dx      9.2177064   7.743533   8.9602180
+log(POPDEN) dy/dx  -4.4434656  -4.011464  -4.2505982
+per_mixed dy/dx     3.2592510   3.117521   3.2135521
+per_asian dy/dx    -5.1043210  -5.005023  -5.2050001
+per_black dy/dx   -14.0318452 -10.591612 -14.1109303
+per_other dy/dx    -0.5020946  -0.504195  -0.5042013
 
 Simulated p-values:
                   Direct     Indirect   Total     
-log(no2) dy/dx    &lt; 2.22e-16 2.1330e-12 2.2204e-16
-log(POPDEN) dy/dx 7.3884e-06 8.9525e-05 2.5445e-05
-per_mixed dy/dx   0.00089896 0.0018669  0.0012282 
-per_asian dy/dx   1.7192e-07 4.6421e-07 1.2067e-07
+log(no2) dy/dx    &lt; 2.22e-16 9.7700e-15 &lt; 2.22e-16
+log(POPDEN) dy/dx 8.8521e-06 6.0343e-05 2.132e-05 
+per_mixed dy/dx   0.0011171  0.0018238  0.001311  
+per_asian dy/dx   3.3198e-07 5.5855e-07 1.940e-07 
 per_black dy/dx   &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-per_other dy/dx   0.57969829 0.5772586  0.5771830 </code></pre>
+per_other dy/dx   0.6156010  0.6141244  0.614120  </code></pre>
 </div>
 </div>
 <p>The indirect effects in SAR, SAC, and SDM refer to global spillover effects. This means a change of <span class="math inline">\(x\)</span> in the focal units flows through the entire system of neighbours (direct nieightbours, neighbours of neighbours, …) influencing ‘their <span class="math inline">\(y\)</span>’. One can think of this as diffusion or a change in a long-term equilibrium.</p>
@@ -924,16 +924,16 @@ per_other dy/dx   -0.020391354  0.048139008  0.027747654</code></pre>
 </div>
 </section><section id="examples" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="examples">
 <span class="header-section-number">10.4</span> Examples</h2>
-<section id="boillat.2022" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="boillat.2022"><span class="citation" data-cites="Boillat.2022">Boillat et al. (<a href="#ref-Boillat.2022" role="doc-biblioref">2022</a>)</span></h3>
+<section id="boillat.2022" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="boillat.2022"><span class="citation" data-cites="Boillat.2022">Boillat et al. (<a href="references.html#ref-Boillat.2022" role="doc-biblioref">2022</a>)</span></h3>
 <p><em>The paper investigates the effects of protected areas and various land tenure regimes on deforestation and possible spillover effects in Bolivia, a global tropical deforestation hotspot.</em></p>
 <p><img src="fig/Boillat.png" class="img-fluid"></p>
 <p><em>Protected areas – which in Bolivia are all based on co-management schemes - also protect forests in adjacent areas, showing an indirect protective spillover effect. Indigenous lands however only have direct forest protection effects.</em></p>
-</section><section id="fischer.2009" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="fischer.2009"><span class="citation" data-cites="Fischer.2009">Fischer et al. (<a href="#ref-Fischer.2009" role="doc-biblioref">2009</a>)</span></h3>
+</section><section id="fischer.2009" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="fischer.2009"><span class="citation" data-cites="Fischer.2009">Fischer et al. (<a href="references.html#ref-Fischer.2009" role="doc-biblioref">2009</a>)</span></h3>
 <p><em>The focus of this paper is on the role of human capital in explaining labor productivity variation among 198 European regions within a regression framework.</em></p>
 <p><img src="fig/Fischer.png" class="img-fluid"></p>
 <p><em>A ceteris paribus increase in the level of human capital is found to have a significant and positive direct impact. But this positive direct impact is offset by a significant and negative indirect (spillover) impact leading to a total impact that is not significantly different from zero.</em></p>
 <p><em>The intuition here arises from the notion that it is relative regional advantages in human capital that matter most for labor productivity, so changing human capital across all regions should have little or no total impact on (average) labor productivity levels.</em></p>
-</section><section id="ruttenauer.2018a" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="ruttenauer.2018a"><span class="citation" data-cites="Ruttenauer.2018a">Rüttenauer (<a href="#ref-Ruttenauer.2018a" role="doc-biblioref">2018</a>)</span></h3>
+</section><section id="ruttenauer.2018a" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="ruttenauer.2018a"><span class="citation" data-cites="Ruttenauer.2018a">Rüttenauer (<a href="references.html#ref-Ruttenauer.2018a" role="doc-biblioref">2018</a>)</span></h3>
 <p><em>This study investigates the presence of environmental inequality in Germany - the connection between the presence of foreign-minority population and objectively measured industrial pollution.</em></p>
 <p><img src="fig/census.png" class="img-fluid"></p>
 <p><em>Results reveal that the share of minorities within a census cell indeed positively correlates with the exposure to industrial pollution. Furthermore, spatial spillover effects are highly relevant: the characteristics of the neighbouring spatial units matter in predicting the amount of pollution. Especially within urban areas, clusters of high minority neighbourhoods are affected by high levels of environmental pollution.</em></p>
@@ -941,7 +941,7 @@ per_other dy/dx   -0.020391354  0.048139008  0.027747654</code></pre>
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Anselin.2003" class="csl-entry" role="listitem">
 Anselin, Luc. 2003. <span>“Spatial <span>Externalities</span>, <span>Spatial Multipliers</span>, and <span>Spatial Econometrics</span>.”</span> <em>International Regional Science Review</em> 26 (2): 153–66. <a href="https://doi.org/10.1177/0160017602250972">https://doi.org/10.1177/0160017602250972</a>.
 </div>

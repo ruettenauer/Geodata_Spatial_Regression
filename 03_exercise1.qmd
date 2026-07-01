@@ -40,13 +40,37 @@ load("_data/msoa2_spatial.RData")
 
 ### 1) Can you import the spatial administrative units of Germany ("Kreisgrenzen_2020_mit_Einwohnerzahl" from the _data folder) and make a simple map of the geographies / adminstrative boundaries?   {.unnumbered}
 
+```{r}
+# Import shape file layer
+ger.sdpf <- st_read(dsn = "_data/Kreisgrenzen_2020_mit_Einwohnerzahl",
+                    layer = "KRS_ew_20")
+
+# Plot via ggplot
+gp <- ggplot(ger.sdpf)+
+    geom_sf( color = "magenta", fill = NA)+
+    coord_sf(datum = NA)+
+    theme_map()
+gp
+```
 
 ### 2) What is the Coordinate reference system of this German shape file? Please print the CRS. {.unnumbered}
 
+```{r}
+st_crs(ger.sdpf)
+```
 
 
 ### 3) Using the MSOA data in London from above: Please draw a map showing the distribution of the share of non-EU immigrants (the variable is `per_nonEU').  {.unnumbered}
 
+```{r}
+gp1 <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = per_nonEU))+
+    scale_fill_viridis_c(option = "A")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .4))
+gp1
+```
 
 ### 4) Below we will load some additional data on heat islands.   {.unnumbered}
 
@@ -54,6 +78,18 @@ We will add some Data about [London's Urban Heat Island](https://data.london.gov
 
 This is a tif file that we need to read in with stars and then transform into sf.
 
+```{r}
+library(stars)
+
+# Read geo_tif with stars
+urbclim <- read_stars("https://data.london.gov.uk/download/ae16d5af-5dce-49bc-b1e2-88bb41e8bfd0/f4e3a05d-fad7-4b56-8c42-ba2274f3bb3a/London_Tmin_midnight_2011.tif")
+
+# urbclim <- read_stars("_data/London_Tmin_midnight_2011.tif")
+
+# Transfer to sf
+urbclim.spdf <- st_as_sf(urbclim)
+names(urbclim.spdf)[1] <- "Tmin_midnight"
+```
 
 a) On which projection is the urbclim temperature data?
 
@@ -62,10 +98,53 @@ b) Can you please calculate the average night-time temperature for each MSOA usi
 c) Create a map showing the temperature for each MSOA, and plot it next to the maps of non-EU immigrant residents (e.g. using `grid.arrange()`) .
 
 
+```{r}
+# Check projection
+st_crs(urbclim.spdf)
+```
+
+
+```{r}
+# Add id
+urbclim.spdf$id <- rownames(urbclim.spdf)
+
+# Bring on common crs
+urbclim.spdf <- st_transform(urbclim.spdf, crs = st_crs(msoa.spdf))
+
+# Use area weights interpolation to merge
+msoa.spdf <- aw_interpolate(
+  msoa.spdf,
+  tid = "MSOA11CD",
+  source = urbclim.spdf,
+  sid = "id",
+  weight = "sum",
+  output = "sf",
+  intensive = "Tmin_midnight"             
+)
+```
 
 
 
-### 4) What's the correlation between the share of non-EU residents and the temperature.   {.unnumbered}
+
+```{r}
+# Make map of Temperature
+gp2 <- ggplot(msoa.spdf)+
+    geom_sf(aes(fill = Tmin_midnight))+
+    scale_fill_viridis_c(option = "C")+
+    coord_sf(datum = NA)+
+    theme_map()+
+    theme(legend.position = c(.9, .4))
+
+# Plot two ggplot maps next to each other
+gp <- grid.arrange(gp1, gp2, nrow = 1)
+gp
+```
 
 
+### 4) What's the correlation between the share of non-EU residents and the termperature.   {.unnumbered}
+
+```{r}
+mod1.lm <- lm(Tmin_midnight ~ per_nonEU, data = msoa.spdf)
+summary(mod1.lm)
+```
 

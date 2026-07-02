@@ -666,6 +666,7 @@ imp.res$lb <- imp.res$coef - imp.res$se * interval2
 imp.res$ub <- imp.res$coef + imp.res$se * interval2
 
 # Rename variables
+imp.res$var <- gsub(" dy/dx", "", imp.res$var)
 names <- list('park_kmsq' =  'Green space',
                'pt_access_index' =  'Public transport access',
                'POPDEN' =  'Population density',

@@ -420,11 +420,11 @@ loaded via a namespace (and not attached):
 [95] MASS_7.3-65           </code></pre>
 </div>
 </div>
-<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">Croissant and Millo (<a href="#ref-Croissant.2018" role="doc-biblioref">2018</a>)</span>. <span class="citation" data-cites="LeSage.2014b">LeSage (<a href="#ref-LeSage.2014b" role="doc-biblioref">2014</a>)</span> discusses Bayesian panel data methods.</p>
-<p>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="citation" data-cites="Lee.2010">(<a href="#ref-Lee.2010" role="doc-biblioref">Lee and Yu 2010</a>)</span>.</p>
+<p><span class="citation" data-cites="Elhorst.2014">Elhorst (<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">2014</a>)</span> provides a comprehensive introduction to spatial panel data methods. Article length introduction to spatial panel data models (FE and RE) can be found in <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>, <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="Croissant.2018">Croissant and Millo (<a href="references.html#ref-Croissant.2018" role="doc-biblioref">2018</a>)</span>. <span class="citation" data-cites="LeSage.2014b">LeSage (<a href="references.html#ref-LeSage.2014b" role="doc-biblioref">2014</a>)</span> discusses Bayesian panel data methods.</p>
+<p>Note that we will only discuss some basics here, as the complete econometrics of these models and their estimation strategy become insanely complicated <span class="citation" data-cites="Lee.2010">(<a href="references.html#ref-Lee.2010" role="doc-biblioref">Lee and Yu 2010</a>)</span>.</p>
 </section><section id="static-panel-data-models" class="level2" data-number="14.1"><h2 data-number="14.1" class="anchored" data-anchor-id="static-panel-data-models">
 <span class="header-section-number">14.1</span> Static panel data models</h2>
-<p>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="citation" data-cites="Millo.2012">(<a href="#ref-Millo.2012" role="doc-biblioref">Millo and Piras 2012</a>)</span>.</p>
+<p>The idea behind a static panel data with auto-regressive term is similar to the cross sectional situation <span class="citation" data-cites="Millo.2012">(<a href="references.html#ref-Millo.2012" role="doc-biblioref">Millo and Piras 2012</a>)</span>.</p>
 <p><span class="math display">\[
         {\bm y}= \rho(\bm I_T\otimes {\bm W_N}){\bm y}+{\bm X}{\bm \beta}+ {\bm u}.
 \]</span></p>
@@ -483,7 +483,7 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 <p><span class="math display">\[
         {y_{it}}= \rho\sum_{j=1}^Nw_{ij}y_{jt} + \bm x_{it}\bm\beta + \mu_i + \nu_{it},
 \]</span> where <span class="math inline">\(\mu_i\)</span> denote the individual-specific fixed effects.</p>
-<p>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="citation" data-cites="Elhorst.2014">(<a href="#ref-Elhorst.2014" role="doc-biblioref">Elhorst 2014</a>)</span>.</p>
+<p>As with the standard spatial lag model, we cannot rely on the OLS estimator because of the simultaneity problem. The coefficients are thus estimated by maximum likelihood <span class="citation" data-cites="Elhorst.2014">(<a href="references.html#ref-Elhorst.2014" role="doc-biblioref">Elhorst 2014</a>)</span>.</p>
 <p><strong>Random Effects</strong></p>
 <p>In the RE model, the individual specific effects are treated as components of the error <span class="math inline">\(\mu \sim \mathrm{IID}(o, \sigma_\mu^2)\)</span>. The model can then be written as</p>
 <p><span class="math display">\[
@@ -496,7 +496,7 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 </section><section id="dynamic-panel-data-models" class="level2" data-number="14.2"><h2 data-number="14.2" class="anchored" data-anchor-id="dynamic-panel-data-models">
 <span class="header-section-number">14.2</span> Dynamic panel data models</h2>
 <p>Relying on panel data and repeated measures over time, comes with an additional layer of dependence / autocorrelation between units. We have spatial dependence (with its three potential sources), and we have temporal/serial dependence within each unit over time.</p>
-<p>A general dynamic model would account for all sources of potential dependence, including combinations <span class="citation" data-cites="Elhorst.2012">(<a href="#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span>. The most general model can be written as:</p>
+<p>A general dynamic model would account for all sources of potential dependence, including combinations <span class="citation" data-cites="Elhorst.2012">(<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span>. The most general model can be written as:</p>
 <p><span class="math display">\[
 \begin{split}
         {\bm y_t}=&amp; \tau \bm y_{t-1} + \rho(\bm I_T\otimes {\bm W_N}){\bm y}_t
@@ -518,23 +518,23 @@ v_{n} w_{1} &amp; v_{n} w_{2} &amp; \cdots &amp; v_{n} w_{m}
 <p><span class="math display">\[
 \frac{\partial {\bm y}}{\partial {\bm x}_k} = [(1-\tau){\bm I}-(\rho+\gamma){\bm W_{NT}}]^{-1}\left[\beta_k+{\bm W_{NT}}\theta_k\right].
 \]</span></p>
-<p>For more information see <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>.</p>
+<p>For more information see <span class="citation" data-cites="Elhorst.2012">Elhorst (<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">2012</a>)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="fig/Elhorst_panel.PNG" class="img-fluid figure-img"></p>
-<figcaption>Summary impact measures in dynamic spatial panel models <span class="citation" data-cites="Elhorst.2012">(<a href="#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span></figcaption></figure>
+<figcaption>Summary impact measures in dynamic spatial panel models <span class="citation" data-cites="Elhorst.2012">(<a href="references.html#ref-Elhorst.2012" role="doc-biblioref">Elhorst 2012</a>)</span></figcaption></figure>
 </div>
 </section></section><section id="example-local-employment-impacts-of-immigration" class="level2" data-number="14.3"><h2 data-number="14.3" class="anchored" data-anchor-id="example-local-employment-impacts-of-immigration">
 <span class="header-section-number">14.3</span> Example: Local employment impacts of immigration</h2>
-<p><span class="citation" data-cites="Fingleton.2020">Fingleton et al. (<a href="#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span>: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</p>
+<p><span class="citation" data-cites="Fingleton.2020">Fingleton et al. (<a href="references.html#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span>: Estimating the local employment impacts of immigration: A dynamic spatial panel model. Urban Studies, 57(13), 2646–2662. https://doi.org/10.1177/0042098019887916</p>
 <p><em>This paper highlights a number of important gaps in the UK evidence base on the employment impacts of immigration, namely: (1) the lack of research on the local impacts of immigration – existing studies only estimate the impact for the country as a whole; (2) the absence of long-term estimates – research has focused on relatively short time spans – there are no estimates of the impact over several decades, for example; (3) the tendency to ignore spatial dependence of employment which can bias the results and distort inference – there are no robust spatial econometric estimates we are aware of.</em></p>
 <p><em>We illustrate our approach with an application to London and find that no migrant group has a statistically significant long-term negative effect on employment. EU migrants, however, are found to have a significant positive impact, which may have important implications for the Brexit debate. Our approach opens up a new avenue of inquiry into subnational variations in the impacts of immigration on employment.</em></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="fig/Fingleton.PNG" class="img-fluid figure-img"></p>
-<figcaption>Impacts on employment, <span class="citation" data-cites="Fingleton.2020">Fingleton et al. (<a href="#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span></figcaption></figure>
+<figcaption>Impacts on employment, <span class="citation" data-cites="Fingleton.2020">Fingleton et al. (<a href="references.html#ref-Fingleton.2020" role="doc-biblioref">2020</a>)</span></figcaption></figure>
 </div>
 </section><section id="estimation-in-r" class="level2" data-number="14.4"><h2 data-number="14.4" class="anchored" data-anchor-id="estimation-in-r">
 <span class="header-section-number">14.4</span> Estimation in R</h2>
-<p>To estimate spatial panel models in R, we can use the <code>splm</code> package of <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span>.</p>
+<p>To estimate spatial panel models in R, we can use the <code>splm</code> package of <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span>.</p>
 <p>We use a standard example with longitudinal data from the <code>plm</code> package here.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Produc</span>, package <span class="op">=</span> <span class="st">"plm"</span><span class="op">)</span></span>
@@ -678,7 +678,7 @@ unemp       -0.00579716  0.00089175 -6.5009 7.984e-11 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Note that <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> use a different notation, namely <span class="math inline">\(\lambda\)</span> for lag dependence, and <span class="math inline">\(\rho\)</span> for error dependence….</p>
+<p>Note that <span class="citation" data-cites="Millo.2012">Millo and Piras (<a href="references.html#ref-Millo.2012" role="doc-biblioref">2012</a>)</span> use a different notation, namely <span class="math inline">\(\lambda\)</span> for lag dependence, and <span class="math inline">\(\rho\)</span> for error dependence….</p>
 <p>Again, we have to use an additional step to get impacts for SAR-like models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Number of years</span></span>
@@ -712,18 +712,18 @@ Sample size per chain = 200
    plus standard error of the mean:
 
                      Mean        SD  Naive SE Time-series SE
-log(pcap) dy/dx  0.015093 0.0234620 1.659e-03      1.659e-03
-log(pc) dy/dx    0.227402 0.0216360 1.530e-03      1.530e-03
-log(emp) dy/dx   0.674598 0.0257775 1.823e-03      1.823e-03
-unemp dy/dx     -0.005886 0.0009025 6.382e-05      5.652e-05
+log(pcap) dy/dx  0.015643 0.0253701 1.794e-03      1.794e-03
+log(pc) dy/dx    0.226278 0.0210178 1.486e-03      1.279e-03
+log(emp) dy/dx   0.674741 0.0246999 1.747e-03      1.747e-03
+unemp dy/dx     -0.005809 0.0008709 6.158e-05      6.158e-05
 
 2. Quantiles for each variable:
 
-                     2.5%       25%      50%       75%     97.5%
-log(pcap) dy/dx -0.025820 -0.001700  0.01328  0.030031  0.064088
-log(pc) dy/dx    0.188073  0.211685  0.22827  0.242299  0.270225
-log(emp) dy/dx   0.628339  0.657520  0.67717  0.693176  0.722218
-unemp dy/dx     -0.007699 -0.006483 -0.00588 -0.005257 -0.004308
+                     2.5%        25%       50%       75%     97.5%
+log(pcap) dy/dx -0.031095 -0.0001976  0.013964  0.031006  0.080600
+log(pc) dy/dx    0.188363  0.2129714  0.227291  0.239634  0.268351
+log(emp) dy/dx   0.626891  0.6609800  0.676090  0.690972  0.721911
+unemp dy/dx     -0.007316 -0.0064506 -0.005841 -0.005264 -0.004176
 
 ========================================================
 Indirect:
@@ -736,24 +736,24 @@ Sample size per chain = 200
 1. Empirical mean and standard deviation for each variable,
    plus standard error of the mean:
 
-                     Mean        SD  Naive SE Time-series SE
-log(pcap) dy/dx  0.002848 0.0046762 3.307e-04      3.307e-04
-log(pc) dy/dx    0.043148 0.0099029 7.002e-04      7.002e-04
-log(emp) dy/dx   0.127907 0.0271125 1.917e-03      1.917e-03
-unemp dy/dx     -0.001117 0.0002912 2.059e-05      2.059e-05
+                     Mean       SD  Naive SE Time-series SE
+log(pcap) dy/dx  0.002972 0.005048 3.570e-04      3.570e-04
+log(pc) dy/dx    0.042893 0.010070 7.121e-04      7.476e-04
+log(emp) dy/dx   0.127821 0.027824 1.967e-03      1.967e-03
+unemp dy/dx     -0.001103 0.000298 2.107e-05      2.034e-05
 
 2. Quantiles for each variable:
 
                      2.5%        25%       50%        75%
-log(pcap) dy/dx -0.005264 -0.0002801  0.002366  0.0058222
-log(pc) dy/dx    0.022946  0.0363869  0.043849  0.0505954
-log(emp) dy/dx   0.069699  0.1117966  0.128762  0.1483592
-unemp dy/dx     -0.001670 -0.0013087 -0.001123 -0.0009102
+log(pcap) dy/dx -0.005908 -4.279e-05  0.002609  0.0057705
+log(pc) dy/dx    0.024594  3.584e-02  0.041603  0.0497254
+log(emp) dy/dx   0.067864  1.089e-01  0.127996  0.1433225
+unemp dy/dx     -0.001688 -1.304e-03 -0.001086 -0.0008721
                      97.5%
-log(pcap) dy/dx  0.0128552
-log(pc) dy/dx    0.0609787
-log(emp) dy/dx   0.1729694
-unemp dy/dx     -0.0005391
+log(pcap) dy/dx  0.0152746
+log(pc) dy/dx    0.0634571
+log(emp) dy/dx   0.1818456
+unemp dy/dx     -0.0005674
 
 ========================================================
 Total:
@@ -766,19 +766,19 @@ Sample size per chain = 200
 1. Empirical mean and standard deviation for each variable,
    plus standard error of the mean:
 
-                     Mean       SD  Naive SE Time-series SE
-log(pcap) dy/dx  0.017941 0.028050 1.983e-03      1.983e-03
-log(pc) dy/dx    0.270550 0.027727 1.961e-03      1.961e-03
-log(emp) dy/dx   0.802505 0.041712 2.950e-03      2.950e-03
-unemp dy/dx     -0.007003 0.001106 7.824e-05      6.843e-05
+                     Mean      SD  Naive SE Time-series SE
+log(pcap) dy/dx  0.018615 0.03032 2.144e-03      2.144e-03
+log(pc) dy/dx    0.269170 0.02698 1.908e-03      1.908e-03
+log(emp) dy/dx   0.802562 0.04072 2.880e-03      2.880e-03
+unemp dy/dx     -0.006912 0.00108 7.637e-05      6.108e-05
 
 2. Quantiles for each variable:
 
-                     2.5%       25%       50%      75%     97.5%
-log(pcap) dy/dx -0.030391 -0.001981  0.015742  0.03481  0.076968
-log(pc) dy/dx    0.216861  0.249411  0.269420  0.28915  0.327282
-log(emp) dy/dx   0.719476  0.776052  0.800599  0.83400  0.887195
-unemp dy/dx     -0.009156 -0.007679 -0.006944 -0.00622 -0.004941</code></pre>
+                     2.5%        25%       50%       75%     97.5%
+log(pcap) dy/dx -0.035392 -0.0002404  0.016605  0.037223  0.096683
+log(pc) dy/dx    0.222280  0.2525594  0.266318  0.286184  0.322695
+log(emp) dy/dx   0.726961  0.7746688  0.802641  0.828254  0.880532
+unemp dy/dx     -0.008892 -0.0076905 -0.006903 -0.006146 -0.004899</code></pre>
 </div>
 </div>
 <p>There is an alternative by using the package <code>SDPDmod</code> by Rozeta Simonovska (<a href="https://cran.r-project.org/web/packages/SDPDmod/vignettes/spatial_model.html">see vignette</a>).</p>
@@ -856,7 +856,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Note: I did not manage to estimate a dynamic panel model with <code>SDPDm</code>.</p>
 </section><section id="example-industrial-facilities-and-municipal-income" class="level2" data-number="14.5"><h2 data-number="14.5" class="anchored" data-anchor-id="example-industrial-facilities-and-municipal-income">
 <span class="header-section-number">14.5</span> Example: Industrial facilities and municipal income</h2>
-<p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
+<p><span class="citation" data-cites="Ruttenauer.2021b">Rüttenauer and Best (<a href="references.html#ref-Ruttenauer.2021b" role="doc-biblioref">2021</a>)</span>: Environmental Inequality and Residential Sorting in Germany: A Spatial Time-Series Analysis of the Demographic Consequences of Industrial Sites. Demography, 58(6), 2243–2263. https://doi.org/10.1215/00703370-9563077</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="fig/Figure1.png" class="img-fluid figure-img"></p>
 <figcaption>Spatial distribution of industrial facilities and income tax revenue per municipality for 2015.</figcaption></figure>
@@ -866,7 +866,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 
 <!-- -->
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Croissant.2018" class="csl-entry" role="listitem">
 Croissant, Yves, and Givanni Millo, eds. 2018. <span>“Spatial <span>Panels</span>.”</span> In <em>Panel <span>Data Econometrics</span> with <span>R</span></em>. <span>John Wiley &amp; Sons, Ltd</span>. <a href="https://doi.org/10.1002/9781119504641.ch10">https://doi.org/10.1002/9781119504641.ch10</a>.
 </div>
